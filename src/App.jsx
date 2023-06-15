@@ -5,12 +5,14 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
+  const [isLoadingToken, setIsLoadingToken] = useState(true); // New state variable
 
   useEffect(() => {
     const storedToken = Cookies.get('token');
     if (storedToken) {
       setToken(storedToken);
     }
+    setIsLoadingToken(false); // Set isLoadingToken to false after token loading
   }, []);
 
   const handleLogin = async () => {
@@ -48,6 +50,10 @@ const App = () => {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
+
+  if (isLoadingToken) {
+    return <div>Loading...</div>; // Show loading indicator until token is loaded
+  }
 
   return (
     <div>
