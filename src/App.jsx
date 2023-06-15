@@ -5,14 +5,14 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
-  const [isLoadingToken, setIsLoadingToken] = useState(true); // New state variable
+  const [isLoadingToken, setIsLoadingToken] = useState(true);
 
   useEffect(() => {
     const storedToken = Cookies.get('token');
     if (storedToken) {
       setToken(storedToken);
     }
-    setIsLoadingToken(false); // Set isLoadingToken to false after token loading
+    setIsLoadingToken(false);
   }, []);
 
   const handleLogin = async () => {
@@ -29,7 +29,7 @@ const App = () => {
       if (response.ok) {
         const data = await response.json();
         setToken(data.token);
-        Cookies.set('token', data.token); // Store token in a cookie
+        Cookies.set('token', data.token);
       } else {
         throw new Error('Login failed');
       }
@@ -40,7 +40,7 @@ const App = () => {
 
   const handleLogout = () => {
     setToken('');
-    Cookies.remove('token'); // Remove the token cookie
+    Cookies.remove('token');
   };
 
   const handleUsernameChange = (event) => {
@@ -52,7 +52,7 @@ const App = () => {
   };
 
   if (isLoadingToken) {
-    return <div>Loading...</div>; // Show loading indicator until token is loaded
+    return <div>Loading...</div>;
   }
 
   return (
