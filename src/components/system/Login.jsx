@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
+import { Navigate } from "react-router-dom";
 
-const Login = ({ setToken }) => {
+const Login = ({ setToken, token }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -28,6 +29,7 @@ const Login = ({ setToken }) => {
         const data = await response.json();
         setToken(data.token);
         Cookies.set("token", data.token);
+        Navigate("/");
       } else {
         throw new Error("Login failed");
       }
@@ -35,6 +37,10 @@ const Login = ({ setToken }) => {
       console.error("Error logging in:", error);
     }
   };
+
+  if (token) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div>

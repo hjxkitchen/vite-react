@@ -1,40 +1,38 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import Login from "./components/system/Login";
-import Navbar from "./components/system/Navbar";
+import ProtectedRoute from "./components/system/ProtectedRoute";
+import Home from "./pages/system/Home";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
   const [token, setToken] = useState("");
-  const [isLoadingToken, setIsLoadingToken] = useState(true);
 
   useEffect(() => {
     const storedToken = Cookies.get("token");
     if (storedToken) {
       setToken(storedToken);
     }
-    setIsLoadingToken(false);
   }, []);
 
-  const handleLogout = () => {
-    setToken("");
-    Cookies.remove("token");
-  };
-
-  if (isLoadingToken) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div>
-      {token ? (
-        <div>
-          <Navbar handleLogout={handleLogout} />
-          <h1>Welcome!</h1>
-        </div>
-      ) : (
-        <Login setToken={setToken} />
-      )}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute setToken={setToken} token={token}>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="login"
+          element={<Login setToken={setToken} token={token} />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

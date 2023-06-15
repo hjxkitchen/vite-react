@@ -1,6 +1,12 @@
 import React from "react";
+import Cookies from "js-cookie";
 
-const Navbar = ({ handleLogout }) => {
+const Navbar = () => {
+  const handleLogout = () => {
+    Cookies.remove("token");
+    window.location.href = "/login";
+  };
+
   return <button onClick={handleLogout}>Logout</button>;
 };
 
