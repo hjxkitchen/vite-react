@@ -1,110 +1,79 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 const App = () => {
-  const handleRegister = async () => {
-    try {
-      const response = await axios.post('http://localhost:3000/register', {
-        username: 'exampleUser',
-        password: 'examplePassword',
-        roleId: 2, // Assuming roleId 2 represents a "user" role
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    const storedToken = Cookies.get('token');
+    if (storedToken) {
+      setToken(storedToken);
     }
-  };
+  }, []);
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/login', {
-        username: 'exampleUser',
-        password: 'examplePassword',
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': 'api_key34',
+        },
+        body: JSON.stringify({ username, password }),
       });
-      console.log(response.data);
+
+      if (response.ok) {
+        const data = await response.json();
+        setToken(data.token);
+        Cookies.set('token', data.token); // Store token in a cookie
+      } else {
+        throw new Error('Login failed');
+      }
     } catch (error) {
-      console.error(error);
+      console.error('Error logging in:', error);
     }
   };
 
-  const handleGetUser = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/users/1');
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  const handleLogout = () => {
+    setToken('');
+    Cookies.remove('token'); // Remove the token cookie
   };
 
-  const handleGetModels = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/api/ModelName');
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
   };
 
-  const handleCreateModel = async () => {
-    try {
-      const response = await axios.post('http://localhost:3000/api/ModelName', {
-        // Provide the necessary data for creating the model instance
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleGetModelById = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/api/ModelName/1');
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleUpdateModel = async () => {
-    try {
-      const response = await axios.put('http://localhost:3000/api/ModelName/1', {
-        // Provide the updated data for the model instance
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleDeleteModel = async () => {
-    try {
-      const response = await axios.delete('http://localhost:3000/api/ModelName/1');
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleTriggerIntegration = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/api/integration');
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
   };
 
   return (
     <div>
-      <button onClick={handleRegister}>Register</button>
-      <button onClick={handleLogin}>Login</button>
-      <button onClick={handleGetUser}>Get User</button>
-      <button onClick={handleGetModels}>Get Models</button>
-      <button onClick={handleCreateModel}>Create Model</button>
-      <button onClick={handleGetModelById}>Get Model by ID</button>
-      <button onClick={handleUpdateModel}>Update Model</button>
-      <button onClick={handleDeleteModel}>Delete Model</button>
-      <button onClick={handleTriggerIntegration}>Trigger Integration</button>
+      {token ? (
+        <div>
+          <h1>Welcome!</h1>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      ) : (
+        <div>
+          <h1>Login</h1>
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={handleUsernameChange}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <button onClick={handleLogin}>Login</button>
+        </div>
+      )}
     </div>
   );
 };
