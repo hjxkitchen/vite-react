@@ -22,7 +22,11 @@ const App = () => {
         <Route
           path="/"
           element={
-            <ProtectedRoute setToken={setToken} token={token}>
+            <ProtectedRoute
+              setToken={setToken}
+              token={token}
+              allowedRoles={[1, 2]}
+            >
               <Home />
             </ProtectedRoute>
           }

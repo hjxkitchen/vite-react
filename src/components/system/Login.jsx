@@ -20,7 +20,7 @@ const Login = ({ setToken, token }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": "api_key34",
+          "x-api-key": import.meta.env.VITE_API_KEY,
         },
         body: JSON.stringify({ username, password }),
       });
