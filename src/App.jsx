@@ -10,6 +10,8 @@ import Login from "./components/system/Login";
 import ProtectedRoute from "./components/system/ProtectedRoute";
 import Home from "./pages/system/Home";
 
+import Settings from "./pages/system/Settings";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
@@ -43,6 +45,7 @@ const App = () => {
               path="login"
               element={<Login setToken={setToken} token={token} />}
             />
+            <Route path="settings" element={<Settings />} />
           </Routes>
         </BrowserRouter>
       </I18nextProvider>

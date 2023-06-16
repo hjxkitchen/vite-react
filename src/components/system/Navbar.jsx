@@ -2,10 +2,9 @@
 
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
-import LanguageToggle from "./ui/LanguageToggle";
-import ThemeToggle from "./ui/ThemeToggle";
-import LogoutButton from "./LogoutButton";
+// import LogoutButton from "./LogoutButton";
 
 import { ThemeContext } from "../../contexts/ThemeContext";
 
@@ -16,6 +15,12 @@ const Navbar = () => {
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
+
+  const handleLogout = () => {
+    Cookies.remove("token");
+    window.location.href = "/login";
+  };
+
   return (
     <>
       <nav
@@ -72,12 +77,6 @@ const Navbar = () => {
                   Admin Ops
                 </Link>
               </li>
-              <li className="nav-item">
-                <LanguageToggle />
-              </li>
-              <li className="nav-item">
-                <ThemeToggle />
-              </li>
             </ul>
             {/* with some space on the right */}
             <ul className="navbar-nav ms-auto rightmost-nav-link">
@@ -94,7 +93,7 @@ const Navbar = () => {
                   Account
                 </a>
                 <ul
-                  className="dropdown-menu dropdown-menu-end mb-3"
+                  className="dropdown-menu dropdown-menu-end text-center mb-3"
                   aria-labelledby="navbarDropdownMenuLink"
                 >
                   <li>
@@ -113,11 +112,15 @@ const Navbar = () => {
                     <hr className="dropdown-divider" />
                   </li>
                   <li>
-                    {/* <a className="dropdown-item" href="#">
+                    <a
+                      className="dropdown-item"
+                      href="#"
+                      onClick={handleLogout}
+                    >
                       <i className="fas fa-sign-out-alt fa "></i>
                       Logout
-                    </a> */}
-                    <LogoutButton />
+                    </a>
+                    {/* <LogoutButton /> */}
                   </li>
                 </ul>
               </li>
