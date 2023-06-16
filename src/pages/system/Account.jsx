@@ -1,8 +1,14 @@
 import React from "react";
 import Navbar from "../../components/system/Navbar";
 import Footer from "../../components/system/Footer";
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 
 const Account = () => {
+  // decode token for username
+  const token = Cookies.get("token");
+  const decodedToken = jwt_decode(token);
+  const username = decodedToken.username;
   return (
     <>
       <Navbar />
@@ -13,9 +19,9 @@ const Account = () => {
           <div className="card-body">
             {/* account info */}
             <h5 className="card-title custom-text">Account Info</h5>
-            <p className="card-text mt-3 custom-text">Name:</p>
-            <p className="card-text custom-text">Email:</p>
-            <p className="card-text custom-text">Phone:</p>
+            <p className="card-text mt-3 custom-text">Username: {username}</p>
+            {/* <p className="card-text custom-text">Email:</p>
+            <p className="card-text custom-text">Phone:</p> */}
 
             <hr />
 

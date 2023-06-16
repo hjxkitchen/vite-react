@@ -95,6 +95,10 @@ body {
   color: var(--background-color);
 }
 
+.navbar-collapse.show {
+  margin-bottom: 10px;
+}
+
 /* rightmost navlink add margin-right 25px when screen big */
 @media (min-width: 992px) {
   .nav-item:last-child {

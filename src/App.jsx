@@ -33,24 +33,41 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route
+              path="login"
+              element={<Login setToken={setToken} token={token} />}
+            />
+            <Route
               path="/"
               element={
-                <ProtectedRoute
-                  setToken={setToken}
-                  token={token}
-                  allowedRoles={[1, 2]}
-                >
+                <ProtectedRoute token={token} allowedRoles={[1, 2]}>
                   <Home />
                 </ProtectedRoute>
               }
             />
             <Route
-              path="login"
-              element={<Login setToken={setToken} token={token} />}
+              path="settings"
+              element={
+                <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                  <Settings />
+                </ProtectedRoute>
+              }
             />
-            <Route path="settings" element={<Settings />} />
-            <Route path="account" element={<Account />} />
-            <Route path="contact" element={<Contact />} />
+            <Route
+              path="account"
+              element={
+                <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                  <Account />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="contact"
+              element={
+                <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                  <Contact />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </BrowserRouter>
       </I18nextProvider>

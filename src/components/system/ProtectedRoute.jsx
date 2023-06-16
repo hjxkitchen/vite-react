@@ -27,14 +27,20 @@ const ProtectedRoute = ({ token, allowedRoles, children }) => {
   }, [token, allowedRoles]);
 
   if (!isTokenDecoded) {
-    return <div className="text-center mt-5">Loading...</div>;
+    return <div>Loading...</div>;
   }
 
   if (!isAuthenticated) {
     if (!token) {
       return <Navigate to="/login" replace />;
+    } else {
+      return (
+        <div>
+          <h3>Access Denied</h3>
+          <p>You are not authorized to access this page.</p>
+        </div>
+      );
     }
-    return null; // Return null instead of rendering the "Access Denied" message
   }
 
   return <>{children}</>;
