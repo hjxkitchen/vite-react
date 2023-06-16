@@ -1,107 +1,165 @@
+// responsive bootstrap navbar
+
 import React, { useState, useContext } from "react";
-import { styled } from "@mui/system";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import ThemeToggle from "./ui/ThemeToggle";
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { NavbarContainer, DrawerContainer } from "../../ThemeStyles";
+import { Link } from "react-router-dom";
+
 import LanguageToggle from "./ui/LanguageToggle";
+import ThemeToggle from "./ui/ThemeToggle";
 import LogoutButton from "./LogoutButton";
 
-const drawerWidth = 240;
-
-const Content = styled("div")(({ theme }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3),
-  backgroundColor: theme.backgroundColor,
-}));
-
-const NavButton = styled(IconButton)(({ theme }) => ({
-  color: theme.navbarTextColor,
-}));
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const { theme } = useContext(ThemeContext);
 
-  const handleDrawerToggle = () => {
-    setOpen(!open);
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
   };
-
-  const handleLogout = () => {
-    // Add your logout logic here
-  };
-
   return (
-    <div>
-      <NavbarContainer theme={theme}>
-        <Toolbar>
-          <NavButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2 }}
+    <>
+      <nav
+        className={
+          "navbar fixed-top navbar-expand-lg navbar-" + theme + " bg-" + theme
+        }
+        style={{ paddingTop: "20px" }}
+      >
+        <div className="container-fluid cssnav">
+          <button
+            className={"btn btn-" + theme + " bg-" + theme + " toggle-btn"}
+            onClick={toggleSidebar}
           >
-            <MenuIcon />
-          </NavButton>
-          <Typography variant="h6" noWrap component="div">
-            My App
-          </Typography>
-          <div style={{ flexGrow: 1 }} />
-          <LogoutButton />
-          <LanguageToggle />
-          <ThemeToggle />
-        </Toolbar>
-      </NavbarContainer>
-      {/* <Toolbar /> */}
-      <Drawer
-        variant="temporary"
-        anchor="left"
-        open={open}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true,
+            {isCollapsed ? ">" : "<"}
+          </button>
+          <Link className="navbar-brand" to="/">
+            Zahab Admin
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <Link className="nav-link" to="/products">
+                  <i className="fas fa-sitemap fa "></i>
+                  Products / Packages
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/orders">
+                  <i className="fas fa-hand-holding-usd fa "></i>
+                  Orders
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="/saleslist">
+                  <i className="fas fa fa-dollar-sign "></i>
+                  Sales
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/adminops">
+                  <i className="fas fa fa-user-cog "></i>
+                  Admin Ops
+                </Link>
+              </li>
+              <li className="nav-item">
+                <LanguageToggle />
+              </li>
+              <li className="nav-item">
+                <ThemeToggle />
+              </li>
+            </ul>
+            {/* with some space on the right */}
+            <ul className="navbar-nav ms-auto rightmost-nav-link">
+              <li className="nav-item dropdown text-center">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdownMenuLink"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i className="fas fa-user-circle fa "></i>
+                  Account
+                </a>
+                <ul
+                  className="dropdown-menu dropdown-menu-end mb-3"
+                  aria-labelledby="navbarDropdownMenuLink"
+                >
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      <i className="fas fa-user-circle fa "></i>
+                      Profile
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      <i className="fas fa-cog fa "></i>
+                      Settings
+                    </a>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    {/* <a className="dropdown-item" href="#">
+                      <i className="fas fa-sign-out-alt fa "></i>
+                      Logout
+                    </a> */}
+                    <LogoutButton />
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      {/* sidebar */}
+      <div
+        className={`sidebar ${isCollapsed ? "collapsed" : ""}`}
+        //   bg color and text color based on theme
+        style={{
+          backgroundColor: theme === "dark" ? "#343a40" : "#f8f9fa",
         }}
       >
-        <DrawerContainer theme={theme}>
-          <List>
-            <ListItem button>
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <AccountBoxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Profile" />
-            </ListItem>
-          </List>
-          <div style={{ flexGrow: 1 }} />
-          <List>
-            <ListItem button onClick={handleLogout}>
-              <ListItemIcon>
-                <ExitToAppIcon />
-              </ListItemIcon>
-              <ListItemText primary="Logout" />
-            </ListItem>
-          </List>
-        </DrawerContainer>
-      </Drawer>
-    </div>
+        <div className="sidebar-content">
+          <ul className="sidebar-nav">
+            <li className="sidebar-item">
+              <Link to="/playbooks">
+                <i className="fas fa-book fa "></i> Playbooks
+              </Link>
+            </li>
+            <li className="sidebar-item">
+              <Link to="/settings">
+                <i className="fas fa fa-cog "></i> Preferences
+              </Link>
+            </li>
+            <li className="sidebar-item">
+              <Link to="/account">
+                <i className="fa fa-user "></i> Account
+              </Link>
+            </li>
+            <li className="sidebar-item">
+              <Link to="/contactus">
+                <i className="fa fa-phone "></i> Contact Us
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </>
   );
 };
 

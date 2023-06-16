@@ -1,7 +1,10 @@
 import React, { useContext } from "react";
 import ThemeContext from "../../../contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
 
 const ThemeToggle = () => {
+  const { t } = useTranslation();
+
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   const handleThemeToggle = () => {
@@ -10,13 +13,23 @@ const ThemeToggle = () => {
 
   return (
     <div>
-      <label htmlFor="themeToggle">Theme:</label>
-      <input
-        type="checkbox"
-        id="themeToggle"
-        checked={theme === "dark"}
-        onChange={handleThemeToggle}
-      />
+      {/* bootstrap checkbox */}
+      <div className="form-check form-switch">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          id="activate"
+          checked={theme === "dark"}
+          onChange={handleThemeToggle}
+        />
+        <label
+          className="form-check-label"
+          htmlFor="activate"
+          style={{ color: theme === "dark" ? "white" : "grey" }}
+        >
+          {t("dark mode")}
+        </label>
+      </div>
     </div>
   );
 };

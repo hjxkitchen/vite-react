@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import ThemeContext from "../../contexts/ThemeContext";
 
 const Login = ({ setToken, token }) => {
+  const { t } = useTranslation();
+
+  const { theme } = useContext(ThemeContext);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -43,8 +49,8 @@ const Login = ({ setToken, token }) => {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="container">
+      <h1 className="mt-5 mb-4">{t("login")}</h1>
       <input
         type="text"
         placeholder="Username"
@@ -57,7 +63,12 @@ const Login = ({ setToken, token }) => {
         value={password}
         onChange={handlePasswordChange}
       />
-      <button onClick={handleLogin}>Login</button>
+      <button
+        className={"btn btn-" + theme + " mt-4 mb-4"}
+        onClick={handleLogin}
+      >
+        {t("login")}
+      </button>
     </div>
   );
 };

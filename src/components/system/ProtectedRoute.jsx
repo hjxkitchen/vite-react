@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
+import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ token, allowedRoles, children }) => {
   const [isTokenDecoded, setIsTokenDecoded] = useState(false);
@@ -26,16 +27,14 @@ const ProtectedRoute = ({ token, allowedRoles, children }) => {
   }, [token, allowedRoles]);
 
   if (!isTokenDecoded) {
-    return <div>Loading...</div>;
+    return <div className="text-center mt-5">Loading...</div>;
   }
 
   if (!isAuthenticated) {
-    return (
-      <div>
-        <h3>Not Authorized</h3>
-        <p>You are not authorized to access this page.</p>
-      </div>
-    );
+    if (!token) {
+      return <Navigate to="/login" replace />;
+    }
+    return null; // Return null instead of rendering the "Access Denied" message
   }
 
   return <>{children}</>;

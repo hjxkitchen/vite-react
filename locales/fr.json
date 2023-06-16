@@ -2,6 +2,14 @@
     "welcome": "Bienvenue dans l'application !",
     "greeting": "Bonjour!",
     "english": "Anglais",
-    "french": "Français"
+    "french": "Français",
+    "home": "Accueil",
+    "about": "Maison",
+    "contact": "Telephon",
+    "logo": "image",
+    "dark mode": "Mode sombre",
+    "language": "Langue",
+    "logout": "Déconnexion",
+    "login": "Connexion"
   }
   

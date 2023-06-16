@@ -1,69 +1,295 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+  --primary-color: #007bff;
+  --background-color: dimgray;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+[data-theme="dark"] {
+  --primary-color: #ff6b6b;
+  --background-color: white;
 }
-a:hover {
-  color: #535bf2;
+
+.button {
+  background-color: var(--primary-color);
+  color: #fff;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  background-color: var(--background-color);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.mainbods {
+  --background-color: beige;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+/* nav */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 200px;
+  background-color: #f8f9fa;
+  transition: width 0.3s ease;
+  z-index: 1000;
+}
+
+.sidebar.collapsed {
+  width: 0px;
+}
+
+.toggle-btn {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin: 10px;
+  background-color: #f8f9fa;
+  border: none;
+  outline: none;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.sidebar-content {
+  margin-top: 100px; /* Adjust the top margin to account for the fixed navbar */
+  transition: margin-top 0.3s ease;
+}
+
+.sidebar.collapsed .sidebar-content {
+  margin-top: 20px; /* Adjust the top margin when the sidebar is collapsed */
+  /* remove off screen */
+  margin-left: -200px;
+}
+
+.sidebar-nav {
+  margin-top: 20px;
+  padding: 0;
+  list-style-type: none;
+}
+
+.sidebar-item {
+  margin-bottom: 10px;
+  /* pad left */
+  padding-left: 20px;
+}
+
+.sidebar-item a {
+  display: block;
+  padding: 10px;
+  color: var(--background-color);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-item a:hover {
+  background-color: #e9ecef;
+}
+
+.toggle-btn {
+  z-index: 1100; /* Ensure the toggle button stays on top of other content */
+}
+
+/* nav-item center align */
+.nav-item {
+  text-align: center;
+  color: var(--background-color);
+}
+
+/* rightmost navlink add margin-right 25px when screen big */
+@media (min-width: 992px) {
+  .nav-item:last-child {
+    margin-right: 20px;
   }
-  a:hover {
-    color: #747bff;
+}
+
+/* fa padding left */
+.fa {
+  padding-right: 10px;
+}
+
+/* fa padding left */
+.fab {
+  padding-right: 10px;
+}
+
+/* navbar fixed top covers content, stop that */
+body {
+  padding-top: 100px;
+}
+
+.title-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.title-button-container h1 {
+  margin-right: 10px;
+}
+
+.title-button-container .btn {
+  margin-left: 10px;
+}
+
+.custom-button {
+  height: 100px; /* Adjust the height as needed */
+  width: 140px; /* Adjust the width as needed */
+  font-size: 18px; /* Adjust the font size as needed */
+  /* Add any other desired styling */
+  /* align center */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* buttonss justify center*/
+.buttonss {
+  display: flex;
+  /* background-color: #000; */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.custom-text {
+  margin-left: 20%;
+}
+
+@media (min-width: 420px) {
+  .center-icons {
+    justify-content: center;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+/* additionalcard animation when expanded */
+.additionalcard {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  padding: 20px;
+  margin-top: -10px;
+  background-color: rgb(255, 242, 227);
+}
+
+.expanded .additionalcard {
+  opacity: 1;
+  max-height: 1000px;
+}
+
+/* chat pop up */
+
+.popup-chat {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 9999;
+}
+
+/* reduce bottom and right when screen is small */
+@media (max-width: 767px) {
+  .popup-chat {
+    bottom: 20px;
+    right: 20px;
+    max-width: 90%;
+    /* transform: translateX(50%); */
   }
+}
+
+.popup-chat .chat-toggle {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  /* small outline */
+  border: 5px solid #000;
+  /* round border */
+  border-radius: 10%;
+}
+
+.popup-chat .chat-container {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 16px;
+  /* min height 70% of screen */
+  min-height: 50vh;
+}
+
+.popup-chat .chat-messages {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.popup-chat .message {
+  margin-bottom: 8px;
+}
+
+.popup-chat .chat-input {
+  display: flex;
+  margin-top: 8px;
+}
+
+.popup-chat .chat-input input {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 4px;
+  margin-right: 8px;
+  width: 100%;
+}
+
+.popup-chat .chat-input button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+/* cookie banner */
+
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 10px;
+  z-index: 9999;
+}
+
+@media (max-width: 767px) {
+  /* Styles for mobile devices */
+  .cookie-banner {
+    text-align: left;
+  }
+
+  .cookie-banner .row {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cookie-banner .col-md-8 {
+    order: 2;
+  }
+
+  .cookie-banner .col-md-4 {
+    order: 1;
+    margin-top: 10px;
+    text-align: right;
+  }
+}
+
+.accept-button {
+  background-color: #007bff;
+  border: none;
+  color: #ffffff;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.accept-button:hover {
+  background-color: #0069d9;
 }
