@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import ThemeContext from "../../contexts/ThemeContext";
+import ThemeContext from "../../../contexts/ThemeContext";
 
 const Login = ({ setToken, token }) => {
   const { t } = useTranslation();
@@ -22,7 +22,7 @@ const Login = ({ setToken, token }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch(import.meta.env.VITE_API_URL + "/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

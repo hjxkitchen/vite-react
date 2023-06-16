@@ -33,20 +33,24 @@ const EditModal = ({ product }) => {
     const keys = ["name", "price", "description"];
 
     // write a dynamic function to do the above
-    for (const key of keys) {
-      const value = inputs[key];
-      if (!value) {
-        inputs[key] = product[key];
-      }
-    }
+    // for (const key of keys) {
+    //   const value = inputs[key];
+    //   if (!value) {
+    //     inputs[key] = product[key];
+    //   }
+    // }
 
     // the arrat
-    await axios.put(`http://localhost:3000/api/Product/${product.id}`, inputs, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "x-api-key": import.meta.env.VITE_API_KEY,
-      },
-    });
+    await axios.put(
+      import.meta.env.VITE_API_URL + "/api/Product/" + product.id,
+      inputs,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
 
     window.location.reload();
   };
@@ -61,7 +65,7 @@ const EditModal = ({ product }) => {
         type="button"
         className="btn btn-primary"
         data-bs-toggle="modal"
-        data-bs-target={"#exampleModal" + product.id}
+        data-bs-target={"#editModal" + product.id}
         onClick={handleShow}
       >
         Edit
@@ -69,15 +73,15 @@ const EditModal = ({ product }) => {
 
       <div
         className="modal fade"
-        id={"exampleModal" + product.id}
+        id={"editModal" + product.id}
         tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="editModalLabel"
         aria-hidden="true"
       >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
+              <h5 className="modal-title" id="editModalLabel">
                 Edit
               </h5>
               <button

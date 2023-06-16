@@ -25,7 +25,7 @@ const AddModal = () => {
   const token = Cookies.get("token");
 
   const handleSubmit = async () => {
-    await axios.post("http://localhost:3000/api/Product", inputs, {
+    await axios.post(import.meta.env.VITE_API_URL + "/api/Product", inputs, {
       headers: {
         Authorization: `Bearer ${token}`,
         "x-api-key": import.meta.env.VITE_API_KEY,

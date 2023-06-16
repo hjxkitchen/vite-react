@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
-import ThemeContext from "../../contexts/ThemeContext";
-import Navbar from "../../components/system/Navbar";
+import ThemeContext from "../contexts/ThemeContext";
+import Navbar from "../system/components/system/Navbar";
 
-import Footer from "../../components/system/Footer";
+import Footer from "../system/components/system/Footer";
 
-import AddModal from "./../../components/crud/AddModal";
-import EditModal from "../../components/crud/EditModal";
+import AddModal from "./../system/components/crud/AddModal";
+import EditModal from "../system/components/crud/EditModal";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -23,7 +23,7 @@ const Home = () => {
   useEffect(() => {
     // GET WITH AXIOS HEADERS
     axios
-      .get("http://localhost:3000/api/Product", {
+      .get(import.meta.env.VITE_API_URL + "/api/Product", {
         headers: {
           Authorization: `Bearer ${token}`,
           "x-api-key": import.meta.env.VITE_API_KEY,
@@ -41,7 +41,7 @@ const Home = () => {
   //   delete product
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:3000/api/Product/${id}`, {
+      .delete(import.meta.env.VITE_API_URL + "/api/Product/" + id, {
         headers: {
           Authorization: `Bearer ${token}`,
           "x-api-key": import.meta.env.VITE_API_KEY,
@@ -67,7 +67,7 @@ const Home = () => {
           className="mt-5 text-center"
           style={{ color: theme === "dark" ? "black" : "grey" }}
         >
-          {t("greeting")}
+          {t("greeting")} Salud
         </h1>
         <AddModal />
         <div className="container">
