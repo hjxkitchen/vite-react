@@ -12,6 +12,9 @@ import Home from "./pages/system/Home";
 
 import Settings from "./pages/system/Settings";
 
+import Account from "./pages/system/Account";
+import Contact from "./pages/system/Contact";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
@@ -46,6 +49,8 @@ const App = () => {
               element={<Login setToken={setToken} token={token} />}
             />
             <Route path="settings" element={<Settings />} />
+            <Route path="account" element={<Account />} />
+            <Route path="contact" element={<Contact />} />
           </Routes>
         </BrowserRouter>
       </I18nextProvider>

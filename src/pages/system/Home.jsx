@@ -22,7 +22,9 @@ const Home = () => {
         >
           {t("greeting")}
         </h1>
-        {/* <Button theme={theme}>Click me</Button> */}
+        <br />
+        <br />
+        <br />
       </div>
       <Footer />
     </>

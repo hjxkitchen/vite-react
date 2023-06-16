@@ -97,16 +97,16 @@ const Navbar = () => {
                   aria-labelledby="navbarDropdownMenuLink"
                 >
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="account">
                       <i className="fas fa-user-circle fa "></i>
                       Profile
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="/settings">
                       <i className="fas fa-cog fa "></i>
                       Settings
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <hr className="dropdown-divider" />
@@ -155,7 +155,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="sidebar-item">
-              <Link to="/contactus">
+              <Link to="/contact">
                 <i className="fa fa-phone "></i> Contact Us
               </Link>
             </li>
