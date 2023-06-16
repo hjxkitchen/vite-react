@@ -35,7 +35,8 @@ const Login = ({ setToken, token }) => {
         const data = await response.json();
         setToken(data.token);
         Cookies.set("token", data.token);
-        Navigate("/");
+        // Navigate("/");
+        window.location.reload();
       } else {
         throw new Error("Login failed");
       }
