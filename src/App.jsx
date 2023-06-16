@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n"; // Assuming you have already set up the i18n configuration
 
+import ThemeContext, { ThemeProvider } from "./ThemeContext";
+
 import Login from "./components/system/Login";
 import ProtectedRoute from "./components/system/ProtectedRoute";
 import Home from "./pages/system/Home";
@@ -21,28 +23,30 @@ const App = () => {
   }, []);
 
   return (
-    <I18nextProvider i18n={i18n}>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute
-                setToken={setToken}
-                token={token}
-                allowedRoles={[1, 2]}
-              >
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="login"
-            element={<Login setToken={setToken} token={token} />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </I18nextProvider>
+    <ThemeProvider>
+      <I18nextProvider i18n={i18n}>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute
+                  setToken={setToken}
+                  token={token}
+                  allowedRoles={[1, 2]}
+                >
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="login"
+              element={<Login setToken={setToken} token={token} />}
+            />
+          </Routes>
+        </BrowserRouter>
+      </I18nextProvider>
+    </ThemeProvider>
   );
 };
 
