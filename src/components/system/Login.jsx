@@ -27,6 +27,7 @@ const Login = ({ setToken, token }) => {
         headers: {
           "Content-Type": "application/json",
           "x-api-key": import.meta.env.VITE_API_KEY,
+          "Access-Control-Allow-Origin": "*",
         },
         body: JSON.stringify({ username, password }),
       });
