@@ -38,6 +38,8 @@ const ProtectedRoute = ({ token, allowedRoles, children }) => {
         <div>
           <h3>Access Denied</h3>
           <p>You are not authorized to access this page.</p>
+          {/* go back */}
+          <button onClick={() => window.history.back()}>Go Back</button>
         </div>
       );
     }
