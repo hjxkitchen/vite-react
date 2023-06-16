@@ -41,12 +41,16 @@ const EditModal = ({ product }) => {
     }
 
     // the arrat
-    await axios.put(`http://localhost:3000/api/Product/${product.id}`, inputs, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "x-api-key": import.meta.env.VITE_API_KEY,
-      },
-    });
+    await axios.put(
+      import.meta.env.VITE_API_URL + "/products/" + product.id,
+      inputs,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
 
     window.location.reload();
   };

@@ -23,7 +23,7 @@ const Home = () => {
   useEffect(() => {
     // GET WITH AXIOS HEADERS
     axios
-      .get("http://localhost:3000/api/Product", {
+      .get(import.meta.env.VITE_API_URL + "/Product", {
         headers: {
           Authorization: `Bearer ${token}`,
           "x-api-key": import.meta.env.VITE_API_KEY,
@@ -41,7 +41,7 @@ const Home = () => {
   //   delete product
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:3000/api/Product/${id}`, {
+      .delete(import.meta.env.VITE_API_URL + "/Product/" + id, {
         headers: {
           Authorization: `Bearer ${token}`,
           "x-api-key": import.meta.env.VITE_API_KEY,
