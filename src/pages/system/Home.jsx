@@ -7,6 +7,9 @@ import Navbar from "../../components/system/Navbar";
 
 import Footer from "../../components/system/Footer";
 
+import AddModal from "./../../components/crud/AddModal";
+import EditModal from "../../components/crud/EditModal";
+
 const Home = () => {
   const { t } = useTranslation();
   const { theme } = useContext(ThemeContext);
@@ -35,6 +38,24 @@ const Home = () => {
       });
   }, []);
 
+  //   delete product
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:3000/api/Product/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <Navbar />
@@ -48,6 +69,7 @@ const Home = () => {
         >
           {t("greeting")}
         </h1>
+        <AddModal />
         <div className="container">
           {products.map((product) => (
             <div className="card mt-4" key={product.id}>
@@ -57,6 +79,16 @@ const Home = () => {
                   {product.price}
                 </h6>
                 <p className="card-text">{product.description}</p>
+              </div>
+              <div className="card-footer">
+                {/* EDIT, DELETE BUTTON */}
+                <EditModal product={product} />
+                <button
+                  className={"btn btn-" + theme + " mt-4 mb-4"}
+                  onClick={() => handleDelete(product.id)}
+                >
+                  {t("delete")}
+                </button>
               </div>
             </div>
           ))}
