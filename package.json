@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 192.168.207.14",
-    "build": "cross-env VITE_API_URL=http://newfinal-server.apps.zahabenergy.com vite build",
+    "build": "cross-env VITE_API_URL=$VITE_API_URL_PRODUCTION vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
