@@ -23,7 +23,7 @@ const Home = () => {
   useEffect(() => {
     // GET WITH AXIOS HEADERS
     axios
-      .get(import.meta.env.VITE_API_URL + "/Product", {
+      .get(import.meta.env.VITE_API_URL + "/api/Product", {
         headers: {
           Authorization: `Bearer ${token}`,
           "x-api-key": import.meta.env.VITE_API_KEY,
