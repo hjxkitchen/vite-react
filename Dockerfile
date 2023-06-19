@@ -7,6 +7,6 @@
 
 FROM socialengine/nginx-spa:latest
 # copy locales
-# COPY /locales /app/locales
+COPY /locales /app/locales
 COPY /dist /app
 RUN chmod -R 777 /app
