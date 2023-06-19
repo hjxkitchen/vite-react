@@ -38,10 +38,10 @@ const Home = () => {
       });
   }, []);
 
-  //   delete product s
+  //   delete product
   const handleDelete = (id) => {
     axios
-      .delete(import.meta.env.VITE_API_URL + "/Product/" + id, {
+      .delete(import.meta.env.VITE_API_URL + "/api/Product/" + id, {
         headers: {
           Authorization: `Bearer ${token}`,
           "x-api-key": import.meta.env.VITE_API_KEY,
@@ -67,7 +67,7 @@ const Home = () => {
           className="mt-5 text-center"
           style={{ color: theme === "dark" ? "black" : "grey" }}
         >
-          {t("greeting")}
+          {t("greeting")} Salud
         </h1>
         <AddModal />
         <div className="container">
