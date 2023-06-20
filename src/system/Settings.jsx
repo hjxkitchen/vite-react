@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
-import ThemeContext from "../../contexts/ThemeContext";
+import ThemeContext from "../contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 import i18next, { t } from "i18next";
 
-import Navbar from "./../../components/system/Navbar";
-import Footer from "./../../components/system/Footer";
+import Navbar from "./../system/components/system/Navbar";
+import Footer from "./../system/components/system/Footer";
 
 const Settings = () => {
   const { t } = useTranslation();

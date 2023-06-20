@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../../components/system/Navbar";
-import Footer from "../../components/system/Footer";
+import Navbar from "../system/components/system/Navbar";
+import Footer from "../system/components/system/Footer";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 

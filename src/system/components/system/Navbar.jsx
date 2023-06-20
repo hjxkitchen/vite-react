@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 
 // import LogoutButton from "./LogoutButton";
 
-import { ThemeContext } from "../../contexts/ThemeContext";
+import { ThemeContext } from "../../../contexts/ThemeContext";
 
 const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);

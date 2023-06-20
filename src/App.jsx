@@ -6,14 +6,14 @@ import i18n from "./i18n"; // Assuming you have already set up the i18n configur
 
 import { ThemeProvider } from "./contexts/ThemeContext";
 
-import Login from "./components/system/Login";
-import ProtectedRoute from "./components/system/ProtectedRoute";
-import Home from "./pages/system/Home";
+import Login from "./system/components/system/Login";
+import ProtectedRoute from "./system/components/system/ProtectedRoute";
+import Home from "./system/Home";
 
-import Settings from "./pages/system/Settings";
+import Settings from "./system/Settings";
 
-import Account from "./pages/system/Account";
-import Contact from "./pages/system/Contact";
+import Account from "./system/Account";
+import Contact from "./system/Contact";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
