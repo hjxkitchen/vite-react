@@ -20,6 +20,7 @@ const Login = ({ setToken, token }) => {
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    Cookies.set("token", event.target.value);
   };
 
   const handleLogin = async () => {
