@@ -22,7 +22,9 @@ const App = () => {
 
   useEffect(() => {
     const storedToken = Cookies.get("token");
+    console.log("getting token from cookie", storedToken);
     if (storedToken) {
+      console.log("setting token", storedToken);
       setToken(storedToken);
     }
   }, []);
