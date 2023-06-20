@@ -15,6 +15,8 @@ import Settings from "./system/Settings";
 import Account from "./system/Account";
 import Contact from "./system/Contact";
 
+import Token from "./system/components/system/Token";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
@@ -34,6 +36,7 @@ const App = () => {
       <I18nextProvider i18n={i18n}>
         <BrowserRouter>
           <Routes>
+            <Route path="token" element={<Token />} />
             <Route
               path="login"
               element={<Login setToken={setToken} token={token} />}
