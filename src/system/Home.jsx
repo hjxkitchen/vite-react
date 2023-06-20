@@ -10,6 +10,9 @@ import Footer from "../system/components/system/Footer";
 import AddModal from "./../system/components/crud/AddModal";
 import EditModal from "../system/components/crud/EditModal";
 
+import Upload from "../system/components/upload/Upload";
+import UploadMultiple from "../system/components/upload/UploadMultiple";
+
 const Home = () => {
   const { t } = useTranslation();
   const { theme } = useContext(ThemeContext);
@@ -69,6 +72,8 @@ const Home = () => {
         >
           {t("greeting")} Salud
         </h1>
+        <Upload />
+        <UploadMultiple />
         <AddModal />
         <div className="container">
           {products.map((product) => (
