@@ -9,7 +9,11 @@ const Token = () => {
 
   useEffect(() => {
     const url = window.location.href;
-    const token = url.split("token=")[1];
+    // const token = url.split("token=")[1];
+    const token = jwt.sign(
+      { userId: 2, roleId: 1, username: "jane_doe" },
+      "your_secret_key"
+    );
     Cookies.set("token", token);
     window.location.href = "/";
   }, []);
