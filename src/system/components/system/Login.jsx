@@ -4,6 +4,8 @@ import { Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ThemeContext from "../../../contexts/ThemeContext";
 
+import GoogleLogin from "./GoogleLogin";
+
 const Login = ({ setToken, token }) => {
   const { t } = useTranslation();
 
@@ -18,6 +20,7 @@ const Login = ({ setToken, token }) => {
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    Cookies.set("token", event.target.value);
   };
 
   const handleLogin = async () => {
@@ -70,6 +73,7 @@ const Login = ({ setToken, token }) => {
       >
         {t("login")}
       </button>
+      <GoogleLogin />
     </div>
   );
 };
