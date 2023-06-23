@@ -10,7 +10,7 @@ const Token = () => {
   useEffect(() => {
     const url = window.location.href;
     const token = url.split("token=")[1];
-    Cookies.set("token", token);
+    Cookies.set(import.meta.env.VITE_COOKIE_NAME, token);
     window.location.href = "/";
   }, []);
 

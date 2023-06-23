@@ -3,9 +3,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 import ThemeContext from "../contexts/ThemeContext";
-import Navbar from "../system/components/system/Navbar";
-
-import Footer from "../system/components/system/Footer";
+import Navbar from "../system/components/Navbar";
+import Footer from "../system/components/Footer";
 
 import AddModal from "./../system/components/crud/AddModal";
 import EditModal from "../system/components/crud/EditModal";
@@ -21,7 +20,7 @@ const Home = () => {
   const [products, setProducts] = useState([]);
 
   //   get token from cookie
-  const token = Cookies.get("token");
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   useEffect(() => {
     // GET WITH AXIOS HEADERS

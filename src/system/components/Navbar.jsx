@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 
 // import LogoutButton from "./LogoutButton";
 
-import { ThemeContext } from "../../../contexts/ThemeContext";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -17,7 +17,7 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    Cookies.remove("token");
+    Cookies.remove(import.meta.env.VITE_COOKIE_NAME);
     window.location.href = "/login";
   };
 

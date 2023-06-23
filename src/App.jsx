@@ -6,8 +6,8 @@ import i18n from "./i18n"; // Assuming you have already set up the i18n configur
 
 import { ThemeProvider } from "./contexts/ThemeContext";
 
-import Login from "./system/components/system/Login";
-import ProtectedRoute from "./system/components/system/ProtectedRoute";
+import Login from "./system/components/Login";
+import ProtectedRoute from "./system/components/ProtectedRoute";
 import Home from "./system/Home";
 
 import Settings from "./system/Settings";
@@ -15,7 +15,7 @@ import Settings from "./system/Settings";
 import Account from "./system/Account";
 import Contact from "./system/Contact";
 
-import Token from "./system/components/system/Token";
+import Token from "./system/components/Token";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -23,7 +23,7 @@ const App = () => {
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    const storedToken = Cookies.get("token");
+    const storedToken = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
     console.log("getting token from cookie", storedToken);
     if (storedToken) {
       console.log("setting token", storedToken);

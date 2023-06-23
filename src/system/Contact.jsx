@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../system/components/system/Navbar";
-import Footer from "../system/components/system/Footer";
+import Navbar from "../system/components/Navbar";
+import Footer from "../system/components/Footer";
 
 const Contact = () => {
   return (

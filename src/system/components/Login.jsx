@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import ThemeContext from "../../../contexts/ThemeContext";
+import ThemeContext from "../../contexts/ThemeContext";
 
 import GoogleLogin from "./GoogleLogin";
 
@@ -20,7 +20,7 @@ const Login = ({ setToken, token }) => {
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    Cookies.set("token", event.target.value);
+    // Cookies.set("token", event.target.value);
   };
 
   const handleLogin = async () => {
@@ -37,7 +37,7 @@ const Login = ({ setToken, token }) => {
       if (response.ok) {
         const data = await response.json();
         setToken(data.token);
-        Cookies.set("token", data.token);
+        Cookies.set(import.meta.env.VITE_COOKIE_NAME, data.token);
         // Navigate("/");
         window.location.reload();
       } else {

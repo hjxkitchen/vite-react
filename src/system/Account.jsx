@@ -1,12 +1,12 @@
 import React from "react";
-import Navbar from "../system/components/system/Navbar";
-import Footer from "../system/components/system/Footer";
+import Navbar from "../system/components/Navbar";
+import Footer from "../system/components/Footer";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 
 const Account = () => {
   // decode token for username
-  const token = Cookies.get("token");
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   const decodedToken = jwt_decode(token);
   const username = decodedToken.username;
   return (

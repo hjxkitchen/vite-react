@@ -16,7 +16,7 @@ const EditModal = ({ product }) => {
     }));
   };
 
-  const token = Cookies.get("token");
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const handleEditSubmit = async () => {
     // if not all inputs are filled out, fill them with the current values
