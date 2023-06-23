@@ -145,6 +145,11 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="sidebar-item">
+              <Link to="/team">
+                <i className="fas fa-users fa "></i> Team
+              </Link>
+            </li>
+            <li className="sidebar-item">
               <Link to="/settings">
                 <i className="fas fa fa-cog "></i> Preferences
               </Link>

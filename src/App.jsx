@@ -15,6 +15,8 @@ import Settings from "./system/Settings";
 import Account from "./system/Account";
 import Contact from "./system/Contact";
 
+import Team from "./system/Team";
+
 import Token from "./system/components/Token";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -70,6 +72,14 @@ const App = () => {
               element={
                 <ProtectedRoute token={token} allowedRoles={[1, 2]}>
                   <Contact />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="team"
+              element={
+                <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                  <Team />
                 </ProtectedRoute>
               }
             />
