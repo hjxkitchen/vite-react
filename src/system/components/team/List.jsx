@@ -24,8 +24,27 @@ const List = () => {
           "x-api-key": import.meta.env.VITE_API_KEY,
         },
       })
+
       .then((response) => {
         console.log(response.data);
+        // for each, get userrole
+        response.data.forEach((user) => {
+          axios
+            .get(import.meta.env.VITE_API_URL + "/api/UserRole/" + user.id, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            })
+            .then((response) => {
+              console.log(response.data);
+              user.roleId = response.data.roleId;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
+
         setProducts(response.data);
       })
       .catch((error) => {
