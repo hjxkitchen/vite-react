@@ -32,16 +32,16 @@ function Sales() {
     <Fragment>
       {/* <ViewSaleModal/> */}
       <Navbar />
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col ">
-            <div class=" d-flex">
-              <h1 class="text-center mt-5 ">
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="col ">
+            <div className=" d-flex">
+              <h1 className="text-center mt-5 ">
                 Point of Sales
                 <Link to="/tools">
-                  <button class="btn btn-primary ml-5">Tools</button>
+                  <button className="btn btn-primary ml-5">Tools</button>
                 </Link>
-                <button class="btn btn-warning ml-5" onClick={showLogs}>
+                <button className="btn btn-warning ml-5" onClick={showLogs}>
                   Show Logs
                 </button>
               </h1>
@@ -50,18 +50,18 @@ function Sales() {
 
           {/* logs top right corner of screen */}
           {showlogs && (
-            <div class="col ml-5 ">
-              <div class="card mt-5 col">
-                <div class="card-header">
+            <div className="col ml-5 ">
+              <div className="card mt-5 col">
+                <div className="card-header">
                   Logs{" "}
-                  <button class="btn btn-warning ml-5">
-                    <i class="fas fa-plus" />
+                  <button className="btn btn-warning ml-5">
+                    <i className="fas fa-plus" />
                   </button>
-                  <button class=" ml-5 btn btn-danger">IT </button>
-                  <button class=" ml-2 btn btn-success">Finance</button>
-                  <button class=" ml-2 btn btn-info">Legal </button>
+                  <button className=" ml-5 btn btn-danger">IT </button>
+                  <button className=" ml-2 btn btn-success">Finance</button>
+                  <button className=" ml-2 btn btn-info">Legal </button>
                 </div>
-                <div class="card-body">
+                <div className="card-body">
                   Loggedin: 22/03/21 8:35am
                   <br></br>
                   Sale Initialized: 22/03/21 9:35am
@@ -72,10 +72,10 @@ function Sales() {
           {/* </div> */}
         </div>
 
-        <div class=" collapse show " id="POS">
-          <div class="row justify-content-center ">
-            {/* <div class="col-md-2"> */}
-            <div class="col-md-5 justify-content-center">
+        <div className=" collapse show " id="POS">
+          <div className="row justify-content-center ">
+            {/* <div className="col-md-2"> */}
+            <div className="col-md-5 justify-content-center">
               <AddToSale
                 prodnames={ProductNames}
                 setSales={setSales}
@@ -84,7 +84,7 @@ function Sales() {
                 customer={customer}
               />
             </div>
-            <div class="col-md-7 justify-content-center">
+            <div className="col-md-7 justify-content-center">
               <AddSale
                 setSales={setSales}
                 sales={sales}
@@ -95,12 +95,12 @@ function Sales() {
           </div>
         </div>
 
-        <h1 class="text-center mt-5 mb-5">Sales List </h1>
+        <h1 className="text-center mt-5 mb-5">Sales List </h1>
 
-        <div class="table-responsive">
-          <div class="mb-5 collapse show" id="List">
-            <div class="row justify-content-center mb-5 ">
-              <div class="col-md-10 mb-5">
+        <div className="table-responsive">
+          <div className="mb-5 collapse show" id="List">
+            <div className="row justify-content-center mb-5 ">
+              <div className="col-md-10 mb-5">
                 <SalesList />
               </div>
             </div>

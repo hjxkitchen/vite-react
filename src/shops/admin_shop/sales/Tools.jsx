@@ -31,7 +31,7 @@ function Component() {
       {!user && <PublicNavbar />}
       <div className="container">
         <div>
-          <h1 class="text-center mt-5">Tools</h1>
+          <h1 className="text-center mt-5">Tools</h1>
         </div>
 
         <div className="row justify-content-center mt-5 mb-5">
@@ -59,16 +59,16 @@ function Component() {
 
         {/* power gen req ref chart */}
         {activeRefChart1 && (
-          <div class="row mt-5 justify-content-center">
-            <div class="card">
-              <div class="card-header">
+          <div className="row mt-5 justify-content-center">
+            <div className="card">
+              <div className="card-header">
                 <h3>Appliance/Power Reference Chart</h3>
               </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col">
                     {/* table */}
-                    <table class="table table-bordered">
+                    <table className="table table-bordered">
                       <thead>
                         <tr>
                           <th scope="col">Power Usage</th>
@@ -115,16 +115,16 @@ function Component() {
 
         {/* reference chart 2 */}
         {activeRefChart2 && (
-          <div class="row mt-5 justify-content-center">
-            <div class="card">
-              <div class="card-header">
+          <div className="row mt-5 justify-content-center">
+            <div className="card">
+              <div className="card-header">
                 <h3>Technician Service Pricelist</h3>
               </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col">
                     {/* table */}
-                    <table class="table table-bordered">
+                    <table className="table table-bordered">
                       <thead>
                         <tr>
                           <th scope="col">Fundi Service</th>
@@ -170,7 +170,7 @@ function Component() {
         )}
 
         {/* SPACER */}
-        <div class="row mt-5 mb-5"></div>
+        <div className="row mt-5 mb-5"></div>
       </div>
     </Fragment>
   );

@@ -60,16 +60,16 @@ const Navbar = () => {
         <Suspense fallback="loading">
           {/* collabsible navbar */}
           <nav
-            class="navbar navbar-expand-lg navbar-dark"
+            className="navbar navbar-expand-lg navbar-dark"
             style={{ backgroundColor: "black" }}
           >
-            <Link to="/shop" class="nav-link">
-              <a class="navbar-brand ml-3" href="/">
+            <Link to="/shop" className="nav-link">
+              <a className="navbar-brand ml-3" href="/">
                 <img
                   src="/logo512.png"
                   width="30"
                   height="30"
-                  class="d-inline-block align-top mr-3"
+                  className="d-inline-block align-top mr-3"
                   alt=""
                   loading="lazy"
                 />
@@ -77,7 +77,7 @@ const Navbar = () => {
               </a>
             </Link>
             <button
-              class="navbar-toggler mr-3"
+              className="navbar-toggler mr-3"
               type="button"
               data-toggle="collapse"
               data-target="#navbarSupportedContent"
@@ -85,43 +85,46 @@ const Navbar = () => {
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
-              <span class="navbar-toggler-icon"></span>
+              <span className="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav ml-5">
+            <div
+              className="collapse navbar-collapse"
+              id="navbarSupportedContent"
+            >
+              <ul className="navbar-nav ml-5">
                 {/* dropdown */}
-                {/* <li class="nav-item dropdown">
-<Link to="/shop" class="nav-link dropdown-toggle ml-1" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-<i class="fas fa-shopping-bag fa-lg"></i> {t('SHOP').toUpperCase()}
+                {/* <li className="nav-item dropdown">
+<Link to="/shop" className="nav-link dropdown-toggle ml-1" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<i className="fas fa-shopping-bag fa-lg"></i> {t('SHOP').toUpperCase()}
 </Link>
-<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-<Link to="/shop" class="dropdown-item" >Power Generation</Link>
-<Link to="/shop" class="dropdown-item" >Appliances</Link>
-<Link to="/shop" class="dropdown-item" >Specialty</Link>
+<div className="dropdown-menu" aria-labelledby="navbarDropdown">
+<Link to="/shop" className="dropdown-item" >Power Generation</Link>
+<Link to="/shop" className="dropdown-item" >Appliances</Link>
+<Link to="/shop" className="dropdown-item" >Specialty</Link>
 </div>
 </li> */}
                 {/* shop dropdown */}
-                <li class="nav-item">
-                  <li class="dropdown menu-large nav-item">
+                <li className="nav-item">
+                  <li className="dropdown menu-large nav-item">
                     {" "}
                     <a
                       href="#"
-                      class="dropdown-toggle nav-link"
+                      className="dropdown-toggle nav-link"
                       data-toggle="dropdown"
                     >
-                      <i class="fas fa-shopping-bag fa-lg"></i>{" "}
+                      <i className="fas fa-shopping-bag fa-lg"></i>{" "}
                       {t("SHOP").toUpperCase()}{" "}
                     </a>
-                    <ul class="dropdown-menu megamenu">
-                      <div class="row">
+                    <ul className="dropdown-menu megamenu">
+                      <div className="row">
                         {/* map categories */}
                         {categories &&
                           categories.map((category, index) => {
                             return (
-                              <li class="col-md-2 dropdown-item">
+                              <li className="col-md-2 dropdown-item">
                                 <ul>
-                                  <li class="dropdown-header">
+                                  <li className="dropdown-header">
                                     {category.category_name}
                                   </li>
                                   {/* map subcategories */}
@@ -144,111 +147,112 @@ const Navbar = () => {
                     </ul>
                   </li>
                 </li>
-                <li class="nav-item">
-                  <Link to="/featured" class="nav-link ml-1">
-                    <i class="fas fa-fire fa-lg"></i> FEATURED
+                <li className="nav-item">
+                  <Link to="/featured" className="nav-link ml-1">
+                    <i className="fas fa-fire fa-lg"></i> FEATURED
                   </Link>
                 </li>
-                <li class="nav-item ">
-                  <Link to="/packages" class="nav-link">
-                    <i class="fas fa-store fa-lg"></i> PACKAGES
+                <li className="nav-item ">
+                  <Link to="/packages" className="nav-link">
+                    <i className="fas fa-store fa-lg"></i> PACKAGES
                   </Link>
                 </li>
 
-                {/* <li class="nav-item">
-<Link to="/calculators" class="nav-link disabled" style={{textDecoration:"line-through"}}><i class="fas fa-calculator fa-lg" ></i> CALCULATORS</Link>
+                {/* <li className="nav-item">
+<Link to="/calculators" className="nav-link disabled" style={{textDecoration:"line-through"}}><i className="fas fa-calculator fa-lg" ></i> CALCULATORS</Link>
 </li>
-<li class="nav-item">
-<Link to="/blog" class="nav-link disabled" style={{textDecoration:"line-through"}}><i class="fas fa-blog fa-lg" ></i> BLOG</Link>
+<li className="nav-item">
+<Link to="/blog" className="nav-link disabled" style={{textDecoration:"line-through"}}><i className="fas fa-blog fa-lg" ></i> BLOG</Link>
 </li> */}
 
                 {/* optional search bar */}
                 {/* <li>
-<form class="form-inline ml-5" action="/action_page.php">
-    <input class="form-control mr-sm-2" type="text" placeholder="Search"></input>
-    <button class="btn btn-success" type="submit">Search Products</button>
+<form className="form-inline ml-5" action="/action_page.php">
+    <input className="form-control mr-sm-2" type="text" placeholder="Search"></input>
+    <button className="btn btn-success" type="submit">Search Products</button>
 </form>
 </li> */}
               </ul>
-              <div class="ml-auto">
-                <ul class="navbar-nav ml-5 mr-5">
+              <div className="ml-auto">
+                <ul className="navbar-nav ml-5 mr-5">
                   {/* <!-- Admin Dropdown --> */}
-                  {/* <li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="/admin" id="navbardrop" data-toggle="dropdown">
+                  {/* <li className="nav-item dropdown">
+  <a className="nav-link dropdown-toggle" href="/admin" id="navbardrop" data-toggle="dropdown">
   ADMIN
   </a>
-  <div class="dropdown-menu">
-      <a class="dropdown-item" href="/admin">Dashboard</a>
-      <a class="dropdown-item" href="/inventory">Inventory</a>
-      <a class="dropdown-item" href="/sales">Sales</a>
-      <a class="dropdown-item" href="/orders">Orders</a>
-      <a class="dropdown-item" href="/suppliers">Suppliers</a>
-      <a class="dropdown-item" href="/users">Users</a>
+  <div className="dropdown-menu">
+      <a className="dropdown-item" href="/admin">Dashboard</a>
+      <a className="dropdown-item" href="/inventory">Inventory</a>
+      <a className="dropdown-item" href="/sales">Sales</a>
+      <a className="dropdown-item" href="/orders">Orders</a>
+      <a className="dropdown-item" href="/suppliers">Suppliers</a>
+      <a className="dropdown-item" href="/users">Users</a>
   </div>
 </li> */}
 
                   {/* 
-<select class="mt-2 mb-2" value={lang} onChange={handleChange}>
+<select className="mt-2 mb-2" value={lang} onChange={handleChange}>
 				{languages.map(item => {	
 					return (<option key={item.value}
 					value={item.value}>{item.text}</option>);
 				})}
 </select> */}
 
-                  <li class="nav-item ">
-                    <Link to="/about" class="nav-link">
-                      <i class="fas fa-address-card fa-lg"></i> {t("ABOUT")}
+                  <li className="nav-item ">
+                    <Link to="/about" className="nav-link">
+                      <i className="fas fa-address-card fa-lg"></i> {t("ABOUT")}
                     </Link>
                   </li>
 
-                  <li class="nav-item">
-                    <Link to="/contact" class="nav-link">
-                      <i class="fas fa-phone fa-lg"></i> {t("CONTACT")}
+                  <li className="nav-item">
+                    <Link to="/contact" className="nav-link">
+                      <i className="fas fa-phone fa-lg"></i> {t("CONTACT")}
                     </Link>
                   </li>
-                  <li class="nav-item">
-                    <Link to="/cart" class="nav-link">
-                      <i class="fas fa-shopping-cart fa-lg"></i>{" "}
+                  <li className="nav-item">
+                    <Link to="/cart" className="nav-link">
+                      <i className="fas fa-shopping-cart fa-lg"></i>{" "}
                       {t("CART").toUpperCase()}
                     </Link>
                   </li>
 
                   {/* account dropdown */}
-                  <li class="nav-item dropdown ml-1">
+                  <li className="nav-item dropdown ml-1">
                     <a
-                      class="nav-link dropdown-toggle"
+                      className="nav-link dropdown-toggle"
                       href="/admin"
                       id="navbardrop"
                       data-toggle="dropdown"
                     >
-                      <i class="fas fa-user fa-lg"></i>
+                      <i className="fas fa-user fa-lg"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right">
+                    <div className="dropdown-menu dropdown-menu-right">
                       <Link to="/account">
-                        <a class="dropdown-item" href="/account">
-                          <i class="fas fa-user"></i> {t("Account")}
+                        <a className="dropdown-item" href="/account">
+                          <i className="fas fa-user"></i> {t("Account")}
                         </a>
                       </Link>
                       <Link to="/order_history">
-                        <a class="dropdown-item" href="/order_history">
-                          <i class="fas fa-shopping-cart"></i> {t("Orders")}
+                        <a className="dropdown-item" href="/order_history">
+                          <i className="fas fa-shopping-cart"></i> {t("Orders")}
                         </a>
                       </Link>
                       <Link to="/favorites">
-                        <a class="dropdown-item" href="/favorites">
-                          <i class="fas fa-heart"></i> {t("Favorites")}
+                        <a className="dropdown-item" href="/favorites">
+                          <i className="fas fa-heart"></i> {t("Favorites")}
                         </a>
                       </Link>
-                      <Link class="dropdown-item" onClick={handleLogout}>
-                        <i class="fas fa-sign-out-alt fa-lg "></i> {t("LOGOUT")}
+                      <Link className="dropdown-item" onClick={handleLogout}>
+                        <i className="fas fa-sign-out-alt fa-lg "></i>{" "}
+                        {t("LOGOUT")}
                       </Link>
-                      {/* <a class="dropdown-item" onClick={handleLogout}><i class="fas fa-sign-out-alt" ></i> Sign Out</a>
-      <a class="dropdown-item" href="/login"><i class="fas fa-sign-in-alt"></i> Log in</a>
-      <a class="dropdown-item" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a> */}
+                      {/* <a className="dropdown-item" onClick={handleLogout}><i className="fas fa-sign-out-alt" ></i> Sign Out</a>
+      <a className="dropdown-item" href="/login"><i className="fas fa-sign-in-alt"></i> Log in</a>
+      <a className="dropdown-item" href="/signup"><i className="fas fa-user-plus"></i> Sign up</a> */}
                     </div>
                   </li>
 
-                  {/* <li class="nav-item">
+                  {/* <li className="nav-item">
 </li> */}
                 </ul>
               </div>

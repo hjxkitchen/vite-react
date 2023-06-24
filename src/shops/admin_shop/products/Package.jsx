@@ -88,11 +88,11 @@ function Contact() {
       {user && <Navbar />}
       {!user && <PublicNavbar />}
 
-      <h1 class="text-center mt-5">Package: {feature.package_name} </h1>
+      <h1 className="text-center mt-5">Package: {feature.package_name} </h1>
 
-      <div class="row justify-content-center ">
+      <div className="row justify-content-center ">
         <button
-          class="btn btn-primary mt-4"
+          className="btn btn-primary mt-4"
           data-toggle="modal"
           data-target={`#addOrder`}
         >
@@ -102,29 +102,29 @@ function Contact() {
       </div>
 
       {/* 
-            <button type="button" class="btn btn-success mt-5" data-toggle="modal" data-target={`#addOrder`} >
+            <button type="button" className="btn btn-success mt-5" data-toggle="modal" data-target={`#addOrder`} >
             Add
             </button> */}
 
       {/* <!-- The Modal --> */}
-      <div class="modal" id="addOrder">
-        <div class="modal-dialog">
-          <div class="modal-content">
+      <div className="modal" id="addOrder">
+        <div className="modal-dialog">
+          <div className="modal-content">
             {/* <!-- Modal Header --> */}
-            <div class="modal-header">
-              <h4 class="modal-title">Add Product</h4>
-              <button type="button" class="close" data-dismiss="modal">
+            <div className="modal-header">
+              <h4 className="modal-title">Add Product</h4>
+              <button type="button" className="close" data-dismiss="modal">
                 &times;
               </button>
             </div>
 
             {/* <!-- Modal body --> */}
-            <div class="modal-body">
+            <div className="modal-body">
               <div className="d-flex justify-content-center">
                 <div className="d-flex w-50 justify-content-center">
                   <form className="" onSubmit={onSubmitForm}>
-                    <div class="row">
-                      <div class="col">
+                    <div className="row">
+                      <div className="col">
                         {/* 1st input */}
                         <label>
                           Product
@@ -155,8 +155,8 @@ function Contact() {
                         </label>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col">
+                    <div className="row">
+                      <div className="col">
                         {/* 4th */}
                         <label>
                           Quantity
@@ -170,7 +170,7 @@ function Contact() {
                         </label>
                       </div>
 
-                      <div class="col mt-4">
+                      <div className="col mt-4">
                         {/* 6th */}
                         {/* <label>Shop
                         <input 
@@ -196,16 +196,20 @@ function Contact() {
             </div>
 
             {/* <!-- Modal footer --> */}
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-warning"
+                className="btn btn-warning"
                 data-dismiss="modal"
               >
                 Edit
               </button>
 
-              <button type="button" class="btn btn-danger" data-dismiss="modal">
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-dismiss="modal"
+              >
                 Close
               </button>
             </div>
@@ -213,13 +217,13 @@ function Contact() {
         </div>
       </div>
 
-      <div class="row justify-content-center ">
+      <div className="row justify-content-center ">
         {/* <InputFeatured /> */}
-        <div class="col-md-12 ml-5">
-          <div class="row justify-content-center">
-            <div class="col-md-6 mr-5">
-              {/* <div class="table-responsive">  */}
-              <table class="table mt-5 text-center">
+        <div className="col-md-12 ml-5">
+          <div className="row justify-content-center">
+            <div className="col-md-6 mr-5">
+              {/* <div className="table-responsive">  */}
+              <table className="table mt-5 text-center">
                 <thead>
                   <tr>
                     {/* <th>Featured ID</th> */}
@@ -249,11 +253,11 @@ function Contact() {
                     </td> */}
                       {/* <td> */}
                       {/* <EditFeatured featured={feature}/> */}
-                      {/* <button class="btn btn-warning" >Edit</button> */}
+                      {/* <button className="btn btn-warning" >Edit</button> */}
                       {/* </td> */}
                       <td>
                         <button
-                          class="btn btn-danger"
+                          className="btn btn-danger"
                           onClick={() => deleteitem(prod)}
                         >
                           Delete

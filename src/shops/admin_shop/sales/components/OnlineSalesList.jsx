@@ -155,46 +155,50 @@ const SalesList = () => {
   return (
     <Fragment>
       {/* <ViewSaleItems /> */}
-      {/* <button class="btn btn-primary">Search</button> */}
+      {/* <button className="btn btn-primary">Search</button> */}
 
-      {/* <div class="d-flex justify-content-center"> */}
+      {/* <div className="d-flex justify-content-center"> */}
       {/* search through phone numbers */}
 
       {/* <h2>Products Table</h2> */}
       {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
-      {/* <div class="table-responsive"> */}
-      <table class="table text-center table-striped">
+      {/* <div className="table-responsive"> */}
+      <table className="table text-center table-striped">
         <thead>
           <tr>
             <th>Sale ID</th>
             <th>
               Sale date
-              <button type="button" class="btn btn-sm ml-2" onClick={clickdef}>
-                <i class="fas fa-sort-down"></i>
+              <button
+                type="button"
+                className="btn btn-sm ml-2"
+                onClick={clickdef}
+              >
+                <i className="fas fa-sort-down"></i>
               </button>
             </th>
             <th>Sale total</th>
             <th>
               Sale Status
               {/* small button  */}
-              <button type="button" class="btn btn-sm ml-2" onClick={click}>
-                <i class="fas fa-sort-down"></i>
+              <button type="button" className="btn btn-sm ml-2" onClick={click}>
+                <i className="fas fa-sort-down"></i>
               </button>
             </th>
             <th>
               Sale Source
               {/* small button  */}
-              <button type="button" class="btn btn-sm ml-2" onClick={click}>
-                <i class="fas fa-sort-down"></i>
+              <button type="button" className="btn btn-sm ml-2" onClick={click}>
+                <i className="fas fa-sort-down"></i>
               </button>
             </th>
             <th>
-              {/* <div class="d-flex"> */}
-              <div class="row justify-content-center">
+              {/* <div className="d-flex"> */}
+              <div className="row justify-content-center">
                 <input
                   type="text"
                   id="namesearch"
-                  class="collapse"
+                  className="collapse"
                   onChange={searchSalesName}
                   placeholder="Search by name"
                 />
@@ -202,19 +206,19 @@ const SalesList = () => {
               {/* </div> */}
               Customer Name
               <button
-                class="btn btn-primary ml-2"
+                className="btn btn-primary ml-2"
                 data-toggle="collapse"
                 data-target="#namesearch"
               >
-                <i class="fa fa-search"></i>
+                <i className="fa fa-search"></i>
               </button>
             </th>
             <th>
-              <div class="row justify-content-center">
+              <div className="row justify-content-center">
                 <input
                   type="text"
                   id="phsearch"
-                  class="collapse"
+                  className="collapse"
                   onChange={searchSalesPh}
                   placeholder="Search by phone number"
                 />
@@ -222,14 +226,14 @@ const SalesList = () => {
               Customer Phone
               {/* button to collapse search bar*/}
               <button
-                class="btn btn-primary ml-2"
+                className="btn btn-primary ml-2"
                 data-toggle="collapse"
                 data-target="#phsearch"
               >
-                <i class="fa fa-search"></i>
+                <i className="fa fa-search"></i>
               </button>
             </th>
-            {/* <th>Customer Id <button><i class="fas fa-search"></i></button></th> */}
+            {/* <th>Customer Id <button><i className="fas fa-search"></i></button></th> */}
             {/* <th>View</th>
             <th>Edit</th>
             <th>Delete</th> */}

@@ -45,11 +45,11 @@ const PackageList = () => {
 
   return (
     <Fragment>
-      {/* <div class="d-flex justify-content-center"> */}
+      {/* <div className="d-flex justify-content-center"> */}
       {/* <h2>Package Table</h2> */}
       {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
-      {/* <div class="table-responsive">  */}
-      <table class="table mt-5 text-center">
+      {/* <div className="table-responsive">  */}
+      <table className="table mt-5 text-center">
         <thead>
           <tr>
             {/* <th>Package ID</th> */}
@@ -74,12 +74,12 @@ const PackageList = () => {
               <td>
                 {/* <EditPackage package={feature}/> */}
                 <Link to="/package" state={{ feature: feature }}>
-                  <button class="btn btn-warning ">Open</button>
+                  <button className="btn btn-warning ">Open</button>
                 </Link>
               </td>
               <td>
                 <button
-                  class="btn btn-danger"
+                  className="btn btn-danger"
                   onClick={() => deletePackage(feature.package_id)}
                 >
                   Delete

@@ -12,26 +12,26 @@ function PackagesListcomp() {
     <Fragment>
       <Navbar />
       <div className="container">
-        <div class="row justify-content-center ">
-          <div class="col-md-12">
+        <div className="row justify-content-center ">
+          <div className="col-md-12">
             <h1 className="text-center mt-5">Categories</h1>
           </div>
         </div>
 
-        <div class="row justify-content-center ">
-          {/* <div class="col-md-3 my-auto justify-content-center"> */}
+        <div className="row justify-content-center ">
+          {/* <div className="col-md-3 my-auto justify-content-center"> */}
 
-          <button class="btn btn-primary mt-5"> Add From csv</button>
-          {/* <button class="btn btn-success mt-5"> Add </button> */}
+          <button className="btn btn-primary mt-5"> Add From csv</button>
+          {/* <button className="btn btn-success mt-5"> Add </button> */}
 
           <AddCategoryModal />
           {/* </div> */}
         </div>
 
-        <div class="row justify-content-center ">
+        <div className="row justify-content-center ">
           {/* <InputPackage /> */}
-          <div class="container">
-            <div class="table-responsive">
+          <div className="container">
+            <div className="table-responsive">
               <CategoriesList />
             </div>
           </div>

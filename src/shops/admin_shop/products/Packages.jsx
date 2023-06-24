@@ -12,23 +12,23 @@ function PackagesListcomp() {
     <Fragment>
       <Navbar />
       <div className="container">
-        <div class="row justify-content-center ">
-          <div class="col-md-12">
+        <div className="row justify-content-center ">
+          <div className="col-md-12">
             <h1 className="text-center mt-5">Packages</h1>
           </div>
         </div>
 
-        <div class="row justify-content-center ">
-          {/* <div class="col-md-3 my-auto justify-content-center"> */}
+        <div className="row justify-content-center ">
+          {/* <div className="col-md-3 my-auto justify-content-center"> */}
 
           <AddPackageModal />
           {/* </div> */}
         </div>
 
-        <div class="row justify-content-center ">
+        <div className="row justify-content-center ">
           {/* <InputPackage /> */}
-          <div class="container">
-            <div class="table-responsive">
+          <div className="container">
+            <div className="table-responsive">
               <PackagesList />
             </div>
           </div>

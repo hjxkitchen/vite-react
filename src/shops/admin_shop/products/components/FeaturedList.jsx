@@ -51,13 +51,13 @@ const FeaturedList = () => {
 
   return (
     <Fragment>
-      {/* <div class="d-flex justify-content-center"> */}
+      {/* <div className="d-flex justify-content-center"> */}
       {/* <h2>Featured Table</h2> */}
       {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
-      <div class="row justify-content-center">
-        <div class="col-md-6 mr-5">
-          {/* <div class="table-responsive">  */}
-          <table class="table mt-5 text-center">
+      <div className="row justify-content-center">
+        <div className="col-md-6 mr-5">
+          {/* <div className="table-responsive">  */}
+          <table className="table mt-5 text-center">
             <thead>
               <tr>
                 {/* <th>Featured ID</th> */}
@@ -85,11 +85,11 @@ const FeaturedList = () => {
                     </td> */}
                   {/* <td> */}
                   {/* <EditFeatured featured={feature}/> */}
-                  {/* <button class="btn btn-warning" >Edit</button> */}
+                  {/* <button className="btn btn-warning" >Edit</button> */}
                   {/* </td> */}
                   <td>
                     <button
-                      class="btn btn-danger"
+                      className="btn btn-danger"
                       onClick={() => deleteFeatured(feature.featured_id)}
                     >
                       Delete

@@ -11,35 +11,35 @@ function Calculators() {
       {user && <Navbar />}
       {!user && <PublicNavbar />}
       <div className="container">
-        <h1 class="text-center mt-4">About Zahab</h1>
+        <h1 className="text-center mt-4">About Zahab</h1>
         {/* stickers */}
 
         {/* row col 2 btns link calc blog*/}
-        <div class="row justify-content-center mt-2 ">
-          <div class="col-md-3 mt-2 w-75">
+        <div className="row justify-content-center mt-2 ">
+          <div className="col-md-3 mt-2 w-75">
             <Link
               to="/calculators"
-              class="btn btn-primary btn-lg btn-block"
+              className="btn btn-primary btn-lg btn-block"
               role="button"
               aria-pressed="true"
             >
               Calculators
             </Link>
           </div>
-          <div class="col-md-3 mt-2 w-75">
+          <div className="col-md-3 mt-2 w-75">
             <Link
               to="/blog"
-              class="btn btn-primary btn-lg btn-block"
+              className="btn btn-primary btn-lg btn-block"
               role="button"
               aria-pressed="true"
             >
               Blog / Resources
             </Link>
           </div>
-          {/* <div class="col-md-3 mt-2 w-75">
+          {/* <div className="col-md-3 mt-2 w-75">
             <Link
               to="/blog"
-              class="btn btn-primary btn-lg btn-block"
+              className="btn btn-primary btn-lg btn-block"
               role="button"
               aria-pressed="true"
             >
@@ -50,20 +50,20 @@ function Calculators() {
       </div>
 
       {/* // insert image zahabshoppic from public */}
-      <div class="container mt-4 mb-5">
+      <div className="container mt-4 mb-5">
         {/* card */}
-        <div class="card mb-4">
-          <div class="d-md-flex mb-5 mt-2">
-            <div class="col ">
+        <div className="card mb-4">
+          <div className="d-md-flex mb-5 mt-2">
+            <div className="col ">
               <img
                 src="/zahabshoppic.jpeg"
-                class="img-fluid"
+                className="img-fluid"
                 alt="Responsive image"
               />
             </div>
-            <div class="col mt-3">
+            <div className="col mt-3">
               {/* info about the business */}
-              <h5 class="text-center">
+              <h5 className="text-center">
                 Zahab is a business that cares.
                 <br></br>
                 <br></br>
@@ -87,15 +87,15 @@ function Calculators() {
                 healthier, happier, and richer.
               </h5>
               {/* stndard, quality icons */}
-              <div class="row justify-content-center  mt-5">
-                <div class="col-0 mt-2">
+              <div className="row justify-content-center  mt-5">
+                <div className="col-0 mt-2">
                   {/* font awesome business icons */}
-                  <i class="ml-1 fas fa-award fa-3x"></i>
-                  <i class="ml-1 fas fa-certificate fa-3x"></i>
-                  <i class="ml-1 fas fa-balance-scale fa-3x"></i>
-                  <i class="ml-1 fas fa-business-time fa-3x"></i>
-                  <i class="ml-1 fas fa-bullhorn fa-3x"></i>
-                  <i class="ml-1 fas fa-bullseye fa-3x"></i>
+                  <i className="ml-1 fas fa-award fa-3x"></i>
+                  <i className="ml-1 fas fa-certificate fa-3x"></i>
+                  <i className="ml-1 fas fa-balance-scale fa-3x"></i>
+                  <i className="ml-1 fas fa-business-time fa-3x"></i>
+                  <i className="ml-1 fas fa-bullhorn fa-3x"></i>
+                  <i className="ml-1 fas fa-bullseye fa-3x"></i>
                 </div>
               </div>
             </div>

@@ -7,25 +7,25 @@ function UsersList() {
   return (
     <Fragment>
       <Navbar />
-      <div class="row justify-content-center ">
+      <div className="row justify-content-center ">
         {/* back to employees button */}
         <Link to="/employees">
-          <button type="button" class="btn btn-outline-dark mx-auto mt-5">
+          <button type="button" className="btn btn-outline-dark mx-auto mt-5">
             Employees
           </button>
         </Link>
-        <div class="col-md-9">
+        <div className="col-md-9">
           <h1 className="text-center mt-5">Employee: John Doe</h1>
         </div>
       </div>
 
-      <div class="row justify-content-center">
+      <div className="row justify-content-center">
         {/* employee table */}
-        <div class="col-md-10 mt-5">
-          <div class="card">
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-striped table-bordered zero-configuration">
+        <div className="col-md-10 mt-5">
+          <div className="card">
+            <div className="card-body">
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered zero-configuration">
                   <thead>
                     <tr>
                       {/* head */}
@@ -62,22 +62,26 @@ function UsersList() {
 
       {/* LOGS INPUT WITH BUTTON AND SAMPLE LOGS */}
 
-      <div class="row justify-content-center text-center">
-        <div class="col-md-6 mt-5">
-          <input type="text" class="form-control" placeholder="Enter Logs" />
-          <button type="submit" class="btn btn-primary mt-4">
+      <div className="row justify-content-center text-center">
+        <div className="col-md-6 mt-5">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Enter Logs"
+          />
+          <button type="submit" className="btn btn-primary mt-4">
             Submit
           </button>
         </div>
       </div>
 
-      <div class="row justify-content-center">
+      <div className="row justify-content-center">
         {/* sample logs */}
-        <div class="col-md-5 mt-5 mb-5">
-          {/* <div class="card"> */}
-          {/* <div class="card-body"> */}
-          <div class="table-responsive">
-            <table class="table ">
+        <div className="col-md-5 mt-5 mb-5">
+          {/* <div className="card"> */}
+          {/* <div className="card-body"> */}
+          <div className="table-responsive">
+            <table className="table ">
               <thead>
                 <tr>
                   {/* head */}

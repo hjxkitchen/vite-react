@@ -11,7 +11,7 @@ function Calculators() {
       {user && <Navbar />}
       {!user && <PublicNavbar />}
       <div>
-        <h1 class="text-center mt-5">Blog / Resources</h1>
+        <h1 className="text-center mt-5">Blog / Resources</h1>
       </div>
 
       {/* blog */}

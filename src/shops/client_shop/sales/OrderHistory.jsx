@@ -85,22 +85,22 @@ const SalesList = () => {
     <Fragment>
       {user ? <Navbar /> : <PublicNavbar />}
 
-      <h1 class="text-center mt-5">Order History</h1>
+      <h1 className="text-center mt-5">Order History</h1>
 
       {/* <ViewSaleItems /> */}
-      {/* <div class="d-flex justify-content-center" > */}
+      {/* <div className="d-flex justify-content-center" > */}
       {/* <h2>Products Table</h2> */}
       {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
-      {/* <div class="row justify-content-center"> */}
+      {/* <div className="row justify-content-center"> */}
 
-      {/* <div class="container justify-content-center"> */}
+      {/* <div className="container justify-content-center"> */}
 
       {sales.length > 0 ? (
-        // <div class="col-md-0">
-        // <div class="container center">
+        // <div className="col-md-0">
+        // <div className="container center">
         // center the table
-        <div class="container col-md-6">
-          <table class="table mt-5 text-center ">
+        <div className="container col-md-6">
+          <table className="table mt-5 text-center ">
             <thead>
               <tr>
                 <th>Order ID</th>
@@ -134,16 +134,16 @@ const SalesList = () => {
                         <EditProduct product={product}/>
                     </td> */}
                   {/* <td> */}
-                  {/* <button class="btn btn-primary" 
+                  {/* <button className="btn btn-primary" 
                         type="button" onClick={viewSale(sale)}>Open</button> */}
                   {/* <ViewSaleItems sale={sale}/> */}
                   {/* </td> */}
                   {/* <td>
-                        <button class="btn btn-warning" 
+                        <button className="btn btn-warning" 
                         onClick={() => deleteProduct(sale.sale_id)}>Edit</button>
                     </td> */}
                   {/* <td>
-                        <button class="btn btn-danger"
+                        <button className="btn btn-danger"
                         onClick={() => deleteProduct(sale.sale_id)}>X</button>
                     </td> */}
                 </tr>
@@ -154,17 +154,17 @@ const SalesList = () => {
             <tfoot>
               <tr>
                 <td>
-                  {/* <div class="row justify-content-center">
-                        <Link to="/checkout"><button class="btn btn-primary">Checkout</button></Link>
+                  {/* <div className="row justify-content-center">
+                        <Link to="/checkout"><button className="btn btn-primary">Checkout</button></Link>
                     </div> */}
-                  {/* <div class="row justify-content-center">
-                        <button class="btn btn-primary" onClick={checkout}>Checkout</button>
+                  {/* <div className="row justify-content-center">
+                        <button className="btn btn-primary" onClick={checkout}>Checkout</button>
                     </div> */}
                 </td>
                 <td></td>
                 <td>
-                  <div class="row justify-content-center">
-                    <div class="ml-1 mr-1">Total: 5136</div>
+                  <div className="row justify-content-center">
+                    <div className="ml-1 mr-1">Total: 5136</div>
                   </div>
                 </td>
               </tr>
@@ -174,7 +174,7 @@ const SalesList = () => {
       ) : (
         // </div>
         // </div>
-        <h2 class="text-center mt-5">No Orders</h2>
+        <h2 className="text-center mt-5">No Orders</h2>
       )}
 
       {/* </div> */}

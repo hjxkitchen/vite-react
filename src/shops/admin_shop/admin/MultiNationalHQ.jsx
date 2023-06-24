@@ -23,19 +23,19 @@ function Component() {
       {user && <Navbar />}
       {!user && <PublicNavbar />}
 
-      <div class="container">
-        <h1 class="text-center mt-5">MultiNational HQ</h1>
+      <div className="container">
+        <h1 className="text-center mt-5">MultiNational HQ</h1>
 
-        <div class="row justify-content-center">
-          <button class="btn btn-primary mt-5" onClick={showInactive}>
+        <div className="row justify-content-center">
+          <button className="btn btn-primary mt-5" onClick={showInactive}>
             Show Inactive
           </button>
         </div>
         {/* table with departments */}
-        <div class="sm-table-responsive">
+        <div className="sm-table-responsive">
           <div className="row justify-content-center mt-5 mb-5">
             <div className="col-md-10 ">
-              <table class="table table-striped text-center">
+              <table className="table table-striped text-center">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -64,17 +64,17 @@ function Component() {
                     <td>440</td>
 
                     {/* <td>
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" className="btn btn-primary">
                     Tools
                   </button>
                 </td> */}
                     <td>
-                      <button type="button" class="btn btn-warning">
+                      <button type="button" className="btn btn-warning">
                         Edit
                       </button>
                     </td>
                     {/* <td>
-                  <button type="button" class="btn btn-danger">
+                  <button type="button" className="btn btn-danger">
                     Delete
                   </button>
                 </td> */}
@@ -92,17 +92,17 @@ function Component() {
                       <td>440</td>
 
                       {/* <td>
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" className="btn btn-primary">
                     Tools
                   </button>
                 </td> */}
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
                       {/* <td>
-                  <button type="button" class="btn btn-danger">
+                  <button type="button" className="btn btn-danger">
                     Delete
                   </button>
                 </td> */}
@@ -121,17 +121,17 @@ function Component() {
                       <td>440</td>
 
                       {/* <td>
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" className="btn btn-primary">
                     Tools
                   </button>
                 </td> */}
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
                       {/* <td>
-                  <button type="button" class="btn btn-danger">
+                  <button type="button" className="btn btn-danger">
                     Delete
                   </button>
                 </td> */}
@@ -150,17 +150,17 @@ function Component() {
                       <td>440</td>
 
                       {/* <td>
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" className="btn btn-primary">
                     Tools
                   </button>
                 </td> */}
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
                       {/* <td>
-                  <button type="button" class="btn btn-danger">
+                  <button type="button" className="btn btn-danger">
                     Delete
                   </button>
                 </td> */}
@@ -179,17 +179,17 @@ function Component() {
                       <td>440</td>
 
                       {/* <td>
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" className="btn btn-primary">
                     Tools
                   </button>
                 </td> */}
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
                       {/* <td>
-                  <button type="button" class="btn btn-danger">
+                  <button type="button" className="btn btn-danger">
                     Delete
                   </button>
                 </td> */}
@@ -208,17 +208,17 @@ function Component() {
                       <td>440</td>
 
                       {/* <td>
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" className="btn btn-primary">
                     Tools
                   </button>
                 </td> */}
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
                       {/* <td>
-                  <button type="button" class="btn btn-danger">
+                  <button type="button" className="btn btn-danger">
                     Delete
                   </button>
                 </td> */}
@@ -237,17 +237,17 @@ function Component() {
                       <td>440</td>
 
                       {/* <td>
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" className="btn btn-primary">
                     Tools
                   </button>
                 </td> */}
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
                       {/* <td>
-                  <button type="button" class="btn btn-danger">
+                  <button type="button" className="btn btn-danger">
                     Delete
                   </button>
                 </td> */}
@@ -328,15 +328,15 @@ function Component() {
           </div>
 
           {/* logs top right corner of screen */}
-          <div class="col-md-3 ">
-            <div class="card mt-5 col">
-              <div class="card-header">
+          <div className="col-md-3 ">
+            <div className="card mt-5 col">
+              <div className="card-header">
                 Logs{" "}
-                <button class="btn btn-warning ml-5">
-                  <i class="fas fa-plus" />
+                <button className="btn btn-warning ml-5">
+                  <i className="fas fa-plus" />
                 </button>
               </div>
-              <div class="card-body">
+              <div className="card-body">
                 Loggedin: 22/03/21 2:35am
                 <br></br>
                 Logged: Zahab Payment Processing
@@ -347,15 +347,15 @@ function Component() {
 
         {/* venture mission stmt */}
         {/* strategy board */}
-        <div class="row justify-content-center mb-5">
-          <div class="card mt-5 col-md-6">
-            <div class="card-header">
+        <div className="row justify-content-center mb-5">
+          <div className="card mt-5 col-md-6">
+            <div className="card-header">
               Mission Statement: Strategy Board{" "}
-              <button class="btn btn-warning ml-5">
-                <i class="fas fa-edit" />
+              <button className="btn btn-warning ml-5">
+                <i className="fas fa-edit" />
               </button>
             </div>
-            <div class="card-body">
+            <div className="card-body">
               Mission: Civil Development with Energy Solutions.
               <br></br>
               Strategy: Build a Brand + Offer Value at Sales to Build a Proud To

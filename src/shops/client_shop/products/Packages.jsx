@@ -47,16 +47,16 @@ function Packages() {
       {!user && <PublicNavbar />}
 
       {/* header text rows */}
-      <div class="container justify-content-center mt-5">
-        <div class="row ml-5 mr-5 justify-content-center">
-          <h1 class="text-center mb-3">Shop Packages!</h1>
+      <div className="container justify-content-center mt-5">
+        <div className="row ml-5 mr-5 justify-content-center">
+          <h1 className="text-center mb-3">Shop Packages!</h1>
         </div>
-        <div class="row ml-5 mr-5 mb-3 justify-content-center">
+        <div className="row ml-5 mr-5 mb-3 justify-content-center">
           <h2 style={{ "text-align": "center" }}>
             Complete Packages to make life easier.
           </h2>
         </div>
-        <div class="row ml-5 mr-5  justify-content-center">
+        <div className="row ml-5 mr-5  justify-content-center">
           <p>
             Variety of Choices based on your needs. Check out our Calculator!
           </p>
@@ -64,13 +64,16 @@ function Packages() {
       </div>
 
       {packages.length > 1 && (
-        <div class="container mt-4">
-          <h1 class="text-center mt-4 mb-4">Backup</h1>
-          <div class="card">
-            <div class="card-header" id={"heading" + packages[1].package_id}>
-              <h5 class="mb-0">
+        <div className="container mt-4">
+          <h1 className="text-center mt-4 mb-4">Backup</h1>
+          <div className="card">
+            <div
+              className="card-header"
+              id={"heading" + packages[1].package_id}
+            >
+              <h5 className="mb-0">
                 <button
-                  class="btn btn-link"
+                  className="btn btn-link"
                   data-toggle="collapse"
                   data-target={"#collapse" + packages[1].package_id}
                   aria-expanded="true"
@@ -86,19 +89,22 @@ function Packages() {
 
             <div
               id={"collapse" + packages[1].package_id}
-              class="collapse "
+              className="collapse "
               aria-labelledby={"heading" + packages[1].package_id}
               data-parent="#accordion"
             >
-              <div class="card-body">{packages[1].package_description}</div>
+              <div className="card-body">{packages[1].package_description}</div>
             </div>
           </div>
           {/* ANCHOR card with items */}
-          <div class="card ">
-            <div class="card-header" id={"heading" + packages[0].package_id}>
-              <h5 class="mb-0">
+          <div className="card ">
+            <div
+              className="card-header"
+              id={"heading" + packages[0].package_id}
+            >
+              <h5 className="mb-0">
                 <button
-                  class="btn btn-link"
+                  className="btn btn-link"
                   data-toggle="collapse"
                   data-target={"#collapse" + packages[0].package_id}
                   aria-expanded="true"
@@ -114,11 +120,11 @@ function Packages() {
 
             <div
               id={"collapse" + packages[0].package_id}
-              class="collapse "
+              className="collapse "
               aria-labelledby={"heading" + packages[0].package_id}
               data-parent="#accordion"
             >
-              <div class="card-body">
+              <div className="card-body">
                 {packages[0].package_description}
                 {/* map packageitems */}
 
@@ -129,21 +135,21 @@ function Packages() {
 
                   packages[0].package_id == oneitem.package_id ? (
                     // accordion using package_item_id
-                    <div class="card" id={oneitem.package_item_id}>
-                      <div class="card-header" id="headingtwo">
+                    <div className="card" id={oneitem.package_item_id}>
+                      <div className="card-header" id="headingtwo">
                         <button
-                          class="btn btn-link"
+                          className="btn btn-link"
                           data-toggle="collapse"
                           data-target={"#collapse" + oneitem.package_item_id}
                           aria-expanded="true"
                           aria-controls="collapsetwo"
                         >
-                          <h5 class="mb-0">
+                          <h5 className="mb-0">
                             {/* {oneitem.product_id}: price K Tshs */}
                             {/* find product id in prods and get name */}
                             {prods.map((oneprod) =>
                               oneitem.product_id == oneprod.product_id ? (
-                                <h5 class="mb-0">
+                                <h5 className="mb-0">
                                   {oneprod.product_name}: {oneprod.price}K Tshs
                                 </h5>
                               ) : (
@@ -155,15 +161,15 @@ function Packages() {
                       </div>
                       <div
                         id={"collapse" + oneitem.package_item_id}
-                        class="collapse "
+                        className="collapse "
                         aria-labelledby="headingtwo"
                         data-parent={"#" + oneitem.package_item_id}
                       >
-                        <div class="card-body">
+                        <div className="card-body">
                           {oneitem.package_item_description}
                           {prods.map((oneprod) =>
                             oneitem.product_id == oneprod.product_id ? (
-                              <h5 class="mb-0">
+                              <h5 className="mb-0">
                                 {/* img here */}
                                 <img
                                   src={

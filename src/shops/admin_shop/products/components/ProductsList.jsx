@@ -212,29 +212,29 @@ const ListProducts = () => {
   return (
     <Fragment>
       {/* search  */}
-      {/* <div class="justify-content-center mt-3 mb-5  sticky-top"> */}
-      <div class="input-group sticky-top mb-5">
+      {/* <div className="justify-content-center mt-3 mb-5  sticky-top"> */}
+      <div className="input-group sticky-top mb-5">
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           onChange={search}
           placeholder="Search Products"
           aria-label="Search"
           aria-describedby="basic-addon1"
         />
         {/* <br/>
-        <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button">Button</button>
+        <div className="input-group-append">
+    <button className="btn btn-outline-secondary" type="button">Button</button>
   </div> */}
       </div>
       {/* </div> */}
 
-      {/* <div class="container col-md-9 d-flex justify-content-center"> */}
+      {/* <div className="container col-md-9 d-flex justify-content-center"> */}
       {/* <h2>Products Table</h2> */}
       {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
 
-      <div class="table-responsive table-striped">
-        <table class="table text-center">
+      <div className="table-responsive table-striped">
+        <table className="table text-center">
           <thead>
             <tr>
               <th>
@@ -242,38 +242,38 @@ const ListProducts = () => {
                 {/* sort btn */}
                 <button
                   type="button"
-                  class="btn btn-sm ml-2"
+                  className="btn btn-sm ml-2"
                   onClick={sortbyid}
                 >
-                  <i class="fas fa-sort-down">ID Sort</i>
+                  <i className="fas fa-sort-down">ID Sort</i>
                 </button>
                 Product ID
               </th>
               <th>Product Name</th>
               <th>
-                {/* <div class="d-flex justify-content-center"> */}
+                {/* <div className="d-flex justify-content-center"> */}
                 {/* sort btn */}
                 <button
                   type="button"
-                  class="btn btn-sm ml-2"
+                  className="btn btn-sm ml-2"
                   onClick={getBestselling}
                 >
-                  <i class="fas fa-sort-down">Bestselling</i>
+                  <i className="fas fa-sort-down">Bestselling</i>
                 </button>
                 Price
                 {/* </div> */}
               </th>
               <th>
                 {/* d-flec */}
-                <div class="d-flex justify-content-center">
+                <div className="d-flex justify-content-center">
                   Inventory
                   {/* sort btn */}
                   <button
                     type="button"
-                    class="btn btn-sm ml-2"
+                    className="btn btn-sm ml-2"
                     onClick={sortinv}
                   >
-                    <i class="fas fa-sort-down"></i>
+                    <i className="fas fa-sort-down"></i>
                   </button>
                 </div>
               </th>
@@ -313,7 +313,7 @@ const ListProducts = () => {
                 </td>
                 <td>{product.description}</td>
                 <td>
-                  <div class="d-flex justify-content-center">
+                  <div className="d-flex justify-content-center">
                     {/* <h5>{product.images.length + "="}</h5> */}
                     {/* for each path in images array create link */}
                     {product.images.map((path, index) => (
@@ -337,7 +337,7 @@ const ListProducts = () => {
                 </td>
                 <td>
                   <button
-                    class="btn btn-danger"
+                    className="btn btn-danger"
                     onClick={() => deleteProduct(product.product_id)}
                   >
                     Delete

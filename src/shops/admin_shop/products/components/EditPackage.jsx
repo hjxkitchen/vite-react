@@ -27,7 +27,7 @@ const EditProduct = ({ product }) => {
       {/* <!-- Button to Open the Modal --> */}
       <button
         type="button"
-        class="btn btn-warning"
+        className="btn btn-warning"
         data-toggle="modal"
         data-target={`#id${product.id}`}
       >
@@ -35,15 +35,15 @@ const EditProduct = ({ product }) => {
       </button>
 
       {/* <!-- The Modal --> */}
-      <div class="modal" id={`id${product.id}`}>
-        <div class="modal-dialog">
-          <div class="modal-content">
+      <div className="modal" id={`id${product.id}`}>
+        <div className="modal-dialog">
+          <div className="modal-content">
             {/* <!-- Modal Header --> */}
-            <div class="modal-header">
-              <h4 class="modal-title">Edit Product</h4>
+            <div className="modal-header">
+              <h4 className="modal-title">Edit Product</h4>
               <button
                 type="button"
-                class="close"
+                className="close"
                 data-dismiss="modal"
                 onClick={() => setDescription(product.description)}
               >
@@ -52,9 +52,9 @@ const EditProduct = ({ product }) => {
             </div>
 
             {/* <!-- Modal body --> */}
-            <div class="modal-body">
-              <div class="row">
-                <div class="col">
+            <div className="modal-body">
+              <div className="row">
+                <div className="col">
                   {/* 1st */}
                   <label>
                     Description
@@ -67,7 +67,7 @@ const EditProduct = ({ product }) => {
                     />
                   </label>
                 </div>
-                <div class="col">
+                <div className="col">
                   {/* 2nd */}
                   <label>
                     Inventory
@@ -82,7 +82,7 @@ const EditProduct = ({ product }) => {
                     />
                   </label>
                 </div>
-                <div class="col">
+                <div className="col">
                   {/* 3rd */}
                   <label>
                     Cost
@@ -97,8 +97,8 @@ const EditProduct = ({ product }) => {
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col">
+              <div className="row">
+                <div className="col">
                   {/* 4th */}
                   <label>
                     Price
@@ -111,7 +111,7 @@ const EditProduct = ({ product }) => {
                     />
                   </label>
                 </div>
-                <div class="col">
+                <div className="col">
                   {/* 5th */}
                   <label>
                     Images
@@ -124,7 +124,7 @@ const EditProduct = ({ product }) => {
                     />
                   </label>
                 </div>
-                <div class="col">
+                <div className="col">
                   {/* 6th */}
                   <label>
                     Shop
@@ -141,10 +141,10 @@ const EditProduct = ({ product }) => {
             </div>
 
             {/* <!-- Modal footer --> */}
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-warning"
+                className="btn btn-warning"
                 data-dismiss="modal"
                 onClick={(e) => updateDescription(e)}
               >
@@ -153,7 +153,7 @@ const EditProduct = ({ product }) => {
 
               <button
                 type="button"
-                class="btn btn-danger"
+                className="btn btn-danger"
                 data-dismiss="modal"
                 onClick={() => setDescription(product.description)}
               >

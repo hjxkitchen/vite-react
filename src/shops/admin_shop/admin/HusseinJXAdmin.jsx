@@ -22,8 +22,8 @@ function Component() {
       {user && <Navbar />}
       {!user && <PublicNavbar />}
 
-      <div class="container">
-        {/* <h1 class="text-center mt-5">HusseinJX Admin</h1>
+      <div className="container">
+        {/* <h1 className="text-center mt-5">HusseinJX Admin</h1>
 
         <div className="row  mt-5">
           <div className="card col text-center">
@@ -68,15 +68,15 @@ function Component() {
             </div>
           </div>
 
-          <div class="col-md-3 ">
-            <div class="card mt-5 col">
-              <div class="card-header">
+          <div className="col-md-3 ">
+            <div className="card mt-5 col">
+              <div className="card-header">
                 Logs{" "}
-                <button class="btn btn-warning ml-5">
-                  <i class="fas fa-plus" />
+                <button className="btn btn-warning ml-5">
+                  <i className="fas fa-plus" />
                 </button>
               </div>
-              <div class="card-body">
+              <div className="card-body">
                 Loggedin: 22/03/21 2:35am
                 <br></br>
                 Logged: Zahab Payment Processing
@@ -85,19 +85,19 @@ function Component() {
           </div>
         </div>
 
-        <div class="row justify-content-center">
-          <div class="card mt-5 col-md-6">
-            <div class="card-header">
+        <div className="row justify-content-center">
+          <div className="card mt-5 col-md-6">
+            <div className="card-header">
               Strategy Board{" "}
-              <button class="btn btn-warning ml-5">
-                <i class="fas fa-edit" />
+              <button className="btn btn-warning ml-5">
+                <i className="fas fa-edit" />
               </button>
             </div>
-            <div class="card-body">Strategy: Aggressive Growth.</div>
+            <div className="card-body">Strategy: Aggressive Growth.</div>
           </div>
         </div> */}
 
-        <h1 class="text-center mt-5">Ventures List</h1>
+        <h1 className="text-center mt-5">Ventures List</h1>
 
         <div className="row justify-content-center mt-5">
           <button className="btn btn-primary" onClick={showInactive}>
@@ -109,10 +109,10 @@ function Component() {
         </div>
         {/* table with departments */}
 
-        <div class="table-responsive">
+        <div className="table-responsive">
           <div className="row justify-content-center mt-5 mb-5">
             <div className="col-md-9 ">
-              <table class="table table-striped text-center">
+              <table className="table table-striped text-center">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -143,7 +143,7 @@ function Component() {
                     <td>4400</td>
 
                     <td>
-                      <button type="button" class="btn btn-warning">
+                      <button type="button" className="btn btn-warning">
                         Edit
                       </button>
                     </td>
@@ -162,7 +162,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -182,7 +182,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -203,7 +203,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -223,7 +223,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -243,7 +243,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -263,7 +263,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -283,7 +283,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -303,7 +303,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -323,7 +323,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -343,7 +343,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -363,7 +363,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -383,7 +383,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -403,7 +403,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -423,7 +423,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -443,7 +443,7 @@ function Component() {
                       <td>6400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -463,7 +463,7 @@ function Component() {
                       <td>6400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -483,7 +483,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -503,7 +503,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -523,7 +523,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>
@@ -544,7 +544,7 @@ function Component() {
                       <td>4400</td>
 
                       <td>
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" className="btn btn-warning">
                           Edit
                         </button>
                       </td>

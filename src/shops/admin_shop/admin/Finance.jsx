@@ -7,22 +7,22 @@ function UsersList() {
   return (
     <Fragment>
       <Navbar />
-      <div class="container mb-5">
-        <div class="row justify-content-center ">
-          <div class="col-md-9">
+      <div className="container mb-5">
+        <div className="row justify-content-center ">
+          <div className="col-md-9">
             <h1 className="text-center mt-5">Financials</h1>
           </div>
         </div>
 
         {/* Finance section */}
-        <div class="row ml-5 mr-5 mt-5 justify-content-center">
-          <h1 class="text-center">3 Finance statements and more</h1>
+        <div className="row ml-5 mr-5 mt-5 justify-content-center">
+          <h1 className="text-center">3 Finance statements and more</h1>
         </div>
         {/* Income statement table */}
-        <div class="row ml-5 mr-5 justify-content-center text-center">
-          <div class="table-responsive mt-5">
+        <div className="row ml-5 mr-5 justify-content-center text-center">
+          <div className="table-responsive mt-5">
             Income statement
-            <table class="table " style={{ maxHeight: "375px" }}>
+            <table className="table " style={{ maxHeight: "375px" }}>
               <thead>
                 <tr>
                   <th scope="col">Date</th>
@@ -56,10 +56,10 @@ function UsersList() {
         </div>
 
         {/* cashflow table */}
-        <div class="row ml-5 mr-5  mt-5 justify-content-center text-center">
-          <div class="table-responsive">
+        <div className="row ml-5 mr-5  mt-5 justify-content-center text-center">
+          <div className="table-responsive">
             Cash Flow Statement
-            <table class="table " style={{ maxHeight: "375px" }}>
+            <table className="table " style={{ maxHeight: "375px" }}>
               <thead>
                 <tr>
                   <th scope="col">Date</th>
@@ -86,12 +86,12 @@ function UsersList() {
 
         {/* balance sheet table */}
         <div
-          class="row ml-5 mr-5  mt-5 justify-content-center text-center"
+          className="row ml-5 mr-5  mt-5 justify-content-center text-center"
           id="balancesheet"
         >
-          <div class="table-responsive">
+          <div className="table-responsive">
             Balance Sheet
-            <table class="table" style={{ maxHeight: "375px" }}>
+            <table className="table" style={{ maxHeight: "375px" }}>
               <thead>
                 <tr>
                   <th scope="col">Date</th>
@@ -114,25 +114,25 @@ function UsersList() {
           </div>
         </div>
 
-        <h1 class="text-5xl font-bold tracking-wider uppercase text-center py-4 mt-8 border-b-4 border-black">
+        <h1 className="text-5xl font-bold tracking-wider uppercase text-center py-4 mt-8 border-b-4 border-black">
           ANALYSIS
         </h1>
-        <div class="hidden lg:flex lg:justify-center lg:items-center bg-gray-100 h-64 flex justify-center items-center ">
+        <div className="hidden lg:flex lg:justify-center lg:items-center bg-gray-100 h-64 flex justify-center items-center ">
           <Link
             to="#"
-            class="flex justify-center items-center w-4/5 h-3/5 md:w-1/3 md:h-1/2 mr-5 lg:w-1/4 lg:h-3/5 text-3xl font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg"
+            className="flex justify-center items-center w-4/5 h-3/5 md:w-1/3 md:h-1/2 mr-5 lg:w-1/4 lg:h-3/5 text-3xl font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg"
           >
             Basic Analysis
           </Link>
           <Link
             to="#"
-            class="flex justify-center items-center w-4/5 h-3/5 md:w-1/3 md:h-1/2 mr-5 lg:w-1/4 lg:h-3/5 text-3xl font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg"
+            className="flex justify-center items-center w-4/5 h-3/5 md:w-1/3 md:h-1/2 mr-5 lg:w-1/4 lg:h-3/5 text-3xl font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg"
           >
             DCF
           </Link>
           <Link
             to="#"
-            class="flex justify-center items-center w-4/5 h-3/5 md:w-1/3 md:h-1/2 lg:w-1/4 lg:h-3/5 text-3xl font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg"
+            className="flex justify-center items-center w-4/5 h-3/5 md:w-1/3 md:h-1/2 lg:w-1/4 lg:h-3/5 text-3xl font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg"
           >
             M&A
           </Link>

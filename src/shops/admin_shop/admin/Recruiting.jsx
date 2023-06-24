@@ -12,12 +12,12 @@ function Component() {
       {user && <Navbar />}
       {!user && <PublicNavbar />}
       <div>
-        <h1 class="text-center mt-5">Recruits</h1>
+        <h1 className="text-center mt-5">Recruits</h1>
       </div>
-      <div class="table-responsive">
-        <div class="row mb-3 mt-5 justify-content-center">
-          <div class="col-md-9">
-            <table class="table table-striped">
+      <div className="table-responsive">
+        <div className="row mb-3 mt-5 justify-content-center">
+          <div className="col-md-9">
+            <table className="table table-striped">
               <thead>
                 <tr>
                   <th scope="col">Name</th>
@@ -35,7 +35,7 @@ function Component() {
                   <td>Marketing</td>
                   <a href="#">Onboarding</a>
                   <td>
-                    <btn class="btn btn-warning">Edit</btn>
+                    <btn className="btn btn-warning">Edit</btn>
                   </td>
                 </tr>
                 <tr>
@@ -46,7 +46,7 @@ function Component() {
                   <a href="#">Onboarding</a>
                   <td>
                     {" "}
-                    <btn class="btn btn-warning">Edit</btn>
+                    <btn className="btn btn-warning">Edit</btn>
                   </td>
                 </tr>
                 <tr>
@@ -57,7 +57,7 @@ function Component() {
                   <a href="#">Onboarding</a>
                   <td>
                     {" "}
-                    <btn class="btn btn-warning">Edit</btn>
+                    <btn className="btn btn-warning">Edit</btn>
                   </td>
                 </tr>
                 <tr>
@@ -68,7 +68,7 @@ function Component() {
                   <a href="#">Onboarding</a>
                   <td>
                     {" "}
-                    <btn class="btn btn-warning">Edit</btn>
+                    <btn className="btn btn-warning">Edit</btn>
                   </td>
                 </tr>
                 <tr>
@@ -79,7 +79,7 @@ function Component() {
                   <a href="#">Onboarding</a>
                   <td>
                     {" "}
-                    <btn class="btn btn-warning">Edit</btn>
+                    <btn className="btn btn-warning">Edit</btn>
                   </td>
                 </tr>
                 <tr>
@@ -90,7 +90,7 @@ function Component() {
                   <a href="#">Onboarding</a>
                   <td>
                     {" "}
-                    <btn class="btn btn-warning">Edit</btn>
+                    <btn className="btn btn-warning">Edit</btn>
                   </td>
                 </tr>
               </tbody>

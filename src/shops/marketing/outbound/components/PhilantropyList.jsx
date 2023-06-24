@@ -20,7 +20,7 @@ function Component() {
   return (
     <Fragment>
       {/* philantropy table */}
-      <table class="table text-center">
+      <table className="table text-center">
         <thead>
           <tr>
             <th>Philantropy ID</th>

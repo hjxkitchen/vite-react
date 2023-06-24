@@ -29,12 +29,15 @@ const ShopList = (token) => {
   const addToCart = (e) => {
     if (user === null) {
       const func = async () => {
-        const addtocart = await axios.post("http://localhost:5000/carts/token", {
-          token: cartToken,
-          product_id: e.product_id,
-          quantity: 1,
-          price: e.price,
-        });
+        const addtocart = await axios.post(
+          "http://localhost:5000/carts/token",
+          {
+            token: cartToken,
+            product_id: e.product_id,
+            quantity: 1,
+            price: e.price,
+          }
+        );
         console.log("addtocart is: ", addtocart);
       };
       func();
@@ -45,9 +48,12 @@ const ShopList = (token) => {
         console.log("userrered id is: ", user);
 
         // get user_id from usersessions
-        const getUserId = await axios.post("http://localhost:5000/userbyemail", {
-          user: user,
-        });
+        const getUserId = await axios.post(
+          "http://localhost:5000/userbyemail",
+          {
+            user: user,
+          }
+        );
 
         console.log("getUserId is: ", getUserId.data[0].user_id);
         const user_id = getUserId.data[0].user_id;
@@ -135,33 +141,33 @@ const ShopList = (token) => {
 
   return (
     <Fragment>
-      <div class="container">
+      <div className="container">
         {/* input type text */}
-        <div class="row justify-content-center mt-3 mb-5  sticky-top">
-          <div class="input-group col-md-6 ">
+        <div className="row justify-content-center mt-3 mb-5  sticky-top">
+          <div className="input-group col-md-6 ">
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               onChange={searchprods}
               placeholder="Search Products"
               aria-label="Search"
               aria-describedby="basic-addon1"
             />
             {/* <br/>
-        <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button">Button</button>
+        <div className="input-group-append">
+    <button className="btn btn-outline-secondary" type="button">Button</button>
   </div> */}
           </div>
         </div>
 
-        <div class="row">
+        <div className="row">
           {products.map((product) => (
-            <div class=" col-md-4 col-sm-6">
-              <div class="card mt-3">
-                <div class="card-body">
+            <div className=" col-md-4 col-sm-6">
+              <div className="card mt-3">
+                <div className="card-body">
                   {/* title */}
                   <a href={"/shop/products/" + product.product_id}>
-                    <h1 class="card-title mb-4 text-center">
+                    <h1 className="card-title mb-4 text-center">
                       {product.product_name}
                     </h1>
                   </a>
@@ -177,27 +183,27 @@ const ShopList = (token) => {
                   {product.image !== null && (
                     // <img
                     //   src={`http://localhost:5000${product.images[0]}`}
-                    //   class="img-fluid"
+                    //   className="img-fluid"
                     //   alt="Card image"
                     // ></img>
                     <div
                       id={"carouselExampleControls" + product.product_id}
-                      class="carousel slide"
+                      className="carousel slide"
                       data-ride="false"
                       data-interval="false"
                     >
-                      <div class="carousel-inner">
+                      <div className="carousel-inner">
                         {product.images.map((image, index) => (
                           // if index is 0, add active class
                           <div
-                            class={
+                            className={
                               index === 0
                                 ? "carousel-item active"
                                 : "carousel-item"
                             }
                           >
                             <img
-                              class="d-block w-100"
+                              className="d-block w-100"
                               src={`http://localhost:5000${image}`}
                               alt="First slide"
                             />
@@ -205,28 +211,28 @@ const ShopList = (token) => {
                         ))}
                       </div>
                       <a
-                        class="carousel-control-prev"
+                        className="carousel-control-prev"
                         href={"#carouselExampleControls" + product.product_id}
                         role="button"
                         data-slide="prev"
                       >
                         <span
-                          class="carousel-control-prev-icon"
+                          className="carousel-control-prev-icon"
                           aria-hidden="true"
                         ></span>
-                        <span class="sr-only">Previous</span>
+                        <span className="sr-only">Previous</span>
                       </a>
                       <a
-                        class="carousel-control-next"
+                        className="carousel-control-next"
                         href={"#carouselExampleControls" + product.product_id}
                         role="button"
                         data-slide="next"
                       >
                         <span
-                          class="carousel-control-next-icon"
+                          className="carousel-control-next-icon"
                           aria-hidden="true"
                         ></span>
-                        <span class="sr-only">Next</span>
+                        <span className="sr-only">Next</span>
                       </a>
                     </div>
                   )}
@@ -234,39 +240,39 @@ const ShopList = (token) => {
                     <div>
                       <img
                         src="http://localhost:3000//productimg.jpg"
-                        class="img-fluid"
+                        className="img-fluid"
                         alt="Card image"
                       ></img>
                     </div>
                   )}
 
-                  <p class="card-text">
+                  <p className="card-text">
                     With supporting text below as a natural lead-in to
                     additional content.
                   </p>
 
-                  <div class="d-flex justify-content-center mb-2">
+                  <div className="d-flex justify-content-center mb-2">
                     <h4>{product.price}K Tshs</h4>
                   </div>
 
-                  {/* <div class="justify-content-center"> */}
-                  <div class="row mb-3 justify-content-center">
-                    {/* <div class="col-lg-2 ml-5 mr-5 mb-2"> */}
+                  {/* <div className="justify-content-center"> */}
+                  <div className="row mb-3 justify-content-center">
+                    {/* <div className="col-lg-2 ml-5 mr-5 mb-2"> */}
                     <button
-                      class="btn btn-danger"
+                      className="btn btn-danger"
                       onClick={() => favorite(product.product_id)}
                     >
                       {" "}
-                      <i class="fas fa-heart fa-lg mr-1"> </i> Fav
+                      <i className="fas fa-heart fa-lg mr-1"> </i> Fav
                     </button>
                     {/* </div> */}
-                    {/* <div class="col-lg-2 ml-3"> */}
+                    {/* <div className="col-lg-2 ml-3"> */}
                     <button
-                      class="btn btn-primary"
+                      className="btn btn-primary"
                       onClick={() => addToCart(product)}
                     >
                       {" "}
-                      <i class="fas fa-shopping-cart fa-lg mr-1"> </i> Cart
+                      <i className="fas fa-shopping-cart fa-lg mr-1"> </i> Cart
                     </button>
                     {/* </div> */}
                   </div>

@@ -81,7 +81,7 @@ const EditProduct = ({ product }) => {
       {/* <!-- Button to Open the Modal --> */}
       <button
         type="button"
-        class="btn btn-warning"
+        className="btn btn-warning"
         data-toggle="modal"
         data-target={`#id${product.product_id}`}
       >
@@ -89,15 +89,17 @@ const EditProduct = ({ product }) => {
       </button>
 
       {/* <!-- The Modal --> */}
-      <div class="modal" id={`id${product.product_id}`}>
-        <div class="modal-dialog">
-          <div class="modal-content">
+      <div className="modal" id={`id${product.product_id}`}>
+        <div className="modal-dialog">
+          <div className="modal-content">
             {/* <!-- Modal Header --> */}
-            <div class="modal-header">
-              <h4 class="modal-title">Edit Product {product.product_name}</h4>
+            <div className="modal-header">
+              <h4 className="modal-title">
+                Edit Product {product.product_name}
+              </h4>
               <button
                 type="button"
-                class="close"
+                className="close"
                 data-dismiss="modal"
                 onClick={() => setDescription(product.product_name)}
               >
@@ -106,9 +108,9 @@ const EditProduct = ({ product }) => {
             </div>
 
             {/* <!-- Modal body --> */}
-            <div class="modal-body">
-              <div class="row">
-                <div class="col">
+            <div className="modal-body">
+              <div className="row">
+                <div className="col">
                   {/* 1st */}
                   <label>
                     Name
@@ -122,7 +124,7 @@ const EditProduct = ({ product }) => {
                     />
                   </label>
                 </div>
-                <div class="col">
+                <div className="col">
                   {/* 2nd */}
                   <label>
                     Inventory{product.inventory}
@@ -139,8 +141,8 @@ const EditProduct = ({ product }) => {
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col">
+              <div className="row">
+                <div className="col">
                   {/* 4th */}
                   <label>
                     Price
@@ -176,23 +178,23 @@ const EditProduct = ({ product }) => {
                     </select>
                   </label>
                 </div>
-                <div class="col ">
+                <div className="col ">
                   {/* card */}
-                  <div class="card">
+                  <div className="card">
                     {/* product images thumbanils */}
-                    <div class="card-body">
+                    <div className="card-body">
                       <h5
-                        class="card-title
+                        className="card-title
                       "
                       >
                         Product Images
                       </h5>
-                      <div class="row ">
+                      <div className="row ">
                         {productImages.map((image) => (
-                          // <div class="col">
+                          // <div className="col">
                           <img
                             src={`http://localhost:5000${image.image_path}`}
-                            class="img-thumbnail"
+                            className="img-thumbnail"
                             style={{ maxHeight: 60 }}
                             alt="..."
                           />
@@ -231,10 +233,10 @@ const EditProduct = ({ product }) => {
             </div>
 
             {/* <!-- Modal footer --> */}
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-warning"
+                className="btn btn-warning"
                 data-dismiss="modal"
                 onClick={(e) => updateDescription(e)}
               >
@@ -243,7 +245,7 @@ const EditProduct = ({ product }) => {
 
               <button
                 type="button"
-                class="btn btn-danger"
+                className="btn btn-danger"
                 data-dismiss="modal"
                 onClick={() => setDescription(product.description)}
               >

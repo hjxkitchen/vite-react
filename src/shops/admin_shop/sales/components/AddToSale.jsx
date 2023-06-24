@@ -233,8 +233,8 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
             {/* </label>                                     */}
 
             {/* 2nd */}
-            <div class="d-flex">
-              <label class="mt-3">
+            <div className="d-flex">
+              <label className="mt-3">
                 Quantity
                 <input
                   type="number"
@@ -248,9 +248,9 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
               </label>
 
               {/* 3rd */}
-              <label class="mt-3">
+              <label className="mt-3">
                 Price (K Tshs)
-                <div class="d-flex">
+                <div className="d-flex">
                   <input
                     type="number"
                     name="price"
@@ -261,14 +261,14 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
                     value={defaultprice}
                     onChange={handleChange}
                   />
-                  <button class="btn btn-warning">Edit</button>
+                  <button className="btn btn-warning">Edit</button>
                 </div>
               </label>
             </div>
 
-            <div class="input-group mb-3 mt-4">
-              <div class="input-group-append">
-                <div class="input-group-text">
+            <div className="input-group mb-3 mt-4">
+              <div className="input-group-append">
+                <div className="input-group-text">
                   <input
                     type="checkbox"
                     aria-label="Checkbox for following text input"
@@ -277,7 +277,7 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
               </div>
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 aria-label="Text input with checkbox"
                 value="Delivery"
               />
@@ -286,7 +286,7 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
             <div>Customer Name</div>
             {byphone === true && (
               <CreatableSelect
-                class="collapse show"
+                className="collapse show"
                 options={customeroptions}
                 onChange={(e) => {
                   custNameChanged(e);
@@ -308,7 +308,7 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
             <div>Customer Phone</div>
             {byphone === true && (
               <CreatableSelect
-                class="collapse show"
+                className="collapse show"
                 options={customerphoneoptions}
                 onChange={(e) => {
                   custPhoneChanged(e);
@@ -327,8 +327,8 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
 
             <button onClick={byPhone}>By Phone</button>
 
-            <div class="row">
-              <div class="col mt-4">
+            <div className="row">
+              <div className="col mt-4">
                 <button className="btn btn-success" onClick={onSubmitForm()}>
                   Add
                 </button>

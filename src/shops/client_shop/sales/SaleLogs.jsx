@@ -145,17 +145,17 @@ function Calculators() {
       {!user && <PublicNavbar />}
       <div className="container">
         {/* header */}
-        <div class="row justify-content-center">
-          <h1 class="text-center mt-5">SaleLogs: Order {sale.sale_id}</h1>
+        <div className="row justify-content-center">
+          <h1 className="text-center mt-5">SaleLogs: Order {sale.sale_id}</h1>
         </div>
 
         {/* seelct */}
-        <div class="row justify-content-center">
-          <div class="d-flex col-md-3 justify-content-center mt-4">
-            {/* <div class=" my-auto"> */}
+        <div className="row justify-content-center">
+          <div className="d-flex col-md-3 justify-content-center mt-4">
+            {/* <div className=" my-auto"> */}
             {/* select input */}
             <select
-              class="form-control"
+              className="form-control"
               name="salelog"
               onChange={handleStatusChange}
               defaultValue={sale.sale_status}
@@ -166,7 +166,7 @@ function Calculators() {
             </select>
             {/* submit button */}
             <button
-              class="btn btn-primary"
+              className="btn btn-primary"
               type="submit"
               onClick={submitStatus}
             >
@@ -177,11 +177,11 @@ function Calculators() {
         </div>
 
         {/* sale details */}
-        <div class="row justify-content-center" id="saleDetails">
-          <div class="col-3">
-            <div class="row ml-5 mr-5 justify-content-center mt-4">
-              <div class="my-auto">
-                <p class="text-center ">
+        <div className="row justify-content-center" id="saleDetails">
+          <div className="col-3">
+            <div className="row ml-5 mr-5 justify-content-center mt-4">
+              <div className="my-auto">
+                <p className="text-center ">
                   Sale Id: {sale.sale_id}
                   <br></br>
                   Sale Date: {sale.sale_date}
@@ -195,40 +195,40 @@ function Calculators() {
               </div>
             </div>
 
-            <div class="row ml-5 mr-5 justify-content-center mt-4">
-              <div class=" my-auto">
+            <div className="row ml-5 mr-5 justify-content-center mt-4">
+              <div className=" my-auto">
                 <ViewSaleItems sale={location.state.sale} />
               </div>
             </div>
           </div>
-          <div class="col-3">
+          <div className="col-3">
             {!editContact && (
-              <div class="row justify-content-center mt-4 mr-5">
-                <div class=" my-auto">
+              <div className="row justify-content-center mt-4 mr-5">
+                <div className=" my-auto">
                   {/* name, email, phone input form */}
                   <form onSubmit={submitLog}>
-                    <div class="form-group input-group">
+                    <div className="form-group input-group">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         name="name"
                         defaultValue={customer.name}
                         onChange={handleChange}
                       />
                     </div>
-                    <div class="form-group input-group">
+                    <div className="form-group input-group">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         name="phone"
                         defaultValue={customer.phone}
                         onChange={handleChange}
                       />
                     </div>
-                    <div class="form-group input-group">
+                    <div className="form-group input-group">
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         name="email"
                         defaultValue={customer.email}
                         onChange={handleChange}
@@ -240,55 +240,55 @@ function Calculators() {
             )}
 
             {editContact && (
-              <div class="row justify-content-center mt-4 ">
-                <div class=" my-auto">
+              <div className="row justify-content-center mt-4 ">
+                <div className=" my-auto">
                   {/* name, email, phone input form */}
                   <form onSubmit={submitLog}>
-                    <div class="form-group input-group">
+                    <div className="form-group input-group">
                       {customer && (
                         <input
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           name="name"
                           value={customer.name}
                           onChange={handleChange}
                         />
                       )}
-                      <div class="input-group-append">
-                        <button class="btn btn-warning" type="button">
+                      <div className="input-group-append">
+                        <button className="btn btn-warning" type="button">
                           Edit/Add
                         </button>
                       </div>
                     </div>
-                    <div class="form-group input-group">
+                    <div className="form-group input-group">
                       {customer && (
                         <input
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           name="phone"
                           value={customer.phone}
                           onChange={handleChange}
                         />
                       )}
-                      <div class="input-group-append">
-                        <button class="btn btn-warning" type="button">
+                      <div className="input-group-append">
+                        <button className="btn btn-warning" type="button">
                           Edit/Add
                         </button>
                         {/*  */}
                       </div>
                     </div>
-                    <div class="form-group input-group">
+                    <div className="form-group input-group">
                       {customer && (
                         <input
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           name="email"
                           value={customer.email}
                           onChange={handleChange}
                         />
                       )}
-                      <div class="input-group-append">
-                        <button class="btn btn-warning" type="button">
+                      <div className="input-group-append">
+                        <button className="btn btn-warning" type="button">
                           Edit/Add
                         </button>
                       </div>
@@ -297,10 +297,10 @@ function Calculators() {
                 </div>
               </div>
             )}
-            <div class="row  mt-4">
-              <div class="">
+            <div className="row  mt-4">
+              <div className="">
                 <button
-                  class="btn btn-primary btn-block"
+                  className="btn btn-primary btn-block"
                   type="submit"
                   onClick={handleEditContact}
                 >
@@ -312,10 +312,10 @@ function Calculators() {
         </div>
 
         {/* salelog table */}
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-md-0 mt-5">
-              <table class="table table-responsive">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-md-0 mt-5">
+              <table className="table table-responsive">
                 <thead>
                   <tr>
                     {/* <th>SaleLog ID</th> */}

@@ -150,16 +150,16 @@ function Calculators() {
       {user && <Navbar />}
       {!user && <PublicNavbar />}
       <div className="container">
-        <div class="row justify-content-center">
-          <h1 class="text-center mt-5">SaleLogs: Order {sale.sale_id}</h1>
+        <div className="row justify-content-center">
+          <h1 className="text-center mt-5">SaleLogs: Order {sale.sale_id}</h1>
         </div>
 
-        <div class="row justify-content-center">
-          <div class="d-flex col-md-3 justify-content-center mt-4">
-            {/* <div class=" my-auto"> */}
+        <div className="row justify-content-center">
+          <div className="d-flex col-md-3 justify-content-center mt-4">
+            {/* <div className=" my-auto"> */}
             {/* select input */}
             <select
-              class="form-control"
+              className="form-control"
               name="salelog"
               onChange={handleStatusChange}
               defaultValue={sale.sale_status}
@@ -173,7 +173,7 @@ function Calculators() {
             </select>
             {/* submit button */}
             <button
-              class="btn btn-primary"
+              className="btn btn-primary"
               type="submit"
               onClick={submitStatus}
             >
@@ -185,11 +185,11 @@ function Calculators() {
         </div>
 
         {/* collapse show button */}
-        <div class="container">
-          <div class="row justify-content-center mt-4">
-            <div class="col-md-2">
+        <div className="container">
+          <div className="row justify-content-center mt-4">
+            <div className="col-md-2">
               <button
-                class="btn btn-warning btn-block"
+                className="btn btn-warning btn-block"
                 type="button"
                 data-toggle="collapse"
                 data-target="#saleDetails"
@@ -203,12 +203,12 @@ function Calculators() {
         </div>
 
         {/* sale details */}
-        <div class="collapse" id="saleDetails">
-          <div class="row justify-content-center" id="saleDetails">
-            <div class="col-3">
-              <div class="row ml-5 mr-5 justify-content-center mt-4">
-                <div class="my-auto">
-                  <p class="text-center ">
+        <div className="collapse" id="saleDetails">
+          <div className="row justify-content-center" id="saleDetails">
+            <div className="col-3">
+              <div className="row ml-5 mr-5 justify-content-center mt-4">
+                <div className="my-auto">
+                  <p className="text-center ">
                     Sale Id: {sale.sale_id}
                     <br></br>
                     Sale Date: {sale.sale_date}
@@ -222,40 +222,40 @@ function Calculators() {
                 </div>
               </div>
 
-              <div class="row ml-5 mr-5 justify-content-center mt-4">
-                <div class=" my-auto">
+              <div className="row ml-5 mr-5 justify-content-center mt-4">
+                <div className=" my-auto">
                   <ViewSaleItems sale={location.state.sale} />
                 </div>
               </div>
             </div>
-            <div class="col-3">
+            <div className="col-3">
               {!editContact && (
-                <div class="row justify-content-center mt-4 mr-5">
-                  <div class=" my-auto">
+                <div className="row justify-content-center mt-4 mr-5">
+                  <div className=" my-auto">
                     {/* name, email, phone input form */}
                     <form onSubmit={submitLog}>
-                      <div class="form-group input-group">
+                      <div className="form-group input-group">
                         <input
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           name="name"
                           defaultValue={customer.name}
                           onChange={handleChange}
                         />
                       </div>
-                      <div class="form-group input-group">
+                      <div className="form-group input-group">
                         <input
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           name="phone"
                           defaultValue={customer.phone}
                           onChange={handleChange}
                         />
                       </div>
-                      <div class="form-group input-group">
+                      <div className="form-group input-group">
                         <input
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           name="email"
                           defaultValue={customer.email}
                           onChange={handleChange}
@@ -267,55 +267,55 @@ function Calculators() {
               )}
 
               {editContact && (
-                <div class="row justify-content-center mt-4 ">
-                  <div class=" my-auto">
+                <div className="row justify-content-center mt-4 ">
+                  <div className=" my-auto">
                     {/* name, email, phone input form */}
                     <form onSubmit={submitLog}>
-                      <div class="form-group input-group">
+                      <div className="form-group input-group">
                         {customer && (
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             name="name"
                             value={customer.name}
                             onChange={handleChange}
                           />
                         )}
-                        <div class="input-group-append">
-                          <button class="btn btn-warning" type="button">
+                        <div className="input-group-append">
+                          <button className="btn btn-warning" type="button">
                             Edit/Add
                           </button>
                         </div>
                       </div>
-                      <div class="form-group input-group">
+                      <div className="form-group input-group">
                         {customer && (
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             name="phone"
                             value={customer.phone}
                             onChange={handleChange}
                           />
                         )}
-                        <div class="input-group-append">
-                          <button class="btn btn-warning" type="button">
+                        <div className="input-group-append">
+                          <button className="btn btn-warning" type="button">
                             Edit/Add
                           </button>
                           {/*  */}
                         </div>
                       </div>
-                      <div class="form-group input-group">
+                      <div className="form-group input-group">
                         {customer && (
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             name="email"
                             value={customer.email}
                             onChange={handleChange}
                           />
                         )}
-                        <div class="input-group-append">
-                          <button class="btn btn-warning" type="button">
+                        <div className="input-group-append">
+                          <button className="btn btn-warning" type="button">
                             Edit/Add
                           </button>
                         </div>
@@ -324,10 +324,10 @@ function Calculators() {
                   </div>
                 </div>
               )}
-              <div class="row  mt-2">
-                <div class="">
+              <div className="row  mt-2">
+                <div className="">
                   <button
-                    class="btn btn-primary btn-block"
+                    className="btn btn-primary btn-block"
                     type="submit"
                     onClick={handleEditContact}
                   >
@@ -340,15 +340,15 @@ function Calculators() {
         </div>
 
         {/* add log input */}
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-md-6 ">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-md-6 ">
               <form>
-                <div class="form-group text-center mt-5">
+                <div className="form-group text-center mt-5">
                   <label for="log">Log</label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     name="salelog"
                     onChange={handleChange}
                     id="log"
@@ -356,14 +356,14 @@ function Calculators() {
                   />
 
                   {/* row of buttons */}
-                  <div class="d-flex  justify-content-center mt-2">
-                    <button class="btn btn-success ml-2">
+                  <div className="d-flex  justify-content-center mt-2">
+                    <button className="btn btn-success ml-2">
                       Add Finance Log
                     </button>
-                    <button class="btn btn-info ml-2 mr-2">
+                    <button className="btn btn-info ml-2 mr-2">
                       Add Legal Log
                     </button>{" "}
-                    {/* <div class="row justify-content-center mt-4"> */}
+                    {/* <div className="row justify-content-center mt-4"> */}
                     <AddJobModal />
                     {/* </div> */}
                   </div>
@@ -371,7 +371,7 @@ function Calculators() {
                   <button
                     type="submit"
                     onClick={submitLog}
-                    class="btn btn-primary mt-4"
+                    className="btn btn-primary mt-4"
                   >
                     Submit
                   </button>
@@ -381,9 +381,9 @@ function Calculators() {
           </div>
         </div>
         {/* end add log form */}
-        {/* <div class="row justify-content-center">
-            <div class="col-6">
-                <table class="table table-responsive">
+        {/* <div className="row justify-content-center">
+            <div className="col-6">
+                <table className="table table-responsive">
 
                     <thead> 
                         <tr>
@@ -394,10 +394,10 @@ function Calculators() {
                             <th>Delete</th> */}
 
         {/* salelog table */}
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-md-0 mt-5">
-              <table class="table table-responsive">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-md-0 mt-5">
+              <table className="table table-responsive">
                 <thead>
                   <tr>
                     {/* <th>SaleLog ID</th> */}

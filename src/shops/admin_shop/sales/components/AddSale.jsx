@@ -148,9 +148,9 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
   };
 
   return (
-    <div class="container d-flex justify-content-center">
-      <div class="table-responsive">
-        <table class="table table-bsaleed mt-5 text-center">
+    <div className="container d-flex justify-content-center">
+      <div className="table-responsive">
+        <table className="table table-bsaleed mt-5 text-center">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -177,10 +177,10 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
                   )}
                 </td>
                 <td>
-                  <div class="d-flex">
+                  <div className="d-flex">
                     <button
                       type="button"
-                      class="btn btn-primary mr-1 btn-sm"
+                      className="btn btn-primary mr-1 btn-sm"
                       onClick={() => {
                         minus(sales.indexOf(object));
                       }}
@@ -190,7 +190,7 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
                     {object.quantity}
                     <button
                       type="button"
-                      class="btn btn-primary ml-1 btn-sm"
+                      className="btn btn-primary ml-1 btn-sm"
                       onClick={() => {
                         plus(sales.indexOf(object));
                       }}
@@ -201,11 +201,11 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
                 </td>
                 <td>{object.price}K</td>
                 <td>{parseInt(object.price) * parseInt(object.quantity)}K</td>
-                {/* <td><button class="btn btn-danger" onClick={} >X</button></td> */}
+                {/* <td><button className="btn btn-danger" onClick={} >X</button></td> */}
                 {/* delete onclick filter  */}
                 <td>
                   <button
-                    class="btn btn-danger"
+                    className="btn btn-danger"
                     onClick={() => {
                       setSales(
                         sales.filter(
@@ -221,7 +221,7 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
               </tr>
             ))}
           </tbody>
-          <tfoot class="bg-secondary text-white">
+          <tfoot className="bg-secondary text-white">
             <tr>
               <th scope="row">Totals</th>
               <td>{getTotalProds(sales)} products</td>
@@ -229,7 +229,7 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
               <td></td>
               <td>{getTotalCost(sales)}K</td>
               <td>
-                <button class="btn btn-primary" onClick={onSubmitForm}>
+                <button className="btn btn-primary" onClick={onSubmitForm}>
                   Submit = Paid
                 </button>
               </td>

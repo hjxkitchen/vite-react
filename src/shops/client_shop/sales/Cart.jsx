@@ -190,19 +190,19 @@ const SalesList = () => {
     <Fragment>
       {user ? <Navbar /> : <PublicNavbar />}
 
-      <h1 class="text-center mt-5">Cart</h1>
+      <h1 className="text-center mt-5">Cart</h1>
 
       {/* <ViewSaleItems /> */}
-      {/* <div class="d-flex justify-content-center" > */}
+      {/* <div className="d-flex justify-content-center" > */}
       {/* <h2>Products Table</h2> */}
       {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
 
       {sales.length > 0 ? (
-        <div class="container mb-5">
-          <div class="row justify-content-center">
-            {/* <div class="col-sm-3 col-md-6 "> */}
-            {/* <div class="table-responsive">  */}
-            <table class="table mt-5  col-md-8 text-center">
+        <div className="container mb-5">
+          <div className="row justify-content-center">
+            {/* <div className="col-sm-3 col-md-6 "> */}
+            {/* <div className="table-responsive">  */}
+            <table className="table mt-5  col-md-8 text-center">
               <thead>
                 <tr>
                   <th>Product ID</th>
@@ -229,24 +229,24 @@ const SalesList = () => {
                     </td>
                     <td>
                       {!manuallyEditCart && (
-                        <div class="row justify-content-center ">
-                          {/* // <div class="d-flex"> */}
+                        <div className="row justify-content-center ">
+                          {/* // <div className="d-flex"> */}
                           {/* align d-flex center */}
 
-                          <div class="d-flex justify-content-center">
+                          <div className="d-flex justify-content-center">
                             <button
-                              class="btn btn-secondary"
+                              className="btn btn-secondary"
                               onClick={() => {
                                 minus(sale);
                               }}
                             >
-                              <i class="fas fa-minus"></i>
+                              <i className="fas fa-minus"></i>
                             </button>
 
-                            <div class=" col col-xs-2">
+                            <div className=" col col-xs-2">
                               <input
                                 type="text"
-                                class="form-control text-center"
+                                className="form-control text-center"
                                 value={sale.quantity}
                                 style={{ width: "60px", lineWidth: "60px" }}
                               />
@@ -254,12 +254,12 @@ const SalesList = () => {
                             </div>
 
                             <button
-                              class="btn btn-secondary"
+                              className="btn btn-secondary"
                               onClick={() => {
                                 plus(sale);
                               }}
                             >
-                              <i class="fas fa-plus"></i>
+                              <i className="fas fa-plus"></i>
                             </button>
                           </div>
 
@@ -267,24 +267,24 @@ const SalesList = () => {
                         </div>
                       )}
                       {manuallyEditCart && (
-                        <div class="row justify-content-center ">
-                          <div class="d-flex justify-content-center">
-                            <button class="btn btn-secondary disabled">
-                              <i class="fas fa-minus"></i>
+                        <div className="row justify-content-center ">
+                          <div className="d-flex justify-content-center">
+                            <button className="btn btn-secondary disabled">
+                              <i className="fas fa-minus"></i>
                             </button>
 
-                            <div class=" col col-xs-2 ">
+                            <div className=" col col-xs-2 ">
                               <input
                                 type="integer"
-                                class="form-control text-center"
+                                className="form-control text-center"
                                 defeaultValue={sale.quantity}
                                 style={{ width: "60px", lineWidth: "60px" }}
                               />
                               {/* {sale.quantity} */}
                             </div>
 
-                            <button class="btn btn-secondary disabled">
-                              <i class="fas fa-plus"></i>
+                            <button className="btn btn-secondary disabled">
+                              <i className="fas fa-plus"></i>
                             </button>
                           </div>
                         </div>
@@ -301,17 +301,17 @@ const SalesList = () => {
                         <EditProduct product={product}/>
                     </td> */}
                     {/* <td> */}
-                    {/* <button class="btn btn-primary" 
+                    {/* <button className="btn btn-primary" 
                         type="button" onClick={viewSale(sale)}>Open</button> */}
                     {/* <ViewSaleItems sale={sale}/> */}
                     {/* </td> */}
                     {/* <td>
-                        <button class="btn btn-warning" 
+                        <button className="btn btn-warning" 
                         onClick={() => deleteProduct(sale.sale_id)}>Edit</button>
                     </td> */}
                     <td>
                       <button
-                        class="btn btn-danger"
+                        className="btn btn-danger"
                         onClick={() => remove(sale)}
                       >
                         X
@@ -325,17 +325,17 @@ const SalesList = () => {
               <tfoot>
                 <tr>
                   <td>
-                    <div class="row justify-content-center">
+                    <div className="row justify-content-center">
                       <Link to="/checkout" state={{ sales: sales }}>
-                        <button class="btn btn-success">Checkout</button>
+                        <button className="btn btn-success">Checkout</button>
                       </Link>
                     </div>
                   </td>
                   <td>
                     {!manuallyEditCart && (
-                      <div class="row justify-content-center">
+                      <div className="row justify-content-center">
                         <button
-                          class="btn btn-warning"
+                          className="btn btn-warning"
                           onClick={handleManuallyEditCart}
                         >
                           Edit Quantity
@@ -343,9 +343,9 @@ const SalesList = () => {
                       </div>
                     )}
                     {manuallyEditCart && (
-                      <div class="row justify-content-center">
+                      <div className="row justify-content-center">
                         <button
-                          class="btn btn-info"
+                          className="btn btn-info"
                           onClick={handleManuallyEditCart}
                         >
                           Submit Quantity
@@ -355,8 +355,8 @@ const SalesList = () => {
                   </td>
                   {/* <td></td> */}
                   <td>
-                    <div class="row mt-2 ">
-                      <div class=" mr-2">Total: 5136</div>
+                    <div className="row mt-2 ">
+                      <div className=" mr-2">Total: 5136</div>
                     </div>
                   </td>
                 </tr>
@@ -368,7 +368,7 @@ const SalesList = () => {
           </div>
         </div>
       ) : (
-        <h2 class="text-center mt-5">cart empty</h2>
+        <h2 className="text-center mt-5">cart empty</h2>
       )}
     </Fragment>
   );

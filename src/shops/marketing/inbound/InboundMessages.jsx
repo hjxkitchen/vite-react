@@ -7,19 +7,19 @@ function UsersList() {
   return (
     <Fragment>
       <Navbar />
-      <div class="container">
-        <div class="row justify-content-center ">
-          <div class="col-md-9">
+      <div className="container">
+        <div className="row justify-content-center ">
+          <div className="col-md-9">
             <h1 className="text-center mt-5">Inbound Marketing</h1>
           </div>
         </div>
 
         {/* consolidate all inbound messages and include source */}
-        <div class="table-responsive">
-          <div class="row mb-3 mt-5 justify-content-center">
+        <div className="table-responsive">
+          <div className="row mb-3 mt-5 justify-content-center">
             {/* table of inbound messages with source */}
-            <div class="col-md-9">
-              <table class="table table-striped">
+            <div className="col-md-9">
+              <table className="table table-striped">
                 <thead>
                   <tr>
                     <th scope="col">Source</th>

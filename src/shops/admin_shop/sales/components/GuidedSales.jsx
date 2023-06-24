@@ -15,14 +15,14 @@ function Component() {
   return (
     <Fragment>
       <div>
-        <h1 class="text-center mt-5">Guided Sales</h1>
+        <h1 className="text-center mt-5">Guided Sales</h1>
       </div>
-      <div class="container">
-        <div class="row mt-5">
-          <div class="col-md-12">
+      <div className="container">
+        <div className="row mt-5">
+          <div className="col-md-12">
             {step1 && (
-              <div class="card">
-                <div class="card-body">
+              <div className="card">
+                <div className="card-body">
                   Hello. I am a guided sales component.
                   <br></br>
                   Welcome to Zahab!
@@ -32,7 +32,7 @@ function Component() {
                   Im looking for an Energy Solution for my:
                   <br></br>
                   <button
-                    class="btn btn-primary mr-3 mt-4"
+                    className="btn btn-primary mr-3 mt-4"
                     onClick={() => {
                       setStep1(false);
                       setHome(true);
@@ -41,7 +41,7 @@ function Component() {
                     Home
                   </button>
                   <button
-                    class="btn btn-primary mr-3 mt-4"
+                    className="btn btn-primary mr-3 mt-4"
                     onClick={() => {
                       setStep1(false);
                     }}
@@ -49,7 +49,7 @@ function Component() {
                     Business
                   </button>
                   <button
-                    class="btn btn-primary mr-3 mt-4"
+                    className="btn btn-primary mr-3 mt-4"
                     onClick={() => {
                       setStep1(false);
                     }}
@@ -60,17 +60,17 @@ function Component() {
               </div>
             )}
             {home && (
-              <div class="card">
-                <div class="card-body">
+              <div className="card">
+                <div className="card-body">
                   Lets give you an energy solution for your home.
                   <br></br>
                   First, we need to figure out what your energy needs are.
                   <br></br>
                   You can either use our calculator or input the number.
                   <br></br>
-                  <div class="d-flex">
+                  <div className="d-flex">
                     <button
-                      class="btn btn-primary mr-3 mt-4"
+                      className="btn btn-primary mr-3 mt-4"
                       onClick={() => {
                         setStep4(true);
                       }}
@@ -78,9 +78,9 @@ function Component() {
                       Use Calculator
                     </button>
                     {/* INPUT NUBMER */}
-                    <input type="number" class=" mt-4" />
+                    <input type="number" className=" mt-4" />
                     <button
-                      class="btn btn-primary ml-3 mt-4"
+                      className="btn btn-primary ml-3 mt-4"
                       onClick={() => {
                         setHome(false);
                         setStep3(true);
@@ -94,14 +94,14 @@ function Component() {
               </div>
             )}
             {step3 && (
-              <div class="card">
-                <div class="card-body">
+              <div className="card">
+                <div className="card-body">
                   Great! You need 1000kWh of energy per month.
                   <br></br>
                   Now, lets figure out what kind of system you are looking for.
                   <br></br>
                   <button
-                    class="btn btn-primary mr-3 mt-4"
+                    className="btn btn-primary mr-3 mt-4"
                     onClick={() => {
                       setStep3(false);
                       setStep4(true);
@@ -110,7 +110,7 @@ function Component() {
                     Solar
                   </button>
                   <button
-                    class="btn btn-primary mr-3 mt-4"
+                    className="btn btn-primary mr-3 mt-4"
                     onClick={() => {
                       setStep3(false);
                       setStep4(true);
@@ -119,7 +119,7 @@ function Component() {
                     Backup
                   </button>
                   <button
-                    class="btn btn-primary mr-3 mt-4"
+                    className="btn btn-primary mr-3 mt-4"
                     onClick={() => {
                       setStep3(false);
                       setStep4(true);
@@ -131,8 +131,8 @@ function Component() {
               </div>
             )}
             {step4 && (
-              <div class="card">
-                <div class="card-body">
+              <div className="card">
+                <div className="card-body">
                   Great choice!
                   <br></br>
                   Now, lets customize your system.
@@ -141,10 +141,10 @@ function Component() {
                   Panel Brand:
                   <br></br>
                   {/* radios */}
-                  <div class=" d-flex">
-                    <div class="form-check mt-3">
+                  <div className=" d-flex">
+                    <div className="form-check mt-3">
                       <input
-                        class="form-check-input"
+                        className="form-check-input"
                         type="radio"
                         name="exampleRadios"
                         id="exampleRadios1"
@@ -152,22 +152,22 @@ function Component() {
                         checked
                       />
                       <label
-                        class="form-check
+                        className="form-check
                     -label"
                         for="exampleRadios1"
                       >
                         Sundar
                       </label>
                     </div>
-                    <div class="form-check mt-3 ml-3">
+                    <div className="form-check mt-3 ml-3">
                       <input
-                        class="form-check-input"
+                        className="form-check-input"
                         type="radio"
                         name="exampleRadios"
                         id="exampleRadios2"
                         value="option2"
                       />
-                      <label class="form-check-label" for="exampleRadios2">
+                      <label className="form-check-label" for="exampleRadios2">
                         Germany
                       </label>
                     </div>
@@ -176,18 +176,18 @@ function Component() {
                   Battery Brand:
                   <br></br>
                   {/* radios */}
-                  <div class=" d-flex">
+                  <div className=" d-flex">
                     <div
-                      class="form-check
+                      className="form-check
                   mt-3"
                     >
                       <input
                         type="radio"
-                        class="form-check-input"
+                        className="form-check-input"
                         id="exampleCheck1"
                       />
                       <label
-                        class="form-check
+                        className="form-check
                   -label"
                         for="exampleCheck1"
                       >

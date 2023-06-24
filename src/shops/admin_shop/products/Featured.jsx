@@ -12,24 +12,24 @@ function FeaturedListcomp() {
     <Fragment>
       <Navbar />
       <div className="container">
-        <div class="row justify-content-center ">
-          <div class="col-md-12">
+        <div className="row justify-content-center ">
+          <div className="col-md-12">
             <h1 className="text-center mt-5">Featured</h1>
           </div>
         </div>
 
-        <div class="row justify-content-center ">
-          {/* <div class="col-md-3 my-auto justify-content-center"> */}
+        <div className="row justify-content-center ">
+          {/* <div className="col-md-3 my-auto justify-content-center"> */}
 
-          <button class="btn btn-primary mt-5"> Add From csv</button>
+          <button className="btn btn-primary mt-5"> Add From csv</button>
 
           <AddFeaturedModal />
           {/* </div> */}
         </div>
 
-        <div class="row justify-content-center ">
+        <div className="row justify-content-center ">
           {/* <InputFeatured /> */}
-          <div class="col-md-12 ml-5">
+          <div className="col-md-12 ml-5">
             <FeaturedList />
           </div>
         </div>

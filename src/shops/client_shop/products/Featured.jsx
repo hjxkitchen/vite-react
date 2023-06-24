@@ -40,28 +40,28 @@ function Packages() {
       {user && <Navbar />}
       {!user && <PublicNavbar />}
 
-      <div class="container justify-content-center mt-5">
-        <div class="row ml-5 mr-5 justify-content-center">
-          <h1 class="text-center mb-3">Shop Featured!</h1>
+      <div className="container justify-content-center mt-5">
+        <div className="row ml-5 mr-5 justify-content-center">
+          <h1 className="text-center mb-3">Shop Featured!</h1>
         </div>
-        <div class="row ml-5 mr-5 mb-3 justify-content-center">
+        <div className="row ml-5 mr-5 mb-3 justify-content-center">
           <h2 style={{ "text-align": "center" }}>
             Products featured for their quality, price, and demand.
           </h2>
         </div>
-        <div class="row ml-5 mr-5 justify-content-center">
+        <div className="row ml-5 mr-5 justify-content-center">
           <p>
             Variety of Choices based on your needs. Check out our Calculator!
           </p>
         </div>
       </div>
 
-      <div class="container mt-3">
-        {/* <div class="card mr-5 ml-5 mb-5" >
-            <div class="card-header">
-                <div class="row justify-content-center">
-                <div class="col-md-0">
-                <h3 class="text-center">CCTV CAMERAS - SPOTLIGHTS - TV - FRIDGE - SUBWOOFER</h3>
+      <div className="container mt-3">
+        {/* <div className="card mr-5 ml-5 mb-5" >
+            <div className="card-header">
+                <div className="row justify-content-center">
+                <div className="col-md-0">
+                <h3 className="text-center">CCTV CAMERAS - SPOTLIGHTS - TV - FRIDGE - SUBWOOFER</h3>
 
                 </div>
                 </div>
@@ -69,19 +69,19 @@ function Packages() {
 
         {/* <ShopList/> */}
 
-        <div class="container">
-          <div class="row">
+        <div className="container">
+          <div className="row">
             {featured.map((product) => (
               // <div >
 
-              <div class=" col-md-4 col-sm-6">
+              <div className=" col-md-4 col-sm-6">
                 {prods.map((oneprod) =>
                   product.product_id == oneprod.product_id ? (
-                    <div class="card mt-3">
-                      <div class="card-body">
+                    <div className="card mt-3">
+                      <div className="card-body">
                         {/* title */}
                         <a href={"/shop/products/" + oneprod.product_id}>
-                          <h1 class="card-title text-center">
+                          <h1 className="card-title text-center">
                             {oneprod.product_name}
                           </h1>
                         </a>
@@ -96,28 +96,28 @@ function Packages() {
                         {oneprod.images !== null && (
                           // <img
                           //   src={`http://localhost:5000${oneprod.images[0]}`}
-                          //   class="img-fluid"
+                          //   className="img-fluid"
                           //   alt="Card image"
                           // ></img>
 
                           <div
                             id={"carouselExampleControls" + oneprod.product_id}
-                            class="carousel slide"
+                            className="carousel slide"
                             data-ride="false"
                             data-interval="false"
                           >
-                            <div class="carousel-inner">
+                            <div className="carousel-inner">
                               {oneprod.images.map((image, index) => (
                                 // if index is 0, add active class
                                 <div
-                                  class={
+                                  className={
                                     index === 0
                                       ? "carousel-item active"
                                       : "carousel-item"
                                   }
                                 >
                                   <img
-                                    class="d-block w-100"
+                                    className="d-block w-100"
                                     src={`http://localhost:5000${image}`}
                                     alt="First slide"
                                   />
@@ -125,7 +125,7 @@ function Packages() {
                               ))}
                             </div>
                             <a
-                              class="carousel-control-prev"
+                              className="carousel-control-prev"
                               href={
                                 "#carouselExampleControls" + oneprod.product_id
                               }
@@ -133,13 +133,13 @@ function Packages() {
                               data-slide="prev"
                             >
                               <span
-                                class="carousel-control-prev-icon"
+                                className="carousel-control-prev-icon"
                                 aria-hidden="true"
                               ></span>
-                              <span class="sr-only">Previous</span>
+                              <span className="sr-only">Previous</span>
                             </a>
                             <a
-                              class="carousel-control-next"
+                              className="carousel-control-next"
                               href={
                                 "#carouselExampleControls" + oneprod.product_id
                               }
@@ -147,10 +147,10 @@ function Packages() {
                               data-slide="next"
                             >
                               <span
-                                class="carousel-control-next-icon"
+                                className="carousel-control-next-icon"
                                 aria-hidden="true"
                               ></span>
-                              <span class="sr-only">Next</span>
+                              <span className="sr-only">Next</span>
                             </a>
                           </div>
                         )}
@@ -158,38 +158,38 @@ function Packages() {
                           <div>
                             <img
                               src="http://localhost:3000//productimg.jpg"
-                              class="img-fluid"
+                              className="img-fluid"
                               alt="Card image"
                             ></img>
                           </div>
                         )}
-                        <p class="card-text">
+                        <p className="card-text">
                           With supporting text below as a natural lead-in to
                           additional content.
                         </p>
 
-                        <div class="d-flex justify-content-center mb-2">
+                        <div className="d-flex justify-content-center mb-2">
                           {/* strikethrough red text */}
-                          <h4 class="text-danger">
+                          <h4 className="text-danger">
                             <s>{Math.round((oneprod.price * 120) / 100)}K</s>
                           </h4>
                           {/* spacing */}
-                          <h4 class="mx-2">-</h4>
+                          <h4 className="mx-2">-</h4>
                           <h4>{oneprod.price}K Tshs</h4>{" "}
                         </div>
 
-                        {/* <div class="justify-content-center"> */}
-                        <div class="row mb-3 justify-content-center">
-                          {/* <div class="col-lg-2 ml-5 mr-5 mb-2"> */}
-                          <button class="btn btn-danger">
+                        {/* <div className="justify-content-center"> */}
+                        <div className="row mb-3 justify-content-center">
+                          {/* <div className="col-lg-2 ml-5 mr-5 mb-2"> */}
+                          <button className="btn btn-danger">
                             {" "}
-                            <i class="fas fa-heart fa-lg mr-1"> </i> Fav
+                            <i className="fas fa-heart fa-lg mr-1"> </i> Fav
                           </button>
                           {/* </div> */}
-                          {/* <div class="col-lg-2 ml-3"> */}
-                          <button class="btn btn-primary">
+                          {/* <div className="col-lg-2 ml-3"> */}
+                          <button className="btn btn-primary">
                             {" "}
-                            <i class="fas fa-shopping-cart fa-lg mr-1">
+                            <i className="fas fa-shopping-cart fa-lg mr-1">
                               {" "}
                             </i>{" "}
                             Cart
@@ -209,17 +209,17 @@ function Packages() {
           </div>
         </div>
 
-        {/* <div class="card-footer mt-5">
-            <div class="row justify-content-center">
-                <div class="col-md-7">
-                <h3 class="text-center">SHOWCASE</h3>
+        {/* <div className="card-footer mt-5">
+            <div className="row justify-content-center">
+                <div className="col-md-7">
+                <h3 className="text-center">SHOWCASE</h3>
 
                 </div>
                 </div>
             </div>
             </div> */}
         {/* spacer  */}
-        <div class="mt-5 mb-5"></div>
+        <div className="mt-5 mb-5"></div>
       </div>
     </Fragment>
   );

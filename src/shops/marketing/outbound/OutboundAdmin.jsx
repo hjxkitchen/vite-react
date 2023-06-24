@@ -12,7 +12,7 @@ function Contact() {
       <Navbar />
       <div className="container">
         <div>
-          <h1 class="text-center mt-5">Outbound Admin Dash</h1>
+          <h1 className="text-center mt-5">Outbound Admin Dash</h1>
         </div>
 
         <div className="row justify-content-center ">
@@ -22,7 +22,7 @@ function Contact() {
         <div className="table-responsive">
           <div className="row justify-content-center mt-5 mb-5">
             <div className="col-md-9 ">
-              <table class="table table-striped">
+              <table className="table table-striped">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -44,7 +44,7 @@ function Contact() {
                     <td>John Doe</td>
 
                     <td>
-                      <button type="button" class="btn btn-warning">
+                      <button type="button" className="btn btn-warning">
                         Edit
                       </button>
                     </td>
@@ -58,7 +58,7 @@ function Contact() {
                     <td>John Doe</td>
 
                     <td>
-                      <button type="button" class="btn btn-warning">
+                      <button type="button" className="btn btn-warning">
                         Edit
                       </button>
                     </td>
@@ -73,7 +73,7 @@ function Contact() {
                     <td>John Doe</td>
 
                     <td>
-                      <button type="button" class="btn btn-warning">
+                      <button type="button" className="btn btn-warning">
                         Edit
                       </button>
                     </td>
@@ -87,7 +87,7 @@ function Contact() {
                     <td>John Doe</td>
 
                     <td>
-                      <button type="button" class="btn btn-warning">
+                      <button type="button" className="btn btn-warning">
                         Edit
                       </button>
                     </td>

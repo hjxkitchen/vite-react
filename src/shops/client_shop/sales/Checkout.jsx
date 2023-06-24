@@ -54,15 +54,15 @@
 //     <Fragment>
 //       <Navbar />
 //       <div>
-//         <h1 class="text-center mt-5">Checkout</h1>
+//         <h1 className="text-center mt-5">Checkout</h1>
 //       </div>
 
-//       <div class="row justify-content-center">
+//       <div className="row justify-content-center">
 //         <button onClick={newcheckout}>New checkout payment mpesa api</button>
 
-//         <div class="col-md-6">
-//           {/* <div class="table-responsive">  */}
-//           <table class="table mt-5 text-center">
+//         <div className="col-md-6">
+//           {/* <div className="table-responsive">  */}
+//           <table className="table mt-5 text-center">
 //             <thead>
 //               <tr>
 //                 <th>Product ID</th>
@@ -88,8 +88,8 @@
 //                     )}
 //                   </td>
 //                   <td>
-//                     <div class="row justify-content-center">
-//                       <div class="ml-1 mr-1">{sale.quantity}</div>
+//                     <div className="row justify-content-center">
+//                       <div className="ml-1 mr-1">{sale.quantity}</div>
 //                     </div>
 //                   </td>
 //                   <td>100</td>
@@ -103,12 +103,12 @@
 //                     <EditProduct product={product}/>
 //                 </td> */}
 //                   {/* <td> */}
-//                   {/* <button class="btn btn-primary"
+//                   {/* <button className="btn btn-primary"
 //                     type="button" onClick={viewSale(sale)}>Open</button> */}
 //                   {/* <ViewSaleItems sale={sale}/> */}
 //                   {/* </td> */}
 //                   {/* <td>
-//                     <button class="btn btn-warning"
+//                     <button className="btn btn-warning"
 //                     onClick={() => deleteProduct(sale.sale_id)}>Edit</button>
 //                 </td> */}
 //                 </tr>
@@ -119,19 +119,19 @@
 //             <tfoot>
 //               <tr>
 //                 <td>
-//                   <div class="row justify-content-center">
-//                     <button class="btn btn-primary" onClick={checkout}>
+//                   <div className="row justify-content-center">
+//                     <button className="btn btn-primary" onClick={checkout}>
 //                       Checkout
 //                     </button>
 //                   </div>
-//                   {/* <div class="row justify-content-center">
-//                     <button class="btn btn-primary" onClick={checkout}>Checkout</button>
+//                   {/* <div className="row justify-content-center">
+//                     <button className="btn btn-primary" onClick={checkout}>Checkout</button>
 //                 </div> */}
 //                 </td>
 //                 <td></td>
 //                 <td>
-//                   <div class="row justify-content-center">
-//                     <div class="ml-1 mr-1">Total: 5136</div>
+//                   <div className="row justify-content-center">
+//                     <div className="ml-1 mr-1">Total: 5136</div>
 //                   </div>
 //                 </td>
 //               </tr>

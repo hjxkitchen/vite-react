@@ -12,26 +12,26 @@ function Calculators() {
       {!user && <PublicNavbar />}
       <div className="container">
         <div>
-          <h1 class="text-center mt-5">Calculators</h1>
+          <h1 className="text-center mt-5">Calculators</h1>
         </div>
-        {/* <div class="row mt-5 justify-content-center">
+        {/* <div className="row mt-5 justify-content-center">
           <div><h2>Solar Power Generation Requirement Calculator</h2></div>
         </div> */}
-        <div class="row mt-5 justify-content-center">
-          <div class="card">
-            <div class="card-header">
+        <div className="row mt-5 justify-content-center">
+          <div className="card">
+            <div className="card-header">
               <h3>Calculate your Solar Power Generation Requirement</h3>
             </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
+            <div className="card-body">
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="form-group">
                     {/* select location */}
                     <label for="exampleFormControlSelect1">
                       Select your location
                     </label>
                     <select
-                      class="form-control mb-3"
+                      className="form-control mb-3"
                       id="exampleFormControlSelect1"
                     >
                       <option>Arusha</option>
@@ -60,7 +60,7 @@ function Calculators() {
                       Select your power usage
                     </label>
                     <select
-                      class="form-control mb-3"
+                      className="form-control mb-3"
                       id="exampleFormControlSelect1"
                     >
                       <option>1-5 Lights + phone charging</option>
@@ -79,17 +79,17 @@ function Calculators() {
 
                     {/* calculate custom power reqs */}
                     {/* <label for="exampleFormControlSelect1">Calculate your custom power requirements</label> */}
-                    <button type="button" class="btn btn-primary mb-3">
+                    <button type="button" className="btn btn-primary mb-3">
                       Custom Calculate
                     </button>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="card">
-                    <div class="card-header text-center">
+                <div className="col-md-6">
+                  <div className="card">
+                    <div className="card-header text-center">
                       <h3>Results</h3>
                     </div>
-                    <div class="card-body text-center">
+                    <div className="card-body text-center">
                       Solar 2,4,6,8 Bulb Kit
                       <br />
                       Solar Lantern
@@ -103,7 +103,7 @@ function Calculators() {
           </div>
         </div>
         <div>
-          <h1 class="text-center mt-5">more calculators coming soon...</h1>
+          <h1 className="text-center mt-5">more calculators coming soon...</h1>
         </div>
       </div>
     </Fragment>

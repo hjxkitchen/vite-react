@@ -41,7 +41,7 @@ const ViewSaleItems = ({ sale }) => {
       {/* <!-- Button to Open the Modal --> */}
       <button
         type="button"
-        class="btn btn-warning"
+        className="btn btn-warning"
         data-toggle="modal"
         data-target={`#viewsalemodal${sale.sale_id}`}
       >
@@ -49,21 +49,21 @@ const ViewSaleItems = ({ sale }) => {
       </button>
 
       {/* <!-- The Modal --> */}
-      <div class="modal" id={`viewsalemodal${sale.sale_id}`}>
-        <div class="modal-dialog">
-          <div class="modal-content">
+      <div className="modal" id={`viewsalemodal${sale.sale_id}`}>
+        <div className="modal-dialog">
+          <div className="modal-content">
             {/* <!-- Modal Header --> */}
-            <div class="modal-header">
-              <h4 class="modal-title">View Sale Items</h4>
-              <button type="button" class="close" data-dismiss="modal">
+            <div className="modal-header">
+              <h4 className="modal-title">View Sale Items</h4>
+              <button type="button" className="close" data-dismiss="modal">
                 &times;
               </button>
             </div>
 
             {/* <!-- Modal body --> */}
-            <div class="modal-body">
+            <div className="modal-body">
               {/* sale details */}
-              {/* <div class="mb-5">
+              {/* <div className="mb-5">
           sale id: {sale.sale_id}
           <br/>
           sale date: {sale.sale_date}
@@ -79,7 +79,7 @@ const ViewSaleItems = ({ sale }) => {
               <div className="d-flex justify-content-center">
                 {/* <div className="d-flex w-50 justify-content-center"> */}
                 {/* table */}
-                <table class="table">
+                <table className="table">
                   <thead>
                     <tr>
                       <th scope="col">Product Name</th>
@@ -112,16 +112,20 @@ const ViewSaleItems = ({ sale }) => {
             </div>
 
             {/* <!-- Modal footer --> */}
-            <div class="modal-footer">
+            <div className="modal-footer">
               {/* <button
                 type="button"
-                class="btn btn-warning"
+                className="btn btn-warning"
                 data-dismiss="modal"
               >
                 Edit
               </button> */}
 
-              <button type="button" class="btn btn-danger" data-dismiss="modal">
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-dismiss="modal"
+              >
                 Close
               </button>
             </div>

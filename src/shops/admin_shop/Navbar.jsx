@@ -25,16 +25,16 @@ const Navbar = (setUser, user) => {
   return (
     <Fragment>
       <nav
-        class="navbar navbar-expand-lg navbar-dark "
+        className="navbar navbar-expand-lg navbar-dark "
         style={{ backgroundColor: "black" }}
       >
-        <Link to="/" class="nav-link">
-          <a class="navbar-brand ml-3" href="/">
+        <Link to="/" className="nav-link">
+          <a className="navbar-brand ml-3" href="/">
             <img
               src="logo512.png"
               width="30"
               height="30"
-              class="d-inline-block align-top mr-3"
+              className="d-inline-block align-top mr-3"
               alt=""
               loading="lazy"
             />
@@ -43,7 +43,7 @@ const Navbar = (setUser, user) => {
         </Link>
         <button onClick={handleBackClick}>Back</button>
         <button
-          class="navbar-toggler mr-3"
+          className="navbar-toggler mr-3"
           type="button"
           data-toggle="collapse"
           data-target="#navbarSupportedContent"
@@ -51,35 +51,35 @@ const Navbar = (setUser, user) => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-5">
-            {/* <li class="nav-item">
-              <Link to="/admin" class="nav-link">
-                <i class="fas fa-money"></i> SALES
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav ml-5">
+            {/* <li className="nav-item">
+              <Link to="/admin" className="nav-link">
+                <i className="fas fa-money"></i> SALES
               </Link>
             </li>
-            <li class="nav-item">
-              <Link to="/marketingdash" class="nav-link">
-                <i class="fas fa-users"></i> MARKETING
+            <li className="nav-item">
+              <Link to="/marketingdash" className="nav-link">
+                <i className="fas fa-users"></i> MARKETING
               </Link>
             </li> */}
           </ul>
-          <div class="ml-auto">
-            <ul class="navbar-nav ml-5 mr-5">
-              <li class="nav-item">
-                <div class="relative mr-2">
+          <div className="ml-auto">
+            <ul className="navbar-nav ml-5 mr-5">
+              <li className="nav-item">
+                <div className="relative mr-2">
                   <select
-                    class="block appearance-none w-full bg-grey border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
+                    className="block appearance-none w-full bg-grey border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline"
                     id="language-select"
                   >
                     <option value="en">English</option>
                     <option value="es">Español</option>
                   </select>
-                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg class="fill-current h-4 w-4" viewBox="0 0 20 20">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" viewBox="0 0 20 20">
                       <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
                       <path
                         fillRule="evenodd"
@@ -90,15 +90,15 @@ const Navbar = (setUser, user) => {
                   </div>
                 </div>
               </li>
-              <li class="nav-item">
-                <Link to="/account" class="nav-link">
-                  <i class="fas fa-user"></i> ACCOUNT
+              <li className="nav-item">
+                <Link to="/account" className="nav-link">
+                  <i className="fas fa-user"></i> ACCOUNT
                 </Link>
               </li>
 
-              <li class="nav-item">
-                <Link class="nav-link" onClick={handleLogout}>
-                  <i class="fas fa-sign-out-alt "></i> LOGOUT
+              <li className="nav-item">
+                <Link className="nav-link" onClick={handleLogout}>
+                  <i className="fas fa-sign-out-alt "></i> LOGOUT
                 </Link>
               </li>
             </ul>

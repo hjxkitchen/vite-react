@@ -102,25 +102,25 @@ function Component() {
 
   return (
     <Fragment>
-      <div class="row justify-content-center mb-5">
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Tools</h5>
+      <div className="row justify-content-center mb-5">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <h5 className="card-title">Tools</h5>
 
               {/* <div input group */}
               <form onSubmit={submitGo}>
-                <div class="input-group mb-3">
+                <div className="input-group mb-3">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Item, Watts, Hours"
                     aria-label="Item, Watts, Hours"
                     aria-describedby="basic-addon2"
                     name="item"
                   />
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit">
+                  <div className="input-group-append">
+                    <button className="btn btn-outline-secondary" type="submit">
                       Add
                     </button>
                   </div>
@@ -128,7 +128,7 @@ function Component() {
               </form>
 
               {/* table for loaditems */}
-              <table class="table table-hover">
+              <table className="table table-hover">
                 <thead>
                   <tr>
                     <th scope="col">Name</th>
@@ -145,7 +145,7 @@ function Component() {
                       <td>{item.hours}</td>
                       <td>
                         <button
-                          class="btn btn-danger"
+                          className="btn btn-danger"
                           onClick={() => deleteItem(index)}
                         >
                           X
@@ -171,17 +171,17 @@ function Component() {
               {/* total watt hours */}
               {/* <p>Total Watt Hours:{totalWH}</p> */}
               {/* Voltage Radioes, 12, 24, 48v in one line */}
-              <div class="table-responsive">
-                <div class="row">
+              <div className="table-responsive">
+                <div className="row">
                   <div
-                    class="form-check
+                    className="form-check
                     form-check-inline"
                     // no changing
                     disabled
                   >
                     {/* selected */}
                     <input
-                      class="form-check-input ml-3"
+                      className="form-check-input ml-3"
                       type="radio"
                       name="voltage"
                       id="voltage12"
@@ -190,14 +190,14 @@ function Component() {
                     />
 
                     <label
-                      class="form-check
+                      className="form-check
                         label"
                       for="12v"
                     >
                       12v
                     </label>
                     <input
-                      class="form-check-input ml-5"
+                      className="form-check-input ml-5"
                       type="radio"
                       name="voltageradios"
                       id="24v"
@@ -205,14 +205,14 @@ function Component() {
                       checked={voltage === 24}
                     />
                     <label
-                      class="form-check
+                      className="form-check
                         label"
                       for="24v"
                     >
                       24v
                     </label>
                     <input
-                      class="form-check-input ml-5"
+                      className="form-check-input ml-5"
                       type="radio"
                       name="voltageradios"
                       id="48v"
@@ -220,7 +220,7 @@ function Component() {
                       checked={voltage === 48}
                     />
                     <label
-                      class="form-check
+                      className="form-check
                         label"
                       for="48v"
                     >
@@ -231,28 +231,28 @@ function Component() {
                 {/* batteryamps */}
                 {/* <p>Battery Amps: {batteryAmps}</p> */}
                 {/* dod radios */}
-                <div class="row mt-3">
+                <div className="row mt-3">
                   <div
-                    class="form-check
+                    className="form-check
                     form-check-inline"
                     onChange={(e) => setDOD(e.target.value)}
                   >
                     <input
-                      class="form-check-input ml-3"
+                      className="form-check-input ml-3"
                       type="radio"
                       name="dodradios"
                       id="30dod"
                       value="30"
                     />
                     <label
-                      class="form-check
+                      className="form-check
                         label"
                       for="30dod"
                     >
                       30% Lead Acid/AGM/GEL
                     </label>
                     <input
-                      class="form-check-input ml-5"
+                      className="form-check-input ml-5"
                       type="radio"
                       name="dodradios"
                       id="50dod"
@@ -261,21 +261,21 @@ function Component() {
                       defaultChecked
                     />
                     <label
-                      class="form-check
+                      className="form-check
                         label"
                       for="50dod"
                     >
                       50% Lead Acid/AGM/GEL
                     </label>
                     <input
-                      class="form-check-input ml-5"
+                      className="form-check-input ml-5"
                       type="radio"
                       name="dodradios"
                       id="80dod"
                       value="80"
                     />
                     <label
-                      class="form-check
+                      className="form-check
                         label"
                       for="80dod"
                     >
@@ -286,14 +286,14 @@ function Component() {
                 {/* battery amps dod */}
                 {/* <p>Battery Amps DOD:{batteryAmpsDOD}</p> */}
                 {/* days radios */}
-                <div class="row mt-3 mb-3">
+                <div className="row mt-3 mb-3">
                   <div
-                    class="form-check
+                    className="form-check
                         form-check-inline"
                     onChange={(e) => setDaysOfStorage(e.target.value)}
                   >
                     <input
-                      class="form-check-input ml-3"
+                      className="form-check-input ml-3"
                       type="radio"
                       name="daysradios"
                       id="1day"
@@ -301,49 +301,49 @@ function Component() {
                       defaultChecked
                     />
                     <label
-                      class="form-check
+                      className="form-check
                             label"
                       for="1day"
                     >
                       1 day
                     </label>
                     <input
-                      class="form-check-input ml-5"
+                      className="form-check-input ml-5"
                       type="radio"
                       name="daysradios"
                       id="2day"
                       value="2"
                     />
                     <label
-                      class="form-check
+                      className="form-check
                             label"
                       for="2day"
                     >
                       2 days
                     </label>
                     <input
-                      class="form-check-input ml-5"
+                      className="form-check-input ml-5"
                       type="radio"
                       name="daysradios"
                       id="3day"
                       value="3"
                     />
                     <label
-                      class="form-check
+                      className="form-check
                             label"
                       for="3day"
                     >
                       3 days
                     </label>
                     <input
-                      class="form-check-input ml-5"
+                      className="form-check-input ml-5"
                       type="radio"
                       name="daysradios"
                       id="4day"
                       value="4"
                     />
                     <label
-                      class="form-check
+                      className="form-check
                             label"
                       for="4day"
                     >
@@ -353,47 +353,47 @@ function Component() {
                 </div>
               </div>
               {/* total battery size */}
-              <p class="mt-3">Total Battery Size:{batterySize}</p>
+              <p className="mt-3">Total Battery Size:{batterySize}</p>
               {/* DOD radioes, 12, 24, 48v in one line */}
               {/* <div
-                class="form-check  
+                className="form-check  
                 form-check-inline"
                 onChange={(e) => setDOD(e.target.value)}
               >
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="radio"
                   id="inlineRadio1"
                   value="80"
                 />
                 <label
-                  class="form-check
+                  className="form-check
                     label"
                   for="inlineRadio1"
                 >
                   80% Lithium
                 </label>
                 <input
-                  class="form-check-input ml-5"
+                  className="form-check-input ml-5"
                   type="radio"
                   id="inlineRadio2"
                   value="50"
                 />
                 <label
-                  class="form-check
+                  className="form-check
                     label"
                   for="inlineRadio2"
                 >
                   50% Lead Acid/AGM/Gel
                 </label>
                 <input
-                  class="form-check-input ml-5"
+                  className="form-check-input ml-5"
                   type="radio"
                   id="inlineRadio3"
                   value="30"
                 />
                 <label
-                  class="form-check
+                  className="form-check
                     label"
                   for="inlineRadio3"
                 >
@@ -402,57 +402,57 @@ function Component() {
               </div> */}
               {/* DAYS OF STORAGE radioes, 12, 24, 48v in one line */}
               {/* <div
-                class="form-check  
+                className="form-check  
                 form-check-inline"
                 onChange={(e) => setDaysOfStorage(e.target.value)}
               >
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="radio"
                   id="inlineRadio1"
                   value="1"
                 />
                 <label
-                  class="form-check
+                  className="form-check
                     label"
                   for="inlineRadio1"
                 >
                   1 day
                 </label>
                 <input
-                  class="form-check-input ml-5"
+                  className="form-check-input ml-5"
                   type="radio"
                   id="inlineRadio2"
                   value="2"
                 />
                 <label
-                  class="form-check
+                  className="form-check
                     label"
                   for="inlineRadio2"
                 >
                   2 days
                 </label>
                 <input
-                  class="form-check-input ml-5"
+                  className="form-check-input ml-5"
                   type="radio"
                   id="inlineRadio3"
                   value="3"
                 />
                 <label
-                  class="form-check
+                  className="form-check
                     label"
                   for="inlineRadio3"
                 >
                   3 days
                 </label>
                 <input
-                  class="form-check-input ml-5"
+                  className="form-check-input ml-5"
                   type="radio"
                   id="inlineRadio3"
                   value="4"
                 />
                 <label
-                  class="form-check
+                  className="form-check
                     label"
                   for="inlineRadio3"
                 >
@@ -464,21 +464,21 @@ function Component() {
         </div>
       </div>
 
-      <div class="row mt-5 justify-content-center">
-        <div class="card">
-          <div class="card-header">
+      <div className="row mt-5 justify-content-center">
+        <div className="card">
+          <div className="card-header">
             <h3>Calculate your Solar Power Generation Requirement</h3>
           </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-6">
+                <div className="form-group">
                   {/* select location */}
                   <label for="exampleFormControlSelect1">
                     Select your location
                   </label>
                   <select
-                    class="form-control mb-3"
+                    className="form-control mb-3"
                     id="exampleFormControlSelect1"
                   >
                     <option>Arusha</option>
@@ -507,7 +507,7 @@ function Component() {
                     Select your power usage
                   </label>
                   <select
-                    class="form-control mb-3"
+                    className="form-control mb-3"
                     id="exampleFormControlSelect1"
                   >
                     <option>1-5 Lights + phone charging</option>
@@ -522,17 +522,17 @@ function Component() {
 
                   {/* calculate custom power reqs */}
                   {/* <label for="exampleFormControlSelect1">Calculate your custom power requirements</label> */}
-                  <button type="button" class="btn btn-primary mb-3">
+                  <button type="button" className="btn btn-primary mb-3">
                     Custom Calculate
                   </button>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="card">
-                  <div class="card-header text-center">
+              <div className="col-md-6">
+                <div className="card">
+                  <div className="card-header text-center">
                     <h3>Results</h3>
                   </div>
-                  <div class="card-body text-center">
+                  <div className="card-body text-center">
                     Solar 2,4,6,8 Bulb Kit
                     <br />
                     Solar Lantern

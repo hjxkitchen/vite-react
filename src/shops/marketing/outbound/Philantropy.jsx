@@ -11,12 +11,12 @@ function Component() {
       {user && <Navbar />}
       {!user && <PublicNavbar />}
       <div>
-        <h1 class="text-center mt-5">Philantropy List</h1>
+        <h1 className="text-center mt-5">Philantropy List</h1>
       </div>
 
-      <div class="table-responsive mt-5">
-        <div class="row mb-5 justify-content-center">
-          <div class="col-md-9">
+      <div className="table-responsive mt-5">
+        <div className="row mb-5 justify-content-center">
+          <div className="col-md-9">
             <PhilantropyList />
           </div>
         </div>

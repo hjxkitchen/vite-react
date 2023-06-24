@@ -20,7 +20,7 @@ function Component() {
   return (
     <Fragment>
       {/* sokoos table */}
-      <table class="table text-center">
+      <table className="table text-center">
         <thead>
           <tr>
             <th>Sokoo ID</th>

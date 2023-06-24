@@ -55,15 +55,15 @@ function Calculators() {
     <Fragment>
       <Navbar />
       <div>
-        <h1 class="text-center mt-5">Favorites</h1>
+        <h1 className="text-center mt-5">Favorites</h1>
       </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <div className="card">
+              <div className="card-body">
                 {/* map */}
-                <table class="table table-striped table-bordered text-center">
+                <table className="table table-striped table-bordered text-center">
                   <thead>
                     <tr>
                       <th>Product Name</th>
@@ -87,8 +87,8 @@ function Calculators() {
                         {/* <td>{favorite.price}</td> */}
                         {/* <td><img src={favorite.image} alt="product image" width="100px" height="100px"/></td> */}
                         <td>
-                          <div class="row justify-content-center">
-                            <button class="btn btn-danger">X</button>
+                          <div className="row justify-content-center">
+                            <button className="btn btn-danger">X</button>
                           </div>
                         </td>
                       </tr>
