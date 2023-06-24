@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
-import { SubcatsContext } from "../../../../../index";
+// import { SubcatsContext } from "../../../../../index";
 import EditProduct from "./EditProduct";
 
 const ListProducts = () => {
   const [products, setProducts] = useState([]);
-  const subcats = useContext(SubcatsContext);
+  // const subcats = useContext(SubcatsContext);
   // console.log("subcatshere", subcats);
 
   //delete product function defined

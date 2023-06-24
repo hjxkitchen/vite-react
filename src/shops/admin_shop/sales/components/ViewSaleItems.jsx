@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
-import { ProdContext } from "../../../../index";
+// import { ProdContext } from "../../../../index";
 
 const ViewSaleItems = ({ sale }) => {
   const [saleItems, setsaleItems] = useState([]);
-  const prodcontext = useContext(ProdContext);
+  // const prodcontext = useContext(ProdContext);
+  const prodContext = ["a", "b"];
 
   //get products function defeined
   const getSaleItems = async () => {

@@ -82,9 +82,9 @@ const Navbar = (setUser, user) => {
                     <svg class="fill-current h-4 w-4" viewBox="0 0 20 20">
                       <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm8-7a1 1 0 011 1v1.586l1.707-1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414 0l-1.707-1.293V14a1 1 0 01-2 0V4a1 1 0 011-1z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       ></path>
                     </svg>
                   </div>

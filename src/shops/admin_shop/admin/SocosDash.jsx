@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from "react";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
-import Navbar from "../../components/Navbar";
+import Navbar from "../Navbar";
 // import OrdersList from "../../components/admin/fulfillment/orders/OrdersList";
 // import SalesList from "../../components/admin/sales/SalesList";
 // import SuppliersList from "../../components/admin/suppliers/SuppliersList";

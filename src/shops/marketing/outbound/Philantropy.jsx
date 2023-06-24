@@ -1,11 +1,11 @@
 import React, { Fragment, useContext } from "react";
-import Navbar from "../../../../components/Navbar";
-import PublicNavbar from "../../../../components/PublicNavbar";
-import { UserContext } from "../../../../index";
-import PhilantropyList from "../../../../components/admin/marketingout/PhilantropyList";
+import Navbar from "../../admin_shop/Navbar";
+import PublicNavbar from "../../admin_shop/PublicNavbar";
+// import { UserContext } from "../../index";
+import PhilantropyList from "./components/PhilantropyList";
 
 function Component() {
-  const user = useContext(UserContext);
+  //   const user = useContext(UserContext);
   return (
     <Fragment>
       {user && <Navbar />}

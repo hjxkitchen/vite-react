@@ -1,13 +1,15 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Navbar from "../../../../components/Navbar";
-import PublicNavbar from "../../../../components/PublicNavbar";
-import { UserContext, ProdContext } from "./../../../../index";
+import Navbar from "../Navbar";
+import PublicNavbar from "../PublicNavbar";
+// import { UserContext, ProdContext } from "./../../../../index";
 
 function Contact() {
-  const user = useContext(UserContext);
-  const products = useContext(ProdContext);
+  // const user = useContext(UserContext);
+  // const products = useContext(ProdContext);
   //   const cartToken = useContext(CartContext);
+
+  const user = "me0";
 
   const location = useLocation();
   const { feature } = location.state;

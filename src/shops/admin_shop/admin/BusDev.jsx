@@ -1,10 +1,10 @@
 import React, { Fragment, useContext } from "react";
-import Navbar from "../../../components/Navbar";
-import PublicNavbar from "../../../components/PublicNavbar";
-import { UserContext } from "../../../index";
+import Navbar from "../Navbar";
+import PublicNavbar from "../PublicNavbar";
+// import { UserContext } from "../../../index";
 
 function Component() {
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
   return (
     <Fragment>
       {user && <Navbar />}

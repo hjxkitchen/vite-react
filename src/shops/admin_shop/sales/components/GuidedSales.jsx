@@ -1,10 +1,10 @@
 import React, { Fragment, useContext, useState } from "react";
-import Navbar from "../../../../../components/Navbar";
-import PublicNavbar from "../../../../../components/PublicNavbar";
-import { UserContext } from "../../../../../index";
+import Navbar from "../../Navbar";
+import PublicNavbar from "../../PublicNavbar";
+// import { UserContext } from "../../../../../index";
 
 function Component() {
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
 
   const [step1, setStep1] = useState(true);
   const [home, setHome] = useState(false);

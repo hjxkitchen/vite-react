@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 
-import Navbar from "../../../components/Navbar";
+import Navbar from "../Navbar";
 
 function UsersList() {
   return (

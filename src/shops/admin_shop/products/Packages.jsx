@@ -2,9 +2,9 @@ import React, { Fragment } from "react";
 
 //components
 // import InputPackage from "../../../components/InputPackage";
-import PackagesList from "../../../../components/admin/sales/products/packages/PackagesList";
-import Navbar from "../../../../components/Navbar";
-import AddPackageModal from "../../../../components/admin/sales/products/packages/AddPackageModal";
+import PackagesList from "./components/PackagesList";
+import Navbar from "../Navbar";
+import AddPackageModal from "./components/AddPackageModal";
 // import EditPackage from "../../../../components/admin/packages/EditPackage";
 
 function PackagesListcomp() {

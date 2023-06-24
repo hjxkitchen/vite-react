@@ -1,23 +1,24 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import AddToSale from "../../../../components/admin/sales/pos/AddToSale";
-import Navbar from "../../../../components/Navbar";
-import AddSale from "../../../../components/admin/sales/pos/AddSale";
-import SalesList from "../../../../components/admin/sales/pos/SalesList";
-// import ViewSaleModal from "../../../components/admin/sales/ViewSaleModal";
+import AddToSale from "./components/AddToSale";
+import Navbar from "../Navbar";
+import AddSale from "./components/AddSale";
+import SalesList from "./components/SalesList";
+// import ViewSaleModal from "../../../components//ViewSaleModal";
 
-import { UserContext } from "../../../../index";
+// import { UserContext } from "../../../../index";
 // import { UserContext } from "../../../index"; role
-import { ProdContext } from "../../../../index";
+// import { ProdContext } from "../../../../index";
 
 function Sales() {
   const [sales, setSales] = useState([]);
   const [customer, setCustomer] = useState({});
   const [orderTotal, setOrderTotal] = useState(0);
   const [showlogs, setShowLogs] = useState(false);
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
   // const user = useContext(UserContext); role
-  const ProductNames = useContext(ProdContext);
+  // const ProductNames = useContext(ProdContext);
+  const ProductNames = { 1: 3 };
 
   const showLogs = () => {
     if (showlogs) {

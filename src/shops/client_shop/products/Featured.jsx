@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../../components/Navbar";
-import PublicNavbar from "../../components/PublicNavbar";
+import Navbar from "../Navbar";
+import PublicNavbar from "../PublicNavbar";
 import ShopList from "../../components/shop/ShopList";
 
 import { UserContext, ProdContext } from "../../index";

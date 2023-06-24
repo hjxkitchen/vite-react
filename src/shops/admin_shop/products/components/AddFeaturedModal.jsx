@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useContext } from "react";
-import { ProdContext } from "../../../../../index";
+// import { ProdContext } from "../../../../../index";
 
 const AddProductModal = ({ product }) => {
   const [inputs, setInputs] = useState({});
-  const products = useContext(ProdContext);
+  // const products = useContext(ProdContext);
 
   const handleChange = (event) => {
     const name = event.target.name;

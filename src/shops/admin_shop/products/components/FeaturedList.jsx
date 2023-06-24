@@ -1,16 +1,16 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
 
 import EditFeatured from "./EditFeatured";
-import {
-  UserContext,
-  CartContext,
-  LoggedContext,
-  ProdContext,
-} from "../../../../../index";
+// import {
+//   UserContext,
+//   CartContext,
+//   LoggedContext,
+//   ProdContext,
+// } from "../../../../../index";
 
 const FeaturedList = () => {
-  const loggedin = useContext(LoggedContext);
-  const products = useContext(ProdContext);
+  // const loggedin = useContext(LoggedContext);
+  // const products = useContext(ProdContext);
 
   const [featured, setFeatured] = useState([]);
 

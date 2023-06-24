@@ -1,11 +1,11 @@
 import React, { Fragment, useContext } from "react";
-import Navbar from "../../../../components/Navbar";
+import Navbar from "../../admin_shop/Navbar";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../../../index";
+// import { UserContext } from "../../../../index";
 // import OrdersList from "../../../../../components/admin/orders/OrdersList";
 
 function Contact() {
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
 
   return (
     <Fragment>

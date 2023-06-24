@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 //components
 // import InputProduct from "../../../components/InputProduct";
 import ListProducts from "../../../components/admin/sales/products/products/ProductsList";
-import Navbar from "../../../components/Navbar";
+import Navbar from "../Navbar";
 import AddProductModal from "../../../components/admin/sales/products/products/AddProductModal";
 // import EditProduct from "../../../../components/admin/products/EditProduct";
 

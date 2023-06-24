@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from "react";
-import Navbar from "../../components/Navbar";
-import PublicNavbar from "../../components/PublicNavbar";
+import Navbar from "../Navbar";
+import PublicNavbar from "../PublicNavbar";
 import { UserContext, CartContext } from "../../index";
 
 function Contact() {

@@ -1,5 +1,5 @@
 // import React, { Fragment, useContext } from "react";
-// import Navbar from "../../../components/Navbar";
+// import Navbar from "../Navbar";
 // import { Link, useLocation } from "react-router-dom";
 // import axios from "axios";
 // import { UserContext, ProdContext } from "./../../../index";

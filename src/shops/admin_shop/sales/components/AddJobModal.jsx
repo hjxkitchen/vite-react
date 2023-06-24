@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
-// import Navbar from "../../../components/Navbar";
-// import PublicNavbar from "../../../components/PublicNavbar";
+// import Navbar from "../Navbar";
+// import PublicNavbar from "../../PublicNavbar";
 // import { UserContext } from "../../../index";
 
 function Component() {

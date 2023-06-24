@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../../../components/Navbar";
-import PublicNavbar from "../../../components/PublicNavbar";
+import Navbar from "../Navbar";
+import PublicNavbar from "../../PublicNavbar";
 import { UserContext, TokenContext } from "../../../index";
 import ShopList from "../../../components/shop/ShopList";
 import axios from "axios";

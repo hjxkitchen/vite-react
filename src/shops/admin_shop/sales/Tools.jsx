@@ -1,12 +1,13 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
-import Navbar from "../../../../components/Navbar";
-import PublicNavbar from "../../../../components/PublicNavbar";
-import { UserContext } from "../../../../index";
-import Calculator from "../../../../components/admin/sales/pos/tools/Calculator";
-import GuidedSales from "../../../../components/admin/sales/pos/tools/GuidedSales";
+import Navbar from "../Navbar";
+import PublicNavbar from "../PublicNavbar";
+// import { UserContext } from "../../../../index";
+import Calculator from "./components/Calculator";
+import GuidedSales from "./components/GuidedSales";
 
 function Component() {
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
+  const user = "dasfsf";
 
   const [activeTools, setActiveTools] = useState(false);
   const [activeRefChart1, setActiveRefChart1] = useState(false);

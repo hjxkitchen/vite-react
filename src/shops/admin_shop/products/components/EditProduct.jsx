@@ -1,13 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useContext } from "react";
-import { SubcatsContext } from "../../../../../index";
+// import { SubcatsContext } from "../../../../../index";
 // import axios from "axios";
 
 const EditProduct = ({ product }) => {
   const [description, setDescription] = useState(product.description);
   const [inputs, setInputs] = useState({});
   const [productImages, setProductImages] = useState([]);
-  const subcats = useContext(SubcatsContext);
+  // const subcats = useContext(SubcatsContext);
   // console.log("subcats", subcats);
 
   const getProductImages = async () => {

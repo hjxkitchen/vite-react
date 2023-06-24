@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { UserContext, ProdContext } from "../../../../index";
+// import { UserContext, ProdContext } from "../../../../index";
 // import {array} from "./AddProduct";
 
 const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
-  const usercontext = useContext(UserContext);
-  const prodcontext = useContext(ProdContext);
+  // const usercontext = useContext(UserContext);
+  // const prodcontext = useContext(ProdContext);
 
   const navigate = useNavigate();
   const getTotalCost = (sales) => {

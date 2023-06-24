@@ -2,14 +2,14 @@ import React, { Fragment, useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 // import EditPackage from "./EditPackage";
-import {
-  UserContext,
-  CartContext,
-  LoggedContext,
-} from "./../../../../../index";
+// import {
+//   UserContext,
+//   CartContext,
+//   LoggedContext,
+// } from "./../../../../../index";
 
 const PackageList = () => {
-  const loggedin = useContext(LoggedContext);
+  // const loggedin = useContext(LoggedContext);
 
   const [packagename, setPackage] = useState([]);
 

@@ -1,14 +1,15 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import Navbar from "../../../components/Navbar";
-import PublicNavbar from "../../../components/PublicNavbar";
-import { UserContext } from "../../../index";
+import Navbar from "../Navbar";
+import PublicNavbar from "../PublicNavbar";
+// import { UserContext } from "../../../index";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
-import ViewSaleItems from "../../../components/admin/sales/salelogs/ViewSaleItems";
-import AddJobModal from "../../../components/admin/sales/salelogs/AddJobModal";
+import ViewSaleItems from "./components/ViewSaleItems";
+import AddJobModal from "./components/AddJobModal";
 
 function Calculators() {
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
+  const user = "sdfsf";
   const [saleLogs, setSaleLogs] = React.useState([]);
   const [inputs, setInputs] = React.useState({});
   const [sale, setSales] = React.useState([]);
