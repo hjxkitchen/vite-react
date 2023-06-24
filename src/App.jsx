@@ -6,18 +6,22 @@ import i18n from "./i18n"; // Assuming you have already set up the i18n configur
 
 import { ThemeProvider } from "./contexts/ThemeContext";
 
-import Login from "./system/components/Login";
-import ProtectedRoute from "./system/components/ProtectedRoute";
-import Home from "./system/Home";
+import Login from "./system/auth/components/Login";
+import ProtectedRoute from "./system/auth/components/ProtectedRoute";
+import Home from "./system/static/Home";
 
-import Settings from "./system/Settings";
+import Settings from "./system/static/Settings";
 
-import Account from "./system/Account";
-import Contact from "./system/Contact";
+import Account from "./system/auth/Account";
+// import Contact from "./system/Contact";
 
-import Team from "./system/Team";
+import Team from "./system/auth/Team";
 
-import Token from "./system/components/Token";
+// ANCHOR OLD REACT ZAHAB PAGES
+
+import AdminDash from "./shops/admin_shop/admin/AdminDash";
+
+import Token from "./system/auth/components/Token";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -47,7 +51,7 @@ const App = () => {
               path="/"
               element={
                 <ProtectedRoute token={token} allowedRoles={[1, 2]}>
-                  <Home />
+                  <AdminDash />
                 </ProtectedRoute>
               }
             />
@@ -67,14 +71,14 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route
+            {/* <Route
               path="contact"
               element={
                 <ProtectedRoute token={token} allowedRoles={[1, 2]}>
                   <Contact />
                 </ProtectedRoute>
               }
-            />
+            /> */}
             <Route
               path="team"
               element={

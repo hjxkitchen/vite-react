@@ -3,15 +3,15 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 import ThemeContext from "../../contexts/ThemeContext";
-import Navbar from "../system/components/Navbar";
-import Footer from "../system/components/Footer";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 
-import AddModal from "./../system/components/crud/AddModal";
-import EditModal from "../system/components/crud/EditModal";
-import List from "../system/components/crud/List";
+// import AddModal from "../components/AddModal";
+// import EditModal from "../components/EditModal";
+// import List from "../components/List";
 
-import Upload from "../system/components/upload/Upload";
-import UploadMultiple from "../system/components/upload/UploadMultiple";
+import Upload from "../upload/Upload";
+import UploadMultiple from "../upload/UploadMultiple";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -32,10 +32,8 @@ const Home = () => {
         </h1>
         <Upload />
         <UploadMultiple />
-        <AddModal />
-        <div className="container">
-          <List />
-        </div>
+        {/* <AddModal /> */}
+        <div className="container">{/* <List /> */}</div>
         <br />
         <br />
         <br />
