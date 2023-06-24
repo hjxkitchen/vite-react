@@ -27,28 +27,34 @@ const List = () => {
 
       .then((response) => {
         console.log(response.data);
-        // for each, get userrole
-        response.data.forEach((user) => {
-          axios
-            .get(import.meta.env.VITE_API_URL + "/api/UserRole/" + user.id, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "x-api-key": import.meta.env.VITE_API_KEY,
-              },
-            })
-            .then((response) => {
-              console.log(response.data);
-              user.roleId = response.data.roleId;
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        });
+        // get userroles
+        axios
+          .get(import.meta.env.VITE_API_URL + "/api/UserRole", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          })
+          .then((roleResponse) => {
+            console.log(roleResponse.data);
 
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
+            // Combine user data with user roles
+            const usersWithRoles = response.data.map((user) => {
+              const userRole = roleResponse.data.find(
+                (role) => role.userId === user.id
+              );
+              const roleId = userRole ? userRole.roleId : null;
+              return { ...user, roleId };
+            });
+
+            console.log(usersWithRoles);
+
+            console.log(response.data);
+            setProducts(usersWithRoles);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       });
   }, []);
 
@@ -85,7 +91,7 @@ const List = () => {
             <h6 className="card-subtitle mb-2 text-muted">
               Role: {product.roleId}
             </h6>
-            <p className="card-text">{product.password}</p>
+            {/* <p className="card-text">{product.password}</p> */}
           </div>
           <div className="card-footer">
             {/* EDIT, DELETE BUTTON */}

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../system/components/Navbar";
 import Footer from "../system/components/Footer";
+import axios from "axios";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 
@@ -9,6 +10,27 @@ const Account = () => {
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   const decodedToken = jwt_decode(token);
   const username = decodedToken.username;
+  const roleId = decodedToken.roleId;
+  const userId = decodedToken.userId;
+
+  // get roles
+  const [roles, setRoles] = useState([]);
+  const getRoles = async () => {
+    const response = await axios.get(
+      import.meta.env.VITE_API_URL + "/api/Role",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+    setRoles(response.data);
+  };
+  useEffect(() => {
+    getRoles();
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -19,9 +41,16 @@ const Account = () => {
           <div className="card-body">
             {/* account info */}
             <h5 className="card-title custom-text">Account Info</h5>
+            <p className="card-text custom-text">User Id: {userId}</p>
             <p className="card-text mt-3 custom-text">Username: {username}</p>
-            {/* <p className="card-text custom-text">Email:</p>
-            <p className="card-text custom-text">Phone:</p> */}
+            <p className="card-text custom-text">
+              Role:{" "}
+              {roles.map((role) => {
+                if (role.id == roleId) {
+                  return role.name.toUpperCase();
+                }
+              })}
+            </p>
 
             <hr />
 

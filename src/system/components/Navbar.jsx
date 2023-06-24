@@ -21,6 +21,12 @@ const Navbar = () => {
     window.location.href = "/login";
   };
 
+  const userRole = Cookies.get(import.meta.env.VITE_COOKIE_NAME)
+    ? JSON.parse(
+        atob(Cookies.get(import.meta.env.VITE_COOKIE_NAME).split(".")[1])
+      ).roleId
+    : null;
+
   return (
     <>
       <nav
@@ -144,11 +150,14 @@ const Navbar = () => {
                 <i className="fas fa-book fa "></i> Playbooks
               </Link>
             </li>
-            <li className="sidebar-item">
-              <Link to="/team">
-                <i className="fas fa-users fa "></i> Team
-              </Link>
-            </li>
+            {/* if user role is 1 */}
+            {userRole === 1 && (
+              <li className="sidebar-item">
+                <Link to="/team">
+                  <i className="fas fa-users fa "></i> Team
+                </Link>
+              </li>
+            )}
             <li className="sidebar-item">
               <Link to="/settings">
                 <i className="fas fa fa-cog "></i> Preferences

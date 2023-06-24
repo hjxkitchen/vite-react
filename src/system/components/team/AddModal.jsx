@@ -25,7 +25,7 @@ const AddModal = () => {
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const handleSubmit = async () => {
-    await axios.post(import.meta.env.VITE_API_URL + "/api/User", inputs, {
+    await axios.post(import.meta.env.VITE_API_URL + "/signup", inputs, {
       headers: {
         Authorization: `Bearer ${token}`,
         "x-api-key": import.meta.env.VITE_API_KEY,
@@ -81,7 +81,7 @@ const AddModal = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <label htmlFor="recipient-name" className="col-form-label">
                     RoleID:
                   </label>
@@ -92,7 +92,7 @@ const AddModal = () => {
                     name="roleId"
                     onChange={handleInputChange}
                   />
-                </div>
+                </div> */}
                 <div className="mb-3">
                   <label htmlFor="recipient-name" className="col-form-label">
                     Password:

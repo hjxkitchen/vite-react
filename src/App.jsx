@@ -78,7 +78,7 @@ const App = () => {
             <Route
               path="team"
               element={
-                <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                <ProtectedRoute token={token} allowedRoles={[1]}>
                   <Team />
                 </ProtectedRoute>
               }

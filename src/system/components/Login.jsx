@@ -41,6 +41,7 @@ const Login = ({ setToken, token }) => {
         // Navigate("/");
         window.location.reload();
       } else {
+        alert("Login failed");
         throw new Error("Login failed");
       }
     } catch (error) {
