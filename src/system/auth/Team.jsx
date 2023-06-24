@@ -2,16 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
-import ThemeContext from "../contexts/ThemeContext";
-import Navbar from "../system/components/Navbar";
-import Footer from "../system/components/Footer";
+import ThemeContext from "../../contexts/ThemeContext";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 
-import AddModal from "./../system/components/team/AddModal";
-import EditModal from "../system/components/team/EditModal";
-import List from "../system/components/team/List";
+import AddModal from "./components/AddModal";
+import EditModal from "../components/team/EditModal";
+import List from "../components/team/List";
 
-import Upload from "../system/components/upload/Upload";
-import UploadMultiple from "../system/components/upload/UploadMultiple";
+import Upload from "../upload/Upload";
+import UploadMultiple from "../upload/UploadMultiple";
 
 const Home = () => {
   const { t } = useTranslation();

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../system/components/Navbar";
-import Footer from "../system/components/Footer";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 import axios from "axios";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";

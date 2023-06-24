@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
-import ThemeContext from "../contexts/ThemeContext";
+import ThemeContext from "../../contexts/ThemeContext";
 import Navbar from "../system/components/Navbar";
 import Footer from "../system/components/Footer";
 
