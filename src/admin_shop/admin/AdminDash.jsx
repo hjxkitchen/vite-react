@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from "react";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
-import Navbar from "../Navbar";
+import Navbar from "../../client_shop/Navbar";
 import Navbar2 from "../../system/Navbar";
 import Footer from "../../system/Footer";
 // import OrdersList from "../../components/admin/fulfillment/orders/OrdersList";
@@ -21,7 +21,7 @@ function Admin() {
   return (
     <Fragment>
       <Navbar />
-      <Navbar2 />
+      {/* <Navbar2 /> */}
 
       <div className="container">
         <div className="row md-2 mt-5 justify-content-center">

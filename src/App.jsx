@@ -56,13 +56,13 @@ import OnlineSales from "./admin_shop/sales/OnlineSales";
 import Tools from "./admin_shop/sales/Tools";
 
 // import Users from "./admin_shop/sales/Users";
-// import Orders from "./admin_shop/fulfillment/procurement/Orders";
-// import OrderLogs from "./admin_shop/fulfillment/procurement/OrderLogs";
-// import Suppliers from "./admin_shop/fulfillment/procurement/Suppliers";
+import Orders from "./admin_shop/products/Orders";
+import OrderLogs from "./admin_shop/products/OrderLogs";
+import Suppliers from "./admin_shop/products/Suppliers";
 
 // HOME PAGE
-// import Deliveries from "./pages/admin/fulfillment/drivers/DeliveryJobs";
-// import Technicians from "./pages/admin/fulfillment/technicians/TechnicianJobs";
+import Deliveries from "./admin_shop/products/DeliveryJobs";
+import Technicians from "./admin_shop/products/TechnicianJobs";
 
 // MARKETING ADMINS
 // outbound
@@ -165,8 +165,8 @@ const App = () => {
                                 allowedRoles={[1, 2]}
                               >
                                 {/* <Home /> */}
-                                {/* <AdminDash /> */}
-                                <Shop />
+                                <AdminDash />
+                                {/* <Shop /> */}
                               </ProtectedRoute>
                             }
                           />
@@ -268,12 +268,12 @@ const App = () => {
                           <Route path="salelogs" element={<SaleLogsAdmin />} />
                           {/* <Route path="users" element={<Users />} /> */}
 
-                          {/* <Route path="orders" element={<Orders />} /> */}
-                          {/* <Route path="orderlogs" element={<OrderLogs />} /> */}
-                          {/* <Route path="suppliers" element={<Suppliers />} /> */}
+                          <Route path="orders" element={<Orders />} />
+                          <Route path="orderlogs" element={<OrderLogs />} />
+                          <Route path="suppliers" element={<Suppliers />} />
 
                           <Route path="employee" element={<Employee />} />
-                          {/* <Route path="employees" element={<Employees />} /> */}
+                          <Route path="employees" element={<Employees />} />
                           <Route path="capitalops" element={<CapitalOps />} />
                           <Route path="finance" element={<Finance />} />
                           <Route path="legal" element={<Legal />} />
@@ -287,9 +287,9 @@ const App = () => {
                           <Route path="pointofsales" element={<POSales />} />
                           <Route path="tools" element={<Tools />} />
                           <Route path="onlinesales" element={<OnlineSales />} />
-                          {/* <Route path="procurement" element={<Orders />} /> */}
-                          {/* <Route path="deliveries" element={<Deliveries />} />
-                        <Route path="technicians" element={<Technicians />} /> */}
+                          <Route path="procurement" element={<Orders />} />
+                          <Route path="deliveries" element={<Deliveries />} />
+                          <Route path="technicians" element={<Technicians />} />
                           {/* MARKETING ADMINS */}
                           <Route
                             path="outboundadmin"

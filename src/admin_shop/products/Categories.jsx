@@ -5,7 +5,7 @@ import React, { Fragment } from "react";
 import CategoriesList from "./components/CategoriesList";
 import Navbar from "../Navbar";
 import AddCategoryModal from "./components/AddCategoryModal";
-// import EditCategory from "../../../components/admin/categories/EditCategory";
+// import EditCategory from "admin/categories/EditCategory";
 
 function PackagesListcomp() {
   return (

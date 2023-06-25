@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 
 //components
-// import InputPackage from "../../../components/InputPackage";
+// import InputPackage from "InputPackage";
 import PackagesList from "./components/PackagesList";
 import Navbar from "../Navbar";
 import AddPackageModal from "./components/AddPackageModal";
-// import EditPackage from "../../../../components/admin/packages/EditPackage";
+// import EditPackage from "../admin/packages/EditPackage";
 
 function PackagesListcomp() {
   return (

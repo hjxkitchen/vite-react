@@ -2,11 +2,11 @@ import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 
 //components
-// import InputProduct from "../../../components/InputProduct";
+// import InputProduct from "InputProduct";
 import ListProducts from "./components/ProductsList";
-import Navbar from "../Navbar";
+import Navbar from "../../client_shop/Navbar";
 import AddProductModal from "./components/AddProductModal";
-// import EditProduct from "../../../../components/admin/products/EditProduct";
+// import EditProduct from "../admin/products/EditProduct";
 
 function ProductsList() {
   const [products, setProducts] = useState([]);

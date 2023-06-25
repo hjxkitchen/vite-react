@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 
 //components
-// import InputFeatured from "../../../components/InputFeatured";
+// import InputFeatured from "InputFeatured";
 import FeaturedList from "./components/FeaturedList";
 import Navbar from "../Navbar";
 import AddFeaturedModal from "./components/AddFeaturedModal";
-// import EditFeatured from "../../../../components/admin/featured/EditFeatured";
+// import EditFeatured from "../admin/featured/EditFeatured";
 
 function FeaturedListcomp() {
   return (

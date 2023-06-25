@@ -8,8 +8,8 @@ function Component() {
   const user = useContext(UserContext);
   return (
     <Fragment>
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      <Navbar />
+      {/* {!user && <PublicNavbar />} */}
 
       {/* button for finance */}
       <h1 class="text-5xl font-bold tracking-wider uppercase text-center py-4 mt-8 border-b-4 border-black">
