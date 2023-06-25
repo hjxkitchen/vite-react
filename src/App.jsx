@@ -113,8 +113,8 @@ const App = () => {
 
   const [cartToken, setCartToken] = React.useState(null);
   const [ProductNames, setProductNames] = useState([]);
-  const [user, setUser] = React.useState(null);
-  const [loggedin, setLoggedin] = React.useState(false);
+  const [user, setUser] = React.useState("kelvin@gmail.com");
+  const [loggedin, setLoggedin] = React.useState(true);
   const [categories, setCategories] = React.useState(null);
 
   useEffect(() => {
@@ -125,6 +125,18 @@ const App = () => {
       setToken(storedToken);
     }
   }, []);
+
+  // product context name ids resolution
+  const getProdContext = async () => {
+    const productnames = await fetch("http://localhost:5000/products");
+    const result = await productnames.json();
+    // const result2 = await productnames.data;
+    setProductNames(result);
+  };
+
+  if (ProductNames.length == 0) {
+    getProdContext();
+  }
 
   return (
     <ThemeProvider>
@@ -153,8 +165,8 @@ const App = () => {
                                 allowedRoles={[1, 2]}
                               >
                                 {/* <Home /> */}
-                                <AdminDash />
-                                {/* <Shop /> */}
+                                {/* <AdminDash /> */}
+                                <Shop />
                               </ProtectedRoute>
                             }
                           />
@@ -210,8 +222,8 @@ const App = () => {
                           <Route path="packages" element={<Packages />} />
                           <Route path="calculators" element={<Calculators />} />
                           <Route path="blog" element={<Blog />} />
-                          {/* <Route path="about" element={<About />} />
-                        <Route path="contact" element={<Contact />} /> */}
+                          <Route path="about" element={<About />} />
+                          {/* <Route path="contact" element={<Contact />} /> */}
                           <Route path="cart" element={<Cart />} />
                           <Route path="checkout" element={<Checkout />} />
                           <Route

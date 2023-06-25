@@ -143,7 +143,13 @@ const ShopList = (token) => {
     <Fragment>
       <div class="container">
         {/* input type text */}
-        <div class="row justify-content-center mt-3 mb-5  sticky-top">
+        <div
+          class="row justify-content-center mt-3 mb-5  sticky-top"
+          style={{
+            zIndex: 900,
+            top: "100px",
+          }}
+        >
           <div class="input-group col-md-6 ">
             <input
               type="text"

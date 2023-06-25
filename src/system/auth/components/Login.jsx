@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import ThemeContext from "../../../contexts/ThemeContext";
+import { ThemeContext } from "../../../contexts/ThemeContext";
 
 import GoogleLogin from "./GoogleLogin";
 

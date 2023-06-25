@@ -41,6 +41,7 @@ const SalesList = () => {
     if (loggedin) {
       if (user !== null) {
         try {
+          console.log("uid", user);
           const user_idres = await axios.post(
             "http://localhost:5000/userbyemail",
             { user }

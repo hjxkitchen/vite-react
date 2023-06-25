@@ -1,6 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
+import Navbar2 from "../../system/Navbar";
 import PublicNavbar from "../PublicNavbar";
 import { UserContext, TokenContext } from "../../App";
 import ShopList from "./components/ShopList";
@@ -12,8 +13,10 @@ function Shop() {
   return (
     <Fragment>
       {/* navbar conditionaly rendered */}
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      {/* {user && <Navbar />} */}
+
+      <Navbar />
+      {/* <Navbar2 /> */}
 
       <div class="container justify-content-center mt-5">
         <div class="row ml-5 mr-5 mb-3 justify-content-center">

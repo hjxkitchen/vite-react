@@ -21,7 +21,7 @@ function Admin() {
   return (
     <Fragment>
       <Navbar />
-      {/* <Navbar2 /> */}
+      <Navbar2 />
 
       <div className="container">
         <div className="row md-2 mt-5 justify-content-center">
