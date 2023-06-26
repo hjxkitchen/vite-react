@@ -26,30 +26,42 @@ function Admin() {
       <div className="container">
         <div className="row md-2 mt-5 justify-content-center">
           {/* online shop */}
-          <a href="/venturecom">
-            <button className="btn btn-outline-dark mr-5">
-              Individual Online Client Shop Listing
-            </button>
-          </a>
-          <Link to="/socoscom">
-            {/* button oultine black */}
+
+          <Link to="/socossuperadmin">
+            <button className="btn btn-warning mr-5">Socos SuperAdmin</button>
+          </Link>
+          <Link to="/socos">
+            <button className="btn btn-primary mr-5">Socos Admin</button>
+          </Link>
+          <Link to="/socosclient">
+            <button className="btn btn-success mr-5">Socos Client</button>
+          </Link>
+          {/* <Link to="/socoscom">
             <button className="btn btn-primary mr-5">
               Aggregate Shop Store Listing
             </button>
-          </Link>
+          </Link> */}
         </div>
         <div className="row md-2 mt-5 justify-content-center">
           {/* online shop */}
+
           <Link to="/hjxadmin">
-            <button className="btn btn-outline-dark mr-5">Venture Admin</button>
+            <button className="btn btn-warning mr-5">
+              Ventures SuperAdmin
+            </button>
           </Link>
           <Link to="/multinationalhq">
             {/* button oultine black */}
-            <button className="btn btn-primary mr-5">Multinational HQ</button>
+            <button className="btn btn-primary mr-5">
+              Multinational Admin
+            </button>
           </Link>
           <Link to="/locationbranchhq">
             {/* button oultine black */}
-            <button className="btn btn-primary mr-5">Location Branch HQ</button>
+            <button className="btn btn-primary mr-5">Location Admin</button>
+          </Link>
+          <Link to="/shop">
+            <button className="btn btn-success mr-5">Venture Client</button>
           </Link>
         </div>
 

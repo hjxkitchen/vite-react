@@ -19,9 +19,12 @@ import Settings from "./system/static/Settings";
 import Contact from "./system/static/Contact";
 
 // ANCHOR ADMIN PAGES
+// socos pages
+import SocosSuperAdmin from "./admin_shop/admin/Socos/SocosSuperAdmin";
+import SocosClient from "./admin_shop/admin/Socos/SocosClient";
 // ADMIN PAGES
 import AdminDash from "./admin_shop/admin/oldAdminDash";
-import SocosAdmin from "./admin_shop/admin/SocosDash";
+import SocosAdmin from "./admin_shop/admin/Socos/SocosDash";
 import MultiNationalHQ from "./admin_shop/admin/MultiNationalHQ";
 import LocationBranchHQ from "./admin_shop/admin/LocationBranchHQ";
 import HusseinJXAdmin from "./admin_shop/admin/HusseinJXAdmin";
@@ -246,7 +249,6 @@ const App = () => {
                             element={<MultiNationalHQ />}
                           />
                           <Route path="hjxadmin" element={<HusseinJXAdmin />} />
-                          <Route path="socos" element={<SocosAdmin />} />
 
                           <Route path="inventory" element={<Inventory />} />
                           <Route path="shoplist" element={<ShopList />} />
@@ -317,6 +319,14 @@ const App = () => {
                           <Route
                             path="inboundreply"
                             element={<InboundReply />}
+                          />
+
+                          {/* ANCHOR SOCOS ROUTES */}
+                          <Route path="socos" element={<SocosAdmin />} />
+                          <Route path="socosclient" element={<SocosClient />} />
+                          <Route
+                            path="socossuperadmin"
+                            element={<SocosSuperAdmin />}
                           />
                         </Routes>
                       </LoggedContext.Provider>

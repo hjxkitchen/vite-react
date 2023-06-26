@@ -7,6 +7,14 @@
   --primary-color: #ff6b6b;
   --background-color: white;
 }
+[data-theme="smart"] {
+  --primary-color: #ff6b6b;
+  --background-color: rgb(8, 12, 107);
+}
+[data-theme="fun"] {
+  --primary-color: #ff6b6b;
+  --background-color: rgb(46, 72, 73);
+}
 
 .button {
   background-color: var(--primary-color);

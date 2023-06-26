@@ -1,8 +1,8 @@
 import React, { Fragment, useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../Navbar";
-import PublicNavbar from "../PublicNavbar";
-import { UserContext } from "../../App";
+import Navbar from "../../Navbar";
+// import PublicNavbar from "../../PublicNavbar";
+import { UserContext } from "../../../App";
 
 function Component() {
   const user = useContext(UserContext);
@@ -25,8 +25,8 @@ function Component() {
 
   return (
     <Fragment>
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      <Navbar />
+      {/* {!user && <PublicNavbar />} */}
 
       <div class="container">
         <button className="btn btn-warning" onClick={handleVentureOverview}>

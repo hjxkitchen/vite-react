@@ -265,6 +265,7 @@ function Component() {
           </Link>
         </div> */}
 
+        {/* VENTURE OVERVIEW */}
         <div className="row justify-content-center mt-5">
           <div className="card col-md-6 text-center">
             <div className="card-header">
@@ -326,7 +327,7 @@ function Component() {
             </div>
           </div>
 
-          {/* logs top right corner of screen */}
+          {/* venture overview */}
           <div class="col-md-3 ">
             <div class="card mt-5 col">
               <div class="card-header">
@@ -344,7 +345,6 @@ function Component() {
           </div>
         </div>
 
-        {/* venture mission stmt */}
         {/* strategy board */}
         <div class="row justify-content-center mb-5">
           <div class="card mt-5 col-md-6">
