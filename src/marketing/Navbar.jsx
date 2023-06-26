@@ -87,7 +87,7 @@ const Navbar = () => {
           >
             {isCollapsed ? ">" : "<"}
           </button>
-          <Link to="/shop" class="nav-link">
+          <Link to="/" class="nav-link">
             <a class="navbar-brand " href="/">
               <img
                 src="/vite.svg"

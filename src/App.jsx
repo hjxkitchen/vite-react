@@ -20,7 +20,7 @@ import Contact from "./system/static/Contact";
 
 // ANCHOR ADMIN PAGES
 // ADMIN PAGES
-import AdminDash from "./admin_shop/admin/AdminDash";
+import AdminDash from "./admin_shop/admin/oldAdminDash";
 import SocosAdmin from "./admin_shop/admin/SocosDash";
 import MultiNationalHQ from "./admin_shop/admin/MultiNationalHQ";
 import LocationBranchHQ from "./admin_shop/admin/LocationBranchHQ";
@@ -33,6 +33,8 @@ import InfoTech from "./admin_shop/admin/IT";
 import BusDev from "./admin_shop/admin/BusDev";
 import Recruiting from "./admin_shop/admin/Recruiting";
 import CapitalOps from "./admin_shop/admin/Capitalops";
+import Playbooks from "./admin_shop/admin/Playbooks";
+import Playbook from "./admin_shop/admin/Playbook";
 
 // COMMS
 // import Contact from "./admin_shop/comms/Contact";
@@ -286,6 +288,8 @@ const App = () => {
                           {/* HOME PAGE */}
                           <Route path="pointofsales" element={<POSales />} />
                           <Route path="tools" element={<Tools />} />
+                          <Route path="playbooks" element={<Playbooks />} />
+                          <Route path="playbook" element={<Playbook />} />
                           <Route path="onlinesales" element={<OnlineSales />} />
                           <Route path="procurement" element={<Orders />} />
                           <Route path="deliveries" element={<Deliveries />} />

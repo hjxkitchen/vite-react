@@ -245,7 +245,7 @@ const ShopList = (token) => {
                   {!product.image && (
                     <div>
                       <img
-                        src="http://localhost:3000//productimg.jpg"
+                        src="/productimg.jpg"
                         class="img-fluid"
                         alt="Card image"
                       ></img>
