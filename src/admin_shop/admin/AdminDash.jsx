@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from "react";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
-import Navbar from "../../client_shop/Navbar";
+import Navbar from "../Navbar";
 import Navbar2 from "../../system/Navbar";
 import Footer from "../../system/Footer";
 // import OrdersList from "../../components/admin/fulfillment/orders/OrdersList";
@@ -54,7 +54,10 @@ function Admin() {
         </div>
 
         {/* desktop buttons */}
-        <h1 class="text-5xl font-bold tracking-wider uppercase text-center py-4 mt-8 border-b-4 border-black">
+        <h1
+          class="text-5xl font-bold tracking-wider uppercase text-center py-4 mt-8 border-b-4 border-black"
+          id="admin"
+        >
           LOCATION HQ <h1>{t("welcome")}</h1>
         </h1>
         <div class="hidden lg:flex lg:justify-center lg:items-center bg-gray-100 h-64 flex justify-center items-center ">

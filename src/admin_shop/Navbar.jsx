@@ -11,6 +11,8 @@ import { TokenContext, UserContext, CategoryContext } from "../App";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 
+import { useNavigate } from "react-router-dom";
+
 const languages = [
   { value: "", text: "Language/Lugha" },
   { value: "en", text: "English" },
@@ -24,7 +26,6 @@ const Navbar = () => {
   // console.log("categories", categories);
   const getCats = async () => {
     try {
-      console.log("Asdasdasd");
       const response = await axios.get("http://localhost:5000/cat-subcat");
       console.log("cats are", response.data);
       setCategories(response.data);
@@ -69,6 +70,11 @@ const Navbar = () => {
       ).roleId
     : null;
 
+  const navigate = useNavigate();
+  function handleBackClick() {
+    navigate(-1);
+  }
+
   return (
     <Fragment>
       {/* <React.StrictMode>
@@ -87,7 +93,7 @@ const Navbar = () => {
           >
             {isCollapsed ? ">" : "<"}
           </button>
-          <Link to="/shop" class="nav-link">
+          <Link to="/" class="nav-link">
             <a class="navbar-brand " href="/">
               <img
                 src="/vite.svg"
@@ -317,6 +323,15 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
+      <div>
+        <button className="back-button" onClick={handleBackClick}>
+          Back
+        </button>
+      </div>
+      {/* <div className="forward-button">
+        <button onClick={handleBackClick}>Forward</button>
+      </div> */}
+
       {/* </Suspense>
       </React.StrictMode> */}
     </Fragment>

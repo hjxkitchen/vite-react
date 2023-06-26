@@ -21,7 +21,7 @@ const Navbar = () => {
   const user = useContext(UserContext);
   const [categories, setCategories] = useState();
 
-  // console.log("categories", categories);
+  console.log("adminnav");
   const getCats = async () => {
     try {
       console.log("Asdasdasd");

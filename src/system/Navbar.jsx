@@ -1,21 +1,66 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
 import axios from "axios";
+import React, {
+  Fragment,
+  useEffect,
+  useContext,
+  Suspense,
+  useState,
+} from "react";
+import { Outlet, Link } from "react-router-dom";
+import { TokenContext, UserContext, CategoryContext } from "../App";
+import Cookies from "js-cookie";
+import { useTranslation } from "react-i18next";
 
-import { ThemeContext } from "../contexts/ThemeContext";
+const languages = [
+  { value: "", text: "Language/Lugha" },
+  { value: "en", text: "English" },
+  { value: "sw", text: "Swahili" },
+];
 
 const Navbar = () => {
-  const { theme } = useContext(ThemeContext);
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const user = useContext(UserContext);
+  const [categories, setCategories] = useState();
 
-  const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed);
+  // console.log("categories", categories);
+  const getCats = async () => {
+    try {
+      console.log("Asdasdasd");
+      const response = await axios.get("http://localhost:5000/cat-subcat");
+      console.log("cats are", response.data);
+      setCategories(response.data);
+      // console.log("cats are", categories);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
+
+  useEffect(() => {
+    getCats();
+  }, []);
+
+  const { t } = useTranslation();
+
+  const [lang, setLang] = useState("");
+
+  // This function put query that helps to
+  // change the language
+  const handleChange = (e) => {
+    setLang(e.target.value);
+    let loc = "http://localhost:3000/about";
+    window.location.replace(loc + "?lng=" + e.target.value);
+  };
+
+  const token = useContext(TokenContext);
 
   const handleLogout = () => {
     Cookies.remove(import.meta.env.VITE_COOKIE_NAME);
     window.location.href = "/login";
+  };
+
+  const [isCollapsed, setIsCollapsed] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
   };
 
   const userRole = Cookies.get(import.meta.env.VITE_COOKIE_NAME)
@@ -25,141 +70,225 @@ const Navbar = () => {
     : null;
 
   return (
-    <>
+    <Fragment>
+      {/* <React.StrictMode>
+        <Suspense fallback="loading"> */}
+      {/* collabsible navbar */}
       <nav
-        className={`navbar fixed-top navbar-expand-lg navbar-${theme} bg-${theme}`}
-        style={{ paddingTop: "20px" }}
+        class="navbar fixed-top navbar-expand-lg navbar-dark"
+        style={{
+          backgroundColor: "dark" === "dark" ? "#343a40" : "#f8f9fa",
+        }}
       >
         <div className="container-fluid cssnav">
           <button
-            className={`btn btn-${theme} bg-${theme} toggle-btn`}
+            className={`btn btn-dark bg-dark toggle-btn`}
             onClick={toggleSidebar}
           >
             {isCollapsed ? ">" : "<"}
           </button>
-          <Link className="navbar-brand" to="/">
-            Zahab Admin
+          <Link to="/shop" class="nav-link">
+            <a class="navbar-brand " href="/">
+              <img
+                src="/vite.svg"
+                width="30"
+                height="30"
+                class="d-inline-block align-top mr-3"
+                alt=""
+                loading="lazy"
+              />
+              ZAHAB
+            </a>
           </Link>
           <button
-            className="navbar-toggler"
+            class="navbar-toggler mr-1"
             type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link className="nav-link" to="/products">
-                  <i className="fas fa-sitemap fa"></i> Products / Packages
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/orders">
-                  <i className="fas fa-hand-holding-usd fa"></i> Orders
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/saleslist">
-                  <i className="fas fa fa-dollar-sign"></i> Sales
-                </Link>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  href="#"
-                  className="nav-link dropdown-toggle"
-                  id="shopDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i className="fas fa-shopping-bag fa-lg"></i> SHOP
-                </a>
-                <ul
-                  className="dropdown-menu megamenu"
-                  aria-labelledby="shopDropdown"
-                >
-                  <div className="row">
-                    {categories.map((category, index) => (
-                      <li className="col-md-2 dropdown-item" key={index}>
-                        <ul>
-                          <li className="dropdown-header">
-                            {category.category_name}
-                          </li>
-                          {category.subcategories.map((subcategory, index) => (
-                            <li key={index}>
-                              <Link to="#">{subcategory.subcat_name}</Link>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ">
+              {/* dropdown */}
+              {/* <li class="nav-item dropdown">
+<Link to="/shop" class="nav-link dropdown-toggle ml-1" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<i class="fas fa-shopping-bag fa-lg"></i> {t('SHOP').toUpperCase()}
+</Link>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<Link to="/shop" class="dropdown-item" >Power Generation</Link>
+<Link to="/shop" class="dropdown-item" >Appliances</Link>
+<Link to="/shop" class="dropdown-item" >Specialty</Link>
+</div>
+</li> */}
+              {/* shop dropdown */}
+              <li class="nav-item">
+                <li class="dropdown menu-large nav-item">
+                  {" "}
+                  <a
+                    href="#"
+                    class="dropdown-toggle nav-link"
+                    data-toggle="dropdown"
+                  >
+                    <i class="fas fa-shopping-bag fa-lg"></i>{" "}
+                    {t("SHOP").toUpperCase()}{" "}
+                  </a>
+                  <ul class="dropdown-menu megamenu">
+                    <div class="row megamenu-container">
+                      {/* map categories */}
+                      {categories &&
+                        categories.map((category, index) => {
+                          return (
+                            <li class="col-md-2 dropdown-item">
+                              <ul>
+                                <li class="dropdown-header">
+                                  {category.category_name}
+                                </li>
+                                {/* map subcategories */}
+                                {category.subcategories.map(
+                                  (subcategory, index) => {
+                                    return (
+                                      <li>
+                                        <Link to="#">
+                                          {subcategory.subcat_name}
+                                        </Link>
+                                      </li>
+                                    );
+                                  }
+                                )}
+                              </ul>
                             </li>
-                          ))}
-                        </ul>
-                      </li>
-                    ))}
-                  </div>
-                </ul>
+                          );
+                        })}
+                    </div>
+                  </ul>
+                </li>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/adminops">
-                  <i className="fas fa fa-user-cog"></i> Admin Ops
+              <li class="nav-item">
+                <Link to="/featured" class="nav-link ">
+                  <i class="fas fa-fire fa-lg"></i> FEATURED
                 </Link>
               </li>
-            </ul>
-            <ul className="navbar-nav ms-auto rightmost-nav-link">
-              <li className="nav-item dropdown text-center">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="accountDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i className="fas fa-user-circle fa"></i> Account
-                </a>
-                <ul
-                  className="dropdown-menu dropdown-menu-end text-center mb-3"
-                  aria-labelledby="accountDropdown"
-                >
-                  <li>
-                    <Link className="dropdown-item" to="account">
-                      <i className="fas fa-user-circle fa"></i> Profile
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/settings">
-                      <i className="fas fa-cog fa"></i> Settings
-                    </Link>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a
-                      className="dropdown-item"
-                      href="#"
-                      onClick={handleLogout}
-                    >
-                      <i className="fas fa-sign-out-alt fa"></i> Logout
-                    </a>
-                  </li>
-                </ul>
+              <li class="nav-item ">
+                <Link to="/packages" class="nav-link">
+                  <i class="fas fa-store fa-lg"></i> PACKAGES
+                </Link>
               </li>
+
+              {/* <li class="nav-item">
+<Link to="/calculators" class="nav-link disabled" style={{textDecoration:"line-through"}}><i class="fas fa-calculator fa-lg" ></i> CALCULATORS</Link>
+</li>
+<li class="nav-item">
+<Link to="/blog" class="nav-link disabled" style={{textDecoration:"line-through"}}><i class="fas fa-blog fa-lg" ></i> BLOG</Link>
+</li> */}
+
+              {/* optional search bar */}
+              {/* <li>
+<form class="form-inline ml-5" action="/action_page.php">
+    <input class="form-control mr-sm-2" type="text" placeholder="Search"></input>
+    <button class="btn btn-success" type="submit">Search Products</button>
+</form>
+</li> */}
             </ul>
+            <div class="ml-auto">
+              <ul class="navbar-nav  ">
+                {/* <!-- Admin Dropdown --> */}
+                {/* <li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="/admin" id="navbardrop" data-toggle="dropdown">
+  ADMIN
+  </a>
+  <div class="dropdown-menu">
+      <a class="dropdown-item" href="/admin">Dashboard</a>
+      <a class="dropdown-item" href="/inventory">Inventory</a>
+      <a class="dropdown-item" href="/sales">Sales</a>
+      <a class="dropdown-item" href="/orders">Orders</a>
+      <a class="dropdown-item" href="/suppliers">Suppliers</a>
+      <a class="dropdown-item" href="/users">Users</a>
+  </div>
+</li> */}
+
+                {/* 
+<select class="mt-2 mb-2" value={lang} onChange={handleChange}>
+				{languages.map(item => {	
+					return (<option key={item.value}
+					value={item.value}>{item.text}</option>);
+				})}
+</select> */}
+
+                <li class="nav-item ">
+                  <Link to="/about" class="nav-link">
+                    <i class="fas fa-address-card fa-lg"></i> {t("ABOUT")}
+                  </Link>
+                </li>
+
+                <li class="nav-item">
+                  <Link to="/contact" class="nav-link">
+                    <i class="fas fa-phone fa-lg"></i> {t("CONTACT")}
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link to="/cart" class="nav-link">
+                    <i class="fas fa-shopping-cart fa-lg"></i>{" "}
+                    {t("CART").toUpperCase()}
+                  </Link>
+                </li>
+
+                {/* account dropdown */}
+                <li class="nav-item dropdown ">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="/admin"
+                    id="navbardrop"
+                    data-toggle="dropdown"
+                  >
+                    <i class="fas fa-user fa-lg"></i> ACCOUNT
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <Link to="/account">
+                      <a class="dropdown-item" href="/account">
+                        <i class="fas fa-user"></i> {t("Account")}
+                      </a>
+                    </Link>
+                    <Link to="/order_history">
+                      <a class="dropdown-item" href="/order_history">
+                        <i class="fas fa-shopping-cart"></i> {t("Orders")}
+                      </a>
+                    </Link>
+                    <Link to="/favorites">
+                      <a class="dropdown-item" href="/favorites">
+                        <i class="fas fa-heart"></i> {t("Favorites")}
+                      </a>
+                    </Link>
+                    <Link class="dropdown-item" onClick={handleLogout}>
+                      <i class="fas fa-sign-out-alt fa-lg "></i> {t("LOGOUT")}
+                    </Link>
+                    {/* <a class="dropdown-item" onClick={handleLogout}><i class="fas fa-sign-out-alt" ></i> Sign Out</a>
+      <a class="dropdown-item" href="/login"><i class="fas fa-sign-in-alt"></i> Log in</a>
+      <a class="dropdown-item" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a> */}
+                  </div>
+                </li>
+
+                {/* <li class="nav-item">
+</li> */}
+              </ul>
+            </div>
           </div>
         </div>
       </nav>
-
       <div
         className={`sidebar ${isCollapsed ? "collapsed" : ""}`}
-        style={{ backgroundColor: theme === "dark" ? "#343a40" : "#f8f9fa" }}
+        style={{
+          backgroundColor: "dark" === "dark" ? "#343a40" : "#f8f9fa",
+        }}
       >
         <div className="sidebar-content">
           <ul className="sidebar-nav">
             <li className="sidebar-item">
-              <Link to="/playbooks">
+              <Link to="/#">
                 <i className="fas fa-book fa"></i> Playbooks
               </Link>
             </li>
@@ -188,7 +317,9 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
-    </>
+      {/* </Suspense>
+      </React.StrictMode> */}
+    </Fragment>
   );
 };
 

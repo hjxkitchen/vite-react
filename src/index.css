@@ -383,3 +383,39 @@ body {
     color: #fff;
   }
 }
+
+/* back button */
+
+.back-button {
+  position: fixed;
+  top: 100px;
+  left: 5vw;
+  padding: 10px;
+  width: 60px;
+  height: 60px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #eaeaea;
+}
+
+.forward-button {
+  position: fixed;
+  top: 100px;
+  left: 10vw;
+  padding: 10px;
+  width: 80px;
+  height: 60px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.forward-button:hover {
+  background-color: #eaeaea;
+}
