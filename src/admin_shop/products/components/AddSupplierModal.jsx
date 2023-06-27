@@ -14,11 +14,21 @@ const AddSupplierModal = ({ supplier }) => {
     e.preventDefault();
     console.log(inputs);
     try {
-      const response = await fetch("http://localhost:5000/suppliers", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(inputs),
-      });
+      // const response = await fetch("http://localhost:000/suppliers", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(inputs),
+      // });
+      const response = await axios.post(
+        import.meta.env.VITE_API_URL + "suppliers",
+        inputs,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
       window.location = "/suppliers";
     } catch (error) {
       console.error(error.message);

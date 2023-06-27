@@ -17,12 +17,22 @@ const FeaturedList = () => {
   //delete featured function defined
   const deleteFeatured = async (featured_id) => {
     try {
-      const deleteFeatured = await fetch(
-        `http://localhost:5000/featured/${featured_id}`,
+      // const deleteFeatured = await fetch(
+      //   `http://localhost:000/featured/${featured_id}`,
+      //   {
+      //     method: "DELETE",
+      //   }
+      // );
+      const deleteFeatured = await axios.delete(
+        import.meta.env.VITE_APP_API_URL + "/api/Featured/" + featured_id,
         {
-          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
         }
       );
+
       setFeatured(
         featured.filter((featured) => featured.featured_id !== featured_id)
       );
@@ -35,7 +45,17 @@ const FeaturedList = () => {
   //get featured function defeined
   const getFeatured = async () => {
     try {
-      const response = await fetch("http://localhost:5000/featured");
+      // const response = await fetch("http://localhost:000/featured");
+      const response = await axios.get(
+        import.meta.env.VITE_APP_API_URL + "/api/Featured",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
+        }
+      );
+
       console.log("featured");
       const jsonData = await response.json();
       setFeatured(jsonData);

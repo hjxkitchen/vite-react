@@ -12,9 +12,19 @@ const EditProduct = ({ product }) => {
 
   const getProductImages = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/product_images/${product.product_id}`
+      // const response = await fetch(
+      //   `http://localhost:000/product_images/${product.product_id}`
+      // );
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "productimage/" + product.product_id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
       );
+
       const jsonData = await response.json();
       // console.log(jsonData);
       setProductImages(jsonData);
@@ -41,7 +51,7 @@ const EditProduct = ({ product }) => {
   //   // formData.append("fileName", filename);
   //   try {
   //     const res = await axios.post(
-  //       "http://localhost:5000/upload",
+  //       "http://localhost:000/upload",
   //       formData
   //     );
   //     console.log(res);
@@ -65,12 +75,24 @@ const EditProduct = ({ product }) => {
     try {
       console.log(inputs);
       // const body = description;
-      // const response = await fetch(`http://localhost:5000/products/${product.id}`, {
+      // const response = await fetch(`http://localhost:000/products/${product.id}`, {
       //     method: "PUT",
       //     headers: {"Content-Type": "application/json"},
       //     body: JSON.stringify(body)
       // });
-      // window.location = "/inventory";
+
+      const response = await axios.put(
+        import.meta.env.VITE_API_URL + "product/" + product.product_id,
+        inputs,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
+      window.location = "/inventory";
     } catch (error) {
       console.error(error.message);
     }
@@ -191,7 +213,10 @@ const EditProduct = ({ product }) => {
                         {productImages.map((image) => (
                           // <div class="col">
                           <img
-                            src={`http://localhost:5000${image.image_path}`}
+                            // src={`http://localhost:000${image.image_path}`}
+                            src={
+                              import.meta.env.VITE_API_URL + image.image_path
+                            }
                             class="img-thumbnail"
                             style={{ maxHeight: 60 }}
                             alt="..."
@@ -203,7 +228,7 @@ const EditProduct = ({ product }) => {
                     </div>
 
                     <form
-                      action="http://localhost:5000/upload"
+                      action={import.meta.env.VITE_API_URL + "/upload"}
                       method="post"
                       enctype="multipart/form-data"
                     >

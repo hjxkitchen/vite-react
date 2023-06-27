@@ -3,11 +3,14 @@ import { useLocation } from "react-router-dom";
 import Navbar from "../Navbar";
 import PublicNavbar from "../PublicNavbar";
 import { UserContext, ProdContext } from "./../../App";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 function Contact() {
   const user = useContext(UserContext);
-  const products = useContext(ProdContext);
+  // const products = useContext(ProdContext);
   //   const cartToken = useContext(CartContext);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const location = useLocation();
   const { feature } = location.state;
@@ -18,10 +21,23 @@ function Contact() {
 
   const getProds = async () => {
     try {
-      const url = "http://localhost:5000/subcategories/" + feature.category_id;
-      console.log("url", url);
-      const response = await fetch(url);
-      const jsonData = await response.json();
+      // const url = "http://localhost:000/subcategories/" + feature.category_id;
+      // console.log("url", url);
+      // const response = await fetch(url);
+      // const jsonData = await response.json();
+
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL +
+          "/api/subcategory/" +
+          feature.category_id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
       setProds(jsonData);
       console.log("jsondata:", jsonData);
     } catch (error) {
@@ -44,12 +60,24 @@ function Contact() {
     e.preventDefault();
     console.log(inputs);
     try {
-      const url = "http://localhost:5000/subcategories/" + feature.category_id;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(inputs),
-      });
+      // const url = "http://localhost:000/subcategories/" + feature.category_id;
+      // const response = await fetch(url, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(inputs),
+      // });
+
+      const response = await axios.post(
+        import.meta.env.VITE_API_URL + "/api/subcategory",
+        inputs,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
       console.log("rspons:", response);
       // window.location = "/packages";
       // window.reload();
@@ -64,12 +92,25 @@ function Contact() {
     try {
       const res = window.confirm("Are you sure you want to delete this item?");
       if (res) {
-        const url =
-          "http://localhost:5000/packageitems/" + prod.package_item_id;
-        const response = await fetch(url, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-        });
+        // const url =
+        //   "http://localhost:000/packageitems/" + prod.package_item_id;
+        // const response = await fetch(url, {
+        //   method: "DELETE",
+        //   headers: { "Content-Type": "application/json" },
+        // });
+
+        const response = await axios.delete(
+          import.meta.env.VITE_API_URL +
+            "/api/packageitem/" +
+            prod.package_item_id,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+
         console.log("rspons:", response);
         // window.location = "/packages";
         // window.reload();

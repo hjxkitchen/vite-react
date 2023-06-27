@@ -18,26 +18,63 @@ function Calculators() {
   const { saledata } = location.state;
   console.log("saledata", location.state.sale.sale_id);
 
-  const url = "http://localhost:5000/sale/" + location.state.sale.sale_id;
+  // const url = "http://localhost:000/sale/" + location.state.sale.sale_id;
+
+  // const getsales = async () => {
+  //   console.log("utl", url);
+  //   const result = await axios.get(url);
+  //   console.log("ressssss", result.data[0]);
+  //   setSales(result.data[0]);
+  // };
 
   const getsales = async () => {
-    console.log("utl", url);
-    const result = await axios.get(url);
-    console.log("ressssss", result.data[0]);
-    setSales(result.data[0]);
+    try {
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/order/" + saledata.order_id,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+      console.log("res", response.data);
+      setSales(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const getSaleLogs = async () => {
     console.log("res is", sale.sale_id);
-    const url = "http://localhost:5000/salelogs/" + location.state.sale.sale_id;
-    console.log(url);
-    const res = await axios.get(url);
+    // const url = "http://localhost:000/salelogs/" + location.state.sale.sale_id;
+    // console.log(url);
+    // const res = await axios.get(url);
+    const res = await axios.get(
+      import.meta.env.VITE_APP_API_URL + "/api/salelog/" + saledata.order_id,
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+        },
+      }
+    );
     setSaleLogs(res.data);
   };
 
   const getCustomer = async () => {
-    const url = "http://localhost:5000/user/" + location.state.sale.user_id;
-    const res = await axios.get(url);
+    // const url = "http://localhost:000/user/" + location.state.sale.user_id;
+    // const res = await axios.get(url);
+    const res = await axios.get(
+      import.meta.env.VITE_APP_API_URL + "/api/user/" + saledata.user_id,
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+        },
+      }
+    );
+
     console.log("res", res.data);
     setCustomer(res.data[0]);
   };
@@ -70,10 +107,19 @@ function Calculators() {
     // console.log("saleLogs", inputs.salelog);
     const data = inputs.salelog;
     e.preventDefault();
-    const res = await axios.post("http://localhost:5000/salelogs", {
-      sale_id: sale.sale_id,
-      salelog: data,
-    });
+    // const res = await axios.post("http://localhost:000/salelogs", {
+    //   sale_id: sale.sale_id,
+    //   salelog: data,
+    // });
+
+    const res = await axios.post(
+      import.meta.env.VITE_APP_API_URL + "/api/salelog",
+      {
+        Authorization: `Bearer ${user.token}`,
+        "x-api-key": import.meta.env.VITE_APP_API_KEY,
+      }
+    );
+
     // console.log("res is", res);
     // getSaleLogs();
     // get sale
@@ -91,7 +137,7 @@ function Calculators() {
     // console.log("res issad", e.target.value);
     setStatus(e.target.value);
     e.preventDefault();
-    // const res = await axios.put("http://localhost:5000/sales/"+ sale.sale_id, {status: inputs.status});
+    // const res = await axios.put("http://localhost:000/sales/"+ sale.sale_id, {status: inputs.status});
     // getSaleLogs();
     // window.location.href = "/salelogs";
     // window.location.reload();
@@ -103,30 +149,67 @@ function Calculators() {
     console.log(status);
 
     // update status
+    // const res = await axios.put(
+    //   "http://localhost:000/sales/status/" + sale.sale_id,
+    //   {
+    //     status: status,
+    //   }
+    // );
     const res = await axios.put(
-      "http://localhost:5000/sales/status/" + sale.sale_id,
+      import.meta.env.VITE_APP_API_URL + "/api/order/" + saledata.order_id,
       {
         status: status,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+        },
       }
     );
+
     console.log("res is", res);
 
-    const url = "http://localhost:5000/sale/" + sale.sale_id;
-    console.log(url);
-    const result = await axios.get(url);
-    console.log("ressssss", result.data[0].sale_status);
-    setStatus(result.data[0].sale_status);
+    // const url = "http://localhost:000/sale/" + sale.sale_id;
+    // console.log(url);
+    // const result = await axios.get(url);
+    // console.log("ressssss", result.data[0].sale_status);
+    // setStatus(result.data[0].sale_status);
+
+    const res1 = await axios.get(
+      import.meta.env.VITE_APP_API_URL + "/api/sale/" + sale.sale_id,
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+        },
+      }
+    );
 
     // getSaleLogs();
     // window.location.href = "/salelogs";
     // getSaleLogs();
     alert("Status Updated");
 
-    // insert into logs
-    const res2 = await axios.post("http://localhost:5000/salelogs", {
-      sale_id: sale.sale_id,
-      salelog: "Status Updated to " + status + " by " + user,
-    });
+    // // insert into logs
+    const res2 = await axios.post(
+      import.meta.env.VITE_APP_API_URL + "/api/salelog",
+      {
+        sale_id: sale.sale_id,
+        salelog: "Status Updated to " + status + " by " + user,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+        },
+      }
+    );
+
+    // const res2 = await axios.post("http://localhost:000/salelogs", {
+    //   sale_id: sale.sale_id,
+    //   salelog: "Status Updated to " + status + " by " + user,
+    // });
     window.location.reload();
   };
 

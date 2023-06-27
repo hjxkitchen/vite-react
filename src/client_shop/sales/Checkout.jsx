@@ -26,11 +26,26 @@ function Checkout() {
     // user by email
     const user_id = user.user_id;
 
-    const res = await axios.post("http://localhost:5000/cart/checkout", {
-      loccart: sales,
-      total: 5136,
-      user_id: user_id,
-    });
+    // const res = await axios.post("http://localhost:000/cart/checkout", {
+    //   loccart: sales,
+    //   total: 5136,
+    //   user_id: user_id,
+    // });
+
+    const res = await axios.post(
+      import.meta.env.VITE_APP_API_URL + "/checkout",
+      {
+        loccart: sales,
+        total: 5136,
+        user_id: user_id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+        },
+      }
+    );
 
     // localStorage.removeItem("cart");
     // const res = window.confirm("Are you sure you want to checkout?");
@@ -43,7 +58,17 @@ function Checkout() {
     event.preventDefault();
     // mpesa open api
     // const res = await axios.post("https://openapi.m-pesa.com/sandbox/ipg/v2/vodafoneGHA/c2bPayment/singleStage/");
-    const res = await axios.get("http://localhost:5000/checkout/mpesaapi");
+    // const res = await axios.get("http://localhost:000/checkout/mpesaapi");
+    const res = await axios.get(
+      import.meta.env.VITE_APP_API_URL + "/checkout/mpesaapi",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+        },
+      }
+    );
+
     console.log("sessionKey", res);
   };
 

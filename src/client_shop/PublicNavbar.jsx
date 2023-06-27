@@ -16,7 +16,16 @@ const Navbar = (setUser, user) => {
   const getCats = async () => {
     try {
       console.log("Asdasdasd");
-      const response = await axios.get("http://localhost:5000/cat-subcat");
+      // const response = await axios.get("http://localhost:000/cat-subcat");
+      const response = await axios.get(
+        import.meta.env.VITE_APP_API_URL + "/category",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
+        }
+      );
       console.log("cats are", response.data);
       setCategories(response.data);
       // console.log("cats are", categories);

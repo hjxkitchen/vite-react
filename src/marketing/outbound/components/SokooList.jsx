@@ -5,7 +5,17 @@ function Component() {
 
   const getSokoos = async () => {
     try {
-      const response = await fetch("http://localhost:5000/sokoos");
+      // const response = await fetch("http://localhost:000/sokoos");
+      const response = await axios.get(
+        import.meta.env.VITE_APP_API_URL + "/api/Sokoo",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
+        }
+      );
+
       const jsonData = await response.json();
       setSokoos(jsonData);
     } catch (error) {

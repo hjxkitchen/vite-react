@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { Outlet, Link } from "react-router-dom";
-import { TokenContext, UserContext, CategoryContext } from "../App";
+import { UserContext, CategoryContext } from "../App";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 
@@ -20,12 +20,22 @@ const languages = [
 const Navbar = () => {
   const user = useContext(UserContext);
   const [categories, setCategories] = useState();
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   console.log("adminnav");
   const getCats = async () => {
     try {
       console.log("Asdasdasd");
-      const response = await axios.get("http://localhost:5000/cat-subcat");
+      const response = await axios.get(
+        (await import.meta.env.VITE_API_URL) +
+          "/api/category?include=subcategory",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
       console.log("cats are", response.data);
       setCategories(response.data);
       // console.log("cats are", categories);
@@ -49,8 +59,6 @@ const Navbar = () => {
     let loc = "http://localhost:3000/about";
     window.location.replace(loc + "?lng=" + e.target.value);
   };
-
-  const token = useContext(TokenContext);
 
   const handleLogout = () => {
     Cookies.remove(import.meta.env.VITE_COOKIE_NAME);

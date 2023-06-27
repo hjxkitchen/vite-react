@@ -11,7 +11,15 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
 
   const getCustomersList = async () => {
     try {
-      const response = await fetch("http://localhost:5000/users");
+      // const response = await fetch("http://localhost:000/users");
+
+      const response = await axios.get(import.meta.env.VITE_API_URL + "user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      });
+
       const jsonData = await response.json();
       setCustomersList(jsonData);
     } catch (error) {
@@ -50,9 +58,19 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
 
     // get customer phone
     try {
-      const response = await fetch(
-        `http://localhost:5000/user/phone/${e.value}`
+      // const response = await fetch(
+      //   `http://localhost:000/user/phone/${e.value}`
+      // );
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "user/" + e.value,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
       );
+
       const jsonData = await response.json();
       console.log(jsonData);
       setCustomerPhone(jsonData[0].phone);

@@ -12,8 +12,18 @@ function Orders() {
   //get products function defeined
   const getOrders = async () => {
     try {
-      const response = await fetch("http://localhost:5000/orderslist");
-      const jsonData = await response.json();
+      // const response = await fetch("http://localhost:000/orderslist");
+      // const jsonData = await response.json();
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "orderslist",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
       setOrdersList(jsonData);
       // console.log(products);
     } catch (error) {

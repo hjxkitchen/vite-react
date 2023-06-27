@@ -2,19 +2,31 @@ import axios from "axios";
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext, CartContext } from "../../../App";
+import Cookies from "js-cookie";
 
-const ShopList = (token) => {
+const ShopList = () => {
   const [products, setProducts] = useState([]);
 
   const user = useContext(UserContext);
   const cartToken = useContext(CartContext);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   // const useremail = user.email;
   //get products function defeined
   const getProducts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/products");
-      const jsonData = await response.json();
+      // const response = await fetch("http://localhost:000/products");
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/product?include=productimage",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+      console.log("products", response.data);
+      const jsonData = await response.data;
       setProducts(jsonData);
       console.log(jsonData);
     } catch (error) {
@@ -29,14 +41,24 @@ const ShopList = (token) => {
   const addToCart = (e) => {
     if (user === null) {
       const func = async () => {
-        const addtocart = await axios.post(
-          "http://localhost:5000/carts/token",
-          {
+        // const addtocart = await axios.post(
+        //   "http://localhost:000/carts/token",
+        //   {
+        //     token: cartToken,
+        //     product_id: e.product_id,
+        //     quantity: 1,
+        //     price: e.price,
+        //   }
+        // );
+        // add to local storage
+        const addtocart = localStorage.setItem(
+          "cart",
+          JSON.stringify({
             token: cartToken,
             product_id: e.product_id,
             quantity: 1,
             price: e.price,
-          }
+          })
         );
         console.log("addtocart is: ", addtocart);
       };
@@ -50,12 +72,29 @@ const ShopList = (token) => {
         const user_id = user.user_id;
         console.log("user_id is: ", user_id);
 
-        const addtocart = await axios.post("http://localhost:5000/carts", {
-          user_id: user_id,
-          product_id: e.product_id,
-          quantity: 1,
-          price: e.price,
-        });
+        // const addtocart = await axios.post("http://localhost:000/carts", {
+        //   user_id: user_id,
+        //   product_id: e.product_id,
+        //   quantity: 1,
+        //   price: e.price,
+        // });
+
+        const addtocart = await axios.post(
+          import.meta.env.VITE_API_URL + "/api/cart",
+          {
+            user_id: user_id,
+            product_id: e.product_id,
+            quantity: 1,
+            price: e.price,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+
         console.log("addtocart is: ", addtocart);
       };
       func();
@@ -85,10 +124,25 @@ const ShopList = (token) => {
       // get user_id from usersessions
       const user_id = user.user_id;
 
-      const result = await axios.post("http://localhost:5000/favorites", {
-        user: user_id,
-        product: e,
-      });
+      // const result = await axios.post("http://localhost:000/favorites", {
+      //   user: user_id,
+      //   product: e,
+      // });
+
+      const result = await axios.post(
+        import.meta.env.VITE_API_URL + "/api/favorite",
+        {
+          user_id: user_id,
+          product_id: e,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
       // alert
       console.log("result is: ", result);
 
@@ -171,9 +225,9 @@ const ShopList = (token) => {
                   ></Link> */}
 
                   {/* image */}
-                  {product.image !== null && (
+                  {product.product_image !== null && (
                     // <img
-                    //   src={`http://localhost:5000${product.images[0]}`}
+                    //   src={`http://localhost:000${product.images[0]}`}
                     //   class="img-fluid"
                     //   alt="Card image"
                     // ></img>
@@ -184,7 +238,7 @@ const ShopList = (token) => {
                       data-interval="false"
                     >
                       <div class="carousel-inner">
-                        {product.images.map((image, index) => (
+                        {product.product_images?.map((image, index) => (
                           // if index is 0, add active class
                           <div
                             class={
@@ -195,7 +249,8 @@ const ShopList = (token) => {
                           >
                             <img
                               class="d-block w-100"
-                              src={`http://localhost:5000${image}`}
+                              // src={`http://localhost:000${image}`}
+                              src={`${import.meta.env.BUCKET_URL}${image}`}
                               alt="First slide"
                             />
                           </div>

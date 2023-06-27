@@ -1,18 +1,31 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { ProdContext } from "../../../App";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const ViewSaleItems = ({ sale }) => {
   const [saleItems, setsaleItems] = useState([]);
   const prodcontext = useContext(ProdContext);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   //get products function defeined
   const getSaleItems = async () => {
     console.log("sdfsd", sale);
     let id = sale.sale_id;
-    console.log("http://localhost:5000/saleitems/" + id);
+    // console.log("http://localhost:000/saleitems/" + id);
     try {
       // axios get
-      const response = await fetch("http://localhost:5000/saleitems/" + id);
+      // const response = await fetch("http://localhost:000/saleitems/" + id);
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "saleitem/" + id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
       console.log(response);
       const jsonData = await response.json();
       setsaleItems(jsonData);

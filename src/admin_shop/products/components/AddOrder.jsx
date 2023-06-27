@@ -29,11 +29,22 @@ const AddOrder = ({ orders }) => {
     e.preventDefault();
     console.log(orders);
     try {
-      const response = await fetch("http://localhost:5000/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orders),
-      });
+      // const response = await fetch("http://localhost:000/orders", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(orders),
+      // });
+      const response = await axios.post(
+        import.meta.env.VITE_API_URL + "orders",
+        orders,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
       window.location = "/orders";
     } catch (error) {
       console.error(error.message);

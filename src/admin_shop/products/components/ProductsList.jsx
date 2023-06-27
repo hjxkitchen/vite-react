@@ -10,12 +10,22 @@ const ListProducts = () => {
   //delete product function defined
   const deleteProduct = async (product_id) => {
     try {
-      const deleteProduct = await fetch(
-        `http://localhost:5000/products/${product_id}`,
+      // const deleteProduct = await fetch(
+      //   `http://localhost:000/products/${product_id}`,
+      //   {
+      //     method: "DELETE",
+      //   }
+      // );
+      const deleteProduct = await axios.delete(
+        import.meta.env.VITE_APP_API_URL + "/api/Product/" + product_id,
         {
-          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
         }
       );
+
       setProducts(
         products.filter((product) => product.product_id !== product_id)
       );
@@ -27,7 +37,17 @@ const ListProducts = () => {
   //get products function defeined
   const getProducts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/products");
+      // const response = await fetch("http://localhost:000/products");
+      const response = await axios.get(
+        import.meta.env.VITE_APP_API_URL + "/api/Product",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
+        }
+      );
+
       const jsonData = await response.json();
       // sort prods by prod id
       // jsonData.sort((a, b) => (a.product_id > b.product_id) ? -1 : 1);
@@ -116,7 +136,17 @@ const ListProducts = () => {
     if (salessorted === false) {
       try {
         console.log("sales items");
-        const response = await fetch("http://localhost:5000/allsaleitems");
+        // const response = await fetch("http://localhost:000/allsaleitems");
+        const response = await axios.get(
+          import.meta.env.VITE_APP_API_URL + "/api/SaleItem",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            },
+          }
+        );
+
         const jsonData = await response.json();
 
         // from saleitems rank products by total quantity sold across all sales
@@ -317,10 +347,15 @@ const ListProducts = () => {
                     {/* <h5>{product.images.length + "="}</h5> */}
                     {/* for each path in images array create link */}
                     {product.images.map((path, index) => (
-                      <a href={"http://localhost:5000" + path} key={index}>
+                      // <a href={"http://localhost:000" + path} key={index}>
+                      <a
+                        href={import.meta.env.VITE_APP_API_URL + path}
+                        key={index}
+                      >
                         {/* thumbnail */}
                         <img
-                          src={"http://localhost:5000" + path}
+                          // src={"http://localhost:000" + path}
+                          src={import.meta.env.VITE_APP_API_URL + path}
                           alt="[img]"
                           width="50"
                           height="50"

@@ -26,10 +26,20 @@ function Calculators() {
     // get favorites by user id
     else {
       const getFavorites = async () => {
-        const url = "http://localhost:5000/favorites/" + user_id;
-        console.log(url);
-        const result = await axios.get(url);
-        console.log("result is: ", result.data);
+        // const url = "http://localhost:000/favorites/" + user_id;
+        // console.log(url);
+        // const result = await axios.get(url);
+        // console.log("result is: ", result.data);
+        const result = await axios.get(
+          import.meta.env.VITE_APP_API_URL + "/favorites/" + user_id,
+          {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+              "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            },
+          }
+        );
+
         setFavorites(result.data);
       };
 

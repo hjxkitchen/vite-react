@@ -10,12 +10,23 @@ const SalesList = () => {
   //delete product function defined
   const deleteProduct = async (order_id) => {
     try {
-      const deleteProduct = await fetch(
-        `http://localhost:5000/sales/${order_id}`,
+      // const deleteProduct = await fetch(
+      //   `http://localhost:000/sales/${order_id}`,
+      //   {
+      //     method: "DELETE",
+      //   }
+      // );
+
+      const deleteProduct = await axios.delete(
+        import.meta.env.VITE_APP_API_URL + "/api/Sale/" + order_id,
         {
-          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
         }
       );
+
       setSales(sales.filter((sale) => sale.order_id !== order_id));
     } catch (error) {
       console.error(error.message);
@@ -25,7 +36,17 @@ const SalesList = () => {
   //get products function defeined
   const getSales = async () => {
     try {
-      const response = await fetch("http://localhost:5000/orderslist");
+      // const response = await fetch("http://localhost:000/orderslist");
+      const response = await axios.get(
+        import.meta.env.VITE_APP_API_URL + "/api/Sale",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
+        }
+      );
+
       const jsonData = await response.json();
       // sort sales by date
 

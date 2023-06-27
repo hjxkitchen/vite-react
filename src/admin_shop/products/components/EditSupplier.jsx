@@ -8,14 +8,25 @@ const EditSupplier = ({ supplier }) => {
     e.preventDefault();
     try {
       const body = { description };
-      const response = await fetch(
-        `http://localhost:5000/suppliers/${supplier.id}`,
+      // const response = await fetch(
+      //   `http://localhost:000/suppliers/${supplier.id}`,
+      //   {
+      //     method: "PUT",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify(body),
+      //   }
+      // );
+      const response = await axios.put(
+        import.meta.env.VITE_API_URL + "supplier/" + supplier.id,
+        body,
         {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
         }
       );
+
       window.location = "/inventory";
     } catch (error) {
       console.error(error.message);

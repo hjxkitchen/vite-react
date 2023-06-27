@@ -1,5 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 //components
 // import InputProduct from "InputProduct";
@@ -10,6 +12,7 @@ import AddProductModal from "./components/AddProductModal";
 
 function ProductsList() {
   const [products, setProducts] = useState([]);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   // ANCHOR ONSUMBITCSV
   const onSubmitCsvForm = async (e) => {
@@ -17,11 +20,21 @@ function ProductsList() {
 
     try {
       const body = { products: products };
-      const response = await fetch("http://localhost:5000/productsarray", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      // const response = await fetch("http://localhost:000/productsarray", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(body),
+      // });
+      const response = await axios.post(
+        import.meta.env.VITE_API_URL + "productsarray",
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
       window.location.reload();
     } catch (error) {
       console.error(error.message);
@@ -115,7 +128,7 @@ function ProductsList() {
 
                     {/* <div class ="row">
                 <div class = "col ">
-                   <form action="http://localhost:5000/uploadcsv" method="post" enctype="multipart/form-data"> 
+                   <form action="http://localhost:000/uploadcsv" method="post" enctype="multipart/form-data"> 
                       <input className="form-control" type="file" name="csv" />
                       <input className="form-control" type="submit" value="Upload" />
                   </form>

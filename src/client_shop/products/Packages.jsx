@@ -15,7 +15,17 @@ function Packages() {
 
   const getPackages = async () => {
     try {
-      const response = await fetch("http://localhost:5000/packages");
+      // const response = await fetch("http://localhost:000/packages");
+      const response = await axios.get(
+        import.meta.env.VITE_APP_API_URL + "/api/Package",
+        {
+          headers: {
+            Authorization: `Bearer ${cartToken}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
+        }
+      );
+
       const jsonData = await response.json();
       setPackages(jsonData);
       console.log("pckgs", jsonData);
@@ -27,7 +37,17 @@ function Packages() {
   const getPackageItems = async () => {
     try {
       console.log("pkgitme");
-      const response = await fetch("http://localhost:5000/packageitems");
+      // const response = await fetch("http://localhost:000/packageitems");
+      const response = await axios.get(
+        import.meta.env.VITE_APP_API_URL + "/api/PackageItem",
+        {
+          headers: {
+            Authorization: `Bearer ${cartToken}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
+        }
+      );
+
       const jsonData = await response.json();
       setPackageItems(jsonData);
       console.log("pckgitmes:", jsonData[0]);
@@ -166,14 +186,18 @@ function Packages() {
                               <h5 class="mb-0">
                                 {/* img here */}
                                 <img
+                                  // src={
+                                  //   "http://localhost:000" + oneprod.images[0]
+                                  // }
                                   src={
-                                    "http://localhost:5000" + oneprod.images[0]
+                                    import.meta.env.VITE_API_URL +
+                                    oneprod.images[0]
                                   }
                                   alt="product image"
                                   width="200"
                                   height="200"
                                 />
-                                {/* <button> <a href={"http://192.268.1.10:5000/"+oneprod.images[0]}>tryyy</a></button> */}
+                                {/* <button> <a href={"http://192.268.1.10:000/"+oneprod.images[0]}>tryyy</a></button> */}
                               </h5>
                             ) : (
                               <div></div>

@@ -12,10 +12,19 @@ const PackageList = () => {
   //delete package function defined
   const deletePackage = async (package_id) => {
     try {
-      const deletePackage = await fetch(
-        `http://localhost:5000/package/${package_id}`,
+      // const deletePackage = await fetch(
+      //   `http://localhost:000/package/${package_id}`,
+      //   {
+      //     method: "DELETE",
+      //   }
+      // );
+      const deletePackage = await axios.delete(
+        import.meta.env.VITE_APP_API_URL + "/api/Package/" + package_id,
         {
-          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
         }
       );
       setPackage(
@@ -29,7 +38,16 @@ const PackageList = () => {
   //get package function defeined
   const getPackage = async () => {
     try {
-      const response = await fetch("http://localhost:5000/categories");
+      // const response = await fetch("http://localhost:000/categories");
+      const response = await axios.get(
+        import.meta.env.VITE_APP_API_URL + "/api/Package",
+        {
+          headers: {
+            Authorization: `Bearer ${cartToken}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
+        }
+      );
       console.log("package");
       const jsonData = await response.json();
       setPackage(jsonData);

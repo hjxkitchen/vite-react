@@ -17,11 +17,22 @@ function ProductsList() {
 
     try {
       const body = { products: products };
-      const response = await fetch("http://localhost:5000/productsarray", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      // const response = await fetch("http://localhost:000/productsarray", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(body),
+      // });
+      const response = await axios.post(
+        import.meta.env.VITE_API_URL + "product",
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
       window.location.reload();
     } catch (error) {
       console.error(error.message);
@@ -131,7 +142,7 @@ function ProductsList() {
 
                     {/* <div class ="row">
                 <div class = "col ">
-                   <form action="http://localhost:5000/uploadcsv" method="post" enctype="multipart/form-data"> 
+                   <form action="http://localhost:000/uploadcsv" method="post" enctype="multipart/form-data"> 
                       <input className="form-control" type="file" name="csv" />
                       <input className="form-control" type="submit" value="Upload" />
                   </form>

@@ -8,12 +8,22 @@ const ListSuppliers = () => {
   //delete supplier function defined
   const deleteSupplier = async (supplier_id) => {
     try {
-      const deleteSupplier = await fetch(
-        `http://localhost:5000/suppliers/${supplier_id}`,
+      // const deleteSupplier = await fetch(
+      //   `http://localhost:000/suppliers/${supplier_id}`,
+      //   {
+      //     method: "DELETE",
+      //   }
+      // );
+      const deleteSupplier = await axios.delete(
+        import.meta.env.VITE_APP_API_URL + "/api/Supplier/" + supplier_id,
         {
-          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
         }
       );
+
       setSuppliers(
         suppliers.filter((supplier) => supplier.supplier_id !== supplier_id)
       );
@@ -25,7 +35,17 @@ const ListSuppliers = () => {
   //get suppliers function defeined
   const getSuppliers = async () => {
     try {
-      const response = await fetch("http://localhost:5000/suppliers");
+      // const response = await fetch("http://localhost:000/suppliers");
+      const response = await axios.get(
+        import.meta.env.VITE_APP_API_URL + "/api/Supplier",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
+        }
+      );
+
       const jsonData = await response.json();
       setSuppliers(jsonData);
       console.log(suppliers);

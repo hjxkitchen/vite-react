@@ -5,7 +5,17 @@ function Component() {
 
   const getDeliveries = async () => {
     try {
-      const response = await fetch("http://localhost:5000/deliveries");
+      // const response = await fetch("http://localhost:000/deliveries");
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "deliveries",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
       const jsonData = await response.json();
       setDeliveries(jsonData);
     } catch (error) {

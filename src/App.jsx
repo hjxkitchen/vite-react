@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n"; // Assuming you have already set up the i18n configuration
@@ -105,17 +106,17 @@ import SaleLogs from "./client_shop/sales/SaleLogs";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+// import Cookies from "js-cookie";
 
 export const UserContext = createContext();
 export const ProdContext = createContext();
-export const TokenContext = createContext();
 export const CartContext = createContext();
 export const LoggedContext = createContext();
 export const CategoryContext = createContext();
 export const SubcatsContext = createContext();
 
 const App = () => {
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
 
   const [cartToken, setCartToken] = React.useState(null);
   const [ProductNames, setProductNames] = useState([]);
@@ -123,12 +124,33 @@ const App = () => {
   const [loggedin, setLoggedin] = React.useState(true);
   const [categories, setCategories] = React.useState(null);
 
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+
+  // product context name ids resolution
+  const getProdContext = async () => {
+    // const productnames = await fetch("http://localhost:000/products")
+    const productnames = await axios.get(
+      "http://localhost:4000/api/attr/product?attributes=product_name,product_id",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": "api_key34",
+        },
+      }
+    );
+    console.log("getting product names");
+    const result = await productnames.data;
+    console.log("product names", result);
+    // const result2 = await productnames.data;
+    setProductNames(result);
+  };
+
   useEffect(() => {
     const storedToken = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
     console.log("getting token from cookie", storedToken);
     if (storedToken) {
       console.log("setting token", storedToken);
-      setToken(storedToken);
+      // setToken(storedToken);
       const decodedToken = jwt_decode(storedToken);
       console.log("decoded token", decodedToken);
       setUser({
@@ -137,213 +159,175 @@ const App = () => {
         role_id: decodedToken.role_id,
       });
     }
+    if (ProductNames.length == 0) {
+      getProdContext();
+    }
   }, []);
-
-  // product context name ids resolution
-  const getProdContext = async () => {
-    const productnames = await fetch("http://localhost:5000/products");
-    const result = await productnames.json();
-    // const result2 = await productnames.data;
-    setProductNames(result);
-  };
-
-  if (ProductNames.length == 0) {
-    getProdContext();
-  }
 
   return (
     <ThemeProvider>
       <I18nextProvider i18n={i18n}>
         <BrowserRouter>
-          <TokenContext.Provider value={token}>
-            <UserContext.Provider value={user}>
-              <ProdContext.Provider value={ProductNames}>
-                <CategoryContext.Provider value={categories}>
-                  <SubcatsContext.Provider value={categories}>
-                    <CartContext.Provider value={cartToken}>
-                      <LoggedContext.Provider value={loggedin}>
-                        <Routes>
-                          <Route path="token" element={<Token />} />
-                          <Route
-                            path="login"
-                            element={
-                              <Login setToken={setToken} token={token} />
-                            }
-                          />
-                          <Route
-                            path="/"
-                            element={
-                              <ProtectedRoute
-                                token={token}
-                                allowedRoles={[1, 2]}
-                              >
-                                {/* <Home /> */}
-                                <AdminDash />
-                                {/* <Shop /> */}
-                              </ProtectedRoute>
-                            }
-                          />
-                          <Route
-                            path="settings"
-                            element={
-                              <ProtectedRoute
-                                token={token}
-                                allowedRoles={[1, 2]}
-                              >
-                                <Settings />
-                              </ProtectedRoute>
-                            }
-                          />
-                          <Route
-                            path="account"
-                            element={
-                              <ProtectedRoute
-                                token={token}
-                                allowedRoles={[1, 2]}
-                              >
-                                <Account />
-                              </ProtectedRoute>
-                            }
-                          />
-                          <Route
-                            path="contact"
-                            element={
-                              <ProtectedRoute
-                                token={token}
-                                allowedRoles={[1, 2]}
-                              >
-                                <Contact />
-                              </ProtectedRoute>
-                            }
-                          />
-                          <Route
-                            path="team"
-                            element={
-                              <ProtectedRoute token={token} allowedRoles={[1]}>
-                                <Team />
-                              </ProtectedRoute>
-                            }
-                          />
+          {/* <TokenContext.Provider value={token}> */}
+          <UserContext.Provider value={user}>
+            <ProdContext.Provider value={ProductNames}>
+              <CategoryContext.Provider value={categories}>
+                <SubcatsContext.Provider value={categories}>
+                  <CartContext.Provider value={cartToken}>
+                    <LoggedContext.Provider value={loggedin}>
+                      <Routes>
+                        <Route path="token" element={<Token />} />
+                        <Route path="login" element={<Login token={token} />} />
+                        <Route
+                          path="/"
+                          element={
+                            <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                              {/* <Home /> */}
+                              <AdminDash />
+                              {/* <Shop /> */}
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="settings"
+                          element={
+                            <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                              <Settings />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="account"
+                          element={
+                            <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                              <Account />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="contact"
+                          element={
+                            <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                              <Contact />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="team"
+                          element={
+                            <ProtectedRoute token={token} allowedRoles={[1]}>
+                              <Team />
+                            </ProtectedRoute>
+                          }
+                        />
 
-                          {/* CLIENT shop */}
-                          <Route path="shop" element={<Shop />} />
-                          <Route
-                            path="shop/products/:id"
-                            element={<Product />}
-                          />
-                          <Route path="featured" element={<Featured />} />
-                          <Route path="packages" element={<Packages />} />
-                          <Route path="calculators" element={<Calculators />} />
-                          <Route path="blog" element={<Blog />} />
-                          <Route path="about" element={<About />} />
-                          {/* <Route path="contact" element={<Contact />} /> */}
-                          <Route path="cart" element={<Cart />} />
-                          <Route path="checkout" element={<Checkout />} />
-                          <Route
-                            path="order_history"
-                            element={<OrderHistory />}
-                          />
-                          <Route path="sale_logs" element={<SaleLogs />} />
-                          <Route path="favorites" element={<Favorites />} />
+                        {/* CLIENT shop */}
+                        <Route path="shop" element={<Shop />} />
+                        <Route path="shop/products/:id" element={<Product />} />
+                        <Route path="featured" element={<Featured />} />
+                        <Route path="packages" element={<Packages />} />
+                        <Route path="calculators" element={<Calculators />} />
+                        <Route path="blog" element={<Blog />} />
+                        <Route path="about" element={<About />} />
+                        {/* <Route path="contact" element={<Contact />} /> */}
+                        <Route path="cart" element={<Cart />} />
+                        <Route path="checkout" element={<Checkout />} />
+                        <Route
+                          path="order_history"
+                          element={<OrderHistory />}
+                        />
+                        <Route path="sale_logs" element={<SaleLogs />} />
+                        <Route path="favorites" element={<Favorites />} />
 
-                          {/* ADMIN PAGES */}
-                          <Route path="admindash" element={<AdminDash />} />
-                          <Route
-                            path="locationbranchhq"
-                            element={<LocationBranchHQ />}
-                          />
-                          <Route
-                            path="multinationalhq"
-                            element={<MultiNationalHQ />}
-                          />
-                          <Route path="hjxadmin" element={<HusseinJXAdmin />} />
+                        {/* ADMIN PAGES */}
+                        <Route path="admindash" element={<AdminDash />} />
+                        <Route
+                          path="locationbranchhq"
+                          element={<LocationBranchHQ />}
+                        />
+                        <Route
+                          path="multinationalhq"
+                          element={<MultiNationalHQ />}
+                        />
+                        <Route path="hjxadmin" element={<HusseinJXAdmin />} />
 
-                          <Route path="inventory" element={<Inventory />} />
-                          <Route path="shoplist" element={<ShopList />} />
-                          <Route
-                            path="products"
-                            element={<SupplierProducts />}
-                          />
-                          <Route
-                            path="featuredadmin"
-                            element={<FeaturedAdmin />}
-                          />
-                          <Route
-                            path="packagesadmin"
-                            element={<PackagesAdmin />}
-                          />
-                          <Route path="package" element={<Package />} />
-                          <Route path="categories" element={<Categories />} />
-                          <Route path="category" element={<Category />} />
+                        <Route path="inventory" element={<Inventory />} />
+                        <Route path="shoplist" element={<ShopList />} />
+                        <Route path="products" element={<SupplierProducts />} />
+                        <Route
+                          path="featuredadmin"
+                          element={<FeaturedAdmin />}
+                        />
+                        <Route
+                          path="packagesadmin"
+                          element={<PackagesAdmin />}
+                        />
+                        <Route path="package" element={<Package />} />
+                        <Route path="categories" element={<Categories />} />
+                        <Route path="category" element={<Category />} />
 
-                          <Route path="allsales" element={<SalesList />} />
-                          <Route path="salelogs" element={<SaleLogsAdmin />} />
-                          {/* <Route path="users" element={<Users />} /> */}
+                        <Route path="allsales" element={<SalesList />} />
+                        <Route path="salelogs" element={<SaleLogsAdmin />} />
+                        {/* <Route path="users" element={<Users />} /> */}
 
-                          <Route path="orders" element={<Orders />} />
-                          <Route path="orderlogs" element={<OrderLogs />} />
-                          <Route path="suppliers" element={<Suppliers />} />
+                        <Route path="orders" element={<Orders />} />
+                        <Route path="orderlogs" element={<OrderLogs />} />
+                        <Route path="suppliers" element={<Suppliers />} />
 
-                          <Route path="employee" element={<Employee />} />
-                          <Route path="employees" element={<Employees />} />
-                          <Route path="capitalops" element={<CapitalOps />} />
-                          <Route path="finance" element={<Finance />} />
-                          <Route path="legal" element={<Legal />} />
-                          <Route path="infotech" element={<InfoTech />} />
-                          <Route path="busdev" element={<BusDev />} />
-                          <Route path="recruiting" element={<Recruiting />} />
-                          {/* <Route path="contact" element={<Contact />} /> */}
-                          <Route path="contacts" element={<Contacts />} />
+                        <Route path="employee" element={<Employee />} />
+                        <Route path="employees" element={<Employees />} />
+                        <Route path="capitalops" element={<CapitalOps />} />
+                        <Route path="finance" element={<Finance />} />
+                        <Route path="legal" element={<Legal />} />
+                        <Route path="infotech" element={<InfoTech />} />
+                        <Route path="busdev" element={<BusDev />} />
+                        <Route path="recruiting" element={<Recruiting />} />
+                        {/* <Route path="contact" element={<Contact />} /> */}
+                        <Route path="contacts" element={<Contacts />} />
 
-                          {/* HOME PAGE */}
-                          <Route path="pointofsales" element={<POSales />} />
-                          <Route path="tools" element={<Tools />} />
-                          <Route path="playbooks" element={<Playbooks />} />
-                          <Route path="playbook" element={<Playbook />} />
-                          <Route path="onlinesales" element={<OnlineSales />} />
-                          <Route path="procurement" element={<Orders />} />
-                          <Route path="deliveries" element={<Deliveries />} />
-                          <Route path="technicians" element={<Technicians />} />
-                          {/* MARKETING ADMINS */}
-                          <Route
-                            path="outboundadmin"
-                            element={<OutboundAdmin />}
-                          />
-                          <Route path="sokoos" element={<Sokoos />} />
-                          <Route path="billboards" element={<Billboards />} />
-                          <Route path="philantropy" element={<Philantropy />} />
-                          <Route
-                            path="outboundbroadcast"
-                            element={<OutboundBroadcast />}
-                          />
-                          <Route
-                            path="inboundadmin"
-                            element={<InboundAdmin />}
-                          />
-                          <Route
-                            path="inboundmessages"
-                            element={<InboundMessages />}
-                          />
-                          <Route
-                            path="inboundreply"
-                            element={<InboundReply />}
-                          />
+                        {/* HOME PAGE */}
+                        <Route path="pointofsales" element={<POSales />} />
+                        <Route path="tools" element={<Tools />} />
+                        <Route path="playbooks" element={<Playbooks />} />
+                        <Route path="playbook" element={<Playbook />} />
+                        <Route path="onlinesales" element={<OnlineSales />} />
+                        <Route path="procurement" element={<Orders />} />
+                        <Route path="deliveries" element={<Deliveries />} />
+                        <Route path="technicians" element={<Technicians />} />
+                        {/* MARKETING ADMINS */}
+                        <Route
+                          path="outboundadmin"
+                          element={<OutboundAdmin />}
+                        />
+                        <Route path="sokoos" element={<Sokoos />} />
+                        <Route path="billboards" element={<Billboards />} />
+                        <Route path="philantropy" element={<Philantropy />} />
+                        <Route
+                          path="outboundbroadcast"
+                          element={<OutboundBroadcast />}
+                        />
+                        <Route path="inboundadmin" element={<InboundAdmin />} />
+                        <Route
+                          path="inboundmessages"
+                          element={<InboundMessages />}
+                        />
+                        <Route path="inboundreply" element={<InboundReply />} />
 
-                          {/* ANCHOR SOCOS ROUTES */}
-                          <Route path="socos" element={<SocosAdmin />} />
-                          <Route path="socosclient" element={<SocosClient />} />
-                          <Route
-                            path="socossuperadmin"
-                            element={<SocosSuperAdmin />}
-                          />
-                        </Routes>
-                      </LoggedContext.Provider>
-                    </CartContext.Provider>
-                  </SubcatsContext.Provider>
-                </CategoryContext.Provider>
-              </ProdContext.Provider>
-            </UserContext.Provider>
-          </TokenContext.Provider>
+                        {/* ANCHOR SOCOS ROUTES */}
+                        <Route path="socos" element={<SocosAdmin />} />
+                        <Route path="socosclient" element={<SocosClient />} />
+                        <Route
+                          path="socossuperadmin"
+                          element={<SocosSuperAdmin />}
+                        />
+                      </Routes>
+                    </LoggedContext.Provider>
+                  </CartContext.Provider>
+                </SubcatsContext.Provider>
+              </CategoryContext.Provider>
+            </ProdContext.Provider>
+          </UserContext.Provider>
+          {/* </TokenContext.Provider> */}
         </BrowserRouter>
       </I18nextProvider>
     </ThemeProvider>

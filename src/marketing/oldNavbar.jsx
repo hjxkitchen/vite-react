@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { Fragment, useEffect, useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
-import { TokenContext } from "../App";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Navbar = (setUser, user) => {
   const navigate = useNavigate();
@@ -11,13 +11,13 @@ const Navbar = (setUser, user) => {
     navigate(-1);
   }
 
-  const token = useContext(TokenContext);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   const handleLogout = async () => {
     document.cookie = "token2=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-    const res = await axios.post("http://localhost:5000/deladminusersessions", {
-      token: token,
-    });
+    // const res = await axios.post("http://localhost:000/deladminusersessions", {
+    //   token: token,
+    // });
 
     window.location.href = "/";
   };

@@ -15,7 +15,16 @@ function Packages() {
 
   const getFeatured = async () => {
     try {
-      const response = await fetch("http://localhost:5000/featured");
+      // const response = await fetch("http://localhost:000/featured");
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/featured",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
       const jsonData = await response.json();
 
       setFeatured(jsonData);
@@ -24,10 +33,11 @@ function Packages() {
     }
   };
   const getVariations = async () => {
-    const res = await fetch("http://localhost:5000/variations/");
-    const jsonData = await res.json();
-    console.log("variations are: ", jsonData);
-    setVariations(jsonData);
+    // const res = await fetch("http://localhost:000/variations/");
+    // const jsonData = await res.json();
+    // console.log("variations are: ", jsonData);
+    // setVariations(jsonData);
+    console.log("getVariations");
   };
 
   useEffect(() => {
@@ -95,7 +105,7 @@ function Packages() {
                         {/* image */}
                         {oneprod.images !== null && (
                           // <img
-                          //   src={`http://localhost:5000${oneprod.images[0]}`}
+                          //   src={`http://localhost:000${oneprod.images[0]}`}
                           //   class="img-fluid"
                           //   alt="Card image"
                           // ></img>
@@ -118,7 +128,8 @@ function Packages() {
                                 >
                                   <img
                                     class="d-block w-100"
-                                    src={`http://localhost:5000${image}`}
+                                    // src={`http://localhost:000${image}`}
+                                    src={import.meta.env.VITE_API_URL + image}
                                     alt="First slide"
                                   />
                                 </div>

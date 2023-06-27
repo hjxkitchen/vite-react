@@ -54,14 +54,24 @@ function Checkout(product) {
   const addToCart = (e) => {
     if (user === null) {
       const func = async () => {
-        const addtocart = await axios.post(
-          "http://localhost:5000/carts/token",
-          {
+        // const addtocart = await axios.post(
+        //   "http://localhost:000/carts/token",
+        //   {
+        //     token: cartToken,
+        //     product_id: e.product_id,
+        //     quantity: 1,
+        //     price: e.price,
+        //   }
+        // );
+        // add to local storage
+        const addtocart = localStorage.setItem(
+          "cart",
+          JSON.stringify({
             token: cartToken,
-            product_id: id,
+            product_id: e.product_id,
             quantity: 1,
             price: e.price,
-          }
+          })
         );
         console.log("addtocart is: ", addtocart);
       };
@@ -72,16 +82,32 @@ function Checkout(product) {
         // get userid
         console.log("userrered id is: ", user);
 
-        // get user_id from usersessions
         const user_id = user.user_id;
         console.log("user_id is: ", user_id);
 
-        const addtocart = await axios.post("http://localhost:5000/carts", {
-          user_id: user_id,
-          product_id: id,
-          quantity: 1,
-          price: e.price,
-        });
+        // const addtocart = await axios.post("http://localhost:000/carts", {
+        //   user_id: user_id,
+        //   product_id: e.product_id,
+        //   quantity: 1,
+        //   price: e.price,
+        // });
+
+        const addtocart = await axios.post(
+          import.meta.env.VITE_API_URL + "/api/cart",
+          {
+            user_id: user_id,
+            product_id: e.product_id,
+            quantity: 1,
+            price: e.price,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+
         console.log("addtocart is: ", addtocart);
       };
       func();
@@ -100,7 +126,7 @@ function Checkout(product) {
         </div>
         <div class="container mt-5 mb-5 col-md-6">
           {/* <img
-          src={`http://localhost:5000${image[0]}`}
+          src={`http://localhost:000${image[0]}`}
           class="img-thumbnail"
           alt={"Card image:" + image}
         ></img> */}
@@ -122,7 +148,8 @@ function Checkout(product) {
                   >
                     <img
                       class="d-block w-100"
-                      src={`http://localhost:5000${img}`}
+                      // src={`http://localhost:000${img}`}
+                      src={import.meta.env.VITE_API_URL + img}
                       alt="First slide"
                     />
                   </div>

@@ -5,7 +5,17 @@ function Component() {
 
   const getTechnicianJobs = async () => {
     try {
-      const response = await fetch("http://localhost:5000/technicianjobs");
+      // const response = await fetch("http://localhost:000/technicianjobs");
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "technicianjobs",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
       const jsonData = await response.json();
       setTechnicianJobs(jsonData);
     } catch (error) {

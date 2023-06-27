@@ -9,10 +9,23 @@ const ViewSaleItems = ({ sale }) => {
   const getSaleItems = async () => {
     console.log("sdfsd", sale);
     let id = sale.sale_id;
-    console.log("http://localhost:5000/saleitems/" + id);
+    // console.log("http://localhost:000/saleitems/" + id);
     try {
       // axios get
-      const response = await fetch("http://localhost:5000/saleitems/" + id);
+      // const response = await fetch("http://localhost:000/saleitems/" + id);
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL +
+          "/api/order/" +
+          id +
+          "?include=orderitem",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
       console.log(response);
       const jsonData = await response.json();
       setsaleItems(jsonData);

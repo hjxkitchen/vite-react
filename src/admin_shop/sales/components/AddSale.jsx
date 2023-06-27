@@ -42,23 +42,61 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
       // console.log("customer name exists", customer.phone);
       if (customer.phone) {
         // get user from phone
+        // const user = await axios.get(
+        //   `http://localhost:000/users/ph/${customer.phone}`
+        // );
+        // console.log("usr", user.data[0]);
         const user = await axios.get(
-          `http://localhost:5000/users/ph/${customer.phone}`
+          import.meta.env.VITE_API_URL + "/users/ph/" + customer.phone,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
         );
-        console.log("usr", user.data[0]);
 
         // if user, then, add sale to database
         if (user.data.length > 0) {
-          const res = await axios.post("http://localhost:5000/sales", {
-            sales: sales,
-            total: getTotalCost(sales),
-            user_id: user.data[0].user_id,
-          });
+          // const res = await axios.post("http://localhost:000/sales", {
+          //   sales: sales,
+          //   total: getTotalCost(sales),
+          //   user_id: user.data[0].user_id,
+          // });
+          const res = await axios.post(
+            import.meta.env.VITE_APP_API_URL + "/sales",
+            {
+              sales: sales,
+              total: getTotalCost(sales),
+              user_id: user.data[0].user_id,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_APP_API_KEY,
+              },
+            }
+          );
+
           console.log("resis", res.data);
-          const res2 = await axios.post("http://localhost:5000/salelogs", {
-            sale_id: res.data,
-            salelog: ">>> Order initialized by: " + usercontext,
-          });
+          // const res2 = await axios.post("http://localhost:000/salelogs", {
+          //   sale_id: res.data,
+          //   salelog: ">>> Order initialized by: " + usercontext,
+          // });
+          const res2 = await axios.post(
+            import.meta.env.VITE_APP_API_URL + "/salelogs",
+            {
+              sale_id: res.data,
+              salelog: ">>> Order initialized by: " + usercontext,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_APP_API_KEY,
+              },
+            }
+          );
+
           window.location.reload();
         } else {
           const confirm = window.confirm(
@@ -66,21 +104,65 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
           );
           if (confirm) {
             // if no user, make one and give him a phone number
-            const user = await axios.post("http://localhost:5000/users/ph", {
-              name: customer.customer_name,
-              phone: customer.phone,
-            });
+            // const user = await axios.post("http://localhost:000/users/ph", {
+            //   name: customer.customer_name,
+            //   phone: customer.phone,
+            // });
+
+            const user = await axios.post(
+              import.meta.env.VITE_APP_API_URL + "/users",
+              {
+                name: customer.customer_name,
+                phone: customer.phone,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "x-api-key": import.meta.env.VITE_APP_API_KEY,
+                },
+              }
+            );
+
             console.log("user", user);
-            const res = await axios.post("http://localhost:5000/sales", {
-              sales: sales,
-              total: getTotalCost(sales),
-              user_id: user.data.user_id,
-            });
+            // const res = await axios.post("http://localhost:000/sales", {
+            //   sales: sales,
+            //   total: getTotalCost(sales),
+            //   user_id: user.data.user_id,
+            // });
+            const res = await axios.post(
+              import.meta.env.VITE_APP_API_URL + "/sales",
+              {
+                sales: sales,
+                total: getTotalCost(sales),
+                user_id: user.data.user_id,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "x-api-key": import.meta.env.VITE_APP_API_KEY,
+                },
+              }
+            );
+
             console.log("res", res);
-            const res2 = await axios.post("http://localhost:5000/salelogs", {
-              sale_id: res.data,
-              salelog: ">>> Order initialized by: " + usercontext,
-            });
+            // const res2 = await axios.post("http://localhost:000/salelogs", {
+            //   sale_id: res.data,
+            //   salelog: ">>> Order initialized by: " + usercontext,
+            // });
+            const res2 = await axios.post(
+              import.meta.env.VITE_APP_API_URL + "/salelogs",
+              {
+                sale_id: res.data,
+                salelog: ">>> Order initialized by: " + usercontext,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "x-api-key": import.meta.env.VITE_APP_API_KEY,
+                },
+              }
+            );
+
             window.location.reload();
           }
 
@@ -91,16 +173,44 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
           "No phone number entered. Would you like to continue without adding one?"
         );
         if (confirm) {
-          const res = await axios.post("http://localhost:5000/sales", {
-            sales: sales,
-            total: getTotalCost(sales),
-            user_id: null,
-          });
+          // const res = await axios.post("http://localhost:000/sales", {
+          //   sales: sales,
+          //   total: getTotalCost(sales),
+          //   user_id: null,
+          // });
+          const res = await axios.post(
+            import.meta.env.VITE_APP_API_URL + "/sales",
+            {
+              sales: sales,
+              total: getTotalCost(sales),
+              user_id: null,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_APP_API_KEY,
+              },
+            }
+          );
+
           console.log("resis", res);
-          const res2 = await axios.post("http://localhost:5000/salelogs", {
-            sale_id: res.data,
-            salelog: ">>> Order initialized by: " + usercontext,
-          });
+          // const res2 = await axios.post("http://localhost:000/salelogs", {
+          //   sale_id: res.data,
+          //   salelog: ">>> Order initialized by: " + usercontext,
+          // });
+          const res2 = await axios.post(
+            import.meta.env.VITE_APP_API_URL + "/salelogs",
+            {
+              sale_id: res.data,
+              salelog: ">>> Order initialized by: " + usercontext,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_APP_API_KEY,
+              },
+            }
+          );
           window.location.reload();
         }
       }
@@ -109,8 +219,21 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
     }
 
     try {
-      // const res = axios.post("http://localhost:5000/sales", {
+      // const res = axios.post("http://localhost:000/sales", {
       //   sales: sales, total: getTotalCost(sales)});
+      const res = await axios.post(
+        import.meta.env.VITE_APP_API_URL + "/sales",
+        {
+          sales: sales,
+          total: getTotalCost(sales),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
+        }
+      );
     } catch (error) {
       console.error(error.message);
     }

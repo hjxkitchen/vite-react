@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
 import Navbar2 from "../../system/Navbar";
 import PublicNavbar from "../PublicNavbar";
-import { UserContext, TokenContext } from "../../App";
+import { UserContext } from "../../App";
 import ShopList from "./components/ShopList";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 function Shop() {
-  const token = useContext(TokenContext);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   const user = useContext(UserContext);
   return (
     <Fragment>

@@ -4,6 +4,7 @@ import Navbar from "../Navbar";
 import PublicNavbar from "../PublicNavbar";
 import { UserContext, CartContext, LoggedContext } from "../../App";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 // import EditProduct from "../inventory/EditProduct";
 // import ViewSaleItems from "./ViewSaleItems";
@@ -14,16 +15,27 @@ const SalesList = () => {
   const user = useContext(UserContext);
   const cartToken = useContext(CartContext);
   const loggedin = useContext(LoggedContext);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   //delete product function defined
   const deleteProduct = async (sale_id) => {
     try {
-      const deleteProduct = await fetch(
-        `http://localhost:5000/sales/${sale_id}`,
+      // const deleteProduct = await fetch(
+      //   `http://localhost:000/sales/${sale_id}`,
+      //   {
+      //     method: "DELETE",
+      //   }
+      // );
+      const deleteProduct = await axios.delete(
+        import.meta.env.VITE_APP_API_URL + "/api/Sale/" + sale_id,
         {
-          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
         }
       );
+
       setSales(sales.filter((sale) => sale.sale_id !== sale_id));
     } catch (error) {
       console.error(error.message);
@@ -36,9 +48,19 @@ const SalesList = () => {
       if (user !== null) {
         try {
           const user_id = user.user_id;
-          const response = await fetch(
-            "http://localhost:5000/sales/" + user_id
+          // const response = await fetch(
+          //   "http://localhost:000/sales/" + user_id
+          // );
+          const response = await axios.get(
+            import.meta.env.VITE_API_URL + "sale/" + user_id,
+            {
+              headers: {
+                Authorization: `Bearer ${cartToken}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
           );
+
           const jsonData = await response.json();
           // sort sales by sale_id
           jsonData.sort(function (a, b) {
@@ -66,10 +88,24 @@ const SalesList = () => {
   const checkout = async (event) => {
     event.preventDefault();
 
-    const res = await axios.post("http://localhost:5000/cart/checkout", {
-      loccart: sales,
-      total: 5136,
-    });
+    // const res = await axios.post("http://localhost:000/cart/checkout", {
+    //   loccart: sales,
+    //   total: 5136,
+    // });
+
+    const res = await axios.post(
+      import.meta.env.VITE_APP_API_URL + "/api/sale",
+      {
+        loccart: sales,
+        total: 5136,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+        },
+      }
+    );
 
     // localStorage.removeItem("cart");
     // const res = window.confirm("Are you sure you want to checkout?");

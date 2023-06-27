@@ -24,12 +24,22 @@ const SalesList = () => {
   //delete product function defined
   const deleteProduct = async (sale_id) => {
     try {
-      const deleteProduct = await fetch(
-        `http://localhost:5000/sales/${sale_id}`,
+      // const deleteProduct = await fetch(
+      //   `http://localhost:000/sales/${sale_id}`,
+      //   {
+      //     method: "DELETE",
+      //   }
+      // );
+      const deleteProduct = await axios.delete(
+        import.meta.env.VITE_APP_API_URL + "/api/Sale/" + sale_id,
         {
-          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          },
         }
       );
+
       setSales(sales.filter((sale) => sale.sale_id !== sale_id));
     } catch (error) {
       console.error(error.message);
@@ -42,9 +52,19 @@ const SalesList = () => {
       if (user !== null) {
         try {
           const user_id = user.user_id;
-          const response = await fetch(
-            "http://localhost:5000/cartss/" + user_id
+          // const response = await fetch(
+          //   "http://localhost:000/cartss/" + user_id
+          // );
+          const response = await axios.get(
+            import.meta.env.VITE_API_URL + "cart/uid/" + user_id,
+            {
+              headers: {
+                Authorization: `Bearer ${cartToken}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
           );
+
           const jsonData = await response.json();
           setSales(jsonData);
           // console.log(products);
@@ -54,9 +74,19 @@ const SalesList = () => {
       } else {
         try {
           console.log("carttoken:", cartToken);
-          const response = await fetch(
-            "http://localhost:5000/cartsst/" + cartToken
+          // const response = await fetch(
+          //   "http://localhost:000/cartsst/" + cartToken
+          // );
+          const response = await axios.get(
+            import.meta.env.VITE_API_URL + "cart/token/" + cartToken,
+            {
+              headers: {
+                Authorization: `Bearer ${cartToken}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
           );
+
           const jsonData = await response.json();
           setSales(jsonData);
           // console.log(products);
@@ -79,10 +109,24 @@ const SalesList = () => {
   const checkout = async (event) => {
     event.preventDefault();
 
-    const res = await axios.post("http://localhost:5000/cart/checkout", {
-      loccart: sales,
-      total: 5136,
-    });
+    // const res = await axios.post("http://localhost:000/cart/checkout", {
+    //   loccart: sales,
+    //   total: 5136,
+    // });
+
+    const res = await axios.post(
+      import.meta.env.VITE_API_URL + "cart/checkout",
+      {
+        loccart: sales,
+        total: 5136,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${cartToken}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
 
     // localStorage.removeItem("cart");
     // const res = window.confirm("Are you sure you want to checkout?");
@@ -97,11 +141,22 @@ const SalesList = () => {
 
       const body = { cart_id: sale.cart_id };
 
-      const response = await fetch(`http://localhost:5000/cart/plus`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      // const response = await fetch(`http://localhost:000/cart/plus`, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(body),
+      // });
+      const response = await axios.put(
+        import.meta.env.VITE_API_URL + "cart/plus" + sale.cart_id,
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${cartToken}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
       // console.log(response);
       // window.location.reload();
       getSales();
@@ -116,22 +171,42 @@ const SalesList = () => {
       const body = { cart_id: sale.cart_id };
 
       if (sale.quantity > 1) {
-        const response = await fetch(`http://localhost:5000/cart/minus`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
+        // const response = await fetch(`http://localhost:000/cart/minus`, {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify(body),
+        // });
+        const response = await axios.put(
+          import.meta.env.VITE_API_URL + "cart/minus" + sale.cart_id,
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${cartToken}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
       } else {
         // confirm delete
         const res = window.confirm(
           "Are you sure you want to delete this item?"
         );
         if (res) {
-          const response = await fetch(`http://localhost:5000/cart/remove`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
-          });
+          // const response = await fetch(`http://localhost:000/cart/remove`, {
+          //   method: "POST",
+          //   headers: { "Content-Type": "application/json" },
+          //   body: JSON.stringify(body),
+          // });
+          const response = await axios.post(
+            import.meta.env.VITE_API_URL + "cart/remove",
+            body,
+            {
+              headers: {
+                Authorization: `Bearer ${cartToken}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
         }
       }
 
@@ -148,11 +223,22 @@ const SalesList = () => {
       const res = window.confirm("Are you sure you want to delete this item?");
       if (res) {
         const body = { cart_id: sale.cart_id };
-        const response = await fetch(`http://localhost:5000/cart/remove`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
+        // const response = await fetch(`http://localhost:000/cart/remove`, {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify(body),
+        // });
+        const response = await axios.post(
+          import.meta.env.VITE_API_URL + "cart/remove",
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${cartToken}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+
         // console.log(response);
         // window.location.reload();
         getSales();

@@ -5,7 +5,16 @@ function Component() {
 
   const getBillboards = async () => {
     try {
-      const response = await fetch("http://localhost:5000/billboards");
+      // const response = await fetch("http://localhost:000/billboards");
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/billboards",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
       const jsonData = await response.json();
       setBillboards(jsonData);
     } catch (error) {
