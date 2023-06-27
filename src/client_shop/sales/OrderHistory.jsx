@@ -35,11 +35,7 @@ const SalesList = () => {
     if (loggedin) {
       if (user !== null) {
         try {
-          const user_idres = await axios.post(
-            "http://localhost:5000/userbyemail",
-            { user }
-          );
-          const user_id = user_idres.data[0].user_id;
+          const user_id = user.user_id;
           const response = await fetch(
             "http://localhost:5000/sales/" + user_id
           );

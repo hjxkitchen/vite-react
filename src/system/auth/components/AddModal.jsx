@@ -39,8 +39,8 @@ const AddModal = () => {
       <button
         type="button"
         className="btn btn-primary mt-4 mb-4 mx-auto d-block"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal1"
+        data-toggle="modal"
+        data-target="#exampleModal1"
         onClick={handleShow}
       >
         Add
@@ -50,10 +50,11 @@ const AddModal = () => {
         className="modal fade"
         id="exampleModal1"
         tabIndex="-1"
+        role="dialog"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog">
+        <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
@@ -61,46 +62,48 @@ const AddModal = () => {
               </h5>
               <button
                 type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
+                className="close"
+                data-dismiss="modal"
                 aria-label="Close"
                 onClick={handleClose}
-              ></button>
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div className="modal-body">
               <form>
-                <div className="mb-3">
-                  <label htmlFor="recipient-name" className="col-form-label">
+                <div className="form-group">
+                  <label htmlFor="username" className="col-form-label">
                     Username:
                   </label>
                   <input
                     type="text"
                     className="form-control"
-                    id="recipient-name"
+                    id="username"
                     name="username"
                     onChange={handleInputChange}
                   />
                 </div>
-                {/* <div className="mb-3">
-                  <label htmlFor="recipient-name" className="col-form-label">
-                    RoleID:
+                <div className="form-group">
+                  <label htmlFor="role" className="col-form-label">
+                    Role:
                   </label>
                   <input
                     type="number"
                     className="form-control"
-                    id="recipient-name"
-                    name="roleId"
+                    id="role"
+                    name="role"
                     onChange={handleInputChange}
                   />
-                </div> */}
-                <div className="mb-3">
-                  <label htmlFor="recipient-name" className="col-form-label">
+                </div>
+                <div className="form-group">
+                  <label htmlFor="password" className="col-form-label">
                     Password:
                   </label>
                   <input
                     type="text"
                     className="form-control"
-                    id="recipient-name"
+                    id="password"
                     name="password"
                     onChange={handleInputChange}
                   />
@@ -111,12 +114,11 @@ const AddModal = () => {
               <button
                 type="button"
                 className="btn btn-secondary"
-                data-bs-dismiss="modal"
+                data-dismiss="modal"
                 onClick={handleClose}
               >
                 Close
               </button>
-
               <button
                 type="button"
                 onClick={handleSubmit}

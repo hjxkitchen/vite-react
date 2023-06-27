@@ -11,8 +11,8 @@ const ProtectedRoute = ({ token, allowedRoles, children }) => {
       if (token) {
         try {
           const decodedToken = jwt_decode(token);
-          const { roleId } = decodedToken;
-          setIsAuthenticated(allowedRoles.includes(roleId));
+          const { role_id } = decodedToken;
+          setIsAuthenticated(allowedRoles.includes(role_id));
         } catch (error) {
           console.error("Error decoding token:", error);
           setIsAuthenticated(false);

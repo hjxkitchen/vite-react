@@ -153,25 +153,25 @@ function Calculators() {
         <div class="row justify-content-center">
           <div class="d-flex col-md-3 justify-content-center mt-4">
             {/* <div class=" my-auto"> */}
+            <input
+              class="form-control text-center"
+              value={sale.sale_status}
+              disabled
+            ></input>
             {/* select input */}
-            <select
+            {/* <select
               class="form-control"
               name="salelog"
               onChange={handleStatusChange}
+              disabled
               defaultValue={sale.sale_status}
             >
               <option value={sale.sale_status}>{sale.sale_status}</option>
               <option value="initialized">Initialized</option>
               <option value="delivered">Delivered</option>
-            </select>
+            </select> */}
             {/* submit button */}
-            <button
-              class="btn btn-primary"
-              type="submit"
-              onClick={submitStatus}
-            >
-              Submit
-            </button>
+
             {/* </div> */}
           </div>
         </div>
@@ -214,6 +214,7 @@ function Calculators() {
                         name="name"
                         defaultValue={customer.name}
                         onChange={handleChange}
+                        disabled
                       />
                     </div>
                     <div class="form-group input-group">
@@ -223,6 +224,7 @@ function Calculators() {
                         name="phone"
                         defaultValue={customer.phone}
                         onChange={handleChange}
+                        disabled
                       />
                     </div>
                     <div class="form-group input-group">
@@ -232,6 +234,7 @@ function Calculators() {
                         name="email"
                         defaultValue={customer.email}
                         onChange={handleChange}
+                        disabled
                       />
                     </div>
                   </form>
@@ -252,6 +255,7 @@ function Calculators() {
                           name="name"
                           value={customer.name}
                           onChange={handleChange}
+                          disabled
                         />
                       )}
                       <div class="input-group-append">
@@ -268,6 +272,7 @@ function Calculators() {
                           name="phone"
                           value={customer.phone}
                           onChange={handleChange}
+                          disabled
                         />
                       )}
                       <div class="input-group-append">
@@ -285,6 +290,7 @@ function Calculators() {
                           name="email"
                           value={customer.email}
                           onChange={handleChange}
+                          disabled
                         />
                       )}
                       <div class="input-group-append">
@@ -297,17 +303,6 @@ function Calculators() {
                 </div>
               </div>
             )}
-            <div class="row  mt-4">
-              <div class="">
-                <button
-                  class="btn btn-primary btn-block"
-                  type="submit"
-                  onClick={handleEditContact}
-                >
-                  Edit/Add Customer Details
-                </button>
-              </div>
-            </div>
           </div>
         </div>
 

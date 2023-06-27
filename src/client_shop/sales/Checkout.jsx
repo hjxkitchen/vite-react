@@ -24,10 +24,7 @@ function Checkout() {
     event.preventDefault();
 
     // user by email
-    const user_idres = await axios.post("http://localhost:5000/userbyemail", {
-      user,
-    });
-    const user_id = user_idres.data[0].user_id;
+    const user_id = user.user_id;
 
     const res = await axios.post("http://localhost:5000/cart/checkout", {
       loccart: sales,

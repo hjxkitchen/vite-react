@@ -144,11 +144,124 @@ function Calculators() {
     e.preventDefault();
   };
 
+  const [showVentureOverview, setShowVentureOverview] = React.useState(false);
+
+  const handleVentureOverview = () => {
+    setShowVentureOverview(!showVentureOverview);
+  };
+
   return (
     <Fragment>
       {user && <Navbar />}
       {!user && <PublicNavbar />}
       <div className="container">
+        <button className="btn btn-warning" onClick={handleVentureOverview}>
+          Show Venture Overview
+        </button>
+        <div
+          className={`container mb-5 collapse ${
+            showVentureOverview ? "show" : ""
+          }`}
+        >
+          {/* VENTURE OVERVIEW */}
+          <div className="row justify-content-center">
+            <div className="card col-md-6 text-center">
+              <div className="card-header">
+                <h3>Venture Overview </h3>
+              </div>
+              <div className="card-body">
+                {/* table fro each header*/}
+                {/* col-md-3 */}
+                <div className="row justify-content-center ">
+                  <div className="card col-md-3 text-center">
+                    <table className="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">Finance (+2200)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <button className="btn btn-primary">Open</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="card col-md-3 text-center">
+                    <table className="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">Metrics (90%)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <button className="btn btn-primary">Open</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="card col-md-3 text-center">
+                    <table className="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">Employees (4400)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <button className="btn btn-primary">Open</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* venture overview */}
+            <div class="col-md-3 ">
+              <div class="card mt-5 col">
+                <div class="card-header">
+                  Logs{" "}
+                  <button class="btn btn-warning ml-5">
+                    <i class="fas fa-plus" />
+                  </button>
+                </div>
+                <div class="card-body">
+                  Loggedin: 22/03/21 2:35am
+                  <br></br>
+                  Logged: Zahab Payment Processing
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* strategy board */}
+          <div class="row justify-content-center mb-5">
+            <div class="card mt-5 col-md-6">
+              <div class="card-header">
+                Mission Statement: Strategy Board{" "}
+                <button class="btn btn-warning ml-5">
+                  <i class="fas fa-edit" />
+                </button>
+              </div>
+              <div class="card-body">
+                Mission: Civil Development with Energy Solutions.
+                <br></br>
+                Strategy: Build a Brand + Offer Value at Sales to Build a Proud
+                To Pay Model, then Scale Ops.
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row justify-content-center">
           <h1 class="text-center mt-5">SaleLogs: Order {sale.sale_id}</h1>
         </div>
@@ -276,6 +389,7 @@ function Calculators() {
                             type="text"
                             class="form-control"
                             name="name"
+                            defaultValue="email"
                             value={customer.name}
                             onChange={handleChange}
                           />
@@ -292,6 +406,7 @@ function Calculators() {
                             type="text"
                             class="form-control"
                             name="phone"
+                            defaultValue="email"
                             value={customer.phone}
                             onChange={handleChange}
                           />
@@ -309,7 +424,8 @@ function Calculators() {
                             type="text"
                             class="form-control"
                             name="email"
-                            value={customer.email}
+                            defaultValue="email"
+                            value={customer.username}
                             onChange={handleChange}
                           />
                         )}
@@ -355,18 +471,6 @@ function Calculators() {
                   />
 
                   {/* row of buttons */}
-                  <div class="d-flex  justify-content-center mt-2">
-                    <button class="btn btn-success ml-2">
-                      Add Finance Log
-                    </button>
-                    <button class="btn btn-info ml-2 mr-2">
-                      Add Legal Log
-                    </button>{" "}
-                    {/* <div class="row justify-content-center mt-4"> */}
-                    <AddJobModal />
-                    {/* </div> */}
-                  </div>
-
                   <button
                     type="submit"
                     onClick={submitLog}
@@ -374,6 +478,10 @@ function Calculators() {
                   >
                     Submit
                   </button>
+
+                  <div class="d-flex mt-5 justify-content-center ">
+                    <AddJobModal />
+                  </div>
                 </div>
               </form>
             </div>

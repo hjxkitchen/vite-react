@@ -48,15 +48,7 @@ const ShopList = (token) => {
         console.log("userrered id is: ", user);
 
         // get user_id from usersessions
-        const getUserId = await axios.post(
-          "http://localhost:5000/userbyemail",
-          {
-            user: user,
-          }
-        );
-
-        console.log("getUserId is: ", getUserId.data[0].user_id);
-        const user_id = getUserId.data[0].user_id;
+        const user_id = user.user_id;
         console.log("user_id is: ", user_id);
 
         const addtocart = await axios.post("http://localhost:5000/carts", {
@@ -92,12 +84,7 @@ const ShopList = (token) => {
       console.log("e is: ", e);
       console.log("user is: ", user);
       // get user_id from usersessions
-      const getUserId = await axios.post("http://localhost:5000/userbyemail", {
-        user: user,
-      });
-
-      // console.log("getUserId is: ", getUserId.data[0].user_id);
-      const user_id = getUserId.data[0].user_id;
+      const user_id = user.user_id;
       // console.log("user_id is: ", user_id);
 
       const result = await axios.post("http://localhost:5000/favorites", {

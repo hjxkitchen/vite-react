@@ -104,6 +104,7 @@ import OrderHistory from "./client_shop/sales/OrderHistory";
 import SaleLogs from "./client_shop/sales/SaleLogs";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 export const UserContext = createContext();
 export const ProdContext = createContext();
@@ -128,6 +129,13 @@ const App = () => {
     if (storedToken) {
       console.log("setting token", storedToken);
       setToken(storedToken);
+      const decodedToken = jwt_decode(storedToken);
+      console.log("decoded token", decodedToken);
+      setUser({
+        user_id: decodedToken.user_id,
+        username: decodedToken.username,
+        role_id: decodedToken.role_id,
+      });
     }
   }, []);
 

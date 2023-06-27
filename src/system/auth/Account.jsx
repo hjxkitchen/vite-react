@@ -10,14 +10,17 @@ const Account = () => {
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   const decodedToken = jwt_decode(token);
   const username = decodedToken.username;
-  const roleId = decodedToken.roleId;
-  const userId = decodedToken.userId;
+  // console.log(decodedToken, "dec`oded token");
+  const role_id = decodedToken.role_id;
+  // console.log(role_id, "role id");
+  const userId = decodedToken.user_id;
+  // console.log(userId, "user id");
 
   // get roles
   const [roles, setRoles] = useState([]);
   const getRoles = async () => {
     const response = await axios.get(
-      import.meta.env.VITE_API_URL + "/api/Role",
+      import.meta.env.VITE_API_URL + "/api/role",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,10 +46,10 @@ const Account = () => {
             <h5 className="card-title custom-text">Account Info</h5>
             <p className="card-text custom-text">User Id: {userId}</p>
             <p className="card-text mt-3 custom-text">Username: {username}</p>
-            <p className="card-text custom-text">
+            <p className="card-text mt-3 mb-3 custom-text">
               Role:{" "}
               {roles.map((role) => {
-                if (role.id == roleId) {
+                if (role.role_id == role_id) {
                   return role.name.toUpperCase();
                 }
               })}
@@ -55,9 +58,9 @@ const Account = () => {
             <hr />
 
             {/* account history */}
-            <h5 className="card-title custom-text">Account History</h5>
+            <h5 className="card-title mt-3 custom-text">Account History</h5>
             <p className="card-text custom-text">View your account history</p>
-            <button className="btn btn-primary custom-text">
+            <button className="btn btn-primary mt-3 custom-text">
               View History
             </button>
 

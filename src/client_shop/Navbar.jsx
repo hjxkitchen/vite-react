@@ -66,7 +66,7 @@ const Navbar = () => {
   const userRole = Cookies.get(import.meta.env.VITE_COOKIE_NAME)
     ? JSON.parse(
         atob(Cookies.get(import.meta.env.VITE_COOKIE_NAME).split(".")[1])
-      ).roleId
+      ).role_id
     : null;
 
   return (

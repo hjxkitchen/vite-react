@@ -11,21 +11,8 @@ function Calculators() {
   const products = useContext(ProdContext);
 
   useEffect(() => {
-    if (user_id === 0) {
-      // get user id by email
-      const getUser = async () => {
-        console.log(user);
-        console.log("getuserfunc");
-        const user_idres = await axios.post(
-          "http://localhost:5000/userbyemail",
-          { user: user }
-        );
-        console.log("user_id is: ", user_idres.data[0].user_id);
-        // const user_idd = user_id.data[0].user_id;
-        setUser_id(user_idres.data[0].user_id);
-        console.log("user_id2 is: ", user_id);
-      };
-      getUser();
+    if (loggedin) {
+      setUser_id(user.user_id);
     }
 
     // get id from url

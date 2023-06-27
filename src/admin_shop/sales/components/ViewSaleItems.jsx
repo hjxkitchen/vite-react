@@ -113,13 +113,13 @@ const ViewSaleItems = ({ sale }) => {
 
             {/* <!-- Modal footer --> */}
             <div class="modal-footer">
-              <button
+              {/* <button
                 type="button"
                 class="btn btn-warning"
                 data-dismiss="modal"
               >
                 Edit
-              </button>
+              </button> */}
 
               <button type="button" class="btn btn-danger" data-dismiss="modal">
                 Close

@@ -18,7 +18,7 @@ const List = () => {
   useEffect(() => {
     // GET WITH AXIOS HEADERS
     axios
-      .get(import.meta.env.VITE_API_URL + "/api/User", {
+      .get(import.meta.env.VITE_API_URL + "/api/user", {
         headers: {
           Authorization: `Bearer ${token}`,
           "x-api-key": import.meta.env.VITE_API_KEY,
@@ -29,7 +29,7 @@ const List = () => {
         console.log(response.data);
         // get userroles
         axios
-          .get(import.meta.env.VITE_API_URL + "/api/UserRole", {
+          .get(import.meta.env.VITE_API_URL + "/api/userrole", {
             headers: {
               Authorization: `Bearer ${token}`,
               "x-api-key": import.meta.env.VITE_API_KEY,
@@ -41,10 +41,10 @@ const List = () => {
             // Combine user data with user roles
             const usersWithRoles = response.data.map((user) => {
               const userRole = roleResponse.data.find(
-                (role) => role.userId === user.id
+                (role) => role.user_id === user.user_id
               );
-              const roleId = userRole ? userRole.roleId : null;
-              return { ...user, roleId };
+              const role_id = userRole ? userRole.role_id : null;
+              return { ...user, role_id };
             });
 
             console.log(usersWithRoles);
@@ -63,7 +63,7 @@ const List = () => {
     // prompt are you sure
     if (alert("are you sure?")) {
       axios
-        .delete(import.meta.env.VITE_API_URL + "/api/User/" + id, {
+        .delete(import.meta.env.VITE_API_URL + "/api/user" + id, {
           headers: {
             Authorization: `Bearer ${token}`,
             "x-api-key": import.meta.env.VITE_API_KEY,
@@ -86,10 +86,10 @@ const List = () => {
         <div className="card mt-4" key={product.id}>
           <div className="card-body">
             <h5 className="card-title">
-              {product.id}: {product.username}
+              {product.user_id}: {product.username}
             </h5>
             <h6 className="card-subtitle mb-2 text-muted">
-              Role: {product.roleId}
+              Role: {product.role_id}
             </h6>
             {/* <p className="card-text">{product.password}</p> */}
           </div>
