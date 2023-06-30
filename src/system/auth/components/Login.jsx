@@ -20,7 +20,7 @@ const Login = ({ setToken, token }) => {
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    // Cookies.set("token", event.target.value);
+    Cookies.set(import.meta.env.VITE_COOKIE_NAME, event.target.value);
   };
 
   const handleLogin = async () => {
