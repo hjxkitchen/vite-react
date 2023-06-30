@@ -283,7 +283,7 @@ const ShopList = () => {
                       </a>
                     </div>
                   )}
-                  {!product.productimages && (
+                  {product.productimages.length < 1 && (
                     <div>
                       <img
                         src="/productimg.jpg"

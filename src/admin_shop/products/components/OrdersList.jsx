@@ -178,10 +178,10 @@ const SalesList = () => {
       {/* <ViewSaleItems /> */}
       {/* <button class="btn btn-primary">Search</button> */}
 
+      <h1 className="mb-5">Orders List</h1>
       <div class="d-flex justify-content-center">
         {/* search through phone numbers */}
 
-        {/* <h2>Products Table</h2> */}
         {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
         <div class="table-responsive">
           <table

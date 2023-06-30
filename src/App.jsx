@@ -120,7 +120,7 @@ const App = () => {
 
   const [cartToken, setCartToken] = React.useState(null);
   const [ProductNames, setProductNames] = useState([]);
-  const [user, setUser] = React.useState("kelvin@gmail.com");
+  const [user, setUser] = React.useState(null);
   const [loggedin, setLoggedin] = React.useState(true);
   const [categories, setCategories] = React.useState(null);
 
@@ -158,6 +158,7 @@ const App = () => {
         username: decodedToken.username,
         role_id: decodedToken.role_id,
       });
+      console.log("user", user);
     }
     if (ProductNames.length == 0) {
       getProdContext();
@@ -181,7 +182,11 @@ const App = () => {
                         <Route
                           path="/"
                           element={
-                            <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1, 2]}
+                            >
                               {/* <Home /> */}
                               <AdminDash />
                               {/* <Shop /> */}
@@ -191,7 +196,11 @@ const App = () => {
                         <Route
                           path="settings"
                           element={
-                            <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1, 2]}
+                            >
                               <Settings />
                             </ProtectedRoute>
                           }
@@ -199,7 +208,11 @@ const App = () => {
                         <Route
                           path="account"
                           element={
-                            <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1, 2]}
+                            >
                               <Account />
                             </ProtectedRoute>
                           }
@@ -207,7 +220,11 @@ const App = () => {
                         <Route
                           path="contact"
                           element={
-                            <ProtectedRoute token={token} allowedRoles={[1, 2]}>
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1, 2]}
+                            >
                               <Contact />
                             </ProtectedRoute>
                           }
@@ -215,7 +232,11 @@ const App = () => {
                         <Route
                           path="team"
                           element={
-                            <ProtectedRoute token={token} allowedRoles={[1]}>
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
                               <Team />
                             </ProtectedRoute>
                           }
@@ -267,7 +288,10 @@ const App = () => {
                         <Route path="category" element={<Category />} />
 
                         <Route path="allsales" element={<SalesList />} />
-                        <Route path="salelogs" element={<SaleLogsAdmin />} />
+                        <Route
+                          path="salelogs/:sale_id"
+                          element={<SaleLogsAdmin />}
+                        />
                         {/* <Route path="users" element={<Users />} /> */}
 
                         <Route path="orders" element={<Orders />} />

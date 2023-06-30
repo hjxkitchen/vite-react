@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
 import PublicNavbar from "../PublicNavbar";
 import ShopList from "./components/ShopList";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 import { UserContext, ProdContext } from "../../App";
 
@@ -13,11 +15,13 @@ function Packages() {
   const [featured, setFeatured] = useState([]);
   const [variations, setVariations] = useState([]);
 
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+
   const getFeatured = async () => {
     try {
       // const response = await fetch("http://localhost:000/featured");
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/featured",
+        import.meta.env.VITE_API_URL + "/api/featured",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -25,7 +29,8 @@ function Packages() {
           },
         }
       );
-      const jsonData = await response.json();
+      console.log(response.data);
+      const jsonData = await response.data;
 
       setFeatured(jsonData);
     } catch (error) {
@@ -103,7 +108,7 @@ function Packages() {
                           }}
                         ></Link>
                         {/* image */}
-                        {oneprod.images !== null && (
+                        {oneprod.product_images && (
                           // <img
                           //   src={`http://localhost:000${oneprod.images[0]}`}
                           //   class="img-fluid"
@@ -117,7 +122,7 @@ function Packages() {
                             data-interval="false"
                           >
                             <div class="carousel-inner">
-                              {oneprod.images.map((image, index) => (
+                              {oneprod.images?.map((image, index) => (
                                 // if index is 0, add active class
                                 <div
                                   class={
@@ -165,10 +170,10 @@ function Packages() {
                             </a>
                           </div>
                         )}
-                        {!oneprod.images[0] && (
+                        {!oneprod.images && (
                           <div>
                             <img
-                              src="http://localhost:3000//productimg.jpg"
+                              src="/productimg.jpg"
                               class="img-fluid"
                               alt="Card image"
                             ></img>

@@ -20,7 +20,7 @@ const SalesList = () => {
       //   }
       // );
       const deleteProduct = await axios.delete(
-        import.meta.env.VITE_APP_API_URL + "/api/Sale/" + sale_id,
+        import.meta.env.VITE_APP_API_URL + "/api/sale/" + sale_id,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -40,16 +40,16 @@ const SalesList = () => {
     try {
       // const response = await fetch("http://localhost:000/saleslist");
       const response = await axios.get(
-        import.meta.env.VITE_APP_API_URL + "/api/Sale",
+        import.meta.env.VITE_API_URL + "/api/sale",
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
 
-      const jsonData = await response.json();
+      const jsonData = await response.data;
       // sort sales by date
 
       // jsonData.sort(function(a, b) {
@@ -262,11 +262,13 @@ const SalesList = () => {
           {searched &&
             searchedSales.map((sale) => (
               <tr key={sale.sale_id}>
-                <td>{sale.sale_id}</td>
+                <td>
+                  <Link to={"/salelogs/" + sale.sale_id}>{sale.sale_id}</Link>
+                </td>
                 <td>{sale.sale_date}</td>
                 <td>{sale.sale_total}</td>
                 <td>
-                  <Link to="/salelogs" state={{ sale: sale }}>
+                  <Link to={"/salelogs/" + sale.sale_id}>
                     {sale.sale_status}
                   </Link>
                 </td>
@@ -277,11 +279,17 @@ const SalesList = () => {
           {searchedNames &&
             searchedSalesNames.map((sale) => (
               <tr key={sale.sale_id}>
-                <td>{sale.sale_id}</td>
+                {" "}
+                <Link
+                  // so can be accessed by useparams
+                  to={"/salelogs/" + sale.sale_id}
+                >
+                  {sale.sale_id}
+                </Link>
                 <td>{sale.sale_date}</td>
                 <td>{sale.sale_total}</td>
                 <td>
-                  <Link to="/salelogs" state={{ sale: sale }}>
+                  <Link to={"/salelogs/" + sale.sale_id}>
                     {sale.sale_status}
                   </Link>
                 </td>
@@ -292,11 +300,12 @@ const SalesList = () => {
           {sorted &&
             sortedSales.map((sale) => (
               <tr key={sale.sale_id}>
-                <td>{sale.sale_id}</td>
+                {" "}
+                <Link to={"/salelogs/" + sale.sale_id}>{sale.sale_id}</Link>
                 <td>{sale.sale_date}</td>
                 <td>{sale.sale_total}</td>
                 <td>
-                  <Link to="/salelogs" state={{ sale: sale }}>
+                  <Link to={"/salelogs/" + sale.sale_id}>
                     {sale.sale_status}
                   </Link>
                 </td>
@@ -307,15 +316,15 @@ const SalesList = () => {
           {sorted === false &&
             sales.map((sale) => (
               <tr key={sale.sale_id}>
-                <td>{sale.sale_id}</td>
+                {" "}
+                <Link to={"/salelogs/" + sale.sale_id}>{sale.sale_id}</Link>
                 <td>{sale.sale_date}</td>
                 <td>{sale.sale_total}</td>
                 <td>
-                  <Link to="/salelogs" state={{ sale }}>
+                  <Link to={"/salelogs/" + sale.sale_id}>
                     {sale.sale_status}
                   </Link>
                 </td>
-
                 <td>Online/POS</td>
                 <td>{sale.name}</td>
                 <td>{sale.phone}</td>

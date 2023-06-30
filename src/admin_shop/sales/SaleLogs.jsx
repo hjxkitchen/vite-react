@@ -6,6 +6,7 @@ import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import ViewSaleItems from "./components/ViewSaleItems";
 import AddJobModal from "./components/AddJobModal";
+import Cookies from "js-cookie";
 
 function Calculators() {
   const user = useContext(UserContext);
@@ -14,9 +15,15 @@ function Calculators() {
   const [sale, setSales] = React.useState([]);
   const [customer, setCustomer] = React.useState({});
 
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+
   const location = useLocation();
-  const { saledata } = location.state;
-  console.log("saledata", location.state.sale.sale_id);
+  // const { saledata } = location.state;
+  // console.log("saledata", location.state.sale.sale_id);
+
+  // get sale id from url eg. /salelogs/1
+  const { sale_id } = useParams();
+  console.log("sale_id", sale_id);
 
   // const url = "http://localhost:000/sale/" + location.state.sale.sale_id;
 
@@ -30,10 +37,10 @@ function Calculators() {
   const getsales = async () => {
     try {
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/order/" + saledata.order_id,
+        import.meta.env.VITE_API_URL + "/api/order/" + sale_id,
         {
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${token}`,
             "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
@@ -51,10 +58,10 @@ function Calculators() {
     // console.log(url);
     // const res = await axios.get(url);
     const res = await axios.get(
-      import.meta.env.VITE_APP_API_URL + "/api/salelog/" + saledata.order_id,
+      import.meta.env.VITE_APP_API_URL + "/api/salelog/" + sale_id,
       {
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${token}`,
           "x-api-key": import.meta.env.VITE_APP_API_KEY,
         },
       }
@@ -65,18 +72,17 @@ function Calculators() {
   const getCustomer = async () => {
     // const url = "http://localhost:000/user/" + location.state.sale.user_id;
     // const res = await axios.get(url);
-    const res = await axios.get(
-      import.meta.env.VITE_APP_API_URL + "/api/user/" + saledata.user_id,
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-          "x-api-key": import.meta.env.VITE_APP_API_KEY,
-        },
-      }
-    );
-
-    console.log("res", res.data);
-    setCustomer(res.data[0]);
+    // const res = await axios.get(
+    //   import.meta.env.VITE_APP_API_URL + "/api/user/" + saledata.user_id,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       "x-api-key": import.meta.env.VITE_APP_API_KEY,
+    //     },
+    //   }
+    // );
+    // console.log("res", res.data);
+    // setCustomer(res.data[0]);
   };
 
   useEffect(() => {
@@ -115,7 +121,7 @@ function Calculators() {
     const res = await axios.post(
       import.meta.env.VITE_APP_API_URL + "/api/salelog",
       {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${token}`,
         "x-api-key": import.meta.env.VITE_APP_API_KEY,
       }
     );
@@ -155,20 +161,21 @@ function Calculators() {
     //     status: status,
     //   }
     // );
-    const res = await axios.put(
-      import.meta.env.VITE_APP_API_URL + "/api/order/" + saledata.order_id,
-      {
-        status: status,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-          "x-api-key": import.meta.env.VITE_APP_API_KEY,
-        },
-      }
-    );
 
-    console.log("res is", res);
+    // const res = await axios.put(
+    //   import.meta.env.VITE_APP_API_URL + "/api/order/" + saledata.order_id,
+    //   {
+    //     status: status,
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       "x-api-key": import.meta.env.VITE_APP_API_KEY,
+    //     },
+    //   }
+    // );
+
+    // console.log("res is", res);
 
     // const url = "http://localhost:000/sale/" + sale.sale_id;
     // console.log(url);
@@ -180,7 +187,7 @@ function Calculators() {
       import.meta.env.VITE_APP_API_URL + "/api/sale/" + sale.sale_id,
       {
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${token}`,
           "x-api-key": import.meta.env.VITE_APP_API_KEY,
         },
       }
@@ -200,7 +207,7 @@ function Calculators() {
       },
       {
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${token}`,
           "x-api-key": import.meta.env.VITE_APP_API_KEY,
         },
       }
@@ -419,7 +426,7 @@ function Calculators() {
 
               <div class="row ml-5 mr-5 justify-content-center mt-4">
                 <div class=" my-auto">
-                  <ViewSaleItems sale={location.state.sale} />
+                  <ViewSaleItems sale_id={sale_id} />
                 </div>
               </div>
             </div>

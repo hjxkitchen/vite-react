@@ -1,5 +1,7 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 // import EditPackage from "./EditPackage";
 import { UserContext, CartContext, LoggedContext } from "./../../../App";
@@ -8,6 +10,8 @@ const PackageList = () => {
   const loggedin = useContext(LoggedContext);
 
   const [packagename, setPackage] = useState([]);
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   //delete package function defined
   const deletePackage = async (package_id) => {
@@ -40,16 +44,16 @@ const PackageList = () => {
     try {
       // const response = await fetch("http://localhost:000/categories");
       const response = await axios.get(
-        import.meta.env.VITE_APP_API_URL + "/api/Package",
+        import.meta.env.VITE_API_URL + "/api/category",
         {
           headers: {
-            Authorization: `Bearer ${cartToken}`,
-            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
       console.log("package");
-      const jsonData = await response.json();
+      const jsonData = await response.data;
       setPackage(jsonData);
       console.log(packagename);
     } catch (error) {

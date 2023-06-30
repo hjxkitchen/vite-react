@@ -3,21 +3,23 @@ import { ProdContext } from "../../../App";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const ViewSaleItems = ({ sale }) => {
+const ViewSaleItems = ({ sale_id }) => {
   const [saleItems, setsaleItems] = useState([]);
   const prodcontext = useContext(ProdContext);
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   //get products function defeined
   const getSaleItems = async () => {
-    console.log("sdfsd", sale);
-    let id = sale.sale_id;
+    // get id from params
+    const id = sale_id;
+
+    console.log("sdfsd", id);
     // console.log("http://localhost:000/saleitems/" + id);
     try {
       // axios get
       // const response = await fetch("http://localhost:000/saleitems/" + id);
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "saleitem/" + id,
+        import.meta.env.VITE_API_URL + "/api/saleitem/" + id,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -26,8 +28,8 @@ const ViewSaleItems = ({ sale }) => {
         }
       );
 
-      console.log(response);
-      const jsonData = await response.json();
+      console.log("saleitemmss", response.data);
+      const jsonData = await response.data;
       setsaleItems(jsonData);
       return jsonData;
       // console.log(products);
@@ -56,13 +58,12 @@ const ViewSaleItems = ({ sale }) => {
         type="button"
         class="btn btn-primary"
         data-toggle="modal"
-        data-target={`#viewsalemodal${sale.sale_id}`}
+        data-target={`#viewsalemodal${sale_id}`}
       >
         View Sale Items
       </button>
-
       {/* <!-- The Modal --> */}
-      <div class="modal" id={`viewsalemodal${sale.sale_id}`}>
+      <div class="modal" id={`viewsalemodal${sale_id}`}>
         <div class="modal-dialog">
           <div class="modal-content">
             {/* <!-- Modal Header --> */}
@@ -77,7 +78,7 @@ const ViewSaleItems = ({ sale }) => {
             <div class="modal-body">
               {/* sale details */}
               {/* <div class="mb-5">
-          sale id: {sale.sale_id}
+          sale id: {sale_id}
           <br/>
           sale date: {sale.sale_date}
           <br/>
@@ -103,21 +104,22 @@ const ViewSaleItems = ({ sale }) => {
                   </thead>
                   <tbody>
                     {/* foreach saleitems */}
-                    {saleItems.map((saleItem) => (
-                      <tr>
-                        <td>
-                          {/* {saleItem.product_id} */}
-                          {prodcontext.map((prod) =>
-                            prod.product_id === saleItem.product_id
-                              ? prod.product_name
-                              : null
-                          )}
-                        </td>
-                        <td>{saleItem.quantity}</td>
-                        <td>{saleItem.price}K</td>
-                        <td>{subtotal(saleItem)}K</td>
-                      </tr>
-                    ))}
+                    {saleItems[0] &&
+                      saleItems.map((saleItem) => (
+                        <tr key={saleItem.product_id}>
+                          <td>
+                            {/* {saleItem.product_id} */}
+                            {/* {prodcontext.map((prod) =>
+                              prod.product_id === saleItem.product_id
+                                ? prod.product_name
+                                : null
+                            )} */}
+                          </td>
+                          <td>{saleItem.quantity}</td>
+                          <td>{saleItem.product_id}K</td>
+                          {/* <td>{subtotal(saleItem)}K</td> */}
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
                 {/* </div> */}

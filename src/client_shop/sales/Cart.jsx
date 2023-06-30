@@ -9,6 +9,8 @@ import {
   ProdContext,
 } from "./../../App";
 import axios from "axios";
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 
 // import EditProduct from "../inventory/EditProduct";
 // import ViewSaleItems from "./ViewSaleItems";
@@ -20,6 +22,11 @@ const SalesList = () => {
   const cartToken = useContext(CartContext);
   const loggedin = useContext(LoggedContext);
   const prodcontext = useContext(ProdContext);
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+  // get user_id from decoded token
+  const decoded = jwt_decode(token);
+  const user_id = decoded.user_id;
 
   //delete product function defined
   const deleteProduct = async (sale_id) => {
@@ -49,51 +56,53 @@ const SalesList = () => {
   //get products function defeined
   const getSales = async () => {
     if (loggedin) {
-      if (user !== null) {
-        try {
-          const user_id = user.user_id;
-          // const response = await fetch(
-          //   "http://localhost:000/cartss/" + user_id
-          // );
-          const response = await axios.get(
-            import.meta.env.VITE_API_URL + "cart/uid/" + user_id,
-            {
-              headers: {
-                Authorization: `Bearer ${cartToken}`,
-                "x-api-key": import.meta.env.VITE_API_KEY,
-              },
-            }
-          );
+      // if (user !== null) {
+      try {
+        console.log("uid:", user_id);
+        // const user_id = user.user_id;
+        // const response = await fetch(
+        //   "http://localhost:000/cartss/" + user_id
+        // );
+        const response = await axios.get(
+          import.meta.env.VITE_API_URL + "/api/cart/user/" + user_id,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
 
-          const jsonData = await response.json();
-          setSales(jsonData);
-          // console.log(products);
-        } catch (error) {
-          console.log(error.message);
-        }
-      } else {
-        try {
-          console.log("carttoken:", cartToken);
-          // const response = await fetch(
-          //   "http://localhost:000/cartsst/" + cartToken
-          // );
-          const response = await axios.get(
-            import.meta.env.VITE_API_URL + "cart/token/" + cartToken,
-            {
-              headers: {
-                Authorization: `Bearer ${cartToken}`,
-                "x-api-key": import.meta.env.VITE_API_KEY,
-              },
-            }
-          );
-
-          const jsonData = await response.json();
-          setSales(jsonData);
-          // console.log(products);
-        } catch (error) {
-          console.log(error.message);
-        }
+        console.log("data:", response.data);
+        const jsonData = await response.data;
+        setSales(jsonData);
+        // console.log(products);
+      } catch (error) {
+        console.log(error.message);
       }
+      // } else {
+      //   try {
+      //     console.log("carttoken:", cartToken);
+      //     // const response = await fetch(
+      //     //   "http://localhost:000/cartsst/" + cartToken
+      //     // );
+      //     const response = await axios.get(
+      //       import.meta.env.VITE_API_URL + "cart/user/" + user_id,
+      //       {
+      //         headers: {
+      //           Authorization: `Bearer ${token}`,
+      //           "x-api-key": import.meta.env.VITE_API_KEY,
+      //         },
+      //       }
+      //     );
+
+      //     const jsonData = await response.json();
+      //     setSales(jsonData);
+      //     // console.log(products);
+      //   } catch (error) {
+      //     console.log(error.message);
+      //   }
+      // }
     }
   };
 

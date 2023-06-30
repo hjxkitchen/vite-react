@@ -7,10 +7,13 @@ import {
   LoggedContext,
   ProdContext,
 } from "../../../App";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const FeaturedList = () => {
   const loggedin = useContext(LoggedContext);
   const products = useContext(ProdContext);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const [featured, setFeatured] = useState([]);
 
@@ -24,11 +27,11 @@ const FeaturedList = () => {
       //   }
       // );
       const deleteFeatured = await axios.delete(
-        import.meta.env.VITE_APP_API_URL + "/api/Featured/" + featured_id,
+        import.meta.env.VITE_API_URL + "/api/featured/" + featured_id,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
@@ -47,17 +50,17 @@ const FeaturedList = () => {
     try {
       // const response = await fetch("http://localhost:000/featured");
       const response = await axios.get(
-        import.meta.env.VITE_APP_API_URL + "/api/Featured",
+        import.meta.env.VITE_API_URL + "/api/featured",
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
 
       console.log("featured");
-      const jsonData = await response.json();
+      const jsonData = await response.data;
       setFeatured(jsonData);
       console.log(jsonData);
     } catch (error) {

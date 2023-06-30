@@ -1,10 +1,13 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
 import { SubcatsContext } from "../../../App";
 import EditProduct from "./EditProduct";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const ListProducts = () => {
   const [products, setProducts] = useState([]);
   const subcats = useContext(SubcatsContext);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   // console.log("subcatshere", subcats);
 
   //delete product function defined
@@ -37,21 +40,22 @@ const ListProducts = () => {
   //get products function defeined
   const getProducts = async () => {
     try {
+      console.log("getProducts called");
       // const response = await fetch("http://localhost:000/products");
       const response = await axios.get(
-        import.meta.env.VITE_APP_API_URL + "/api/Product",
+        import.meta.env.VITE_API_URL + "/api/product",
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
 
-      const jsonData = await response.json();
+      const jsonData = await response.data;
+      console.log("products", response.data);
       // sort prods by prod id
       // jsonData.sort((a, b) => (a.product_id > b.product_id) ? -1 : 1);
-      console.log("products", products);
       const sortedProducts = jsonData.sort((a, b) => {
         if (a.inventory === null) {
           return 1;
@@ -61,7 +65,7 @@ const ListProducts = () => {
           return a.inventory - b.inventory;
         }
       });
-      setProducts(sortedProducts);
+      setProducts(response.data);
     } catch (error) {
       console.log(error.message);
     }
@@ -346,7 +350,7 @@ const ListProducts = () => {
                   <div class="d-flex justify-content-center">
                     {/* <h5>{product.images.length + "="}</h5> */}
                     {/* for each path in images array create link */}
-                    {product.images.map((path, index) => (
+                    {product.images?.map((path, index) => (
                       // <a href={"http://localhost:000" + path} key={index}>
                       <a
                         href={import.meta.env.VITE_APP_API_URL + path}

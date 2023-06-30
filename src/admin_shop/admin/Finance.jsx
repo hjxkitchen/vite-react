@@ -1,16 +1,28 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 
 import Navbar from "../Navbar";
 
 function UsersList() {
+  const [analysis, setAnalysis] = useState(false);
+
   return (
     <Fragment>
-      <Navbar />
+      {/* <Navbar /> */}
       <div class="container mb-5">
         <div class="row justify-content-center ">
           <div class="col-md-9">
             <h1 className="text-center mt-5">Financials</h1>
+          </div>
+          {/* show analysis button */}
+          <div class="col-md-3 my-auto justify-content-center">
+            <button
+              class="btn btn-primary mt-5"
+              onClick={() => setAnalysis(!analysis)}
+            >
+              {" "}
+              Show Analysis{" "}
+            </button>
           </div>
         </div>
 
@@ -114,29 +126,33 @@ function UsersList() {
           </div>
         </div>
 
-        <h1 class="text-5xl font-bold tracking-wider uppercase text-center py-4 mt-8 border-b-4 border-black">
-          ANALYSIS
-        </h1>
-        <div class="hidden lg:flex lg:justify-center lg:items-center bg-gray-100 h-64 flex justify-center items-center ">
-          <Link
-            to="#"
-            class="flex justify-center items-center w-4/5 h-3/5 md:w-1/3 md:h-1/2 mr-5 lg:w-1/4 lg:h-3/5 text-3xl font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg"
-          >
-            Basic Analysis
-          </Link>
-          <Link
-            to="#"
-            class="flex justify-center items-center w-4/5 h-3/5 md:w-1/3 md:h-1/2 mr-5 lg:w-1/4 lg:h-3/5 text-3xl font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg"
-          >
-            DCF
-          </Link>
-          <Link
-            to="#"
-            class="flex justify-center items-center w-4/5 h-3/5 md:w-1/3 md:h-1/2 lg:w-1/4 lg:h-3/5 text-3xl font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg"
-          >
-            M&A
-          </Link>
-        </div>
+        {analysis && (
+          <>
+            <h1 class="text-5xl font-bold tracking-wider uppercase text-center py-4 mt-8 border-b-4 border-black">
+              ANALYSIS
+            </h1>
+            <div class="hidden lg:flex lg:justify-center lg:items-center bg-gray-100 h-64 flex justify-center items-center ">
+              <Link
+                to="#"
+                class="flex justify-center items-center w-4/5 h-3/5 md:w-1/3 md:h-1/2 mr-5 lg:w-1/4 lg:h-3/5 text-3xl font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg"
+              >
+                Basic Analysis
+              </Link>
+              <Link
+                to="#"
+                class="flex justify-center items-center w-4/5 h-3/5 md:w-1/3 md:h-1/2 mr-5 lg:w-1/4 lg:h-3/5 text-3xl font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg"
+              >
+                DCF
+              </Link>
+              <Link
+                to="#"
+                class="flex justify-center items-center w-4/5 h-3/5 md:w-1/3 md:h-1/2 lg:w-1/4 lg:h-3/5 text-3xl font-bold bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg"
+              >
+                M&A
+              </Link>
+            </div>
+          </>
+        )}
       </div>
 
       {/* </div> */}

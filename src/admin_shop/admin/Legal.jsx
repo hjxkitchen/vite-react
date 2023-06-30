@@ -7,8 +7,8 @@ function Component() {
   const user = useContext(UserContext);
   return (
     <Fragment>
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      {/* {user && <Navbar />}
+      {!user && <PublicNavbar />} */}
       <div>
         <h1 class="text-center mt-5">Legal Tickets</h1>
       </div>

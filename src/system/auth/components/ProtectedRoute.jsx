@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ token, allowedRoles, children }) => {
+const ProtectedRoute = ({ token, allowedRoles, children, setUser }) => {
   const [isTokenDecoded, setIsTokenDecoded] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -13,6 +13,8 @@ const ProtectedRoute = ({ token, allowedRoles, children }) => {
           const decodedToken = jwt_decode(token);
           const { role_id } = decodedToken;
           setIsAuthenticated(allowedRoles.includes(role_id));
+          console.log("decodedTokeniss:", decodedToken);
+          setUser(decodedToken.username);
         } catch (error) {
           console.error("Error decoding token:", error);
           setIsAuthenticated(false);
@@ -24,7 +26,7 @@ const ProtectedRoute = ({ token, allowedRoles, children }) => {
     };
 
     decodeToken();
-  }, [token, allowedRoles]);
+  }, []);
 
   if (!isTokenDecoded) {
     return <div>Loading...</div>;
