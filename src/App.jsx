@@ -179,20 +179,9 @@ const App = () => {
                       <Routes>
                         <Route path="token" element={<Token />} />
                         <Route path="login" element={<Login token={token} />} />
-                        <Route
-                          path="/"
-                          element={
-                            <ProtectedRoute
-                              setUser={setUser}
-                              token={token}
-                              allowedRoles={[1, 2]}
-                            >
-                              {/* <Home /> */}
-                              <AdminDash />
-                              {/* <Shop /> */}
-                            </ProtectedRoute>
-                          }
-                        />
+                        <Route path="/" element={<AdminDash />} />
+                        {/* <Home /> */}
+                        {/* <Shop /> */}
                         <Route
                           path="settings"
                           element={
