@@ -6,7 +6,7 @@ import {
   CartContext,
   LoggedContext,
   ProdContext,
-} from "../../../App";
+} from "../../../../../App";
 import axios from "axios";
 import Cookies from "js-cookie";
 

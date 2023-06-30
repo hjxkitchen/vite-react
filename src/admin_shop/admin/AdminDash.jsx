@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import Navbar from "../../system/Navbar";
-import Navbar2 from "../../system/Navbar";
+// import Navbar2 from "../../system/Navbar";
 import Footer from "../../system/Footer";
 // import OrdersList from "../../components/admin/fulfillment/orders/OrdersList";
 // import SalesList from "../../components/admin/sales/SalesList";

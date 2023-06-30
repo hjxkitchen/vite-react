@@ -6,9 +6,9 @@ import AddSale from "./components/AddSale";
 import SalesList from "./components/SalesList";
 // import ViewSaleModal from "../../../components/admin/sales/ViewSaleModal";
 
-import { UserContext } from "../../App";
+import { UserContext } from "../../../../App";
 // import { UserContext } from "../App"; role
-import { ProdContext } from "../../App";
+import { ProdContext } from "../../../../App";
 
 function Sales() {
   const [sales, setSales] = useState([]);

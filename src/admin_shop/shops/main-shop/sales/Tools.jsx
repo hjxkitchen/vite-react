@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import Navbar from "../../../../system/Navbar";
-import PublicNavbar from "../PublicNavbar";
-import { UserContext } from "../../App";
+// import PublicNavbar from "../PublicNavbar";
+import { UserContext } from "../../../../App";
 import Calculator from "./components/Calculator";
 import GuidedSales from "./components/GuidedSales";
 

@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import Navbar from "../../../../system/Navbar";
 // import PublicNavbar from "../PublicNavbar";
-import { UserContext } from "../../App";
+import { UserContext } from "../../../../App";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import ViewSaleItems from "../sales/components/ViewSaleItems";

@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useContext } from "react";
-import { SubcatsContext } from "../../../App";
+import { SubcatsContext } from "../../../../../App";
 // import axios from "axios";
 
 const EditProduct = ({ product }) => {

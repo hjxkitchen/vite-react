@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../client_shop/Navbar";
+import Navbar from "../Navbar";
 import Footer from "../Footer";
 import axios from "axios";
 import Cookies from "js-cookie";

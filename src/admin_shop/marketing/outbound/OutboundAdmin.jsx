@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from "react";
-import Navbar from "../../admin_shop/Navbar";
+import Navbar from "../../../system/Navbar";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../App";
+import { UserContext } from "../../../App";
 import InboundAdmin from "../inbound/InboundAdmin";
 // import OrdersList from "../../../../components/admin/fulfillment/procurement/OrdersList";
 

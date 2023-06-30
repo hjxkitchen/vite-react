@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../../system/Navbar";
-import PublicNavbar from "../PublicNavbar";
+// import PublicNavbar from "../PublicNavbar";
 import { UserContext } from "../../App";
 
 function Component() {
@@ -25,8 +25,7 @@ function Component() {
 
   return (
     <Fragment>
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      <Navbar />
 
       <div class="container">
         <button className="btn btn-warning" onClick={handleVentureOverview}>

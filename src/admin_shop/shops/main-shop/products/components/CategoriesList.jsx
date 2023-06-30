@@ -4,7 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 // import EditPackage from "./EditPackage";
-import { UserContext, CartContext, LoggedContext } from "./../../../App";
+import { UserContext, CartContext, LoggedContext } from "./../../../../../App";
 
 const PackageList = () => {
   const loggedin = useContext(LoggedContext);

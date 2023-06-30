@@ -5,9 +5,9 @@ import Navbar from "../../../../system/Navbar";
 import SalesList from "./components/OnlineSalesList";
 // import ViewSaleModal from "../../components/admin/sales/ViewSaleModal";
 
-import { UserContext } from "../../App";
+import { UserContext } from "../../../../App";
 // import { UserContext } from "../../index"; role
-import { ProdContext } from "../../App";
+import { ProdContext } from "../../../../App";
 
 function Sales() {
   const [sales, setSales] = useState([]);

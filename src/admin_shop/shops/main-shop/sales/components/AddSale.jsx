@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { UserContext, ProdContext } from "../../../App";
+import { UserContext, ProdContext } from "../../../../../App";
 // import {array} from "./AddProduct";
 
 const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {

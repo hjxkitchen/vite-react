@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import Navbar from "../../../system/Navbar";
-import PublicNavbar from "../PublicNavbar";
-import { UserContext } from "../../App";
+// import PublicNavbar from "../PublicNavbar";
+import { UserContext } from "../../../App";
 import SokooList from "./components/SokooList";
 
 function Component() {

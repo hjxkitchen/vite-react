@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../../client_shop/Navbar";
+import Navbar from "../Navbar";
 import Footer from "../Footer";
 
 const Contact = () => {
