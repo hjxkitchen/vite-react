@@ -1,5 +1,5 @@
 import React, { Fragment, useContext } from "react";
-import Navbar from "../Navbar";
+import Navbar from "../../system/Navbar";
 import PublicNavbar from "../PublicNavbar";
 import { UserContext } from "../../App";
 

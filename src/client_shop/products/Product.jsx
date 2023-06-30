@@ -1,6 +1,7 @@
 import React, { Fragment, useContext, useEffect } from "react";
-import Navbar from "../Navbar";
-import PublicNavbar from "../PublicNavbar";
+import Navbar from "../../system/Navbar";
+
+// import PublicNavbar from "../PublicNavbar";
 import axios from "axios";
 import { UserContext, ProdContext, CartContext } from "../../App";
 

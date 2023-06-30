@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../Navbar";
-import PublicNavbar from "../PublicNavbar";
+import Navbar from "../../system/Navbar";
 import {
   UserContext,
   CartContext,
@@ -279,7 +278,7 @@ const SalesList = () => {
 
   return (
     <Fragment>
-      {user ? <Navbar /> : <PublicNavbar />}
+      <Navbar />
 
       <h1 class="text-center mt-5">Cart</h1>
 

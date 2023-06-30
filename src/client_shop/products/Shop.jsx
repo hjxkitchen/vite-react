@@ -1,8 +1,8 @@
 import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../Navbar";
-import Navbar2 from "../../system/Navbar";
-import PublicNavbar from "../PublicNavbar";
+import Navbar from "../../system/Navbar";
+// import Navbar2 from "../../system/Navbar";
+// import PublicNavbar from "../PublicNavbar";
 import { UserContext } from "../../App";
 import ShopList from "./components/ShopList";
 import axios from "axios";

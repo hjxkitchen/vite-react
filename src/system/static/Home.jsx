@@ -6,9 +6,9 @@ import ThemeContext from "../../contexts/ThemeContext";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 
-import AddModal from "./../auth/components/AddModal";
+import AddModal from "../auth/components/AddModal";
 import EditModal from "../auth/components/EditModal";
-import List from "../auth/components/List";
+import List from "../auth/components/TeamList";
 
 import Upload from "../upload/Upload";
 import UploadMultiple from "../upload/UploadMultiple";

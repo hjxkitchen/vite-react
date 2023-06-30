@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
-import Navbar from "../Navbar";
-import PublicNavbar from "../PublicNavbar";
+import Navbar from "../../system/Navbar";
+// import PublicNavbar from "../PublicNavbar";
 import ShopList from "./components/ShopList";
 import { UserContext, ProdContext } from "../../App";
 
@@ -63,8 +63,7 @@ function Packages() {
 
   return (
     <Fragment>
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      <Navbar />
 
       {/* header text rows */}
       <div class="container justify-content-center mt-5">

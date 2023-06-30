@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import Navbar from "../Navbar";
-import PublicNavbar from "../PublicNavbar";
+import Navbar from "../../system/Navbar";
+// import PublicNavbar from "../PublicNavbar";
 import { UserContext } from "./../../App";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -234,8 +234,7 @@ function Calculators() {
 
   return (
     <Fragment>
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      <Navbar />
       <div className="container">
         {/* header */}
         <div class="row justify-content-center">

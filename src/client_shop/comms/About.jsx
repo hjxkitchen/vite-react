@@ -1,15 +1,14 @@
 import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../Navbar";
-import PublicNavbar from "../PublicNavbar";
+import Navbar from "../../system/Navbar";
+// import PublicNavbar from "../PublicNavbar";
 import { UserContext } from "../../App";
 
 function Calculators() {
   const user = useContext(UserContext);
   return (
     <Fragment>
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      <Navbar />
       <div className="container">
         <h1 class="text-center mt-4">About Zahab</h1>
         {/* stickers */}

@@ -1,6 +1,7 @@
 import React, { Fragment, useContext } from "react";
-import Navbar from "../Navbar";
-import PublicNavbar from "../PublicNavbar";
+import Navbar from "../../system/Navbar";
+
+// import PublicNavbar from "../PublicNavbar";
 import { UserContext, CartContext } from "../../App";
 
 function Contact() {
@@ -10,8 +11,7 @@ function Contact() {
     // <UserContext.Consumer >
     <Fragment>
       {/* navbar conditionaly rendered */}
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      <Navbar />
 
       <h1 class="text-center mt-5">Contact us</h1>
 

@@ -8,7 +8,7 @@ import Footer from "../Footer";
 
 import AddModal from "./components/AddModal";
 // import EditModal from "../components/team/EditModal";
-import List from "./components/List";
+import List from "./components/TeamList";
 
 import Upload from "../upload/Upload";
 import UploadMultiple from "../upload/UploadMultiple";

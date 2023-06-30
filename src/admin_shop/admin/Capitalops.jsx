@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../Navbar";
+import Navbar from "../../system/Navbar";
 
 // DASH
 import Finance from "./Finance";
 import Legal from "./Legal";
 import Infotech from "./IT";
 
-import Team from "./../../system/auth/components/List";
+import Team from "../../system/auth/components/TeamList";
 import OrdersList from "./../products/components/OrdersList";
 
 import BusDev from "./BusDev";

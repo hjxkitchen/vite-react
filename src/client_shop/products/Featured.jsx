@@ -1,7 +1,8 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../Navbar";
-import PublicNavbar from "../PublicNavbar";
+import Navbar from "../../system/Navbar";
+
+// import PublicNavbar from "../PublicNavbar";
 import ShopList from "./components/ShopList";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -52,8 +53,7 @@ function Packages() {
 
   return (
     <Fragment>
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      <Navbar />
 
       <div class="container justify-content-center mt-5">
         <div class="row ml-5 mr-5 justify-content-center">

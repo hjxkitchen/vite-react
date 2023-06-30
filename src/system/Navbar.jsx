@@ -11,6 +11,8 @@ import { UserContext, CategoryContext } from "../App";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 
+import { useNavigate } from "react-router-dom";
+
 const languages = [
   { value: "", text: "Language/Lugha" },
   { value: "en", text: "English" },
@@ -25,7 +27,6 @@ const Navbar = () => {
   // console.log("categories", categories);
   const getCats = async () => {
     try {
-      console.log("Asdasdasd");
       const response = await axios.get(
         (await import.meta.env.VITE_API_URL) +
           "/api/category?include=subcategory",
@@ -60,6 +61,8 @@ const Navbar = () => {
     window.location.replace(loc + "?lng=" + e.target.value);
   };
 
+  // const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+
   const handleLogout = () => {
     Cookies.remove(import.meta.env.VITE_COOKIE_NAME);
     window.location.href = "/login";
@@ -76,6 +79,11 @@ const Navbar = () => {
         atob(Cookies.get(import.meta.env.VITE_COOKIE_NAME).split(".")[1])
       ).role_id
     : null;
+
+  const navigate = useNavigate();
+  function handleBackClick() {
+    navigate(-1);
+  }
 
   return (
     <Fragment>
@@ -296,7 +304,7 @@ const Navbar = () => {
         <div className="sidebar-content">
           <ul className="sidebar-nav">
             <li className="sidebar-item">
-              <Link to="/#">
+              <Link to="/playbooks">
                 <i className="fas fa-book fa"></i> Playbooks
               </Link>
             </li>
@@ -325,6 +333,15 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
+      <div>
+        <button className="back-button" onClick={handleBackClick}>
+          Back
+        </button>
+      </div>
+      {/* <div className="forward-button">
+        <button onClick={handleBackClick}>Forward</button>
+      </div> */}
+
       {/* </Suspense>
       </React.StrictMode> */}
     </Fragment>
