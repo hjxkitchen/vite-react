@@ -6,7 +6,7 @@ import { ThemeContext } from "../../../contexts/ThemeContext";
 
 import GoogleLogin from "./GoogleLogin";
 
-const Login = ({ setToken, token }) => {
+const Login = ({}) => {
   const { t } = useTranslation();
 
   const { theme } = useContext(ThemeContext);
@@ -14,13 +14,15 @@ const Login = ({ setToken, token }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    Cookies.set(import.meta.env.VITE_COOKIE_NAME, event.target.value);
+    // Cookies.set(import.meta.env.VITE_COOKIE_NAME, event.target.value);
   };
 
   const handleLogin = async () => {
@@ -36,7 +38,6 @@ const Login = ({ setToken, token }) => {
 
       if (response.ok) {
         const data = await response.json();
-        setToken(data.token);
         Cookies.set(import.meta.env.VITE_COOKIE_NAME, data.token);
         // Navigate("/");
         window.location.reload();

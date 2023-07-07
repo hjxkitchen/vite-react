@@ -25,7 +25,7 @@ const AddModal = () => {
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const handleSubmit = async () => {
-    await axios.post(import.meta.env.VITE_API_URL + "/signup", inputs, {
+    await axios.post(import.meta.env.VITE_API_URL + "/team/signup", inputs, {
       headers: {
         Authorization: `Bearer ${token}`,
         "x-api-key": import.meta.env.VITE_API_KEY,

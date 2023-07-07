@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from "react";
+// jwt-decode
 import jwt_decode from "jwt-decode";
 import { Navigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
-const ProtectedRoute = ({ token, allowedRoles, children, setUser }) => {
+const ProtectedRoute = ({ allowedRoles, children, setUser }) => {
   const [isTokenDecoded, setIsTokenDecoded] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+  console.log("token:");
 
   useEffect(() => {
     const decodeToken = async () => {
       if (token) {
         try {
+          console.log("decoding token:");
           const decodedToken = jwt_decode(token);
           const { role_id } = decodedToken;
           setIsAuthenticated(allowedRoles.includes(role_id));
           console.log("decodedTokeniss:", decodedToken);
-          setUser(decodedToken.username);
+          // setUser(decodedToken.username);
         } catch (error) {
           console.error("Error decoding token:", error);
           setIsAuthenticated(false);

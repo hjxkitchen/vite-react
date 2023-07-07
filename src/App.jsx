@@ -146,20 +146,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    const storedToken = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
-    console.log("getting token from cookie", storedToken);
-    if (storedToken) {
-      console.log("setting token", storedToken);
-      // setToken(storedToken);
-      const decodedToken = jwt_decode(storedToken);
-      console.log("decoded token", decodedToken);
-      setUser({
-        user_id: decodedToken.user_id,
-        username: decodedToken.username,
-        role_id: decodedToken.role_id,
-      });
-      console.log("user", user);
-    }
     if (ProductNames.length == 0) {
       getProdContext();
     }
