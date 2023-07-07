@@ -1,21 +1,22 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import Navbar from "../../../../system/Navbar";
 // import PublicNavbar from "../PublicNavbar";
-import { UserContext } from "../../../../App";
+// import { UserContext } from "../../../../App";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import ViewSaleItems from "./components/ViewSaleItems";
 import AddJobModal from "./components/AddJobModal";
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 
 function Calculators() {
-  const user = useContext(UserContext);
   const [saleLogs, setSaleLogs] = React.useState([]);
   const [inputs, setInputs] = React.useState({});
   const [sale, setSales] = React.useState([]);
   const [customer, setCustomer] = React.useState({});
 
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+  const user = jwt_decode(token).username;
 
   const location = useLocation();
   // const { saledata } = location.state;
@@ -191,35 +192,36 @@ function Calculators() {
     // console.log("ressssss", result.data[0].sale_status);
     // setStatus(result.data[0].sale_status);
 
-    const res1 = await axios.get(
-      import.meta.env.VITE_APP_API_URL + "/api/sale/" + sale.sale_id,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_APP_API_KEY,
-        },
-      }
-    );
+    // const res1 = await axios.get(
+    //   import.meta.env.VITE_API_URL + "/api/sale/" + sale.sale_id,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       "x-api-key": import.meta.env.VITE_API_KEY,
+    //     },
+    //   }
+    // );
 
     // getSaleLogs();
     // window.location.href = "/salelogs";
     // getSaleLogs();
-    alert("Status Updated");
 
     // // insert into logs
     const res2 = await axios.post(
-      import.meta.env.VITE_APP_API_URL + "/api/salelog",
+      import.meta.env.VITE_API_URL + "/api/salelog",
       {
         sale_id: sale.sale_id,
-        salelog: "Status Updated to " + status + " by " + user,
+        log_data: "Status Updated to " + status + " by " + user,
       },
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          "x-api-key": import.meta.env.VITE_API_KEY,
         },
       }
     );
+
+    alert("Status Updated");
 
     // const res2 = await axios.post("http://localhost:000/salelogs", {
     //   sale_id: sale.sale_id,
@@ -252,84 +254,33 @@ function Calculators() {
     <Fragment>
       <Navbar />
       <div className="container">
-        <button className="btn btn-warning" onClick={handleVentureOverview}>
-          Show Venture Overview
-        </button>
+        <div className="row justify-content-center">
+          <div className=" col-md-6 text-center">
+            <button
+              className="btn btn-outline-dark "
+              onClick={handleVentureOverview}
+            >
+              Show Venture Overview
+            </button>
+          </div>
+        </div>
         <div
           className={`container mb-5 collapse ${
             showVentureOverview ? "show" : ""
           }`}
         >
-          {/* VENTURE OVERVIEW */}
-          <div className="row justify-content-center">
-            <div className="card col-md-6 text-center">
-              <div className="card-header">
-                <h3>Venture Overview </h3>
-              </div>
-              <div className="card-body">
-                {/* table fro each header*/}
-                {/* col-md-3 */}
-                <div className="row justify-content-center ">
-                  <div className="card col-md-3 text-center">
-                    <table className="table table-striped">
-                      <thead>
-                        <tr>
-                          <th scope="col">Finance (+2200)</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <button className="btn btn-primary">Open</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="card col-md-3 text-center">
-                    <table className="table table-striped">
-                      <thead>
-                        <tr>
-                          <th scope="col">Metrics (90%)</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <button className="btn btn-primary">Open</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="card col-md-3 text-center">
-                    <table className="table table-striped">
-                      <thead>
-                        <tr>
-                          <th scope="col">Employees (4400)</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <button className="btn btn-primary">Open</button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* venture overview */}
-            <div class="col-md-3 ">
+          <div class="row justify-content-center mb-5">
+            {/* logs */}
+            <div class="col-md-5 ">
               <div class="card mt-5 col">
                 <div class="card-header">
                   Logs{" "}
                   <button class="btn btn-warning ml-5">
                     <i class="fas fa-plus" />
                   </button>
+                  <button class=" ml-5 btn btn-danger">IT </button>
+                  <button class=" ml-2 btn btn-success">Finance</button>
+                  <button class=" ml-2 btn btn-info">Legal </button>
                 </div>
                 <div class="card-body">
                   Loggedin: 22/03/21 2:35am
@@ -338,10 +289,8 @@ function Calculators() {
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* strategy board */}
-          <div class="row justify-content-center mb-5">
+            {/* strategy board */}
             <div class="card mt-5 col-md-6">
               <div class="card-header">
                 Mission Statement: Strategy Board{" "}
@@ -576,9 +525,9 @@ function Calculators() {
                     Submit
                   </button>
 
-                  <div class="d-flex mt-5 justify-content-center ">
+                  {/* <div class="d-flex mt-5 justify-content-center ">
                     <AddJobModal />
-                  </div>
+                  </div> */}
                 </div>
               </form>
             </div>

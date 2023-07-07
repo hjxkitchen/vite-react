@@ -188,7 +188,7 @@ function Sales() {
       <Navbar />
       <div class="container p-5">
         <div class="row justify-content-center">
-          <div class="col ">
+          <div class="col-6 ">
             <div class=" d-flex">
               <h1 class="text-center mt-5 ">
                 Point of Sales
@@ -204,7 +204,7 @@ function Sales() {
 
           {/* logs top right corner of screen */}
           {showlogs && (
-            <div class="col ml-5 ">
+            <div class="col-6 ml-5 ">
               <div class="card mt-5 col">
                 <div class="card-header">
                   Logs{" "}

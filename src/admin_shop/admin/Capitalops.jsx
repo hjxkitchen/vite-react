@@ -23,9 +23,16 @@ const Capitalops = () => {
     <>
       <Navbar />
       <div className="container">
-        <button className="btn btn-warning" onClick={handleVentureOverview}>
-          Show Venture Overview
-        </button>
+        <div className="row justify-content-center">
+          <div className=" col-md-6 text-center">
+            <button
+              className="btn btn-outline-dark "
+              onClick={handleVentureOverview}
+            >
+              {showVentureOverview ? "Hide" : "Show"} Venture Overview
+            </button>
+          </div>
+        </div>
         <div className="row md-2 mt-5 mb-5 justify-content-center">
           {/* online shop */}
 
