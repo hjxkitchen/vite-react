@@ -1,19 +1,22 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
 import Navbar from "../../system/Navbar";
 import axios from "axios";
-import { UserContext, LoggedContext, ProdContext } from "../../App";
+import { ProdContext } from "../../App";
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 
 function Calculators() {
-  const [favorites, setFavorites] = React.useState([]);
-  const [user_id, setUser_id] = React.useState(0);
-  const user = useContext(UserContext);
-  const loggedin = useContext(LoggedContext);
+  const [favorites, setFavorites] = useState([]);
+  // const user = useContext(UserContext);
   const products = useContext(ProdContext);
 
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+  const user_id = jwt_decode(token).user_id;
+
   useEffect(() => {
-    if (loggedin) {
-      setUser_id(user.user_id);
-    }
+    // if (loggedin) {
+    //   setUser_id(user.user_id);
+    // }
 
     // get id from url
     // const url = window.location.href;
@@ -24,29 +27,48 @@ function Calculators() {
     // setId(ide);
 
     // get favorites by user id
-    else {
-      const getFavorites = async () => {
-        // const url = "http://localhost:000/favorites/" + user_id;
-        // console.log(url);
-        // const result = await axios.get(url);
-        // console.log("result is: ", result.data);
-        const result = await axios.get(
-          import.meta.env.VITE_APP_API_URL + "/favorites/" + user_id,
-          {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-              "x-api-key": import.meta.env.VITE_APP_API_KEY,
-            },
-          }
-        );
 
-        setFavorites(result.data);
-      };
+    const getFavorites = async () => {
+      const result = await axios.get(
+        import.meta.env.VITE_API_URL + `/api/user/${user_id}?include=favorite`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
 
-      getFavorites();
-    }
+      console.log("result is: ", result.data.favorites);
+
+      setFavorites(result.data.favorites);
+    };
+
+    getFavorites();
+
     // getFavorites();
-  }, [loggedin, user_id]);
+  }, []);
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    const id = event.target.id;
+    console.log("id is: ", id);
+    const result = await axios.delete(
+      import.meta.env.VITE_API_URL + `/api/favorite/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+    // remove from favorites
+    const newFavorites = favorites.filter(
+      (favorite) => favorite.favorite_id !== parseInt(id)
+    );
+    console.log("newFavorites", newFavorites);
+    setFavorites(newFavorites);
+  };
 
   return (
     <Fragment>
@@ -71,7 +93,7 @@ function Calculators() {
                   </thead>
                   <tbody>
                     {favorites.map((favorite) => (
-                      <tr>
+                      <tr key={favorite.favorite_id}>
                         <td>
                           {products.map((product) => (
                             <div>
@@ -85,7 +107,13 @@ function Calculators() {
                         {/* <td><img src={favorite.image} alt="product image" width="100px" height="100px"/></td> */}
                         <td>
                           <div class="row justify-content-center">
-                            <button class="btn btn-danger">X</button>
+                            <button
+                              class="btn btn-danger"
+                              id={favorite.favorite_id}
+                              onClick={handleDelete}
+                            >
+                              X
+                            </button>
                           </div>
                         </td>
                       </tr>

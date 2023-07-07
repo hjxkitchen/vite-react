@@ -3,10 +3,15 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { UserContext, ProdContext } from "../../../../../App";
 // import {array} from "./AddProduct";
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 
 const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
   const usercontext = useContext(UserContext);
   const prodcontext = useContext(ProdContext);
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+  const user_id = jwt_decode(token).user_id;
 
   const navigate = useNavigate();
   const getTotalCost = (sales) => {
@@ -35,205 +40,25 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
   // submit sale
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    // console.log(sales);
-    // console.log(customer);
-
-    if (customer.customer_name) {
-      // console.log("customer name exists", customer.phone);
-      if (customer.phone) {
-        // get user from phone
-        // const user = await axios.get(
-        //   `http://localhost:000/users/ph/${customer.phone}`
-        // );
-        // console.log("usr", user.data[0]);
-        const user = await axios.get(
-          import.meta.env.VITE_API_URL + "/users/ph/" + customer.phone,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "x-api-key": import.meta.env.VITE_API_KEY,
-            },
-          }
-        );
-
-        // if user, then, add sale to database
-        if (user.data.length > 0) {
-          // const res = await axios.post("http://localhost:000/sales", {
-          //   sales: sales,
-          //   total: getTotalCost(sales),
-          //   user_id: user.data[0].user_id,
-          // });
-          const res = await axios.post(
-            import.meta.env.VITE_APP_API_URL + "/sales",
-            {
-              sales: sales,
-              total: getTotalCost(sales),
-              user_id: user.data[0].user_id,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "x-api-key": import.meta.env.VITE_APP_API_KEY,
-              },
-            }
-          );
-
-          console.log("resis", res.data);
-          // const res2 = await axios.post("http://localhost:000/salelogs", {
-          //   sale_id: res.data,
-          //   salelog: ">>> Order initialized by: " + usercontext,
-          // });
-          const res2 = await axios.post(
-            import.meta.env.VITE_APP_API_URL + "/salelogs",
-            {
-              sale_id: res.data,
-              salelog: ">>> Order initialized by: " + usercontext,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "x-api-key": import.meta.env.VITE_APP_API_KEY,
-              },
-            }
-          );
-
-          window.location.reload();
-        } else {
-          const confirm = window.confirm(
-            "User does not exist. Would you like to create a new user?"
-          );
-          if (confirm) {
-            // if no user, make one and give him a phone number
-            // const user = await axios.post("http://localhost:000/users/ph", {
-            //   name: customer.customer_name,
-            //   phone: customer.phone,
-            // });
-
-            const user = await axios.post(
-              import.meta.env.VITE_APP_API_URL + "/users",
-              {
-                name: customer.customer_name,
-                phone: customer.phone,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_APP_API_KEY,
-                },
-              }
-            );
-
-            console.log("user", user);
-            // const res = await axios.post("http://localhost:000/sales", {
-            //   sales: sales,
-            //   total: getTotalCost(sales),
-            //   user_id: user.data.user_id,
-            // });
-            const res = await axios.post(
-              import.meta.env.VITE_APP_API_URL + "/sales",
-              {
-                sales: sales,
-                total: getTotalCost(sales),
-                user_id: user.data.user_id,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_APP_API_KEY,
-                },
-              }
-            );
-
-            console.log("res", res);
-            // const res2 = await axios.post("http://localhost:000/salelogs", {
-            //   sale_id: res.data,
-            //   salelog: ">>> Order initialized by: " + usercontext,
-            // });
-            const res2 = await axios.post(
-              import.meta.env.VITE_APP_API_URL + "/salelogs",
-              {
-                sale_id: res.data,
-                salelog: ">>> Order initialized by: " + usercontext,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_APP_API_KEY,
-                },
-              }
-            );
-
-            window.location.reload();
-          }
-
-          // then, add sale to database
-        }
-      } else {
-        const confirm = window.confirm(
-          "No phone number entered. Would you like to continue without adding one?"
-        );
-        if (confirm) {
-          // const res = await axios.post("http://localhost:000/sales", {
-          //   sales: sales,
-          //   total: getTotalCost(sales),
-          //   user_id: null,
-          // });
-          const res = await axios.post(
-            import.meta.env.VITE_APP_API_URL + "/sales",
-            {
-              sales: sales,
-              total: getTotalCost(sales),
-              user_id: null,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "x-api-key": import.meta.env.VITE_APP_API_KEY,
-              },
-            }
-          );
-
-          console.log("resis", res);
-          // const res2 = await axios.post("http://localhost:000/salelogs", {
-          //   sale_id: res.data,
-          //   salelog: ">>> Order initialized by: " + usercontext,
-          // });
-          const res2 = await axios.post(
-            import.meta.env.VITE_APP_API_URL + "/salelogs",
-            {
-              sale_id: res.data,
-              salelog: ">>> Order initialized by: " + usercontext,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "x-api-key": import.meta.env.VITE_APP_API_KEY,
-              },
-            }
-          );
-          window.location.reload();
-        }
-      }
-    } else {
-      alert("Please enter a customer name");
-    }
 
     try {
-      // const res = axios.post("http://localhost:000/sales", {
-      //   sales: sales, total: getTotalCost(sales)});
       const res = await axios.post(
-        import.meta.env.VITE_APP_API_URL + "/sales",
+        import.meta.env.VITE_API_URL + "/api/sale",
         {
-          sales: sales,
-          total: getTotalCost(sales),
+          total_amount: getTotalCost(sales),
+          user_id: user_id,
+          source: "Pos",
+          status: "Initialized",
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
+      // refresh page
+      window.location.reload();
     } catch (error) {
       console.error(error.message);
     }
@@ -266,8 +91,8 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
   const removeitem = (index) => {
     let newSales = [...sales];
     newSales.splice(index, 1);
-    console.log("newSales", newSales, "index", index);
     setSales(newSales);
+    console.log("newSales", newSales, "index", index);
   };
 
   return (
@@ -330,12 +155,7 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
                   <button
                     class="btn btn-danger"
                     onClick={() => {
-                      setSales(
-                        sales.filter(
-                          (sale) =>
-                            sales.indexOf(sale) !== sales.indexOf(object)
-                        )
-                      );
+                      setSales(sales.splice(sales.indexOf(object), 1));
                     }}
                   >
                     X

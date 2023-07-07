@@ -37,7 +37,7 @@ const Navbar = () => {
           },
         }
       );
-      console.log("cats are", response.data);
+      console.log("cats are", response.data.subcategories);
       setCategories(response.data);
       // console.log("cats are", categories);
     } catch (error) {
@@ -170,7 +170,7 @@ const Navbar = () => {
                                     return (
                                       <li>
                                         <Link to="#">
-                                          {subcategory.subcat_name}
+                                          {subcategory.subcategory_name}
                                         </Link>
                                       </li>
                                     );

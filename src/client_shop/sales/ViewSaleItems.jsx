@@ -1,24 +1,25 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { ProdContext } from "../../App";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const ViewSaleItems = ({ sale }) => {
+const ViewSaleItems = ({ sale_id }) => {
   const [saleItems, setsaleItems] = useState([]);
   const prodcontext = useContext(ProdContext);
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   //get products function defeined
   const getSaleItems = async () => {
-    console.log("sdfsd", sale);
-    let id = sale.sale_id;
+    // get id from params
+    const id = sale_id;
+
+    console.log("sdfsd", id);
     // console.log("http://localhost:000/saleitems/" + id);
     try {
       // axios get
       // const response = await fetch("http://localhost:000/saleitems/" + id);
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "saleitem/" + id,
+        import.meta.env.VITE_API_URL + "/api/sale/" + id + "?include=product",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -27,17 +28,26 @@ const ViewSaleItems = ({ sale }) => {
         }
       );
 
-      console.log(response);
-      const jsonData = await response.json();
-      setsaleItems(jsonData);
-      return jsonData;
+      console.log("saleitemmsnew", response.data.products);
+      // if not an array make it an array
+      if (!Array.isArray(response.data.products)) {
+        response.data.products = [response.data.products];
+        setsaleItems(response.data.products);
+        console.log("not array", response.data.products);
+      }
+      // set sale items
+      setsaleItems(response.data.products);
+
+      // const jsonData = await response.data;
+      // setsaleItems(jsonData);
+      // return jsonData;
       // console.log(products);
     } catch (error) {
       console.log(error.message);
     }
   };
   const subtotal = (saleitem) => {
-    let total = saleitem.quantity * saleitem.price;
+    let total = saleitem.saleitem.quantity * saleitem.price;
     // saleItems.forEach(sale => {
     //   total = parseInt(sale.price) * parseInt(sale.quantity) + total;
     // });
@@ -50,20 +60,33 @@ const ViewSaleItems = ({ sale }) => {
     getSaleItems();
   }, []);
 
+  const getPrice = async (id) => {
+    const res = await axios.get(
+      import.meta.env.VITE_API_URL + "/api/product/" + id + "?attributes=price",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+    console.log("price", res.data.price);
+    return res.data.price;
+  };
+
   return (
     <Fragment>
       {/* <!-- Button to Open the Modal --> */}
       <button
         type="button"
-        class="btn btn-warning"
+        class="btn btn-primary"
         data-toggle="modal"
-        data-target={`#viewsalemodal${sale.sale_id}`}
+        data-target={`#viewsalemodal${sale_id}`}
       >
         View Sale Items
       </button>
-
       {/* <!-- The Modal --> */}
-      <div class="modal" id={`viewsalemodal${sale.sale_id}`}>
+      <div class="modal" id={`viewsalemodal${sale_id}`}>
         <div class="modal-dialog">
           <div class="modal-content">
             {/* <!-- Modal Header --> */}
@@ -78,7 +101,7 @@ const ViewSaleItems = ({ sale }) => {
             <div class="modal-body">
               {/* sale details */}
               {/* <div class="mb-5">
-          sale id: {sale.sale_id}
+          sale id: {sale_id}
           <br/>
           sale date: {sale.sale_date}
           <br/>
@@ -105,7 +128,7 @@ const ViewSaleItems = ({ sale }) => {
                   <tbody>
                     {/* foreach saleitems */}
                     {saleItems.map((saleItem) => (
-                      <tr>
+                      <tr key={saleItem.product_id}>
                         <td>
                           {/* {saleItem.product_id} */}
                           {prodcontext.map((prod) =>
@@ -114,8 +137,11 @@ const ViewSaleItems = ({ sale }) => {
                               : null
                           )}
                         </td>
-                        <td>{saleItem.quantity}</td>
-                        <td>{saleItem.price}K</td>
+                        <td>{saleItem.saleitem.quantity}</td>
+                        <td>
+                          {/* get price function */}
+                          {saleItem.price}K
+                        </td>
                         <td>{subtotal(saleItem)}K</td>
                       </tr>
                     ))}

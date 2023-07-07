@@ -28,8 +28,9 @@ function Contact() {
 
       const response = await axios.get(
         import.meta.env.VITE_API_URL +
-          "/api/subcategory/" +
-          feature.category_id,
+          "/api/category/" +
+          feature.category_id +
+          "?include=subcategory",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -38,7 +39,7 @@ function Contact() {
         }
       );
 
-      setProds(jsonData);
+      setProds(response.data.subcategories);
       console.log("jsondata:", jsonData);
     } catch (error) {
       console.log(error.message);
@@ -69,7 +70,8 @@ function Contact() {
 
       const response = await axios.post(
         import.meta.env.VITE_API_URL + "/api/subcategory",
-        inputs,
+        // add category id to inputs
+        { ...inputs, category_id: feature.category_id },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -101,8 +103,8 @@ function Contact() {
 
         const response = await axios.delete(
           import.meta.env.VITE_API_URL +
-            "/api/packageitem/" +
-            prod.package_item_id,
+            "/api/subcategory/" +
+            prod.subcategory_id,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -114,7 +116,10 @@ function Contact() {
         console.log("rspons:", response);
         // window.location = "/packages";
         // window.reload();
-        window.location.reload();
+        // remove item from array
+        const newProds = prods.filter((item) => item !== prod);
+        setProds(newProds);
+        // window.location.reload();
         // getProds();
       }
     } catch (error) {
@@ -125,9 +130,7 @@ function Contact() {
   return (
     // <UserContext.Consumer >
     <Fragment>
-      {/* navbar conditionaly rendered */}
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      <Navbar />
 
       <h1 class="text-center mt-5">Category: {feature.category_name} </h1>
 
@@ -189,7 +192,7 @@ function Contact() {
                           {/* text input */}
                           <input
                             type="text"
-                            name="subcat_name"
+                            name="subcategory_name"
                             className="form-control"
                             // value={inputs.description}
                             defaultValue=""
@@ -245,7 +248,7 @@ function Contact() {
                 <tbody>
                   {prods.map((prod) => (
                     <tr>
-                      <td>{prod.subcat_name}</td>
+                      <td>{prod.subcategory_name}</td>
                       <td>
                         <button
                           class="btn btn-danger"

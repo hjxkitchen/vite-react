@@ -2,86 +2,14 @@ import React, { Fragment, useEffect, useState } from "react";
 // import SaleList from "./AddSale";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
   const [inputs, setInputs] = useState({});
   const [array, setArray] = useState([]);
-  const [customerslist, setCustomersList] = useState([]);
   const [newcustomer, setNewCustomer] = useState({});
-
-  const getCustomersList = async () => {
-    try {
-      // const response = await fetch("http://localhost:000/users");
-
-      const response = await axios.get(import.meta.env.VITE_API_URL + "user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_API_KEY,
-        },
-      });
-
-      const jsonData = await response.json();
-      setCustomersList(jsonData);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  useEffect(() => {
-    getCustomersList();
-  }, []);
-
-  const customeroptions = customerslist.map((onecustomer) => {
-    return {
-      value: onecustomer.name,
-      label: onecustomer.name,
-    };
-  });
-
-  const [customerphone, setCustomerPhone] = useState();
-
-  const custNameChanged = async (e) => {
-    console.log("custNameChanged", e.value);
-
-    // // new customer object
-    // const customer = {
-    //     customer_name: e.value,
-    // };
-    // set newcustomer customer_name
-    setNewCustomer({ ...newcustomer, customer_name: e.value });
-
-    setCustomer(newcustomer);
-
-    console.log("custy:", newcustomer);
-    // set customer
-    console.log("evalue", e.value, customer);
-
-    // get customer phone
-    try {
-      // const response = await fetch(
-      //   `http://localhost:000/user/phone/${e.value}`
-      // );
-      const response = await axios.get(
-        import.meta.env.VITE_API_URL + "user/" + e.value,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_API_KEY,
-          },
-        }
-      );
-
-      const jsonData = await response.json();
-      console.log(jsonData);
-      setCustomerPhone(jsonData[0].phone);
-      setCustomer((customer.phone = jsonData[0].phone));
-    } catch (error) {
-      console.log(error.message);
-    }
-
-    // setCustomerPhone(555);
-    console.log("customer", customer);
-  };
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   setSales(array);
 
@@ -143,90 +71,41 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
     };
   });
 
+  const discountchanged = (e) => {
+    // subtract discount from price
+    // const discount = (e.target.value / 100) * defaultprice;
+    const discount = e.target.value;
+    const newprice = defaultprice - discount;
+    setInputs((values) => ({ ...values, price: newprice }));
+  };
+
   const [defaultprice, setDefaultPrice] = useState(0);
 
-  const changedd = (e) => {
+  const changedd = async (e) => {
     setInputs((values) => ({ ...values, product_id: e.value }));
 
-    // set default price
-    const defaultprice = prodnames.find(
-      (prodname) => prodname.product_id === e.value
+    // get price from product_id
+    const defaultprice = await axios.get(
+      import.meta.env.VITE_API_URL +
+        "/api/product/" +
+        e.value +
+        "?attributes=price",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
     );
-    console.log("defaultprice", defaultprice.price);
-    setDefaultPrice(defaultprice.price);
+
+    console.log("defaultprice", defaultprice.data);
+    setDefaultPrice(defaultprice.data.price);
+
+    // set html qiamtity to 1
+    setInputs((values) => ({ ...values, quantity: 1 }));
 
     // set inputs price
-    setInputs((values) => ({ ...values, price: defaultprice.price }));
-  };
-
-  const [byname, setByName] = useState(false);
-  const [byphone, setByPhone] = useState(true);
-
-  const byName = () => {
-    if (byname) {
-      setByName(false);
-      setByPhone(true);
-    } else {
-      setByName(true);
-      setByPhone(false);
-    }
-  };
-
-  const byPhone = () => {
-    if (byphone) {
-      setByPhone(false);
-      setByName(true);
-    } else {
-      setByPhone(true);
-      setByName(false);
-    }
-  };
-
-  // remove from customerlist whre customer.phone is null or udplicate
-  const filteredCustomers = customerslist.filter(
-    (customer) => customer.phone !== null
-  );
-  const uniqueCustomers = filteredCustomers.filter(
-    (customer, index, self) =>
-      index === self.findIndex((t) => t.phone === customer.phone)
-  );
-
-  const customerphoneoptions = uniqueCustomers.map((onecustomer) => {
-    return {
-      value: onecustomer.phone,
-      label: onecustomer.phone,
-    };
-  });
-
-  const [customername, setCustomerName] = useState("");
-
-  const custPhoneChanged = async (e) => {
-    console.log("custPhoneChanged", e.value);
-
-    // set customer phone
-    // const customer = {
-    //     phone: e.value,
-    // };
-
-    // set new customer phone
-    setNewCustomer({ ...newcustomer, phone: e.value });
-
-    setCustomer(newcustomer);
-    console.log("custy:", newcustomer);
-
-    // find and set customer name from customerslist with phone
-    try {
-      const customer = customerslist.find(
-        (customer) => customer.phone === e.value
-      );
-      console.log("customer", customer.name);
-      setCustomerName(customer.name);
-      setCustomer((customer.user_name = customer.name));
-      // set customer name
-    } catch (error) {
-      console.log("error;", error.message);
-      setByName(true);
-    }
+    setInputs((values) => ({ ...values, price: defaultprice.data.price }));
   };
 
   // form
@@ -260,8 +139,23 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
                   min="1"
                   step="1"
                   className="form-control"
+                  defaultValue={1}
                   value={inputs.inventory}
                   onChange={handleChange}
+                />
+              </label>
+
+              {/* discount */}
+              <label class="mt-3">
+                Discount (Tshs)
+                <input
+                  type="number"
+                  name="discount"
+                  min="0"
+                  step="1"
+                  className="form-control"
+                  defaultValue={0}
+                  onChange={discountchanged}
                 />
               </label>
 
@@ -284,7 +178,7 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
               </label>
             </div>
 
-            <div class="input-group mb-3 mt-4">
+            {/* <div class="input-group mb-3 mt-4">
               <div class="input-group-append">
                 <div class="input-group-text">
                   <input
@@ -343,7 +237,7 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
               />
             )}
 
-            <button onClick={byPhone}>By Phone</button>
+            <button onClick={byPhone}>By Phone</button> */}
 
             <div class="row">
               <div class="col mt-4">

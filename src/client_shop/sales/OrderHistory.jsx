@@ -6,6 +6,7 @@ import Navbar from "../../system/Navbar";
 import { UserContext, CartContext, LoggedContext } from "../../App";
 import axios from "axios";
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 
 // import EditProduct from "../inventory/EditProduct";
 // import ViewSaleItems from "./ViewSaleItems";
@@ -17,6 +18,7 @@ const SalesList = () => {
   const cartToken = useContext(CartContext);
   const loggedin = useContext(LoggedContext);
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+  const user_id = jwt_decode(token).user_id;
 
   //delete product function defined
   const deleteProduct = async (sale_id) => {
@@ -28,7 +30,7 @@ const SalesList = () => {
       //   }
       // );
       const deleteProduct = await axios.delete(
-        import.meta.env.VITE_APP_API_URL + "/api/Sale/" + sale_id,
+        import.meta.env.VITE_APP_API_URL + "/api/sale/" + sale_id,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,21 +50,24 @@ const SalesList = () => {
     if (loggedin) {
       if (user !== null) {
         try {
-          const user_id = user.user_id;
+          // const user_id = user.user_id;
           // const response = await fetch(
           //   "http://localhost:000/sales/" + user_id
           // );
           const response = await axios.get(
-            import.meta.env.VITE_API_URL + "sale/" + user_id,
+            import.meta.env.VITE_API_URL +
+              "/api/user/" +
+              user_id +
+              "?include=sale",
             {
               headers: {
-                Authorization: `Bearer ${cartToken}`,
+                Authorization: `Bearer ${token}`,
                 "x-api-key": import.meta.env.VITE_API_KEY,
               },
             }
           );
 
-          const jsonData = await response.json();
+          const jsonData = await response.data.sales;
           // sort sales by sale_id
           jsonData.sort(function (a, b) {
             return b.sale_id - a.sale_id;
@@ -132,77 +137,59 @@ const SalesList = () => {
         // <div class="col-md-0">
         // <div class="container center">
         // center the table
-        <div class="container col-md-6">
-          <table class="table mt-5 text-center ">
-            <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>Order Date</th>
-                <th>Order status</th>
-                <th>Order total</th>
-                {/* <th>Sale total</th>
+        <div class="row justify-content-center">
+          <div class="container col-6">
+            <table class="table mt-5 text-center ">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Order Date</th>
+                  <th>Order status</th>
+                  <th>Order total</th>
+                  {/* <th>Sale total</th>
             <th>Customer Id</th>
             <th>View</th>
             <th>Edit</th>
             <th>Delete</th> */}
-              </tr>
-            </thead>
-            <tbody>
-              {sales.map((sale) => (
-                <tr>
-                  <td>{sale.sale_id}</td>
-                  <td>{sale.sale_date}</td>
-                  <td>
-                    <Link to="/sale_logs" state={{ sale: sale }}>
-                      {sale.sale_status}
-                    </Link>
-                  </td>
-                  <td>{sale.sale_total}</td>
-                  {/*<td>{sale.user_id}</td> */}
-                  {/* <td>{product.images}</td> */}
-                  {/* <td> 
+                </tr>
+              </thead>
+              <tbody>
+                {sales.map((sale) => (
+                  <tr>
+                    <td>{sale.sale_id}</td>
+                    <td>{sale.createdAt.slice(0, 10)}</td>
+                    <td>
+                      <Link to={"/sale_logs/" + sale.sale_id}>
+                        {sale.status}
+                      </Link>
+                    </td>
+                    <td>{sale.total_amount}</td>
+                    {/*<td>{sale.user_id}</td> */}
+                    {/* <td>{product.images}</td> */}
+                    {/* <td> 
                         <input type="checkbox" checked={product.shop==true&&"true"}></input>
                     </td> */}
-                  {/* <td>
+                    {/* <td>
                         <EditProduct product={product}/>
                     </td> */}
-                  {/* <td> */}
-                  {/* <button class="btn btn-primary" 
+                    {/* <td> */}
+                    {/* <button class="btn btn-primary" 
                         type="button" onClick={viewSale(sale)}>Open</button> */}
-                  {/* <ViewSaleItems sale={sale}/> */}
-                  {/* </td> */}
-                  {/* <td>
+                    {/* <ViewSaleItems sale={sale}/> */}
+                    {/* </td> */}
+                    {/* <td>
                         <button class="btn btn-warning" 
                         onClick={() => deleteProduct(sale.sale_id)}>Edit</button>
                     </td> */}
-                  {/* <td>
+                    {/* <td>
                         <button class="btn btn-danger"
                         onClick={() => deleteProduct(sale.sale_id)}>X</button>
                     </td> */}
-                </tr>
-              ))}
-            </tbody>
-
-            {/* footer */}
-            <tfoot>
-              <tr>
-                <td>
-                  {/* <div class="row justify-content-center">
-                        <Link to="/checkout"><button class="btn btn-primary">Checkout</button></Link>
-                    </div> */}
-                  {/* <div class="row justify-content-center">
-                        <button class="btn btn-primary" onClick={checkout}>Checkout</button>
-                    </div> */}
-                </td>
-                <td></td>
-                <td>
-                  <div class="row justify-content-center">
-                    <div class="ml-1 mr-1">Total: 5136</div>
-                  </div>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       ) : (
         // </div>

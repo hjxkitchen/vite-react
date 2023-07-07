@@ -1,4 +1,6 @@
 import React, { Fragment, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const AddProductModal = ({ product }) => {
   const [inputs, setInputs] = useState({});
@@ -8,6 +10,8 @@ const AddProductModal = ({ product }) => {
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   // submit function
   const onSubmitForm = async (e) => {
@@ -20,7 +24,7 @@ const AddProductModal = ({ product }) => {
       //   body: JSON.stringify(inputs),
       // });
       const response = await axios.post(
-        import.meta.env.VITE_API_URL + "packages",
+        import.meta.env.VITE_API_URL + "/api/package",
         inputs,
         {
           headers: {

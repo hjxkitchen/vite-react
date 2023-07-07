@@ -3,14 +3,16 @@ import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext, CartContext } from "../../../App";
 import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 
 const ShopList = () => {
   const [products, setProducts] = useState([]);
 
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
   const cartToken = useContext(CartContext);
   // get token from cookie
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+  const user = jwtDecode(token).user_id;
   // console.log("token ssis: ", token);
   // const useremail = user.email;
   //get products function defeined
@@ -70,7 +72,7 @@ const ShopList = () => {
         // get userid
         console.log("userrered id is: ", user);
 
-        const user_id = user.user_id;
+        const user_id = jwtDecode(token).user_id;
         console.log("user_id is: ", user_id);
 
         // const addtocart = await axios.post("http://localhost:000/carts", {
@@ -80,14 +82,12 @@ const ShopList = () => {
         //   price: e.price,
         // });
 
-        const addtocart = await axios.post(
-          import.meta.env.VITE_API_URL + "/api/cart",
-          {
-            user_id: user_id,
-            product_id: e.product_id,
-            quantity: 1,
-            price: e.price,
-          },
+        // check if already in cart
+        const checkcart = await axios.get(
+          import.meta.env.VITE_API_URL +
+            "/api/user/" +
+            user_id +
+            "?include=cart",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -95,11 +95,54 @@ const ShopList = () => {
             },
           }
         );
+        console.log("checkcart is: ", checkcart.data.carts);
 
-        console.log("addtocart is: ", addtocart);
+        // Find the cart item with the matching product_id
+        const cartItem = checkcart.data.carts.find(
+          (cart) => cart.product_id === e.product_id
+        );
+
+        if (cartItem) {
+          console.log("cartItem is: ", cartItem);
+          // If the product already exists in the cart, update the quantity
+          const updatecart = await axios.put(
+            import.meta.env.VITE_API_URL + "/api/cart/" + cartItem.cart_id,
+            {
+              user_id: cartItem.user_id,
+              product_id: cartItem.product_id,
+              quantity: cartItem.quantity + 1,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          console.log("updatecart is: ", updatecart);
+          alert("added to cart qty with user");
+        } else {
+          // If the product is not in the cart, add it with quantity 1
+          const addtocart = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/cart",
+            {
+              user_id: user_id,
+              product_id: e.product_id,
+              quantity: 1,
+              price: e.price,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          console.log("addtocart is: ", addtocart);
+          alert("added to cart with user");
+        }
       };
       func();
-      alert("added to cart with user");
     }
   };
 
@@ -121,9 +164,9 @@ const ShopList = () => {
   const favorite = async (e) => {
     const addfav = async () => {
       console.log("e is: ", e);
-      console.log("user is: ", user);
       // get user_id from usersessions
-      const user_id = user.user_id;
+      const user_id = jwtDecode(token).user_id;
+      console.log("user is: ", user_id);
       // console.log("user_id is: ", user_id);
 
       // const result = await axios.post("http://localhost:000/favorites", {
@@ -131,11 +174,28 @@ const ShopList = () => {
       //   product: e,
       // });
 
+      // old
+      // const result = await axios.post(
+      //   import.meta.env.VITE_API_URL + "/api/favorite",
+      //   {
+      //     user: user_id,
+      //     product: e,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //       "x-api-key": import.meta.env.VITE_API_KEY,
+      //     },
+      //   }
+      // );
+      // alert
+
+      // new
       const result = await axios.post(
         import.meta.env.VITE_API_URL + "/api/favorite",
         {
-          user: user_id,
-          product: e,
+          user_id: user_id,
+          product_id: e,
         },
         {
           headers: {
@@ -144,7 +204,7 @@ const ShopList = () => {
           },
         }
       );
-      // alert
+
       console.log("result is: ", result);
 
       return result;

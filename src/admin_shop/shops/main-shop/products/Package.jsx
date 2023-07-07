@@ -3,11 +3,14 @@ import { useLocation } from "react-router-dom";
 import Navbar from "../../../../system/Navbar";
 // import PublicNavbar from "../PublicNavbar";
 import { UserContext, ProdContext } from "./../../../../App";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 function Contact() {
   const user = useContext(UserContext);
   const products = useContext(ProdContext);
   //   const cartToken = useContext(CartContext);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const location = useLocation();
   const { feature } = location.state;
@@ -23,7 +26,10 @@ function Contact() {
       // const response = await fetch(url);
       // const jsonData = await response.json();
       const jsonData = await axios.get(
-        import.meta.env.VITE_API_URL + "/packageitems/" + feature.package_id,
+        import.meta.env.VITE_API_URL +
+          "/api/package/" +
+          feature.package_id +
+          "?include=product",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -32,8 +38,13 @@ function Contact() {
         }
       );
 
-      setProds(jsonData);
-      console.log("jsondata:", jsonData);
+      // if not an array then make it an array
+      if (!Array.isArray(jsonData.data.products)) {
+        jsonData.data.products = [jsonData.data.products];
+      }
+
+      console.log("jsondata:", jsonData.data.products);
+      setProds(jsonData.data.products);
     } catch (error) {
       console.log(error.message);
     }
@@ -61,8 +72,9 @@ function Contact() {
       //   body: JSON.stringify(inputs),
       // });
       const response = await axios.post(
-        import.meta.env.VITE_API_URL + "/packageitems/" + feature.package_id,
-        inputs,
+        import.meta.env.VITE_API_URL + "/api/packageitem",
+        // inputs with packageid
+        { ...inputs, package_id: feature.package_id },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -116,9 +128,7 @@ function Contact() {
   return (
     // <UserContext.Consumer >
     <Fragment>
-      {/* navbar conditionaly rendered */}
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      <Navbar />
 
       <h1 class="text-center mt-5">Package: {feature.package_name} </h1>
 
@@ -169,7 +179,7 @@ function Contact() {
                         /> */}
                           {/* select input value product_id name product_name */}
                           <select
-                            name="product_name"
+                            name="product_id"
                             className="form-control"
                             // value={inputs.product_id}
                             onChange={handleChange}
@@ -196,7 +206,7 @@ function Contact() {
                             type="number"
                             name="quantity"
                             className="form-control"
-                            value={inputs.price}
+                            value={inputs.quantity}
                             onChange={handleChange}
                           />
                         </label>
@@ -273,7 +283,7 @@ function Contact() {
                             <p>{product.product_name}</p>
                           ))}
                       </td>
-                      <td>{prod.quantity}</td>
+                      <td>{prod.packageitem.quantity}</td>
                       {/* <td>1</td> */}
 
                       {/* <td> 

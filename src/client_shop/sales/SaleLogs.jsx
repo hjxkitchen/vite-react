@@ -1,12 +1,12 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import Navbar from "../../system/Navbar";
 // import PublicNavbar from "../PublicNavbar";
-import { UserContext } from "./../../App";
+import { UserContext } from "../../App";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import ViewSaleItems from "./ViewSaleItems";
+// import AddJobModal from "./components/AddJobModal";
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
 
 function Calculators() {
   const user = useContext(UserContext);
@@ -14,19 +14,51 @@ function Calculators() {
   const [inputs, setInputs] = React.useState({});
   const [sale, setSales] = React.useState([]);
   const [customer, setCustomer] = React.useState({});
+
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const location = useLocation();
-  const { saledata } = location.state;
-  console.log("saledata", location.state.sale.sale_id);
+  // const { saledata } = location.state;
+  // console.log("saledata", location.state.sale.sale_id);
+
+  // get sale id from url eg. /salelogs/1
+  const { sale_id } = useParams();
+  console.log("sale_id", sale_id);
 
   // const url = "http://localhost:000/sale/" + location.state.sale.sale_id;
 
+  // const getsales = async () => {
+  //   console.log("utl", url);
+  //   const result = await axios.get(url);
+  //   console.log("ressssss", result.data[0]);
+  //   setSales(result.data[0]);
+  // };
+
   const getsales = async () => {
-    console.log("utl", url);
-    // const result = await axios.get(url);
-    const result = await axios.get(
-      import.meta.env.VITE_API_URL + "/sale/" + location.state.sale.sale_id,
+    try {
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/sale/" + sale_id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+      console.log("res", response.data);
+      setSales(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const getSaleLogs = async () => {
+    console.log("res is", sale.sale_id);
+    const res = await axios.get(
+      import.meta.env.VITE_API_URL +
+        "/api/sale/" +
+        sale_id +
+        "?include=salelog",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -34,43 +66,30 @@ function Calculators() {
         },
       }
     );
-    console.log("ressssss", result.data[0]);
-    setSales(result.data[0]);
-  };
-
-  const getSaleLogs = async () => {
-    console.log("res is", sale.sale_id);
-    // const url = "http://localhost:000/salelogs/" + location.state.sale.sale_id;
-    // console.log(url);
-    // const res = await axios.get(url);
-    await axios.get(
-      import.meta.env.VITE_API_URL + "/salelogs/" + location.state.sale.sale_id
-    ),
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_API_KEY,
-        },
-      }.then((res) => {
-        console.log("res is", res.data);
-      });
-    setSaleLogs(res.data);
+    // if not an array, make it an array
+    if (!Array.isArray(res.data.salelogs)) {
+      res.data.salelogs = [res.data.salelogs];
+      console.log("res is not array", res.data.salelogs);
+      setSaleLogs(res.data.salelogs);
+    }
+    console.log("res is salelogs", res.data.salelogs);
+    setSaleLogs(res.data.salelogs);
   };
 
   const getCustomer = async () => {
     // const url = "http://localhost:000/user/" + location.state.sale.user_id;
     // const res = await axios.get(url);
-    const res = await axios.get(
-      import.meta.env.VITE_API_URL + "/user/" + location.state.sale.user_id,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_API_KEY,
-        },
-      }
-    );
-    console.log("res", res.data);
-    setCustomer(res.data[0]);
+    // const res = await axios.get(
+    //   import.meta.env.VITE_APP_API_URL + "/api/user/" + saledata.user_id,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       "x-api-key": import.meta.env.VITE_APP_API_KEY,
+    //     },
+    //   }
+    // );
+    // console.log("res", res.data);
+    // setCustomer(res.data[0]);
   };
 
   useEffect(() => {
@@ -101,16 +120,11 @@ function Calculators() {
     // console.log("saleLogs", inputs.salelog);
     const data = inputs.salelog;
     e.preventDefault();
-    // const res = await axios.post("http://localhost:000/salelogs", {
-    //   sale_id: sale.sale_id,
-    //   salelog: data,
-    // });
-
-    const res = await axios.post(
-      import.meta.env.VITE_API_URL + "/salelogs",
+    const res5 = await axios.post(
+      import.meta.env.VITE_API_URL + "/api/salelog",
       {
         sale_id: sale.sale_id,
-        salelog: data,
+        log_data: data,
       },
       {
         headers: {
@@ -138,16 +152,6 @@ function Calculators() {
     setStatus(e.target.value);
     e.preventDefault();
     // const res = await axios.put("http://localhost:000/sales/"+ sale.sale_id, {status: inputs.status});
-    const res = await axios.put(
-      import.meta.env.VITE_API_URL + "/sales/" + sale.sale_id,
-      { status: e.target.value },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_API_KEY,
-        },
-      }
-    );
     // getSaleLogs();
     // window.location.href = "/salelogs";
     // window.location.reload();
@@ -165,49 +169,46 @@ function Calculators() {
     //     status: status,
     //   }
     // );
-    const res = await axios.put(
-      import.meta.env.VITE_API_URL + "/sales/status/" + sale.sale_id,
-      {
-        status: status,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_API_KEY,
-        },
-      }
-    );
 
-    console.log("res is", res);
+    // const res = await axios.put(
+    //   import.meta.env.VITE_APP_API_URL + "/api/order/" + saledata.order_id,
+    //   {
+    //     status: status,
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       "x-api-key": import.meta.env.VITE_APP_API_KEY,
+    //     },
+    //   }
+    // );
+
+    // console.log("res is", res);
 
     // const url = "http://localhost:000/sale/" + sale.sale_id;
     // console.log(url);
     // const result = await axios.get(url);
-    const result = await axios.get(
-      import.meta.env.VITE_API_URL + "/sale/" + sale.sale_id,
+    // console.log("ressssss", result.data[0].sale_status);
+    // setStatus(result.data[0].sale_status);
+
+    const res1 = await axios.get(
+      import.meta.env.VITE_APP_API_URL + "/api/sale/" + sale.sale_id,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_API_KEY,
+          "x-api-key": import.meta.env.VITE_APP_API_KEY,
         },
       }
     );
-
-    console.log("ressssss", result.data[0].sale_status);
-    setStatus(result.data[0].sale_status);
 
     // getSaleLogs();
     // window.location.href = "/salelogs";
     // getSaleLogs();
     alert("Status Updated");
 
-    // insert into logs
-    // const res2 = await axios.post("http://localhost:000/salelogs", {
-    //   sale_id: sale.sale_id,
-    //   salelog: "Status Updated to " + status + " by " + user,
-    // });
+    // // insert into logs
     const res2 = await axios.post(
-      import.meta.env.VITE_API_URL + "/salelogs",
+      import.meta.env.VITE_APP_API_URL + "/api/salelog",
       {
         sale_id: sale.sale_id,
         salelog: "Status Updated to " + status + " by " + user,
@@ -215,10 +216,15 @@ function Calculators() {
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_API_KEY,
+          "x-api-key": import.meta.env.VITE_APP_API_KEY,
         },
       }
     );
+
+    // const res2 = await axios.post("http://localhost:000/salelogs", {
+    //   sale_id: sale.sale_id,
+    //   salelog: "Status Updated to " + status + " by " + user,
+    // });
     window.location.reload();
   };
 
@@ -232,171 +238,94 @@ function Calculators() {
     }
   };
 
+  const addJob = async (e) => {
+    e.preventDefault();
+  };
+
+  const [showVentureOverview, setShowVentureOverview] = React.useState(false);
+
+  const handleVentureOverview = () => {
+    setShowVentureOverview(!showVentureOverview);
+  };
+
   return (
     <Fragment>
       <Navbar />
       <div className="container">
-        {/* header */}
         <div class="row justify-content-center">
           <h1 class="text-center mt-5">SaleLogs: Order {sale.sale_id}</h1>
         </div>
 
-        {/* seelct */}
         <div class="row justify-content-center">
           <div class="d-flex col-md-3 justify-content-center mt-4">
-            {/* <div class=" my-auto"> */}
             <input
+              type="text"
               class="form-control text-center"
-              value={sale.sale_status}
+              value={sale.status}
               disabled
-            ></input>
-            {/* select input */}
-            {/* <select
-              class="form-control"
-              name="salelog"
-              onChange={handleStatusChange}
-              disabled
-              defaultValue={sale.sale_status}
-            >
-              <option value={sale.sale_status}>{sale.sale_status}</option>
-              <option value="initialized">Initialized</option>
-              <option value="delivered">Delivered</option>
-            </select> */}
-            {/* submit button */}
+            />
+          </div>
+        </div>
 
-            {/* </div> */}
+        {/* collapse show button */}
+        <div class="container">
+          <div class="row justify-content-center mt-4">
+            <div class="col-md-2">
+              <button
+                class="btn btn-warning btn-block"
+                type="button"
+                data-toggle="collapse"
+                data-target="#saleDetails"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                View Sale Details
+              </button>
+            </div>
           </div>
         </div>
 
         {/* sale details */}
-        <div class="row justify-content-center" id="saleDetails">
-          <div class="col-3">
-            <div class="row ml-5 mr-5 justify-content-center mt-4">
-              <div class="my-auto">
-                <p class="text-center ">
-                  Sale Id: {sale.sale_id}
-                  <br></br>
-                  Sale Date: {sale.sale_date}
-                  <br></br>
-                  Sale Status: {sale.sale_status}
-                  <br></br>
-                  Sale Total: {sale.sale_total}
-                  <br></br>
-                  Customer Id: {sale.user_id}
-                </p>
-              </div>
-            </div>
-
-            <div class="row ml-5 mr-5 justify-content-center mt-4">
-              <div class=" my-auto">
-                <ViewSaleItems sale={location.state.sale} />
-              </div>
-            </div>
-          </div>
-          <div class="col-3">
-            {!editContact && (
-              <div class="row justify-content-center mt-4 mr-5">
-                <div class=" my-auto">
-                  {/* name, email, phone input form */}
-                  <form onSubmit={submitLog}>
-                    <div class="form-group input-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="name"
-                        defaultValue={customer.name}
-                        onChange={handleChange}
-                        disabled
-                      />
-                    </div>
-                    <div class="form-group input-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="phone"
-                        defaultValue={customer.phone}
-                        onChange={handleChange}
-                        disabled
-                      />
-                    </div>
-                    <div class="form-group input-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="email"
-                        defaultValue={customer.email}
-                        onChange={handleChange}
-                        disabled
-                      />
-                    </div>
-                  </form>
+        <div class="collapse" id="saleDetails">
+          <div class="row justify-content-center" id="saleDetails">
+            <div class="col-3">
+              <div class="row ml-5 mr-5 justify-content-center mt-4">
+                <div class="my-auto">
+                  <p class="text-center ">
+                    Sale Id: {sale.sale_id}
+                    <br></br>
+                    Sale Date: {sale.createdAt?.split("T")[0]}
+                    <br></br>
+                    Sale Status: {sale.status}
+                    <br></br>
+                    Sale Total: {sale.total_amount}
+                    <br></br>
+                    Customer Id: {sale.user_id}
+                  </p>
                 </div>
               </div>
-            )}
 
-            {editContact && (
-              <div class="row justify-content-center mt-4 ">
+              <div class="row ml-5 mr-5 justify-content-center mt-4">
                 <div class=" my-auto">
-                  {/* name, email, phone input form */}
-                  <form onSubmit={submitLog}>
-                    <div class="form-group input-group">
-                      {customer && (
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="name"
-                          value={customer.name}
-                          onChange={handleChange}
-                          disabled
-                        />
-                      )}
-                      <div class="input-group-append">
-                        <button class="btn btn-warning" type="button">
-                          Edit/Add
-                        </button>
-                      </div>
-                    </div>
-                    <div class="form-group input-group">
-                      {customer && (
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="phone"
-                          value={customer.phone}
-                          onChange={handleChange}
-                          disabled
-                        />
-                      )}
-                      <div class="input-group-append">
-                        <button class="btn btn-warning" type="button">
-                          Edit/Add
-                        </button>
-                        {/*  */}
-                      </div>
-                    </div>
-                    <div class="form-group input-group">
-                      {customer && (
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="email"
-                          value={customer.email}
-                          onChange={handleChange}
-                          disabled
-                        />
-                      )}
-                      <div class="input-group-append">
-                        <button class="btn btn-warning" type="button">
-                          Edit/Add
-                        </button>
-                      </div>
-                    </div>
-                  </form>
+                  <ViewSaleItems sale_id={sale_id} />
                 </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
+
+        {/* end add log form */}
+        {/* <div class="row justify-content-center">
+            <div class="col-6">
+                <table class="table table-responsive">
+
+                    <thead> 
+                        <tr>
+                            <th>Log ID</th>
+                            <th>Log</th>
+                            <th>Log Date</th>
+                            <th>Edit</th>
+                            <th>Delete</th> */}
 
         {/* salelog table */}
         <div class="container">
@@ -414,7 +343,10 @@ function Calculators() {
                   {saleLogs.map((saleLog) => (
                     <tr key={saleLog.salelog_id}>
                       {/* <td>{saleLog.salelog_id}</td> */}
-                      <td>{saleLog.log_date}</td>
+                      <td>
+                        {/* get only date from createdAt */}
+                        {saleLog.createdAt.substring(0, 10)}
+                      </td>
                       <td>{saleLog.log_data}</td>
                     </tr>
                   ))}

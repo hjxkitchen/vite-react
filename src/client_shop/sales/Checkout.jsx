@@ -10,6 +10,8 @@ import { UserContext, ProdContext } from "./../../App";
 
 // import { JSEncrypt } from "nodejs-jsencrypt";
 import { Buffer } from "buffer";
+import jwt_decode from "jwt-decode";
+import Cookies from "js-cookie";
 
 // @ts-ignore
 window.Buffer = Buffer;
@@ -18,14 +20,35 @@ function Checkout() {
   const user = useContext(UserContext);
   const prodcontext = useContext(ProdContext);
   const location = useLocation();
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   const { sales } = location.state;
   console.log("sales", sales);
+  const [prices, setPrices] = React.useState([]);
+
+  const priceres = async () => {
+    const price = await axios.get(
+      import.meta.env.VITE_API_URL +
+        "/api/attr/product?attributes=product_id,price",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+    setPrices(price.data);
+  };
+
+  React.useEffect(() => {
+    priceres();
+  }, []);
 
   const checkout = async (event) => {
     event.preventDefault();
 
     // user by email
-    const user_id = user.user_id;
+    const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+    const user_id = jwt_decode(token).user_id;
 
     // const res = await axios.post("http://localhost:000/cart/checkout", {
     //   loccart: sales,
@@ -34,28 +57,61 @@ function Checkout() {
     // });
 
     const res = await axios.post(
-      import.meta.env.VITE_APP_API_URL + "/checkout",
+      import.meta.env.VITE_API_URL + "/api/sale",
       {
-        loccart: sales,
-        total: 5136,
+        total_amount: grandtotal(),
         user_id: user_id,
+        source: "Online",
+        status: "Initialized",
       },
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          "x-api-key": import.meta.env.VITE_API_KEY,
         },
       }
     );
+
+    // add sale items
+    sales.forEach(async (sale) => {
+      console.log("res", res.data);
+      console.log("sale", sale);
+      const res2 = await axios.post(
+        import.meta.env.VITE_API_URL + "/api/saleitem",
+        {
+          sale_id: res.data.sale_id,
+          product_id: sale.product_id,
+          quantity: sale.quantity,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
+      // delete cart w cart_id
+      const res3 = await axios.delete(
+        import.meta.env.VITE_API_URL + "/api/cart/" + sale.cart_id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
+      window.location.href = "/";
+    });
 
     // localStorage.removeItem("cart");
     // const res = window.confirm("Are you sure you want to checkout?");
 
     // window.location.reload();
-    window.location.href = "/";
   };
 
-  const newcheckout = async (event) => {
+  const mpesacheckout = async (event) => {
     event.preventDefault();
     // mpesa open api
     // const res = await axios.post("https://openapi.m-pesa.com/sandbox/ipg/v2/vodafoneGHA/c2bPayment/singleStage/");
@@ -73,6 +129,22 @@ function Checkout() {
     console.log("sessionKey", res);
   };
 
+  const grandtotal = () => {
+    return sales.reduce((total, sale) => {
+      return (
+        total +
+        prices.reduce((total, price) => {
+          return (
+            total +
+            (price.product_id === sale.product_id
+              ? price.price * sale.quantity
+              : 0)
+          );
+        }, 0)
+      );
+    }, 0);
+  };
+
   return (
     <Fragment>
       <Navbar />
@@ -81,7 +153,7 @@ function Checkout() {
       </div>
 
       <div class="row justify-content-center">
-        <button onClick={newcheckout}>New checkout payment mpesa api</button>
+        <button onClick={mpesacheckout}>New checkout payment mpesa api</button>
 
         <div class="col-md-6">
           {/* <div class="table-responsive">  */}
@@ -115,7 +187,13 @@ function Checkout() {
                       <div class="ml-1 mr-1">{sale.quantity}</div>
                     </div>
                   </td>
-                  <td>100</td>
+                  <td>
+                    {prices.map((p) =>
+                      p.product_id === sale.product_id
+                        ? p.price * sale.quantity
+                        : null
+                    )}
+                  </td>
                   {/* <td>200</td> */}
                   {/*<td>{sale.user_id}</td> */}
                   {/* <td>{product.images}</td> */}
@@ -154,7 +232,10 @@ function Checkout() {
                 <td></td>
                 <td>
                   <div class="row justify-content-center">
-                    <div class="ml-1 mr-1">Total: 5136</div>
+                    <div class="ml-1 mr-1">
+                      Total:
+                      {grandtotal()}
+                    </div>
                   </div>
                 </td>
               </tr>

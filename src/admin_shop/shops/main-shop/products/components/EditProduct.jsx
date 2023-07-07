@@ -129,129 +129,119 @@ const EditProduct = ({ product }) => {
 
             {/* <!-- Modal body --> */}
             <div class="modal-body">
-              <div class="row">
-                <div class="col">
-                  {/* 1st */}
-                  <label>
-                    Name
-                    <input
-                      type="text"
-                      name="product_name"
-                      className="form-control"
-                      defaultValue={product.product_name}
-                      // onChange ={e => setDescription(e.target.value)}
-                      onChange={handleChange}
-                    />
-                  </label>
-                </div>
-                <div class="col">
-                  {/* 2nd */}
-                  <label>
-                    Inventory{product.inventory}
-                    <input
-                      type="number"
-                      name="inventory"
-                      min="0"
-                      step="1"
-                      className="form-control"
-                      defaultValue={product.inventory}
-                      onChange={handleChange}
-                    />
-                  </label>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col">
-                  {/* 4th */}
-                  <label>
-                    Price
-                    <input
-                      type="text"
-                      name="price"
-                      className="form-control"
-                      defaultValue={product.price}
-                      onChange={handleChange}
-                    />
-                  </label>
-                  {/* 4th */}
-                  <label>
-                    Subcat
-                    {/* select options from category context */}
-                    <select
-                      name="subcat_id"
-                      className="form-control"
-                      onChange={handleChange}
-                    >
-                      {subcats === null
-                        ? "loading"
-                        : subcats.map((category) => {
-                            return (
-                              <option
-                                key={category.subcat_id}
-                                value={category.subcat_id}
-                              >
-                                {category.subcat_name}
-                              </option>
-                            );
-                          })}
-                    </select>
-                  </label>
-                </div>
-                <div class="col ">
-                  {/* card */}
-                  <div class="card">
-                    {/* product images thumbanils */}
-                    <div class="card-body">
-                      <h5
-                        class="card-title
-                      "
-                      >
-                        Product Images
-                      </h5>
-                      <div class="row ">
-                        {productImages.map((image) => (
-                          // <div class="col">
-                          <img
-                            // src={`http://localhost:000${image.image_path}`}
-                            src={
-                              import.meta.env.VITE_API_URL + image.image_path
-                            }
-                            class="img-thumbnail"
-                            style={{ maxHeight: 60 }}
-                            alt="..."
-                          />
-
-                          // </div>
-                        ))}
-                      </div>
+              <div className="d-flex justify-content-center">
+                {/* <div className="d-flex w-50 justify-content-center"> */}
+                <form className="" onSubmit={updateDescription}>
+                  <div class="row">
+                    <div class="col">
+                      {/* 1st input */}
+                      <label>
+                        Product Name
+                        <input
+                          type="text"
+                          name="product_name"
+                          className="form-control"
+                          value={inputs.description}
+                          onChange={handleChange}
+                        />
+                      </label>
+                    </div>
+                    <div class="col">
+                      {/* 4th */}
+                      <label>
+                        Price
+                        <input
+                          type="number"
+                          name="price"
+                          className="form-control"
+                          // value={inputs.price}
+                          onChange={handleChange}
+                        />
+                      </label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      {/* 4th */}
+                      <label>
+                        Description
+                        <input
+                          type="text"
+                          name="description"
+                          className="form-control"
+                          // value={inputs.price}
+                          onChange={handleChange}
+                        />
+                      </label>
+                    </div>
+                    <div class="col">
+                      {/* 4th */}
+                      <label>
+                        Inventory
+                        <input
+                          type="number"
+                          name="inventory"
+                          className="form-control"
+                          // value={inputs.price}
+                          onChange={handleChange}
+                        />
+                      </label>
                     </div>
 
-                    <form
-                      action={import.meta.env.VITE_API_URL + "/upload"}
-                      method="post"
-                      enctype="multipart/form-data"
-                    >
-                      <input
-                        className="form-control collapse"
-                        type="number"
-                        name="product_id"
-                        value={product.product_id}
-                      />
-                      <input
-                        className="form-control"
-                        type="file"
-                        name="images"
-                        accept="image/*"
-                      />
-                      <input
-                        className="form-control"
-                        type="submit"
-                        value="Upload"
-                      />
-                    </form>
+                    {/* <div class = "col mt-4">
+                        <button className="btn btn-success" onClick={onSubmitForm}>Add</button>
+                    </div> */}
                   </div>
-                </div>
+                  <div class="row text-center mt-2">
+                    <div class="col">
+                      {/* 4th */}
+                      <label>
+                        Subcategory
+                        {/* select */}
+                        <select
+                          name="subcategory_id"
+                          className="form-control"
+                          onChange={handleChange}
+                        >
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                        </select>
+                      </label>
+                    </div>
+
+                    {/* <div class = "col mt-4">
+                        <button className="btn btn-success" onClick={onSubmitForm}>Add</button>
+                    </div> */}
+                  </div>
+
+                  <div class="row">
+                    <div class="col mt-4 ">
+                      <form
+                        // action="http://localhost:000/upload"
+                        action={import.meta.env.VITE_API_URL + "/upload"}
+                        method="post"
+                        enctype="multipart/form-data"
+                      >
+                        <input
+                          className="form-control collapse"
+                          type="number"
+                          name="product_id"
+                        />
+                        <input
+                          className="form-control"
+                          type="file"
+                          name="images"
+                        />
+                        <input
+                          className="form-control"
+                          type="submit"
+                          value="Upload"
+                        />
+                      </form>
+                    </div>
+                  </div>
+                </form>
+                {/* </div> */}
               </div>
             </div>
 

@@ -257,7 +257,10 @@ const App = () => {
                           path="order_history"
                           element={<OrderHistory />}
                         />
-                        <Route path="sale_logs" element={<SaleLogs />} />
+                        <Route
+                          path="sale_logs/:sale_id"
+                          element={<SaleLogs />}
+                        />
                         <Route path="favorites" element={<Favorites />} />
 
                         {/* ADMIN PAGES */}

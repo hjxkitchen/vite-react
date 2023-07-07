@@ -71,6 +71,7 @@ const SalesList = () => {
 
   useEffect(() => {
     getSales();
+    getUsers();
   }, []);
 
   //    when search filter sales by search
@@ -80,6 +81,22 @@ const SalesList = () => {
   const [searchedSales, setSearchedSales] = useState([]);
   const [searchedNames, setSearchedNames] = useState(false);
   const [searchedSalesNames, setSearchedSalesNames] = useState([]);
+
+  const [allUsers, setAllUsers] = useState([]);
+
+  const getUsers = async () => {
+    try {
+      const res = await axios.get(import.meta.env.VITE_API_URL + "/api/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      });
+      setAllUsers(res.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const searchSalesPh = (e) => {
     e.preventDefault();
@@ -198,6 +215,27 @@ const SalesList = () => {
             </th>
             <th>Sale total</th>
             <th>
+              {/* <div class="d-flex"> */}
+              <div class="row justify-content-center">
+                <input
+                  type="text"
+                  id="namesearch"
+                  class="collapse"
+                  onChange={searchSalesName}
+                  placeholder="Search by name"
+                />
+              </div>
+              {/* </div> */}
+              Customer
+              <button
+                class="btn btn-primary ml-2"
+                data-toggle="collapse"
+                data-target="#namesearch"
+              >
+                <i class="fa fa-search"></i>
+              </button>
+            </th>
+            <th>
               Sale Status
               {/* small button  */}
               <button type="button" class="btn btn-sm ml-2" onClick={click}>
@@ -211,47 +249,7 @@ const SalesList = () => {
                 <i class="fas fa-sort-down"></i>
               </button>
             </th>
-            <th>
-              {/* <div class="d-flex"> */}
-              <div class="row justify-content-center">
-                <input
-                  type="text"
-                  id="namesearch"
-                  class="collapse"
-                  onChange={searchSalesName}
-                  placeholder="Search by name"
-                />
-              </div>
-              {/* </div> */}
-              Customer Name
-              <button
-                class="btn btn-primary ml-2"
-                data-toggle="collapse"
-                data-target="#namesearch"
-              >
-                <i class="fa fa-search"></i>
-              </button>
-            </th>
-            <th>
-              <div class="row justify-content-center">
-                <input
-                  type="text"
-                  id="phsearch"
-                  class="collapse"
-                  onChange={searchSalesPh}
-                  placeholder="Search by phone number"
-                />
-              </div>
-              Customer Phone
-              {/* button to collapse search bar*/}
-              <button
-                class="btn btn-primary ml-2"
-                data-toggle="collapse"
-                data-target="#phsearch"
-              >
-                <i class="fa fa-search"></i>
-              </button>
-            </th>
+
             {/* <th>Customer Id <button><i class="fas fa-search"></i></button></th> */}
             {/* <th>View</th>
             <th>Edit</th>
@@ -259,77 +257,28 @@ const SalesList = () => {
           </tr>
         </thead>
         <tbody>
-          {searched &&
-            searchedSales.map((sale) => (
-              <tr key={sale.sale_id}>
-                <td>
-                  <Link to={"/salelogs/" + sale.sale_id}>{sale.sale_id}</Link>
-                </td>
-                <td>{sale.sale_date}</td>
-                <td>{sale.sale_total}</td>
-                <td>
-                  <Link to={"/salelogs/" + sale.sale_id}>
-                    {sale.sale_status}
-                  </Link>
-                </td>
-                <td>{sale.name}</td>
-                <td>{sale.phone}</td>
-              </tr>
-            ))}
-          {searchedNames &&
-            searchedSalesNames.map((sale) => (
-              <tr key={sale.sale_id}>
-                {" "}
-                <Link
-                  // so can be accessed by useparams
-                  to={"/salelogs/" + sale.sale_id}
-                >
-                  {sale.sale_id}
-                </Link>
-                <td>{sale.sale_date}</td>
-                <td>{sale.sale_total}</td>
-                <td>
-                  <Link to={"/salelogs/" + sale.sale_id}>
-                    {sale.sale_status}
-                  </Link>
-                </td>
-                <td>{sale.name}</td>
-                <td>{sale.phone}</td>
-              </tr>
-            ))}
-          {sorted &&
-            sortedSales.map((sale) => (
-              <tr key={sale.sale_id}>
-                {" "}
-                <Link to={"/salelogs/" + sale.sale_id}>{sale.sale_id}</Link>
-                <td>{sale.sale_date}</td>
-                <td>{sale.sale_total}</td>
-                <td>
-                  <Link to={"/salelogs/" + sale.sale_id}>
-                    {sale.sale_status}
-                  </Link>
-                </td>
-                <td>{sale.name}</td>
-                <td>{sale.phone}</td>
-              </tr>
-            ))}
-          {sorted === false &&
-            sales.map((sale) => (
-              <tr key={sale.sale_id}>
-                {" "}
-                <Link to={"/salelogs/" + sale.sale_id}>{sale.sale_id}</Link>
-                <td>{sale.sale_date}</td>
-                <td>{sale.sale_total}</td>
-                <td>
-                  <Link to={"/salelogs/" + sale.sale_id}>
-                    {sale.sale_status}
-                  </Link>
-                </td>
-                <td>Online/POS</td>
-                <td>{sale.name}</td>
-                <td>{sale.phone}</td>
-              </tr>
-            ))}
+          {sales.map((sale) => (
+            <tr key={sale.sale_id}>
+              <Link to={"/salelogs/" + sale.sale_id}>{sale.sale_id}</Link>
+              <td>
+                {/* get only date from createdAt */}
+                {sale.createdAt.slice(0, 10)}
+              </td>
+              <td>{sale.total_amount}</td>
+              <td>
+                {/* get user name form id from allusers */}
+                {allUsers.map((user) => {
+                  if (user.user_id === sale.user_id) {
+                    return user.username;
+                  }
+                })}
+              </td>
+              <td>
+                <Link to={"/salelogs/" + sale.sale_id}>{sale.status}</Link>
+              </td>
+              <td>{sale.source}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
       {/* </div> */}

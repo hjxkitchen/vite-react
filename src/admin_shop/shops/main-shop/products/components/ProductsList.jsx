@@ -297,6 +297,7 @@ const ListProducts = () => {
                 Price
                 {/* </div> */}
               </th>
+              <th>Description</th>
               <th>
                 {/* d-flec */}
                 <div class="d-flex justify-content-center">
@@ -311,10 +312,9 @@ const ListProducts = () => {
                   </button>
                 </div>
               </th>
-              <th>Cost</th>
               <th>Subcat</th>
-              <th>Description</th>
               <th>Images</th>
+              <th>Cost</th>
               {/* <th>Shop</th> */}
               <th>Edit</th>
               <th>Delete</th>
@@ -326,17 +326,13 @@ const ListProducts = () => {
                 <td>{product.product_id}</td>
                 <td>{product.product_name}</td>
                 <td>{product.price}K</td>
+                <td>{product.description}</td>
                 <td>{product.inventory}</td>
-                <td>
-                  {/* prod price + 0.7 rounded up */}
-                  {/* {Math.ceil(product.price * 0.7)}K */}
-                  getfromlastorder
-                </td>
                 <td>
                   {/* {product.subcat_id} */}
                   {/* filter subcats */}
                   {subcats === null
-                    ? "loading"
+                    ? " - "
                     : subcats
                         .filter(
                           (subcat) => subcat.subcat_id === product.subcat_id
@@ -345,7 +341,6 @@ const ListProducts = () => {
                           <div key={subcat.subcat_id}>{subcat.subcat_name}</div>
                         ))}
                 </td>
-                <td>{product.description}</td>
                 <td>
                   <div class="d-flex justify-content-center">
                     {/* <h5>{product.images.length + "="}</h5> */}
@@ -367,6 +362,11 @@ const ListProducts = () => {
                       </a>
                     ))}
                   </div>
+                </td>
+                <td>
+                  {/* prod price + 0.7 rounded up */}
+                  {/* {Math.ceil(product.price * 0.7)}K */}
+                  getfromlastorder
                 </td>
                 {/* <td> 
                         <input type="checkbox" checked={product.shop==true&&"true"}></input>

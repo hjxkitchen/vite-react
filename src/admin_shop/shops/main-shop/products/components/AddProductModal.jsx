@@ -1,7 +1,10 @@
 import React, { Fragment, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const AddProductModal = ({ product }) => {
   const [inputs, setInputs] = useState({});
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -79,23 +82,6 @@ const AddProductModal = ({ product }) => {
                       </label>
                     </div>
                     <div class="col">
-                      {/* 2nd */}
-                      <label>
-                        Quantity
-                        <input
-                          type="number"
-                          name="inventory"
-                          min="0"
-                          step="1"
-                          className="form-control"
-                          value={inputs.inventory}
-                          onChange={handleChange}
-                        />
-                      </label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
                       {/* 4th */}
                       <label>
                         Price
@@ -106,6 +92,55 @@ const AddProductModal = ({ product }) => {
                           // value={inputs.price}
                           onChange={handleChange}
                         />
+                      </label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      {/* 4th */}
+                      <label>
+                        Description
+                        <input
+                          type="text"
+                          name="description"
+                          className="form-control"
+                          // value={inputs.price}
+                          onChange={handleChange}
+                        />
+                      </label>
+                    </div>
+                    <div class="col">
+                      {/* 4th */}
+                      <label>
+                        Inventory
+                        <input
+                          type="number"
+                          name="inventory"
+                          className="form-control"
+                          // value={inputs.price}
+                          onChange={handleChange}
+                        />
+                      </label>
+                    </div>
+
+                    {/* <div class = "col mt-4">
+                        <button className="btn btn-success" onClick={onSubmitForm}>Add</button>
+                    </div> */}
+                  </div>
+                  <div class="row text-center mt-2">
+                    <div class="col">
+                      {/* 4th */}
+                      <label>
+                        Subcategory
+                        {/* select */}
+                        <select
+                          name="subcategory_id"
+                          className="form-control"
+                          onChange={handleChange}
+                        >
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                        </select>
                       </label>
                     </div>
 

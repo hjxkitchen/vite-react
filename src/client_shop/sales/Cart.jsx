@@ -16,6 +16,7 @@ import jwt_decode from "jwt-decode";
 
 const SalesList = () => {
   const [sales, setSales] = useState([]);
+  const [prices, setPrices] = useState([]);
 
   const user = useContext(UserContext);
   const cartToken = useContext(CartContext);
@@ -76,6 +77,18 @@ const SalesList = () => {
         const jsonData = await response.data;
         setSales(jsonData);
         // console.log(products);
+
+        const price = await axios.get(
+          import.meta.env.VITE_API_URL +
+            "/api/attr/product?attributes=product_id,price",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+        setPrices(price.data);
       } catch (error) {
         console.log(error.message);
       }
@@ -147,7 +160,11 @@ const SalesList = () => {
     try {
       console.log("rspnse:", sale);
 
-      const body = { cart_id: sale.cart_id };
+      const body = {
+        user_id: sale.user_id,
+        product_id: sale.product_id,
+        quantity: sale.quantity + 1,
+      };
 
       // const response = await fetch(`http://localhost:000/cart/plus`, {
       //   method: "POST",
@@ -155,11 +172,11 @@ const SalesList = () => {
       //   body: JSON.stringify(body),
       // });
       const response = await axios.put(
-        import.meta.env.VITE_API_URL + "cart/plus" + sale.cart_id,
+        import.meta.env.VITE_API_URL + "/api/cart/" + sale.cart_id,
         body,
         {
           headers: {
-            Authorization: `Bearer ${cartToken}`,
+            Authorization: `Bearer ${token}`,
             "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
@@ -176,7 +193,11 @@ const SalesList = () => {
   // minus
   const minus = async (sale) => {
     try {
-      const body = { cart_id: sale.cart_id };
+      const body = {
+        user_id: sale.user_id,
+        product_id: sale.product_id,
+        quantity: sale.quantity - 1,
+      };
 
       if (sale.quantity > 1) {
         // const response = await fetch(`http://localhost:000/cart/minus`, {
@@ -185,11 +206,11 @@ const SalesList = () => {
         //   body: JSON.stringify(body),
         // });
         const response = await axios.put(
-          import.meta.env.VITE_API_URL + "cart/minus" + sale.cart_id,
+          import.meta.env.VITE_API_URL + "/api/cart/" + sale.cart_id,
           body,
           {
             headers: {
-              Authorization: `Bearer ${cartToken}`,
+              Authorization: `Bearer ${token}`,
               "x-api-key": import.meta.env.VITE_API_KEY,
             },
           }
@@ -205,12 +226,11 @@ const SalesList = () => {
           //   headers: { "Content-Type": "application/json" },
           //   body: JSON.stringify(body),
           // });
-          const response = await axios.post(
-            import.meta.env.VITE_API_URL + "cart/remove",
-            body,
+          const response = await axios.delete(
+            import.meta.env.VITE_API_URL + "cart/remove" + sale.cart_id,
             {
               headers: {
-                Authorization: `Bearer ${cartToken}`,
+                Authorization: `Bearer ${token}`,
                 "x-api-key": import.meta.env.VITE_API_KEY,
               },
             }
@@ -236,12 +256,11 @@ const SalesList = () => {
         //   headers: { "Content-Type": "application/json" },
         //   body: JSON.stringify(body),
         // });
-        const response = await axios.post(
-          import.meta.env.VITE_API_URL + "cart/remove",
-          body,
+        const response = await axios.delete(
+          import.meta.env.VITE_API_URL + "/api/cart/" + sale.cart_id,
           {
             headers: {
-              Authorization: `Bearer ${cartToken}`,
+              Authorization: `Bearer ${token}`,
               "x-api-key": import.meta.env.VITE_API_KEY,
             },
           }
@@ -380,7 +399,13 @@ const SalesList = () => {
                         </div>
                       )}
                     </td>
-                    <td>100</td>
+                    <td>
+                      {prices.map((p) =>
+                        p.product_id === sale.product_id
+                          ? p.price * sale.quantity
+                          : null
+                      )}
+                    </td>
                     {/* <td>200</td> */}
                     {/*<td>{sale.user_id}</td> */}
                     {/* <td>{product.images}</td> */}
@@ -446,7 +471,25 @@ const SalesList = () => {
                   {/* <td></td> */}
                   <td>
                     <div class="row mt-2 ">
-                      <div class=" mr-2">Total: 5136</div>
+                      <div class="col-4"></div>
+                      <div class="col-4">
+                        <div class=" mr-2">
+                          Total:
+                          {sales.reduce((total, sale) => {
+                            return (
+                              total +
+                              prices.reduce((total, price) => {
+                                return (
+                                  total +
+                                  (price.product_id === sale.product_id
+                                    ? price.price * sale.quantity
+                                    : 0)
+                                );
+                              }, 0)
+                            );
+                          }, 0)}
+                        </div>
+                      </div>
                     </div>
                   </td>
                 </tr>

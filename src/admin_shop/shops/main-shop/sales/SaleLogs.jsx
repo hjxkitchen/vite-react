@@ -37,7 +37,7 @@ function Calculators() {
   const getsales = async () => {
     try {
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/order/" + sale_id,
+        import.meta.env.VITE_API_URL + "/api/sale/" + sale_id,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,19 +54,26 @@ function Calculators() {
 
   const getSaleLogs = async () => {
     console.log("res is", sale.sale_id);
-    // const url = "http://localhost:000/salelogs/" + location.state.sale.sale_id;
-    // console.log(url);
-    // const res = await axios.get(url);
     const res = await axios.get(
-      import.meta.env.VITE_APP_API_URL + "/api/salelog/" + sale_id,
+      import.meta.env.VITE_API_URL +
+        "/api/sale/" +
+        sale_id +
+        "?include=salelog",
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          "x-api-key": import.meta.env.VITE_API_KEY,
         },
       }
     );
-    setSaleLogs(res.data);
+    // if not an array, make it an array
+    if (!Array.isArray(res.data.salelogs)) {
+      res.data.salelogs = [res.data.salelogs];
+      console.log("res is not array", res.data.salelogs);
+      setSaleLogs(res.data.salelogs);
+    }
+    console.log("res is salelogs", res.data.salelogs);
+    setSaleLogs(res.data.salelogs);
   };
 
   const getCustomer = async () => {
@@ -113,16 +120,17 @@ function Calculators() {
     // console.log("saleLogs", inputs.salelog);
     const data = inputs.salelog;
     e.preventDefault();
-    // const res = await axios.post("http://localhost:000/salelogs", {
-    //   sale_id: sale.sale_id,
-    //   salelog: data,
-    // });
-
-    const res = await axios.post(
-      import.meta.env.VITE_APP_API_URL + "/api/salelog",
+    const res5 = await axios.post(
+      import.meta.env.VITE_API_URL + "/api/salelog",
       {
-        Authorization: `Bearer ${token}`,
-        "x-api-key": import.meta.env.VITE_APP_API_KEY,
+        sale_id: sale.sale_id,
+        log_data: data,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
       }
     );
 
@@ -242,8 +250,7 @@ function Calculators() {
 
   return (
     <Fragment>
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      <Navbar />
       <div className="container">
         <button className="btn btn-warning" onClick={handleVentureOverview}>
           Show Venture Overview
@@ -364,9 +371,9 @@ function Calculators() {
               class="form-control"
               name="salelog"
               onChange={handleStatusChange}
-              defaultValue={sale.sale_status}
+              defaultValue={sale.status}
             >
-              <option value={sale.sale_status}>{sale.sale_status}</option>
+              <option value={sale.status}>{sale.status}</option>
               <option value="initialized">Initialized</option>
               <option value="paid">Paid</option>
               <option value="shipped">Shipped</option>
@@ -413,11 +420,11 @@ function Calculators() {
                   <p class="text-center ">
                     Sale Id: {sale.sale_id}
                     <br></br>
-                    Sale Date: {sale.sale_date}
+                    Sale Date: {sale.createdAt?.split("T")[0]}
                     <br></br>
-                    Sale Status: {sale.sale_status}
+                    Sale Status: {sale.status}
                     <br></br>
-                    Sale Total: {sale.sale_total}
+                    Sale Total: {sale.total_amount}
                     <br></br>
                     Customer Id: {sale.user_id}
                   </p>
@@ -606,7 +613,10 @@ function Calculators() {
                   {saleLogs.map((saleLog) => (
                     <tr key={saleLog.salelog_id}>
                       {/* <td>{saleLog.salelog_id}</td> */}
-                      <td>{saleLog.log_date}</td>
+                      <td>
+                        {/* get only date from createdAt */}
+                        {saleLog.createdAt.substring(0, 10)}
+                      </td>
                       <td>{saleLog.log_data}</td>
                     </tr>
                   ))}

@@ -3,10 +3,14 @@ import Navbar from "../../system/Navbar";
 // import PublicNavbar from "../PublicNavbar";
 import ShopList from "./components/ShopList";
 import { UserContext, ProdContext } from "../../App";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 function Packages() {
   const user = useContext(UserContext);
   const prods = useContext(ProdContext);
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   console.log("prods", prods);
 
@@ -17,16 +21,16 @@ function Packages() {
     try {
       // const response = await fetch("http://localhost:000/packages");
       const response = await axios.get(
-        import.meta.env.VITE_APP_API_URL + "/api/Package",
+        import.meta.env.VITE_API_URL + "/api/package",
         {
           headers: {
-            Authorization: `Bearer ${cartToken}`,
-            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
 
-      const jsonData = await response.json();
+      const jsonData = await response.data;
       setPackages(jsonData);
       console.log("pckgs", jsonData);
     } catch (error) {
@@ -39,18 +43,19 @@ function Packages() {
       console.log("pkgitme");
       // const response = await fetch("http://localhost:000/packageitems");
       const response = await axios.get(
-        import.meta.env.VITE_APP_API_URL + "/api/PackageItem",
+        import.meta.env.VITE_API_URL + "/api/package/" + 1 + "?include=product",
         {
           headers: {
-            Authorization: `Bearer ${cartToken}`,
-            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
 
-      const jsonData = await response.json();
-      setPackageItems(jsonData);
-      console.log("pckgitmes:", jsonData[0]);
+      console.log("pkgitme2", response.data);
+      const jsonData = await response.data;
+      setPackageItems(jsonData.products);
+      console.log("pckgitmes:", jsonData.products);
     } catch (error) {
       console.log(error.message);
     }
@@ -143,10 +148,11 @@ function Packages() {
 
                 {/* get packageitems for this package */}
 
-                {packageitems.map((oneitem) =>
-                  // If packageitem.package_id == packages[0].package_id then show
+                {packageitems.map(
+                  (oneitem) => (
+                    // If packageitem.package_id == packages[0].package_id then show
 
-                  packages[0].package_id == oneitem.package_id ? (
+                    // packages[0].package_id == oneitem.package_id ? (
                     // accordion using package_item_id
                     <div class="card" id={oneitem.package_item_id}>
                       <div class="card-header" id="headingtwo">
@@ -184,18 +190,20 @@ function Packages() {
                             oneitem.product_id == oneprod.product_id ? (
                               <h5 class="mb-0">
                                 {/* img here */}
-                                <img
-                                  // src={
-                                  //   "http://localhost:000" + oneprod.images[0]
-                                  // }
-                                  src={
-                                    import.meta.env.VITE_API_URL +
-                                    oneprod.images[0]
-                                  }
-                                  alt="product image"
-                                  width="200"
-                                  height="200"
-                                />
+                                {oneprod.images && (
+                                  <img
+                                    // src={
+                                    //   "http://localhost:000" + oneprod.images[0]
+                                    // }
+                                    src={
+                                      import.meta.env.VITE_API_URL +
+                                      oneprod.images[0]
+                                    }
+                                    alt="product image"
+                                    width="200"
+                                    height="200"
+                                  />
+                                )}
                                 {/* <button> <a href={"http://192.268.1.10:000/"+oneprod.images[0]}>tryyy</a></button> */}
                               </h5>
                             ) : (
@@ -205,9 +213,10 @@ function Packages() {
                         </div>
                       </div>
                     </div>
-                  ) : (
-                    <div></div>
                   )
+                  // ) : (
+                  //   <div></div>
+                  // )
                 )}
 
                 {/* <ShopList/> */}

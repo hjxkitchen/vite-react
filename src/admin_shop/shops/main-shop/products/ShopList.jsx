@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import ListProducts from "./components/ProductsList";
 import Navbar from "../../../../system/Navbar";
 import AddProductModal from "./components/AddProductModal";
+import QuickAddProductModal from "./components/QuickAddProductModal";
 // import EditProduct from "../../../../components/admin/products/EditProduct";
 
 function ProductsList() {
@@ -96,7 +97,7 @@ function ProductsList() {
           <Link to="/featuredadmin">
             <button class="btn btn-danger mt-5 mr-3"> Featured</button>
           </Link>
-          <Link to="/packages">
+          <Link to="/packagesadmin">
             <button class="btn btn-warning mt-5 mr-3"> Packages</button>
           </Link>
           <Link to="/categories">
@@ -187,6 +188,7 @@ function ProductsList() {
           </div>
 
           <AddProductModal />
+          <QuickAddProductModal />
           {/* </div> */}
         </div>
 
