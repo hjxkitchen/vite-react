@@ -4,6 +4,8 @@ import AddToSale from "./components/AddToSale";
 import Navbar from "../../../../system/Navbar";
 import AddSale from "./components/AddSale";
 import SalesList from "./components/SalesList";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
@@ -21,6 +23,7 @@ function Sales() {
 
   const [customerslist, setCustomersList] = useState([]);
   const user = useContext(UserContext);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   // const user = useContext(UserContext); role
   const ProductNames = useContext(ProdContext);
 
@@ -29,29 +32,6 @@ function Sales() {
       setShowLogs(false);
     } else {
       setShowLogs(true);
-    }
-  };
-
-  const [byname, setByName] = useState(false);
-  const [byphone, setByPhone] = useState(true);
-
-  const byName = () => {
-    if (byname) {
-      setByName(false);
-      setByPhone(true);
-    } else {
-      setByName(true);
-      setByPhone(false);
-    }
-  };
-
-  const byPhone = () => {
-    if (byphone) {
-      setByPhone(false);
-      setByName(true);
-    } else {
-      setByPhone(true);
-      setByName(false);
     }
   };
 
@@ -106,14 +86,18 @@ function Sales() {
     try {
       // const response = await fetch("http://localhost:000/users");
 
-      const response = await axios.get(import.meta.env.VITE_API_URL + "user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_API_KEY,
-        },
-      });
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/contact?where=type,phone",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
 
-      const jsonData = await response.json();
+      const jsonData = await response.data;
+      console.log("customerslist", jsonData);
       setCustomersList(jsonData);
     } catch (error) {
       console.log(error.message);
@@ -267,31 +251,9 @@ function Sales() {
                 value="Delivery"
               />
             </div>
+            <div>
+              <div>Customer Phone</div>
 
-            <div>Customer Name</div>
-            {byphone === true && (
-              <CreatableSelect
-                class="collapse show"
-                options={customeroptions}
-                onChange={(e) => {
-                  custNameChanged(e);
-                }}
-              />
-            )}
-            {byphone !== true && (
-              // input text
-              <input
-                type="text"
-                name="customer_name"
-                className="form-control"
-                // value={customername}
-                onChange={handleChange}
-              />
-            )}
-            <button onClick={byName}>By Name</button>
-
-            <div>Customer Phone</div>
-            {byphone === true && (
               <CreatableSelect
                 class="collapse show"
                 options={customerphoneoptions}
@@ -299,18 +261,18 @@ function Sales() {
                   custPhoneChanged(e);
                 }}
               />
-            )}
-            {byphone !== true && (
-              <input
-                type="text"
-                name="phone"
-                className="form-control"
-                // value={customerphone}
-                onChange={handleChange}
-              />
-            )}
+            </div>
+            <div>
+              <div>Customer Name</div>
 
-            <button onClick={byPhone}>By Phone</button>
+              <CreatableSelect
+                class="collapse show"
+                options={customeroptions}
+                onChange={(e) => {
+                  custNameChanged(e);
+                }}
+              />
+            </div>
           </div>
         </div>
 

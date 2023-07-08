@@ -78,19 +78,23 @@ function Calculators() {
   };
 
   const getCustomer = async () => {
+    console.log("sale.user_id", sale.user_id);
     // const url = "http://localhost:000/user/" + location.state.sale.user_id;
     // const res = await axios.get(url);
-    // const res = await axios.get(
-    //   import.meta.env.VITE_APP_API_URL + "/api/user/" + saledata.user_id,
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //       "x-api-key": import.meta.env.VITE_APP_API_KEY,
-    //     },
-    //   }
-    // );
-    // console.log("res", res.data);
-    // setCustomer(res.data[0]);
+    const res = await axios.get(
+      import.meta.env.VITE_API_URL +
+        "/api/user/" +
+        sale.user_id +
+        "?include=phone,email,name",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+    console.log("contacts res", res.data);
+    setCustomer(res.data);
   };
 
   useEffect(() => {
@@ -250,6 +254,26 @@ function Calculators() {
     setShowVentureOverview(!showVentureOverview);
   };
 
+  // ANCHOR NAME JOIN
+  // get all email property from each customer.emails array
+  const email = customer.emails;
+  console.log("email", email);
+  // get all values from email array and seperate by comma
+  const emailsr =
+    customer.emails && customer.emails.map((email) => email.email);
+  console.log("emails", emailsr);
+
+  // ANCHOR NAME JOIN
+  // get all phone property from each customer.phones array
+  const [phones, setPhone] = React.useState([]);
+  // console.log("phone", phone);
+  // get all values from phone array and seperate by comma
+  // const phones = phone && phone.map((phone) => phone.number).join(", ");
+  // get all values from phone array and put in array
+  const phonesr =
+    customer.phones && customer.phones.map((phone) => phone.number);
+  console.log("phones", phonesr);
+
   return (
     <Fragment>
       <Navbar />
@@ -387,113 +411,81 @@ function Calculators() {
               </div>
             </div>
             <div class="col-3">
-              {!editContact && (
-                <div class="row justify-content-center mt-4 mr-5">
-                  <div class=" my-auto">
-                    {/* name, email, phone input form */}
-                    <form onSubmit={submitLog}>
-                      <div class="form-group input-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="name"
-                          defaultValue={customer.name}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div class="form-group input-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="phone"
-                          defaultValue={customer.phone}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div class="form-group input-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="email"
-                          defaultValue={customer.email}
-                          onChange={handleChange}
-                        />
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              )}
-
-              {editContact && (
-                <div class="row justify-content-center mt-4 ">
-                  <div class=" my-auto">
-                    {/* name, email, phone input form */}
-                    <form onSubmit={submitLog}>
-                      <div class="form-group input-group">
-                        {customer && (
+              <div class="row justify-content-center mt-4 ">
+                <div class=" my-auto">
+                  {/* name, email, phone input form */}
+                  <form onSubmit={submitLog}>
+                    <div className="form-group input-group">
+                      <div className="inline-flex items-center mb-2 mt-3">
+                        <span className="inline-block bg-gray-300 text-gray-800 rounded-full py-1 px-3 whitespace-no-wrap overflow-x-auto">
                           <input
                             type="text"
-                            class="form-control"
+                            className="bg-transparent border-none focus:outline-none"
                             name="name"
-                            defaultValue="email"
-                            value={customer.name}
-                            onChange={handleChange}
+                            value={`${customer?.name?.first} ${customer?.name?.last}`}
+                            disabled
                           />
-                        )}
-                        <div class="input-group-append">
-                          <button class="btn btn-warning" type="button">
-                            Edit/Add
-                          </button>
-                        </div>
+                        </span>
+                        <button
+                          className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-2 rounded ml-2"
+                          onClick={() => {
+                            setEditContact(true);
+                          }}
+                        >
+                          <i className="fas fa-edit" />
+                        </button>
                       </div>
-                      <div class="form-group input-group">
-                        {customer && (
-                          <input
-                            type="text"
-                            class="form-control"
-                            name="phone"
-                            defaultValue="email"
-                            value={customer.phone}
-                            onChange={handleChange}
-                          />
-                        )}
-                        <div class="input-group-append">
-                          <button class="btn btn-warning" type="button">
-                            Edit/Add
-                          </button>
-                          {/*  */}
-                        </div>
+                    </div>
+
+                    {/* Show phones with edit button for each */}
+                    <div class="form-group input-group">
+                      <div className="flex overflow-x-auto">
+                        {phonesr?.map((phone) => (
+                          <div className="flex items-center mb-2 mr-2">
+                            <span className="bg-gray-300 text-gray-800 rounded-full py-1 px-3 whitespace-no-wrap">
+                              {phone}
+                            </span>
+                            <button
+                              className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-2 rounded ml-2"
+                              onClick={() => {
+                                setEditContact(true);
+                              }}
+                            >
+                              <i className="fas fa-edit" />
+                            </button>
+                          </div>
+                        ))}
+                        {/* plus button */}
+                        <button className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded ml-2 mb-2">
+                          <i className="fas fa-plus" />
+                        </button>
                       </div>
-                      <div class="form-group input-group">
-                        {customer && (
-                          <input
-                            type="text"
-                            class="form-control"
-                            name="email"
-                            defaultValue="email"
-                            value={customer.username}
-                            onChange={handleChange}
-                          />
-                        )}
-                        <div class="input-group-append">
-                          <button class="btn btn-warning" type="button">
-                            Edit/Add
-                          </button>
-                        </div>
+                    </div>
+
+                    <div class="form-group input-group">
+                      <div className="flex overflow-x-auto">
+                        {emailsr?.map((email) => (
+                          <div className="flex items-center mb-2 mr-2">
+                            <span className="bg-gray-300 text-gray-800 rounded-full py-1 px-3 whitespace-no-wrap">
+                              {email}
+                            </span>
+                            <button
+                              className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-2 rounded ml-2"
+                              onClick={() => {
+                                setEditContact(true);
+                              }}
+                            >
+                              <i className="fas fa-edit" />
+                            </button>
+                          </div>
+                        ))}
+                        {/* plus button */}
+                        <button className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded ml-2 mb-2">
+                          <i className="fas fa-plus" />
+                        </button>
                       </div>
-                    </form>
-                  </div>
-                </div>
-              )}
-              <div class="row  mt-2">
-                <div class="">
-                  <button
-                    class="btn btn-primary btn-block"
-                    type="submit"
-                    onClick={handleEditContact}
-                  >
-                    Edit/Add Customer Details
-                  </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
