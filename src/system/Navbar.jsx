@@ -303,11 +303,13 @@ const Navbar = () => {
       >
         <div className="sidebar-content">
           <ul className="sidebar-nav">
-            <li className="sidebar-item">
-              <Link to="/playbooks">
-                <i className="fas fa-book fa"></i> Playbooks
-              </Link>
-            </li>
+            {userRole === 1 && (
+              <li className="sidebar-item">
+                <Link to="/playbooks">
+                  <i className="fas fa-book fa"></i> Playbooks
+                </Link>
+              </li>
+            )}
             {userRole === 1 && (
               <li className="sidebar-item">
                 <Link to="/team">
@@ -334,9 +336,11 @@ const Navbar = () => {
         </div>
       </div>
       <div>
-        <button className="back-button" onClick={handleBackClick}>
-          Back
-        </button>
+        {userRole === 1 && (
+          <button className="back-button" onClick={handleBackClick}>
+            Back
+          </button>
+        )}
       </div>
       {/* <div className="forward-button">
         <button onClick={handleBackClick}>Forward</button>

@@ -316,12 +316,7 @@ function Calculators() {
 
             {/* strategy board */}
             <div class="card mt-5 col-md-6">
-              <div class="card-header">
-                Mission Statement: Strategy Board{" "}
-                <button class="btn btn-warning ml-5">
-                  <i class="fas fa-edit" />
-                </button>
-              </div>
+              <div class="card-header">Mission Statement: Strategy Board </div>
               <div class="card-body">
                 Mission: Civil Development with Energy Solutions.
                 <br></br>
@@ -417,12 +412,13 @@ function Calculators() {
                   <form onSubmit={submitLog}>
                     <div className="form-group input-group">
                       <div className="inline-flex items-center mb-2 mt-3">
+                        {"Name: "}
                         <span className="inline-block bg-gray-300 text-gray-800 rounded-full py-1 px-3 whitespace-no-wrap overflow-x-auto">
                           <input
                             type="text"
                             className="bg-transparent border-none focus:outline-none"
                             name="name"
-                            value={`${customer?.name?.first} ${customer?.name?.last}`}
+                            value={`${customer?.name?.name} `}
                             disabled
                           />
                         </span>
@@ -440,6 +436,7 @@ function Calculators() {
                     {/* Show phones with edit button for each */}
                     <div class="form-group input-group">
                       <div className="flex overflow-x-auto">
+                        {"Phones: "}
                         {phonesr?.map((phone) => (
                           <div className="flex items-center mb-2 mr-2">
                             <span className="bg-gray-300 text-gray-800 rounded-full py-1 px-3 whitespace-no-wrap">
@@ -464,6 +461,7 @@ function Calculators() {
 
                     <div class="form-group input-group">
                       <div className="flex overflow-x-auto">
+                        {"Emails: "}
                         {emailsr?.map((email) => (
                           <div className="flex items-center mb-2 mr-2">
                             <span className="bg-gray-300 text-gray-800 rounded-full py-1 px-3 whitespace-no-wrap">

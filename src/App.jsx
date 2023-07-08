@@ -151,6 +151,12 @@ const App = () => {
     }
   }, []);
 
+  const userRole = Cookies.get(import.meta.env.VITE_COOKIE_NAME)
+    ? JSON.parse(
+        atob(Cookies.get(import.meta.env.VITE_COOKIE_NAME).split(".")[1])
+      ).role_id
+    : null;
+
   return (
     <ThemeProvider>
       <I18nextProvider i18n={i18n}>
@@ -165,20 +171,39 @@ const App = () => {
                       <Routes>
                         <Route path="token" element={<Token />} />
                         <Route path="login" element={<Login token={token} />} />
-                        <Route
-                          path="/"
-                          element={
-                            <ProtectedRoute
-                              setUser={setUser}
-                              token={token}
-                              allowedRoles={[1, 2]}
-                            >
-                              {/* <Home /> */}
-                              <AdminDash />
-                              {/* <Shop /> */}
-                            </ProtectedRoute>
-                          }
-                        />
+
+                        {userRole === 1 && (
+                          <Route
+                            path="/"
+                            element={
+                              <ProtectedRoute
+                                setUser={setUser}
+                                token={token}
+                                allowedRoles={[1]}
+                              >
+                                {/* <Home /> */}
+                                <AdminDash />
+                                {/* <Shop /> */}
+                              </ProtectedRoute>
+                            }
+                          />
+                        )}
+                        {userRole === 2 && (
+                          <Route
+                            path="/"
+                            element={
+                              <ProtectedRoute
+                                setUser={setUser}
+                                token={token}
+                                allowedRoles={[1, 2]}
+                              >
+                                {/* <Home /> */}
+                                <Shop />
+                              </ProtectedRoute>
+                            }
+                          />
+                        )}
+
                         <Route
                           path="settings"
                           element={

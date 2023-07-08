@@ -91,6 +91,21 @@ function Checkout() {
         }
       );
 
+      // add salelog entry
+      const res4 = await axios.post(
+        import.meta.env.VITE_API_URL + "/api/salelog",
+        {
+          sale_id: res.data.sale_id,
+          log_data: "Initialized through Online Shop",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
       // delete cart w cart_id
       const res3 = await axios.delete(
         import.meta.env.VITE_API_URL + "/api/cart/" + sale.cart_id,

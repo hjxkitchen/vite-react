@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { Navigate } from "react-router-dom";
 import Cookies from "js-cookie";
+// import fro jwt verify
+// import { verify } from "jsonwebtoken";
 
 const ProtectedRoute = ({ allowedRoles, children, setUser }) => {
   const [isTokenDecoded, setIsTokenDecoded] = useState(false);
@@ -15,6 +17,9 @@ const ProtectedRoute = ({ allowedRoles, children, setUser }) => {
     const decodeToken = async () => {
       if (token) {
         try {
+          // verify token
+          // const decoded = verify(token, import.meta.env.VITE_JWT_SECRET);
+
           console.log("decoding token:");
           const decodedToken = jwt_decode(token);
           const { role_id } = decodedToken;

@@ -35,51 +35,55 @@ function Sales() {
     }
   };
 
-  // remove from customerlist whre customer.phone is null or udplicate
-  const filteredCustomers = customerslist.filter(
-    (customer) => customer.phone !== null
-  );
-  const uniqueCustomers = filteredCustomers.filter(
-    (customer, index, self) =>
-      index === self.findIndex((t) => t.phone === customer.phone)
-  );
+  const [names, setNames] = useState([]);
+  const [name, setName] = useState("");
 
-  const customerphoneoptions = uniqueCustomers.map((onecustomer) => {
-    return {
-      value: onecustomer.phone,
-      label: onecustomer.phone,
-    };
-  });
+  const getNames = async () => {
+    try {
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/name",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+      console.log("namesuseffect", response.data);
+      setNames(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  const [customername, setCustomerName] = useState("");
+  const customerphoneoptions = customerslist.map((onecustomer) => ({
+    value: onecustomer.user_id,
+    label: onecustomer.number,
+  }));
+
+  console.log("customerphoneoptions", customerphoneoptions);
+
+  const [customerid, setCustomerid] = useState(null);
 
   const custPhoneChanged = async (e) => {
     console.log("custPhoneChanged", e.value);
+    setCustomerid(e.value);
 
     // set customer phone
     // const customer = {
     //     phone: e.value,
     // };
+    console.log("names", names);
+
+    const newcustomer = names.find((name) => name.user_id === e.value);
+
+    setName(newcustomer.name);
 
     // set new customer phone
     setNewCustomer({ ...newcustomer, phone: e.value });
 
-    setCustomer(newcustomer);
-    console.log("custy:", newcustomer);
-
-    // find and set customer name from customerslist with phone
-    try {
-      const customer = customerslist.find(
-        (customer) => customer.phone === e.value
-      );
-      console.log("customer", customer.name);
-      setCustomerName(customer.name);
-      setCustomer((customer.user_name = customer.name));
-      // set customer name
-    } catch (error) {
-      console.log("error;", error.message);
-      setByName(true);
-    }
+    // setCustomer(newcustomer);
+    // console.log("custy:", newcustomer);
   };
 
   const getCustomersList = async () => {
@@ -87,7 +91,7 @@ function Sales() {
       // const response = await fetch("http://localhost:000/users");
 
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/contact?where=type,phone",
+        import.meta.env.VITE_API_URL + "/api/phone",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -106,6 +110,7 @@ function Sales() {
 
   useEffect(() => {
     getCustomersList();
+    getNames();
   }, []);
 
   const customeroptions = customerslist.map((onecustomer) => {
@@ -227,7 +232,7 @@ function Sales() {
                 setSales={setSales}
                 sales={sales}
                 setOrderTotal={setOrderTotal}
-                customer={customer}
+                customerid={customerid}
               />
             </div>
           </div>
@@ -265,12 +270,19 @@ function Sales() {
             <div>
               <div>Customer Name</div>
 
-              <CreatableSelect
+              {/* <CreatableSelect
                 class="collapse show"
                 options={customeroptions}
                 onChange={(e) => {
                   custNameChanged(e);
                 }}
+              /> */}
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Text input with checkbox"
+                value={name}
+                disabled
               />
             </div>
           </div>

@@ -6,7 +6,7 @@ import { UserContext, ProdContext } from "../../../../../App";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 
-const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
+const AddSale = ({ setSales, sales, setOrderTotal, customerid }) => {
   const usercontext = useContext(UserContext);
   const prodcontext = useContext(ProdContext);
 
@@ -40,27 +40,31 @@ const AddSale = ({ setSales, sales, setOrderTotal, customer }) => {
   // submit sale
   const onSubmitForm = async (e) => {
     e.preventDefault();
-
-    try {
-      const res = await axios.post(
-        import.meta.env.VITE_API_URL + "/api/sale",
-        {
-          total_amount: getTotalCost(sales),
-          user_id: user_id,
-          source: "Pos",
-          status: "Initialized",
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_API_KEY,
+    if (sales.length === 0) {
+      alert("Please add items to sale");
+      return;
+    } else {
+      try {
+        const res = await axios.post(
+          import.meta.env.VITE_API_URL + "/api/sale",
+          {
+            total_amount: getTotalCost(sales),
+            user_id: customerid !== null ? customerid : 3,
+            source: "Pos",
+            status: "Initialized",
           },
-        }
-      );
-      // refresh page
-      window.location.reload();
-    } catch (error) {
-      console.error(error.message);
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+        // refresh page
+        window.location.reload();
+      } catch (error) {
+        console.error(error.message);
+      }
     }
   };
 
