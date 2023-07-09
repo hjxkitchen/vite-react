@@ -41,7 +41,7 @@ const EditModal = ({ product }) => {
         type="button"
         className="btn btn-primary"
         data-toggle="modal"
-        data-target={"#editModal" + product.id}
+        data-target={"#editModal" + product.user_id}
         onClick={handleShow}
       >
         Edit
@@ -49,7 +49,7 @@ const EditModal = ({ product }) => {
 
       <div
         className="modal "
-        id={"editModal" + product.id}
+        id={"editModal" + product.user_id}
         tabIndex="-1"
         role="dialog"
         aria-labelledby="editModalLabel"
@@ -59,7 +59,7 @@ const EditModal = ({ product }) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="editModalLabel">
-                Edit UserId: {product.id}
+                Edit UserId: {product.user_id}
               </h5>
               <button
                 type="button"

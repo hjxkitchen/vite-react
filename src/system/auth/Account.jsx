@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 import axios from "axios";
@@ -60,9 +61,11 @@ const Account = () => {
             {/* account history */}
             <h5 className="card-title mt-3 custom-text">Account History</h5>
             <p className="card-text custom-text">View your account history</p>
-            <button className="btn btn-primary mt-3 custom-text">
-              View History
-            </button>
+            <Link to="/order_history">
+              <button className="btn btn-primary mt-3 custom-text">
+                View History
+              </button>
+            </Link>
 
             {/* <hr />
 

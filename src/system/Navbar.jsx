@@ -97,12 +97,14 @@ const Navbar = () => {
         }}
       >
         <div className="container-fluid cssnav">
-          <button
-            className={`btn btn-dark bg-dark toggle-btn`}
-            onClick={toggleSidebar}
-          >
-            {isCollapsed ? ">" : "<"}
-          </button>
+          {userRole === 1 && (
+            <button
+              className={`btn btn-dark bg-dark toggle-btn`}
+              onClick={toggleSidebar}
+            >
+              {isCollapsed ? ">" : "<"}
+            </button>
+          )}
           <Link to="/" class="nav-link">
             <a class="navbar-brand " href="/">
               <img
@@ -116,6 +118,7 @@ const Navbar = () => {
               ZAHAB
             </a>
           </Link>
+
           <button
             class="navbar-toggler mr-1"
             type="button"
@@ -226,7 +229,6 @@ const Navbar = () => {
       <a class="dropdown-item" href="/users">Users</a>
   </div>
 </li> */}
-
                 {/* 
 <select class="mt-2 mb-2" value={lang} onChange={handleChange}>
 				{languages.map(item => {	
@@ -234,25 +236,22 @@ const Navbar = () => {
 					value={item.value}>{item.text}</option>);
 				})}
 </select> */}
-
-                <li class="nav-item ">
-                  <Link to="/about" class="nav-link">
-                    <i class="fas fa-address-card fa-lg"></i> {t("ABOUT")}
-                  </Link>
-                </li>
-
-                <li class="nav-item">
-                  <Link to="/contact" class="nav-link">
-                    <i class="fas fa-phone fa-lg"></i> {t("CONTACT")}
-                  </Link>
-                </li>
-                <li class="nav-item">
-                  <Link to="/cart" class="nav-link">
-                    <i class="fas fa-shopping-cart fa-lg"></i>{" "}
-                    {t("CART").toUpperCase()}
-                  </Link>
-                </li>
-
+                ``{" "}
+                {userRole === 2 && (
+                  <li class="nav-item">
+                    <Link to="/favorites" class="nav-link">
+                      <i class="fas fa-heart fa-lg"></i> {t("FAVORITES")}
+                    </Link>
+                  </li>
+                )}
+                {userRole === 2 && (
+                  <li class="nav-item">
+                    <Link to="/cart" class="nav-link">
+                      <i class="fas fa-shopping-cart fa-lg"></i>{" "}
+                      {t("CART").toUpperCase()}
+                    </Link>
+                  </li>
+                )}
                 {/* account dropdown */}
                 <li class="nav-item dropdown ">
                   <a
@@ -269,25 +268,40 @@ const Navbar = () => {
                         <i class="fas fa-user"></i> {t("Account")}
                       </a>
                     </Link>
-                    <Link to="/order_history">
-                      <a class="dropdown-item" href="/order_history">
-                        <i class="fas fa-shopping-cart"></i> {t("Orders")}
+                    {userRole === 2 && (
+                      <Link to="/order_history">
+                        <a class="dropdown-item" href="/order_history">
+                          <i class="fas fa-shopping-cart"></i> {t("Orders")}
+                        </a>
+                      </Link>
+                    )}
+                    <Link to="/settings">
+                      <a class="dropdown-item" href="/account">
+                        <i class="fas fa-user"></i> {t("Preferences")}
                       </a>
                     </Link>
-                    <Link to="/favorites">
-                      <a class="dropdown-item" href="/favorites">
-                        <i class="fas fa-heart"></i> {t("Favorites")}
-                      </a>
-                    </Link>
+                    {userRole === 2 && (
+                      <Link to="/about">
+                        <a class="dropdown-item" href="/about">
+                          <i class="fas fa-address-card"></i> {t("About Us")}
+                        </a>
+                      </Link>
+                    )}
+                    {userRole === 2 && (
+                      <Link to="/contact">
+                        <a class="dropdown-item" href="/contact">
+                          <i class="fas fa-phone"></i> {t("Contact Us")}
+                        </a>
+                      </Link>
+                    )}
                     <Link class="dropdown-item" onClick={handleLogout}>
-                      <i class="fas fa-sign-out-alt fa-lg "></i> {t("LOGOUT")}
+                      <i class="fas fa-sign-out-alt fa-lg "></i> {t("Log Out")}
                     </Link>
                     {/* <a class="dropdown-item" onClick={handleLogout}><i class="fas fa-sign-out-alt" ></i> Sign Out</a>
       <a class="dropdown-item" href="/login"><i class="fas fa-sign-in-alt"></i> Log in</a>
       <a class="dropdown-item" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a> */}
                   </div>
                 </li>
-
                 {/* <li class="nav-item">
 </li> */}
               </ul>
@@ -295,46 +309,48 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      <div
-        className={`sidebar ${isCollapsed ? "collapsed" : ""}`}
-        style={{
-          backgroundColor: "dark" === "dark" ? "#343a40" : "#f8f9fa",
-        }}
-      >
-        <div className="sidebar-content">
-          <ul className="sidebar-nav">
-            {userRole === 1 && (
+      {userRole === 1 && (
+        <div
+          className={`sidebar ${isCollapsed ? "collapsed" : ""}`}
+          style={{
+            backgroundColor: "dark" === "dark" ? "#343a40" : "#f8f9fa",
+          }}
+        >
+          <div className="sidebar-content">
+            <ul className="sidebar-nav">
+              {userRole === 1 && (
+                <li className="sidebar-item">
+                  <Link to="/playbooks">
+                    <i className="fas fa-book fa"></i> Playbooks
+                  </Link>
+                </li>
+              )}
+              {userRole === 1 && (
+                <li className="sidebar-item">
+                  <Link to="/team">
+                    <i className="fas fa-users fa"></i> Team
+                  </Link>
+                </li>
+              )}
               <li className="sidebar-item">
-                <Link to="/playbooks">
-                  <i className="fas fa-book fa"></i> Playbooks
+                <Link to="/settings">
+                  <i className="fas fa fa-cog"></i> Preferences
                 </Link>
               </li>
-            )}
-            {userRole === 1 && (
               <li className="sidebar-item">
-                <Link to="/team">
-                  <i className="fas fa-users fa"></i> Team
+                <Link to="/account">
+                  <i className="fa fa-user"></i> Account
                 </Link>
               </li>
-            )}
-            <li className="sidebar-item">
-              <Link to="/settings">
-                <i className="fas fa fa-cog"></i> Preferences
-              </Link>
-            </li>
-            <li className="sidebar-item">
-              <Link to="/account">
-                <i className="fa fa-user"></i> Account
-              </Link>
-            </li>
-            <li className="sidebar-item">
-              <Link to="/contact">
-                <i className="fa fa-phone"></i> Contact Us
-              </Link>
-            </li>
-          </ul>
+              <li className="sidebar-item">
+                <Link to="/contact">
+                  <i className="fa fa-phone"></i> Contact Us
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
+      )}
       <div>
         {userRole === 1 && (
           <button className="back-button" onClick={handleBackClick}>

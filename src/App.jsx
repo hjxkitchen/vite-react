@@ -25,6 +25,7 @@ import SocosSuperAdmin from "./admin_shop/admin/Socos/SocosSuperAdmin";
 import SocosClient from "./admin_shop/admin/Socos/SocosClient";
 // ADMIN PAGES
 import AdminDash from "./admin_shop/admin/oldAdminDash";
+import NewDash from "./admin_shop/admin/NewDash";
 import SocosAdmin from "./admin_shop/admin/Socos/SocosDash";
 import MultiNationalHQ from "./admin_shop/admin/MultiNationalHQ";
 import LocationBranchHQ from "./admin_shop/admin/LocationBranchHQ";
@@ -182,8 +183,8 @@ const App = () => {
                                 allowedRoles={[1]}
                               >
                                 {/* <Home /> */}
-                                <AdminDash />
-                                {/* <Shop /> */}
+                                {/* <AdminDash /> */}
+                                <NewDash />
                               </ProtectedRoute>
                             }
                           />

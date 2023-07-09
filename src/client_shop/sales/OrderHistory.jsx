@@ -47,38 +47,32 @@ const SalesList = () => {
 
   //get products function defeined
   const getSales = async () => {
-    if (loggedin) {
-      if (user !== null) {
-        try {
-          // const user_id = user.user_id;
-          // const response = await fetch(
-          //   "http://localhost:000/sales/" + user_id
-          // );
-          const response = await axios.get(
-            import.meta.env.VITE_API_URL +
-              "/api/user/" +
-              user_id +
-              "?include=sale",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "x-api-key": import.meta.env.VITE_API_KEY,
-              },
-            }
-          );
-
-          const jsonData = await response.data.sales;
-          // sort sales by sale_id
-          jsonData.sort(function (a, b) {
-            return b.sale_id - a.sale_id;
-          });
-
-          setSales(jsonData);
-          // console.log(products);
-        } catch (error) {
-          console.log(error.message);
+    try {
+      // const user_id = user.user_id;
+      // const response = await fetch(
+      //   "http://localhost:000/sales/" + user_id
+      // );
+      console.log("user_id", user_id);
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/user/" + user_id + "?include=sale",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
         }
-      }
+      );
+
+      const jsonData = await response.data.sales;
+      // sort sales by sale_id
+      jsonData.sort(function (a, b) {
+        return b.sale_id - a.sale_id;
+      });
+
+      setSales(jsonData);
+      // console.log(products);
+    } catch (error) {
+      console.log(error.message);
     }
   };
 

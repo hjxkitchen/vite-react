@@ -96,7 +96,7 @@ function Checkout() {
         import.meta.env.VITE_API_URL + "/api/salelog",
         {
           sale_id: res.data.sale_id,
-          log_data: "Initialized through Online Shop",
+          log_data: "Initialized through Online Shop: Awaiting Payment",
         },
         {
           headers: {
