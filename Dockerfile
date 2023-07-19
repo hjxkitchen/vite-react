@@ -9,10 +9,16 @@
 # COPY /dist /app
 # RUN chmod -R 777 /app
 
-FROM socialengine/nginx-spa:latest
+FROM node:14-alpine
 
-RUN npm install
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
 RUN npm run build
 
-COPY /dist /app
+FROM socialengine/nginx-spa:latest
+COPY --from=0 /app/dist /app
 RUN chmod -R 777 /app
