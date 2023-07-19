@@ -108,7 +108,7 @@ const Navbar = () => {
           <Link to="/" class="nav-link">
             <a class="navbar-brand " href="/">
               <img
-                src="/vite.svg"
+                src="/logo.png"
                 width="30"
                 height="30"
                 class="d-inline-block align-top mr-3"
@@ -253,57 +253,68 @@ const Navbar = () => {
                   </li>
                 )}
                 {/* account dropdown */}
-                <li class="nav-item dropdown ">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="/admin"
-                    id="navbardrop"
-                    data-toggle="dropdown"
-                  >
-                    <i class="fas fa-user fa-lg"></i> ACCOUNT
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <Link to="/account">
-                      <a class="dropdown-item" href="/account">
-                        <i class="fas fa-user"></i> {t("Account")}
-                      </a>
-                    </Link>
-                    {userRole === 2 && (
+                {userRole === 2 && (
+                  <li class="nav-item dropdown ">
+                    <a
+                      class="nav-link dropdown-toggle"
+                      href="/admin"
+                      id="navbardrop"
+                      data-toggle="dropdown"
+                    >
+                      <i class="fas fa-user fa-lg"></i> ACCOUNT
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <Link to="/account">
+                        <a class="dropdown-item" href="/account">
+                          <i class="fas fa-user"></i> {t("Account")}
+                        </a>
+                      </Link>
                       <Link to="/order_history">
                         <a class="dropdown-item" href="/order_history">
                           <i class="fas fa-shopping-cart"></i> {t("Orders")}
                         </a>
                       </Link>
-                    )}
-                    <Link to="/settings">
-                      <a class="dropdown-item" href="/account">
-                        <i class="fas fa-user"></i> {t("Preferences")}
-                      </a>
-                    </Link>
-                    {userRole === 2 && (
+                      <Link to="/settings">
+                        <a class="dropdown-item" href="/account">
+                          <i class="fas fa-user"></i> {t("Preferences")}
+                        </a>
+                      </Link>
                       <Link to="/about">
                         <a class="dropdown-item" href="/about">
                           <i class="fas fa-address-card"></i> {t("About Us")}
                         </a>
                       </Link>
-                    )}
-                    {userRole === 2 && (
+
                       <Link to="/contact">
                         <a class="dropdown-item" href="/contact">
                           <i class="fas fa-phone"></i> {t("Contact Us")}
                         </a>
                       </Link>
-                    )}
-                    <Link class="dropdown-item" onClick={handleLogout}>
-                      <i class="fas fa-sign-out-alt fa-lg "></i> {t("Log Out")}
-                    </Link>
-                    {/* <a class="dropdown-item" onClick={handleLogout}><i class="fas fa-sign-out-alt" ></i> Sign Out</a>
+
+                      <Link class="dropdown-item" onClick={handleLogout}>
+                        <i class="fas fa-sign-out-alt fa-lg "></i>{" "}
+                        {t("Log Out")}
+                      </Link>
+                      {/* <a class="dropdown-item" onClick={handleLogout}><i class="fas fa-sign-out-alt" ></i> Sign Out</a>
       <a class="dropdown-item" href="/login"><i class="fas fa-sign-in-alt"></i> Log in</a>
       <a class="dropdown-item" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a> */}
-                  </div>
-                </li>
-                {/* <li class="nav-item">
-</li> */}
+                    </div>
+                  </li>
+                )}
+                {!userRole && (
+                  <li class="nav-item">
+                    <Link to="/login" class="nav-link">
+                      <i class="fas fa-sign-in-alt fa-lg "></i> {t("Log In")}
+                    </Link>
+                  </li>
+                )}
+                {userRole === 1 && (
+                  <li class="nav-item">
+                    <Link onClick={handleLogout} class="nav-link">
+                      <i class="fas fa-sign-in-alt fa-lg "></i> {t("Log Out")}
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
