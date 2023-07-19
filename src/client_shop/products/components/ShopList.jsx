@@ -15,10 +15,10 @@ const ShopList = () => {
     ? Cookies.get(import.meta.env.VITE_COOKIE_NAME)
     : "guest";
 
-  if (token !== "guest") {
-    const user = jwtDecode(token).user_id;
-    console.log("user is: ", user);
-  }
+  const user = Cookies.get(import.meta.env.VITE_COOKIE_NAME)
+    ? jwtDecode(token).user_id
+    : null;
+
   // console.log("token ssis: ", token);
   // const useremail = user.email;
   //get products function defeined
@@ -196,31 +196,32 @@ const ShopList = () => {
       // alert
 
       // new
-      const result = await axios.post(
-        import.meta.env.VITE_API_URL + "/api/favorite",
-        {
-          user_id: user_id,
-          product_id: e,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_API_KEY,
+      try {
+        const result = await axios.post(
+          import.meta.env.VITE_API_URL + "/api/favorite",
+          {
+            user_id: user_id,
+            product_id: e,
           },
-        }
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
 
-      console.log("result is: ", result);
-
-      return result;
+        console.log("result is: ", result);
+        alert("Added to favorites");
+        return result;
+      } catch (error) {
+        // if error code is 23505 (duplicate key value violates unique constraint)
+        // if (error.code === "23505") {
+        alert("Already in favorites");
+        // }
+      }
     };
     const result = await addfav();
-
-    if (result.data === "failed") {
-      alert("already in favorites");
-    } else {
-      alert("added to favorites");
-    }
   };
 
   const searchprods = async (e) => {

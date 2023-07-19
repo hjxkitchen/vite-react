@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ThemeContext } from "../../../contexts/ThemeContext";
-import Navbar from "../../Navbar";
 
 import GoogleLogin from "./GoogleLogin";
 
@@ -56,59 +55,28 @@ const Login = ({}) => {
   }
 
   return (
-    <>
-      <Navbar />
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-md-6 text-center">
-            <div className="card mt-5">
-              <div className="card-body p-5">
-                <h1 className="card-title mb-4">{t("login")}</h1>
-                <form>
-                  <div className="mb-4">
-                    <label htmlFor="username" className="form-label">
-                      {t("username")}
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="username"
-                      placeholder={t("username")}
-                      value={username}
-                      onChange={handleUsernameChange}
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="password" className="form-label">
-                      {t("password")}
-                    </label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="password"
-                      placeholder={t("password")}
-                      value={password}
-                      onChange={handlePasswordChange}
-                    />
-                  </div>
-                  <div className="d-grid gap-2">
-                    <button
-                      className={"btn btn-primary btn-lg"}
-                      onClick={handleLogin}
-                    >
-                      {t("login")}
-                    </button>
-                  </div>
-                </form>
-                <div className="text-center mt-4">
-                  <GoogleLogin />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    <div className="container">
+      <h1 className="mt-5 mb-4">{t("login")}</h1>
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={handleUsernameChange}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={handlePasswordChange}
+      />
+      <button
+        className={"btn btn-" + theme + " mt-4 mb-4"}
+        onClick={handleLogin}
+      >
+        {t("login")}
+      </button>
+      <GoogleLogin />
+    </div>
   );
 };
 
