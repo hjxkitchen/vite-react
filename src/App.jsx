@@ -131,7 +131,8 @@ const App = () => {
   const getProdContext = async () => {
     // const productnames = await fetch("http://localhost:000/products")
     const productnames = await axios.get(
-      "http://localhost:4000/api/attr/product?attributes=product_name,product_id",
+      import.meta.env.VITE_API_URL +
+        "/api/attr/product?attributes=product_name,product_id",
       {
         headers: {
           Authorization: `Bearer ${token}`,
