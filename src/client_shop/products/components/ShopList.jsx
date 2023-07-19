@@ -11,8 +11,14 @@ const ShopList = () => {
   // const user = useContext(UserContext);
   const cartToken = useContext(CartContext);
   // get token from cookie
-  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
-  const user = jwtDecode(token).user_id;
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME)
+    ? Cookies.get(import.meta.env.VITE_COOKIE_NAME)
+    : "guest";
+
+  if (token !== "guest") {
+    const user = jwtDecode(token).user_id;
+    console.log("user is: ", user);
+  }
   // console.log("token ssis: ", token);
   // const useremail = user.email;
   //get products function defeined
@@ -24,7 +30,6 @@ const ShopList = () => {
         import.meta.env.VITE_API_URL + "/api/product?include=productimage",
         {
           headers: {
-            Authorization: `Bearer ${token}`,
             "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }

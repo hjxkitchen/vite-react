@@ -83,7 +83,6 @@ const SalesList = () => {
             "/api/attr/product?attributes=product_id,price",
           {
             headers: {
-              Authorization: `Bearer ${token}`,
               "x-api-key": import.meta.env.VITE_API_KEY,
             },
           }

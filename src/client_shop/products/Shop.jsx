@@ -9,7 +9,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 function Shop() {
-  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+  // const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   const user = useContext(UserContext);
   return (
     <Fragment>
@@ -37,7 +37,7 @@ function Shop() {
       </div>
 
       <div class="container mb-5">
-        <ShopList token={token} />
+        <ShopList />
       </div>
     </Fragment>
   );

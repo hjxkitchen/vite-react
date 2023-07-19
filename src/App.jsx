@@ -125,30 +125,27 @@ const App = () => {
   const [loggedin, setLoggedin] = React.useState(true);
   const [categories, setCategories] = React.useState(null);
 
-  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME)
+    ? Cookies.get(import.meta.env.VITE_COOKIE_NAME)
+    : "guest";
 
   // product context name ids resolution
   const getProdContext = async () => {
     // const productnames = await fetch("http://localhost:000/products")
-    try {
-      const productnames = await axios.get(
-        import.meta.env.VITE_API_URL +
-          "/api/attr/product?attributes=product_name,product_id",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "x-api-key": "api_key34",
-          },
-        }
-      );
-      console.log("getting product names");
-      const result = await productnames.data;
-      console.log("product names", result);
-      // const result2 = await productnames.data;
-      setProductNames(result);
-    } catch (error) {
-      console.log(error);
-    }
+    const productnames = await axios.get(
+      import.meta.env.VITE_API_URL +
+        "/api/attr/product?attributes=product_name,product_id",
+      {
+        headers: {
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+    console.log("getting product names");
+    const result = await productnames.data;
+    console.log("product names", result);
+    // const result2 = await productnames.data;
+    setProductNames(result);
   };
 
   useEffect(() => {
@@ -178,7 +175,7 @@ const App = () => {
                         <Route path="token" element={<Token />} />
                         <Route path="login" element={<Login token={token} />} />
 
-                        {userRole === 1 && (
+                        {userRole === 1 ? (
                           <Route
                             path="/"
                             element={
@@ -193,19 +190,18 @@ const App = () => {
                               </ProtectedRoute>
                             }
                           />
-                        )}
-                        {userRole === 2 && (
+                        ) : (
                           <Route
                             path="/"
                             element={
-                              <ProtectedRoute
-                                setUser={setUser}
-                                token={token}
-                                allowedRoles={[1, 2]}
-                              >
-                                {/* <Home /> */}
-                                <Shop />
-                              </ProtectedRoute>
+                              // <ProtectedRoute
+                              //   setUser={setUser}
+                              //   token={token}
+                              //   allowedRoles={[1, 2]}
+                              // >
+                              // {/* <Home /> */}
+                              <Shop />
+                              // </ProtectedRoute>
                             }
                           />
                         )}
