@@ -9,22 +9,10 @@
 # COPY /dist /app
 # RUN chmod -R 777 /app
 
-FROM node:14-alpine AS builder
-
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm ci
-
-COPY . .
-
-RUN npm run build
-
-# Use nginx as the final base image
 FROM socialengine/nginx-spa:latest
 
-COPY --from=builder /app/dist /app
+RUN npm install
+RUN npm run build
 
+COPY /dist /app
 RUN chmod -R 777 /app
-
