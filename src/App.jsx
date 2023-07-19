@@ -130,21 +130,25 @@ const App = () => {
   // product context name ids resolution
   const getProdContext = async () => {
     // const productnames = await fetch("http://localhost:000/products")
-    const productnames = await axios.get(
-      import.meta.env.VITE_API_URL +
-        "/api/attr/product?attributes=product_name,product_id",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "x-api-key": "api_key34",
-        },
-      }
-    );
-    console.log("getting product names");
-    const result = await productnames.data;
-    console.log("product names", result);
-    // const result2 = await productnames.data;
-    setProductNames(result);
+    try {
+      const productnames = await axios.get(
+        import.meta.env.VITE_API_URL +
+          "/api/attr/product?attributes=product_name,product_id",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": "api_key34",
+          },
+        }
+      );
+      console.log("getting product names");
+      const result = await productnames.data;
+      console.log("product names", result);
+      // const result2 = await productnames.data;
+      setProductNames(result);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
