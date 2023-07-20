@@ -1,7 +1,11 @@
 import React, { Fragment, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const AddSupplierModal = ({ supplier }) => {
   const [inputs, setInputs] = useState({});
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -12,7 +16,7 @@ const AddSupplierModal = ({ supplier }) => {
   // submit function
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    console.log(inputs);
+    console.log("inputs to submit", inputs);
     try {
       // const response = await fetch("http://localhost:000/suppliers", {
       //   method: "POST",
@@ -20,7 +24,7 @@ const AddSupplierModal = ({ supplier }) => {
       //   body: JSON.stringify(inputs),
       // });
       const response = await axios.post(
-        import.meta.env.VITE_API_URL + "suppliers",
+        import.meta.env.VITE_API_URL + "/api/supplier",
         inputs,
         {
           headers: {
@@ -40,7 +44,7 @@ const AddSupplierModal = ({ supplier }) => {
       {/* <!-- Button to Open the Modal --> */}
       <button
         type="button"
-        class="btn btn-success mt-5"
+        class="btn btn-success "
         data-toggle="modal"
         data-target={`#addOrder`}
       >
@@ -61,7 +65,7 @@ const AddSupplierModal = ({ supplier }) => {
 
             {/* <!-- Modal body --> */}
             <div class="modal-body">
-              <div className="d-flex mt-5 justify-content-center">
+              <div className="d-flex mt-3 justify-content-center">
                 <div className="d-flex w-50 justify-content-center">
                   <form className="" onSubmit={onSubmitForm}>
                     <div class="row">
@@ -71,7 +75,7 @@ const AddSupplierModal = ({ supplier }) => {
                           Name
                           <input
                             type="text"
-                            name="name"
+                            name="supplier_name"
                             className="form-control"
                             value={inputs.description}
                             onChange={handleChange}
@@ -93,6 +97,8 @@ const AddSupplierModal = ({ supplier }) => {
                           />
                         </label>
                       </div>
+                    </div>
+                    <div class="row">
                       <div class="col">
                         {/* 4th */}
                         <label>
@@ -106,19 +112,10 @@ const AddSupplierModal = ({ supplier }) => {
                           />
                         </label>
                       </div>
+                    </div>
 
-                      <div class="col mt-4">
-                        {/* 6th */}
-                        {/* <label>Shop
-                        <input 
-                            type="text" 
-                            name="shop"
-                            className="form-control" 
-                            value={inputs.shop} 
-                            onChange={handleChange} 
-                        />
-                        </label> */}
-                        {/* submit button */}
+                    <div class="row">
+                      <div class="col mt-4 mb-4">
                         <button
                           className="btn btn-success"
                           onClick={onSubmitForm}

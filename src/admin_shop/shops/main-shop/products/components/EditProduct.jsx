@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useContext } from "react";
 import { SubcatsContext } from "../../../../../App";
-// import axios from "axios";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const EditProduct = ({ product }) => {
   const [description, setDescription] = useState(product.description);
@@ -9,6 +10,8 @@ const EditProduct = ({ product }) => {
   const [productImages, setProductImages] = useState([]);
   const subcats = useContext(SubcatsContext);
   // console.log("subcats", subcats);
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const getProductImages = async () => {
     try {

@@ -61,11 +61,14 @@ import SaleLogsAdmin from "./admin_shop/shops/main-shop/sales/SaleLogs";
 import POSales from "./admin_shop/shops/main-shop/sales/PointOfSales";
 import OnlineSales from "./admin_shop/shops/main-shop/sales/OnlineSales";
 import Tools from "./admin_shop/shops/main-shop/sales/Tools";
+import Jobs from "./admin_shop/shops/main-shop/sales/Jobs";
 
 // import Users from "./admin_shop/shops/main-shop/sales/Users";
 import Orders from "./admin_shop/shops/main-shop/products/Orders";
 import OrderLogs from "./admin_shop/shops/main-shop/products/OrderLogs";
 import Suppliers from "./admin_shop/shops/main-shop/products/Suppliers";
+import Warehouses from "./admin_shop/shops/main-shop/products/Warehouses";
+import Warehouse from "./admin_shop/shops/main-shop/products/Warehouse";
 
 // HOME PAGE
 import Deliveries from "./admin_shop/shops/main-shop/products/DeliveryJobs";
@@ -313,6 +316,8 @@ const App = () => {
                         <Route path="orders" element={<Orders />} />
                         <Route path="orderlogs" element={<OrderLogs />} />
                         <Route path="suppliers" element={<Suppliers />} />
+                        <Route path="warehouses" element={<Warehouses />} />
+                        <Route path="warehouse/:id" element={<Warehouse />} />
 
                         <Route path="employee" element={<Employee />} />
                         <Route path="employees" element={<Employees />} />
@@ -328,6 +333,7 @@ const App = () => {
                         {/* HOME PAGE */}
                         <Route path="pointofsales" element={<POSales />} />
                         <Route path="tools" element={<Tools />} />
+                        <Route path="jobs" element={<Jobs />} />
                         <Route path="playbooks" element={<Playbooks />} />
                         <Route path="playbook" element={<Playbook />} />
                         <Route path="onlinesales" element={<OnlineSales />} />

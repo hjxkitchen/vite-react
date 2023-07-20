@@ -11,18 +11,22 @@ function SuppliersList() {
   return (
     <Fragment>
       <Navbar />
-      <div class="row justify-content-center ">
-        <div class="col-md-9">
-          <h1 className="text-center mt-5">Suppliers</h1>
-        </div>
-        <div class="col-md-3 my-auto justify-content-center">
-          <button class="btn btn-primary"> Add From csv</button>
+      <div className="container text-center p-3">
+        <div class="row justify-content-center ">
+          <div class="col-md-9 mb-3">
+            <h1 className="text-center mt-5">Suppliers</h1>
+          </div>
+          <div class="col-md-3 my-auto justify-content-center">
+            <button class="btn btn-primary"> Add From csv</button>
 
-          <AddSupplierModal />
+            <AddSupplierModal />
+          </div>
+        </div>
+        <div class="row justify-content-center ">
+          {/* <InputSupplier /> */}
+          <ListSuppliers />
         </div>
       </div>
-      {/* <InputSupplier /> */}
-      <ListSuppliers />
     </Fragment>
   );
 }

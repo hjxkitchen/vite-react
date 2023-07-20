@@ -1,11 +1,15 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 // import EditProduct from "../inventory/EditProduct";
 // import ViewSaleItems from "./ViewSaleItem";
 
 const SalesList = () => {
   const [sales, setSales] = useState([]);
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   //delete product function defined
   const deleteProduct = async (order_id) => {
@@ -38,16 +42,16 @@ const SalesList = () => {
     try {
       // const response = await fetch("http://localhost:000/orderslist");
       const response = await axios.get(
-        import.meta.env.VITE_APP_API_URL + "/api/Sale",
+        import.meta.env.VITE_API_URL + "/api/order?include=supplier",
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
 
-      const jsonData = await response.json();
+      const jsonData = await response.data;
       // sort sales by date
 
       // jsonData.sort(function(a, b) {
@@ -178,78 +182,19 @@ const SalesList = () => {
       {/* <ViewSaleItems /> */}
       {/* <button class="btn btn-primary">Search</button> */}
 
-      <h1 className="mb-5">Orders List</h1>
       <div class="d-flex justify-content-center">
         {/* search through phone numbers */}
 
         {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
         <div class="table-responsive">
-          <table
-            class="table text-
-        center table-striped"
-          >
+          <table class="table text-center table-striped">
             <thead>
               <tr>
                 <th>Order ID</th>
-                <th>
-                  Order date
-                  <button
-                    type="button"
-                    class="btn btn-sm ml-2"
-                    onClick={clickdef}
-                  >
-                    <i class="fas fa-sort-down"></i>
-                  </button>
-                </th>
+                <th>Order date</th>
                 <th>Order total</th>
-                <th>
-                  Order Status
-                  {/* small button  */}
-                  <button type="button" class="btn btn-sm ml-2" onClick={click}>
-                    <i class="fas fa-sort-down"></i>
-                  </button>
-                </th>
-                <th>
-                  {/* <div class="d-flex"> */}
-                  <div class="row justify-content-center">
-                    <input
-                      type="text"
-                      id="namesearch"
-                      class="collapse"
-                      onChange={searchSalesName}
-                      placeholder="Search by name"
-                    />
-                  </div>
-                  {/* </div> */}
-                  Supplier Name
-                  <button
-                    class="btn btn-primary ml-2"
-                    data-toggle="collapse"
-                    data-target="#namesearch"
-                  >
-                    <i class="fa fa-search"></i>
-                  </button>
-                </th>
-                <th>
-                  <div class="row justify-content-center">
-                    <input
-                      type="text"
-                      id="phsearch"
-                      class="collapse"
-                      onChange={searchSalesPh}
-                      placeholder="Search by phone number"
-                    />
-                  </div>
-                  Supplier Phone
-                  {/* button to collapse search bar*/}
-                  <button
-                    class="btn btn-primary ml-2"
-                    data-toggle="collapse"
-                    data-target="#phsearch"
-                  >
-                    <i class="fa fa-search"></i>
-                  </button>
-                </th>
+                <th>Order Status</th>
+                <th>Supplier Name</th>
                 {/* <th>Customer Id <button><i class="fas fa-search"></i></button></th> */}
                 {/* <th>View</th>
             <th>Edit</th>
@@ -261,15 +206,15 @@ const SalesList = () => {
                 searchedSales.map((sale) => (
                   <tr key={sale.order_id}>
                     <td>{sale.order_id}</td>
-                    <td>{sale.order_date}</td>
-                    <td>{sale.order_total}</td>
+                    <td>{sale.createdAt}</td>
+                    <td>{sale.total_amount}</td>
                     <td>
                       <Link to="/orderlogs" state={{ sale: sale }}>
-                        {sale.order_status}
+                        {sale.status}
                       </Link>
                     </td>
-                    <td>{sale.name}</td>
-                    <td>{sale.phone}</td>
+                    {/* <td>{sale.supplier_id}</td> */}
+                    <td>{sale.supplier.supplier_name}</td>
                   </tr>
                 ))}
               {searchedNames &&
@@ -306,15 +251,18 @@ const SalesList = () => {
                 sales.map((sale) => (
                   <tr key={sale.order_id}>
                     <td>{sale.order_id}</td>
-                    <td>{sale.order_date}</td>
-                    <td>{sale.order_total}</td>
                     <td>
-                      <Link to="/orderlogs" state={{ sale }}>
-                        {sale.order_status}
+                      {/* createdat sliced */}
+                      {sale.createdAt.slice(0, 10)}
+                    </td>
+                    <td>{sale.total_amount}K</td>
+                    <td>
+                      <Link to="/orderlogs" state={{ sale: sale }}>
+                        {sale.status}
                       </Link>
                     </td>
-                    <td>{sale.name}</td>
-                    <td>{sale.phone}</td>
+                    {/* <td>{sale.supplier_id}</td> */}
+                    <td>{sale.supplier.supplier_name}</td>
                   </tr>
                 ))}
             </tbody>

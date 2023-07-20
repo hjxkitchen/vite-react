@@ -21,7 +21,7 @@ function Admin() {
             to="/shoplist"
             className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
           >
-            Shop Products List
+            Shop List
           </Link>
           <Link
             to="/pointofsales"
@@ -30,13 +30,13 @@ function Admin() {
             POS
           </Link>
           <Link
-            to="/onlinesales"
+            to="/allsales"
             className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
           >
-            Sales List
+            Sales
           </Link>
           <Link
-            to="/pointofsales"
+            to="/jobs"
             className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
           >
             Jobs
@@ -49,22 +49,23 @@ function Admin() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
           <Link
-            to="/suppliers"
+            to="/products"
             className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
           >
-            Suppliers, Products, Orders
+            Suppliers Products
           </Link>
           <Link
-            to="/products"
+            to="/orders"
+            className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
+          >
+            Orders
+          </Link>
+
+          <Link
+            to="/warehouses"
             className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
           >
             Warehousing
-          </Link>
-          <Link
-            to="/products"
-            className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
-          >
-            Team
           </Link>
         </div>
 
@@ -91,6 +92,37 @@ function Admin() {
             className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
           >
             Admin
+          </Link>
+          <Link
+            to="/team"
+            className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
+          >
+            Team
+          </Link>
+          <Link
+            to="/multinationalhq"
+            className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
+          >
+            Locations
+          </Link>
+        </div>
+
+        <h1 className="text-5xl font-bold tracking-wider uppercase text-center py-4 mt-8 border-b-4 border-black">
+          BUS DEV
+        </h1>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
+          <Link
+            to="/busdev"
+            className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
+          >
+            Bus Dev
+          </Link>
+          <Link
+            to="/philanthropy"
+            className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
+          >
+            Philanthropy
           </Link>
         </div>
 

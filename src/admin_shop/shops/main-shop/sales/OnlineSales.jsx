@@ -21,19 +21,19 @@ function Sales() {
     <Fragment>
       {/* <ViewSaleModal/> */}
       <Navbar />
-      {/* <div class="container"> */}
-      <h1 class="text-center mt-5 mb-5">Online Sales List </h1>
+      <div class="container">
+        <h1 class="text-center mt-5 mb-5">Online Sales List </h1>
 
-      <div class=" mb-5 collapse show" id="List">
-        {/* <div class="row justify-content-center mb-5" > */}
-        {/* <div class="col-md-6 mb-5"> */}
-        <table class="table table-responsive">
-          <SalesList />
-        </table>
-        {/* </div> */}
-        {/* </div> */}
+        <div class=" mb-5 collapse show" id="List">
+          {/* <div class="row justify-content-center mb-5" > */}
+          {/* <div class="col-md-6 mb-5"> */}
+          <table class="table table-responsive">
+            <SalesList />
+          </table>
+          {/* </div> */}
+          {/* </div> */}
+        </div>
       </div>
-      {/* </div> */}
     </Fragment>
   );
 }

@@ -405,6 +405,8 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
+  /* always top most */
+  z-index: 9999;
 }
 
 .back-button:hover {

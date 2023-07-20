@@ -179,21 +179,15 @@ function Sales() {
         <div class="row justify-content-center">
           <div class="col-6 ">
             <div class=" d-flex">
-              <h1 class="text-center mt-5 ">
-                Point of Sales
-                <Link to="/tools">
-                  <button class="btn btn-primary ml-5">Tools</button>
-                </Link>
-                <button class="btn btn-warning ml-5" onClick={showLogs}>
-                  Show Logs
-                </button>
-              </h1>
+              <button class="btn btn-warning ml-5" onClick={showLogs}>
+                Show Logs
+              </button>
             </div>
           </div>
 
           {/* logs top right corner of screen */}
           {showlogs && (
-            <div class="col-6 ml-5 ">
+            <div class="col-12 ml-5 ">
               <div class="card mt-5 col">
                 <div class="card-header">
                   Logs{" "}
@@ -213,6 +207,18 @@ function Sales() {
             </div>
           )}
           {/* </div> */}
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-6 ">
+            <div class=" d-flex">
+              <h1 class="text-center mt-5 ">
+                Point of Sales
+                <Link to="/tools">
+                  <button class="btn btn-primary ml-5">Tools</button>
+                </Link>
+              </h1>
+            </div>
+          </div>
         </div>
 
         <div class=" collapse show " id="POS">

@@ -1,9 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
 
 import EditSupplier from "./EditSupplier";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const ListSuppliers = () => {
   const [suppliers, setSuppliers] = useState([]);
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   //delete supplier function defined
   const deleteSupplier = async (supplier_id) => {
@@ -37,18 +41,18 @@ const ListSuppliers = () => {
     try {
       // const response = await fetch("http://localhost:000/suppliers");
       const response = await axios.get(
-        import.meta.env.VITE_APP_API_URL + "/api/Supplier",
+        import.meta.env.VITE_API_URL + "/api/supplier",
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
 
-      const jsonData = await response.json();
+      const jsonData = await response.data;
       setSuppliers(jsonData);
-      console.log(suppliers);
+      console.log("supplierslist:", jsonData);
     } catch (error) {
       console.log(error.message);
     }
@@ -77,7 +81,7 @@ const ListSuppliers = () => {
             <tbody>
               {suppliers.map((supplier) => (
                 <tr key={supplier.supplier_id}>
-                  <td>{supplier.name}</td>
+                  <td>{supplier.supplier_name}</td>
                   <td>{supplier.email}</td>
                   <td>{supplier.phone}</td>
                   <td>

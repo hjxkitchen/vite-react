@@ -1,7 +1,19 @@
 import React, { Fragment, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const EditSupplier = ({ supplier }) => {
   const [description, setDescription] = useState(supplier.description);
+
+  const [inputs, setInputs] = useState({});
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   //edit description function
   const updateDescription = async (e) => {
@@ -17,8 +29,8 @@ const EditSupplier = ({ supplier }) => {
       //   }
       // );
       const response = await axios.put(
-        import.meta.env.VITE_API_URL + "supplier/" + supplier.id,
-        body,
+        import.meta.env.VITE_API_URL + "/api/supplier/" + supplier.supplier_id,
+        inputs,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -27,7 +39,9 @@ const EditSupplier = ({ supplier }) => {
         }
       );
 
-      window.location = "/inventory";
+      console.log("resid", response);
+
+      window.location = "/suppliers";
     } catch (error) {
       console.error(error.message);
     }
@@ -40,13 +54,13 @@ const EditSupplier = ({ supplier }) => {
         type="button"
         class="btn btn-warning"
         data-toggle="modal"
-        data-target={`#id${supplier.id}`}
+        data-target={`#id${supplier.supplier_id}`}
       >
         Edit
       </button>
 
       {/* <!-- The Modal --> */}
-      <div class="modal" id={`id${supplier.id}`}>
+      <div class="modal" id={`id${supplier.supplier_id}`}>
         <div class="modal-dialog">
           <div class="modal-content">
             {/* <!-- Modal Header --> */}
@@ -66,85 +80,45 @@ const EditSupplier = ({ supplier }) => {
             <div class="modal-body">
               <div class="row">
                 <div class="col">
-                  {/* 1st */}
+                  {/* 1st input */}
                   <label>
-                    Description
+                    Name
                     <input
                       type="text"
-                      name="description"
+                      name="supplier_name"
                       className="form-control"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
-                  </label>
-                </div>
-                <div class="col">
-                  {/* 2nd */}
-                  <label>
-                    Inventory
-                    <input
-                      type="number"
-                      name="inventory"
-                      min="0"
-                      step="1"
-                      className="form-control"
-                      value={supplier.inventory}
-                      // onchange={handleChange}
-                    />
-                  </label>
-                </div>
-                <div class="col">
-                  {/* 3rd */}
-                  <label>
-                    Cost
-                    <input
-                      type="text"
-                      name="cost"
-                      className="form-control"
-                      value={supplier.cost}
-                      // onchange={handleChange}
+                      defaultValue={supplier.supplier_name}
+                      onChange={handleChange}
                     />
                   </label>
                 </div>
               </div>
-
               <div class="row">
                 <div class="col">
                   {/* 4th */}
                   <label>
-                    Price
+                    Email
                     <input
                       type="text"
-                      name="price"
+                      name="email"
                       className="form-control"
-                      value={supplier.price}
-                      // onchange={handleChange}
+                      value={inputs.price}
+                      onChange={handleChange}
                     />
                   </label>
                 </div>
+              </div>
+              <div class="row">
                 <div class="col">
-                  {/* 5th */}
+                  {/* 4th */}
                   <label>
-                    Images
+                    Phone
                     <input
                       type="text"
-                      name="images"
+                      name="phone"
                       className="form-control"
-                      value={supplier.images}
-                      // onchange={handleChange}
-                    />
-                  </label>
-                </div>
-                <div class="col">
-                  {/* 6th */}
-                  <label>
-                    Shop
-                    <input
-                      type="text"
-                      name="shop"
-                      className="form-control"
-                      value={supplier.shop}
-                      // onchange={handleChange}
+                      value={inputs.price}
+                      onChange={handleChange}
                     />
                   </label>
                 </div>

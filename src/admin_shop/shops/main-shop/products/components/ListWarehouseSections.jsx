@@ -3,6 +3,7 @@ import { SubcatsContext } from "../../../../../App";
 import EditProduct from "./EditProduct";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 
 const ListProducts = () => {
   const [products, setProducts] = useState([]);
@@ -43,7 +44,8 @@ const ListProducts = () => {
       console.log("getProducts called");
       // const response = await fetch("http://localhost:000/products");
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/supplierproduct",
+        import.meta.env.VITE_API_URL +
+          "/api/warehousesectionitem?include=warehousesection,supplierproduct",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -71,30 +73,8 @@ const ListProducts = () => {
     }
   };
 
-  const [supplierNames, setSupplierNames] = useState([]);
-
-  const getSupplierNames = async () => {
-    try {
-      const response = await axios.get(
-        import.meta.env.VITE_API_URL +
-          "/api/attr/supplier?attributes=supplier_id,supplier_name",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_API_KEY,
-          },
-        }
-      );
-      console.log("suppliersnames", response.data);
-      setSupplierNames(response.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   useEffect(() => {
     getProducts();
-    getSupplierNames();
   }, []);
 
   const search = async (e) => {
@@ -267,134 +247,32 @@ const ListProducts = () => {
 
   return (
     <Fragment>
-      {/* search  */}
-      {/* <div class="justify-content-center mt-3 mb-5  sticky-top"> */}
-      <div class="input-group sticky-top mb-5">
-        <input
-          type="text"
-          class="form-control"
-          onChange={search}
-          placeholder="Search Products"
-          aria-label="Search"
-          aria-describedby="basic-addon1"
-        />
-        {/* <br/>
-        <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button">Button</button>
-  </div> */}
-      </div>
-      {/* </div> */}
-
-      {/* <div class="container col-md-9 d-flex justify-content-center"> */}
-      {/* <h2>Products Table</h2> */}
-      {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
-
       <div class="table-responsive table-striped">
         <table class="table text-center">
           <thead>
             <tr>
-              <th>
-                {" "}
-                {/* sort btn */}
-                <button
-                  type="button"
-                  class="btn btn-sm ml-2"
-                  onClick={sortbyid}
-                >
-                  <i class="fas fa-sort-down">ID Sort</i>
-                </button>
-                Product ID
-              </th>
-              <th>Product Name</th>
-              <th>
-                {/* <div class="d-flex justify-content-center"> */}
-                {/* sort btn */}
-                <button
-                  type="button"
-                  class="btn btn-sm ml-2"
-                  onClick={getBestselling}
-                >
-                  <i class="fas fa-sort-down">Bestselling</i>
-                </button>
-                Cost
-                {/* </div> */}
-              </th>
-              <th>Supplier</th>
+              {/* <th>Warehouse Section Item ID</th> */}
+              <th>Warehouse Product</th>
+              <th>Warehouse Section </th>
+              <th>Quantity</th>
 
-              <th>Subcat</th>
-              <th>Images</th>
-              {/* <th>Shop</th> */}
               <th>Edit</th>
-              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
             {products.map((product) => (
-              <tr key={product.supplier_product_id}>
-                <td>{product.supplier_product_id}</td>
-                <td>{product.supplier_product_name}</td>
-                <td>{product.cost}K</td>
-                {/* <td>{product.supplier_id}</td> */}
-                {/* filter suppliers */}
+              <tr key={product.warehouse_section_item_id}>
+                {/* <td>{product.warehouse_section_item_id}</td> */}
+                {/* <td>{product.supplier_product_id}</td> */}
+                <td>{product.supplierproduct.supplier_product_name}</td>
+                {/* <td>{product.warehouse_section_id}</td> */}
+                <td>{product.warehousesection.warehouse_section_name}</td>
+                <td>{product.quantity}</td>
+
                 <td>
-                  {supplierNames === null
-                    ? " - "
-                    : supplierNames
-                        .filter(
-                          (supplier) =>
-                            supplier.supplier_id === product.supplier_id
-                        )
-                        .map((supplier) => (
-                          <div key={supplier.supplier_id}>
-                            {supplier.supplier_name}
-                          </div>
-                        ))}
-                </td>
-                <td>
-                  {/* {product.subcat_id} */}
-                  {/* filter subcats */}
-                  {subcats === null
-                    ? " - "
-                    : subcats
-                        .filter(
-                          (subcat) => subcat.subcat_id === product.subcat_id
-                        )
-                        .map((subcat) => (
-                          <div key={subcat.subcat_id}>{subcat.subcat_name}</div>
-                        ))}
-                </td>
-                <td>
-                  <div class="d-flex justify-content-center">
-                    {/* <h5>{product.images.length + "="}</h5> */}
-                    {/* for each path in images array create link */}
-                    {product.images?.map((path, index) => (
-                      // <a href={"http://localhost:000" + path} key={index}>
-                      <a href={import.meta.env.VITE_API_URL + path} key={index}>
-                        {/* thumbnail */}
-                        <img
-                          // src={"http://localhost:000" + path}
-                          src={import.meta.env.VITE_API_URL + path}
-                          alt="[img]"
-                          width="50"
-                          height="50"
-                        />
-                      </a>
-                    ))}
-                  </div>
-                </td>
-                {/* <td> 
-                        <input type="checkbox" checked={product.shop==true&&"true"}></input>
-                    </td> */}
-                <td>
-                  <EditProduct product={product} />
-                </td>
-                <td>
-                  <button
-                    class="btn btn-danger"
-                    onClick={() => deleteProduct(product.product_id)}
-                  >
-                    Delete
-                  </button>
+                  <Link to={`/warehouse/${product.warehouse_id}`}>
+                    <button class="btn btn-warning">Edit</button>
+                  </Link>
                 </td>
               </tr>
             ))}
