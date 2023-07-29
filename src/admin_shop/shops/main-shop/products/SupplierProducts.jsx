@@ -1,11 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 
 //components
 // import InputProduct from "InputProduct";
-import ListProducts from "./components/ProductsList";
+import ListSupplierProducts from "./components/SupplierProductsList";
 import Navbar from "../../../../system/Navbar";
 import AddProductModal from "./components/AddProductModal";
 // import EditProduct from "../admin/products/EditProduct";
@@ -26,7 +26,7 @@ function ProductsList() {
       //   body: JSON.stringify(body),
       // });
       const response = await axios.post(
-        import.meta.env.VITE_API_URL + "productsarray",
+        import.meta.env.VITE_API_URL + "/csv/supplierproduct",
         body,
         {
           headers: {
@@ -35,6 +35,7 @@ function ProductsList() {
           },
         }
       );
+      console.log(response.data);
       window.location.reload();
     } catch (error) {
       console.error(error.message);
@@ -50,36 +51,37 @@ function ProductsList() {
     reader.onload = async (e) => {
       const text = e.target.result;
       const lines = text.split("\n");
-      const headers = lines[0].split(",");
+      const headers = lines[0].split(",").map((header) => header.trim()); // Extract headers and trim whitespace
+      const supplierIdIndex = headers.indexOf("supplier_id"); // Find the index of the "supplier_id" header
       const products = [];
-      // remove all \r
-      for (let i = 0; i < lines.length; i++) {
-        if (lines[i].includes("\r")) {
-          lines[i] = lines[i].replace("\r", "");
+
+      // remove all \r and split the line by ","
+      for (let i = 1; i < lines.length; i++) {
+        lines[i] = lines[i].replace("\r", "").split(",");
+
+        // Skip lines with empty first column
+        if (lines[i][0].trim() === "") {
+          continue;
         }
 
-        //  join first 2 columns if second column is not empty
-        if (lines[i].split(",")[1] !== "") {
-          lines[i] =
-            lines[i].split(",")[0] +
-            "-" +
-            lines[i].split(",")[1] +
-            "," +
-            lines[i].split(",")[2];
+        // Create product object with name and price based on headers
+        const product = {};
+        for (let j = 0; j < headers.length; j++) {
+          // Skip the "supplier_id" header
+          if (j === supplierIdIndex) {
+            continue;
+          }
+          product[headers[j]] = lines[i][j].trim();
         }
 
-        // remove all empty 2nd columns
-        if (lines[i].split(",")[1] === "") {
-          lines[i] = lines[i].split(",")[0] + "," + lines[i].split(",")[2];
-        }
+        // Parse the supplier_id as an integer
+        product.supplier_id = parseInt(lines[i][supplierIdIndex]);
 
-        // push lines as products name and price if line is not empty
-        if (lines[i].split(",")[0] !== "") {
-          products.push({
-            name: lines[i].split(",")[0],
-            price: lines[i].split(",")[1],
-          });
-        }
+        // Assign the subcategory_id as an integer (assuming selectedSubcategory is already an integer)
+        product.subcategory_id = parseInt(selectedSubcategory);
+
+        // Push the product into the products array
+        products.push(product);
       }
 
       // log first 5 products
@@ -88,10 +90,40 @@ function ProductsList() {
     };
   };
 
+  const [subcategories, setSubcategories] = useState([]);
+
+  const getSubcategories = async () => {
+    try {
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/subcategory",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+      setSubcategories(response.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getSubcategories();
+  }, []);
+
+  const [selectedSubcategory, setSelectedSubcategory] = useState(""); // State to store the selected subcategory ID
+
+  const handleSubcategoryChange = (e) => {
+    setSelectedSubcategory(e.target.value);
+  };
+
   return (
     <Fragment>
       <Navbar />
       <div className="container text-center p-3">
+        {/* suppliers button */}
         <div class="row justify-content-center ">
           <div class="col-md-12">
             <Link to="/suppliers">
@@ -99,13 +131,13 @@ function ProductsList() {
             </Link>
           </div>
         </div>
-
+        {/* title */}
         <div class="row justify-content-center ">
           <div class="col-md-12">
             <h1 className="text-center mt-5">Product List</h1>
           </div>
         </div>
-
+        {/* add from csv */}
         <div class="d-flex justify-content-center ">
           {/* <div class="col-md-3 my-auto justify-content-center"> */}
 
@@ -142,6 +174,28 @@ function ProductsList() {
                   </form>
                 </div>
                 </div> */}
+
+                    {/* Subcategory selector */}
+                    <div className="row">
+                      <div className="col">
+                        <label>Select Subcategory:</label>
+                        <select
+                          className="form-control"
+                          value={selectedSubcategory}
+                          onChange={handleSubcategoryChange}
+                        >
+                          <option value="">Select Subcategory</option>
+                          {subcategories.map((subcategory) => (
+                            <option
+                              key={subcategory.subcategory_id}
+                              value={subcategory.subcategory_id}
+                            >
+                              {subcategory.subcategory_name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
 
                     {/* read csv input */}
                     <form className="" onSubmit={onSubmitCsvForm}>
@@ -183,11 +237,11 @@ function ProductsList() {
           <AddProductModal />
           {/* </div> */}
         </div>
-
+        {/* prodlist */}
         <div class="row justify-content- mt-5 ">
           {/* <InputProduct /> */}
           {/* <div class="col-md-12 ml-5"> */}
-          <ListProducts />
+          <ListSupplierProducts />
           {/* </div> */}
         </div>
       </div>

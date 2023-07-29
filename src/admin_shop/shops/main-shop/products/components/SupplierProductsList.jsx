@@ -327,6 +327,7 @@ const ListProducts = () => {
               <th>Product Name</th>
 
               <th>Subcat</th>
+              <th>Cost</th>
               <th>
                 {/* <div class="d-flex justify-content-center"> */}
                 {/* sort btn */}
@@ -372,6 +373,7 @@ const ListProducts = () => {
                           </div>
                         ))}
                 </td>
+                <td>{product.cost}K</td>
                 <td>{product.price}K</td>
                 <td> {product.model}</td>
                 <td>{product.size} </td>

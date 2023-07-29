@@ -36,9 +36,35 @@ const EditProduct = ({ product }) => {
     }
   };
 
+  const [subcategories, setSubcategories] = useState([]);
+
+  const getSubcategories = async () => {
+    try {
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/subcategory",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+      setSubcategories(response.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
     getProductImages();
+    getSubcategories();
   }, []);
+
+  const [selectedSubcategory, setSelectedSubcategory] = useState(""); // State to store the selected subcategory ID
+
+  const handleSubcategoryChange = (e) => {
+    setSelectedSubcategory(e.target.value);
+  };
 
   // const [file, setFile] = useState();
   // const [filename, setFilename] = useState("Choose File");
@@ -76,7 +102,7 @@ const EditProduct = ({ product }) => {
   const updateDescription = async (e) => {
     e.preventDefault();
     try {
-      console.log(inputs);
+      console.log("inputs", inputs);
       // const body = description;
       // const response = await fetch(`http://localhost:000/products/${product.id}`, {
       //     method: "PUT",
@@ -85,7 +111,7 @@ const EditProduct = ({ product }) => {
       // });
 
       const response = await axios.put(
-        import.meta.env.VITE_API_URL + "product/" + product.product_id,
+        import.meta.env.VITE_API_URL + "/api/product/" + product.product_id,
         inputs,
         {
           headers: {
@@ -144,7 +170,8 @@ const EditProduct = ({ product }) => {
                           type="text"
                           name="product_name"
                           className="form-control"
-                          value={inputs.description}
+                          // value={inputs.description}
+                          defaultValue={product.product_name}
                           onChange={handleChange}
                         />
                       </label>
@@ -158,63 +185,41 @@ const EditProduct = ({ product }) => {
                           name="price"
                           className="form-control"
                           // value={inputs.price}
+                          defaultValue={product.price}
                           onChange={handleChange}
                         />
                       </label>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col">
-                      {/* 4th */}
-                      <label>
-                        Description
-                        <input
-                          type="text"
-                          name="description"
-                          className="form-control"
-                          // value={inputs.price}
-                          onChange={handleChange}
-                        />
-                      </label>
+                  {/* Subcategory selector */}
+                  <div className="row">
+                    <div className="col">
+                      <label>Select Subcategory:</label>
+                      <select
+                        className="form-control"
+                        name="subcategory_id"
+                        onChange={handleChange}
+                      >
+                        <option value={product.subcategory_id}>
+                          {subcategories.map((subcategory) => {
+                            if (
+                              subcategory.subcategory_id ===
+                              product.subcategory_id
+                            ) {
+                              return subcategory.subcategory_name;
+                            }
+                          })}
+                        </option>
+                        {subcategories.map((subcategory) => (
+                          <option
+                            key={subcategory.subcategory_id}
+                            value={subcategory.subcategory_id}
+                          >
+                            {subcategory.subcategory_name}
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                    <div class="col">
-                      {/* 4th */}
-                      <label>
-                        Inventory
-                        <input
-                          type="number"
-                          name="inventory"
-                          className="form-control"
-                          // value={inputs.price}
-                          onChange={handleChange}
-                        />
-                      </label>
-                    </div>
-
-                    {/* <div class = "col mt-4">
-                        <button className="btn btn-success" onClick={onSubmitForm}>Add</button>
-                    </div> */}
-                  </div>
-                  <div class="row text-center mt-2">
-                    <div class="col">
-                      {/* 4th */}
-                      <label>
-                        Subcategory
-                        {/* select */}
-                        <select
-                          name="subcategory_id"
-                          className="form-control"
-                          onChange={handleChange}
-                        >
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                        </select>
-                      </label>
-                    </div>
-
-                    {/* <div class = "col mt-4">
-                        <button className="btn btn-success" onClick={onSubmitForm}>Add</button>
-                    </div> */}
                   </div>
 
                   <div class="row">

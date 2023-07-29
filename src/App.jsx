@@ -100,6 +100,7 @@ import Shop from "./client_shop/products/Shop";
 import Featured from "./client_shop/products/Featured";
 import Packages from "./client_shop/products/Packages";
 import Favorites from "./client_shop/products/Favorites";
+import ClientCategory from "./client_shop/products/Category";
 
 // sales
 import Cart from "./client_shop/sales/Cart";
@@ -278,6 +279,10 @@ const App = () => {
                           element={<SaleLogs />}
                         />
                         <Route path="favorites" element={<Favorites />} />
+                        <Route
+                          path="category/:category"
+                          element={<ClientCategory />}
+                        />
 
                         {/* ADMIN PAGES */}
                         <Route path="admindash" element={<AdminDash />} />
