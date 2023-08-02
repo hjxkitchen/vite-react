@@ -15,7 +15,7 @@ const AddProductModal = ({ product }) => {
   // submit function
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    console.log(inputs);
+    console.log("quickadd submit inputs:", products);
     try {
       // const response = await fetch("http://localhost:000/products", {
       //   method: "POST",
@@ -23,8 +23,8 @@ const AddProductModal = ({ product }) => {
       //   body: JSON.stringify(inputs),
       // });
       const response = await axios.post(
-        import.meta.env.VITE_API_URL + "product",
-        inputs,
+        import.meta.env.VITE_API_URL + "/quickadd/products",
+        products,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -32,7 +32,7 @@ const AddProductModal = ({ product }) => {
           },
         }
       );
-      window.location = "/inventory";
+      window.location = "/shoplist";
     } catch (error) {
       console.error(error.message);
     }
@@ -40,7 +40,7 @@ const AddProductModal = ({ product }) => {
 
   // quickadd
 
-  const [loaditems, setLoadItems] = useState([]);
+  const [products, setLoadItems] = useState([]);
 
   const [voltage, setVoltage] = useState(12);
   const [DOD, setDOD] = useState(50);
@@ -58,18 +58,20 @@ const AddProductModal = ({ product }) => {
     console.log(item);
     // create object from array
     const itemObj = {
-      name: item[0],
-      price: item[1],
+      product_name: item[0],
+      cost: parseInt(item[1]),
+      subcategory_id: parseInt(item[2]),
+      price: parseInt(item[1]) * 1.4,
     };
     // add object to array
-    setLoadItems([...loaditems, itemObj]);
+    setLoadItems([...products, itemObj]);
 
     // clear input
     e.target.item.value = "";
   };
 
   const deleteItem = (index) => {
-    const newLoadItems = [...loaditems];
+    const newLoadItems = [...products];
     newLoadItems.splice(index, 1);
     setLoadItems(newLoadItems);
   };
@@ -107,8 +109,8 @@ const AddProductModal = ({ product }) => {
                     <input
                       type="text"
                       class="form-control"
-                      placeholder="Name, Price"
-                      aria-label="Name, Price"
+                      placeholder="Name, Cost, Subcategory_id"
+                      aria-label="Name, Cost, Subcategory_id"
                       aria-describedby="basic-addon2"
                       name="item"
                     />
@@ -125,15 +127,17 @@ const AddProductModal = ({ product }) => {
                     <thead>
                       <tr>
                         <th scope="col">Name</th>
-                        <th scope="col">Price</th>
+                        <th scope="col">Cost</th>
+                        <th scope="col">Subcategory_id</th>
                       </tr>
                     </thead>
 
                     <tbody>
-                      {loaditems.map((item, index) => (
+                      {products.map((item, index) => (
                         <tr key={index}>
-                          <td>{item.name}</td>
-                          <td>{item.price}</td>
+                          <td>{item.product_name}</td>
+                          <td>{item.cost}</td>
+                          <td>{item.subcategory_id}</td>
                           <td>
                             <button
                               class="btn btn-danger"

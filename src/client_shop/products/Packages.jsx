@@ -43,7 +43,7 @@ function Packages() {
       console.log("pkgitme");
       // const response = await fetch("http://localhost:000/packageitems");
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/package/" + 1 + "?include=product",
+        import.meta.env.VITE_API_URL + "/api/package?include=product",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -53,9 +53,7 @@ function Packages() {
       );
 
       console.log("pkgitme2", response.data);
-      const jsonData = await response.data;
-      setPackageItems(jsonData.products);
-      console.log("pckgitmes:", jsonData.products);
+      setPackages(response.data);
     } catch (error) {
       console.log(error.message);
     }
@@ -63,7 +61,6 @@ function Packages() {
 
   useEffect(() => {
     getPackageItems();
-    getPackages();
   }, []);
 
   return (
@@ -87,72 +84,48 @@ function Packages() {
         </div>
       </div>
 
-      {packages.length > 1 && (
+      {/* mapp packages */}
+      {packages.map((onepackage) => (
         <div class="container mt-4">
-          <h1 class="text-center mt-4 mb-4">Backup</h1>
-          <div class="card">
-            <div class="card-header" id={"heading" + packages[1].package_id}>
-              <h5 class="mb-0">
-                <button
-                  class="btn btn-link"
-                  data-toggle="collapse"
-                  data-target={"#collapse" + packages[1].package_id}
-                  aria-expanded="true"
-                  aria-controls={"collapse" + packages[1].package_id}
-                >
-                  <h5>
-                    {packages[1].package_name} : {packages[1].package_price}K
-                    Tshs
-                  </h5>
-                </button>
-              </h5>
-            </div>
+          <h1 class="text-center mt-4 mb-4">
+            {onepackage.package_name} : {onepackage.package_price}K Tshs
+          </h1>
 
-            <div
-              id={"collapse" + packages[1].package_id}
-              class="collapse "
-              aria-labelledby={"heading" + packages[1].package_id}
-              data-parent="#accordion"
-            >
-              <div class="card-body">{packages[1].package_description}</div>
-            </div>
-          </div>
           {/* ANCHOR card with items */}
           <div class="card ">
-            <div class="card-header" id={"heading" + packages[0].package_id}>
+            <div class="card-header" id={"heading" + onepackage.package_id}>
               <h5 class="mb-0">
                 <button
                   class="btn btn-link"
                   data-toggle="collapse"
-                  data-target={"#collapse" + packages[0].package_id}
+                  data-target={"#collapse" + onepackage.package_id}
                   aria-expanded="true"
-                  aria-controls={"collapse" + packages[0].package_id}
+                  aria-controls={"collapse" + onepackage.package_id}
                 >
                   <h5>
-                    {packages[0].package_name} : {packages[0].package_price}K
-                    Tshs
+                    {onepackage.package_name} : {onepackage.package_price}K Tshs
                   </h5>
                 </button>
               </h5>
             </div>
 
             <div
-              id={"collapse" + packages[0].package_id}
+              id={"collapse" + onepackage.package_id}
               class="collapse "
-              aria-labelledby={"heading" + packages[0].package_id}
+              aria-labelledby={"heading" + onepackage.package_id}
               data-parent="#accordion"
             >
               <div class="card-body">
-                {packages[0].package_description}
+                {onepackage.package_description}
                 {/* map packageitems */}
 
                 {/* get packageitems for this package */}
 
-                {packageitems.map(
+                {onepackage.products?.map(
                   (oneitem) => (
-                    // If packageitem.package_id == packages[0].package_id then show
+                    // If packageitem.package_id == onepackage.package_id then show
 
-                    // packages[0].package_id == oneitem.package_id ? (
+                    // onepackage.package_id == oneitem.package_id ? (
                     // accordion using package_item_id
                     <div class="card" id={oneitem.package_item_id}>
                       <div class="card-header" id="headingtwo">
@@ -164,17 +137,10 @@ function Packages() {
                           aria-controls="collapsetwo"
                         >
                           <h5 class="mb-0">
-                            {/* {oneitem.product_id}: price K Tshs */}
-                            {/* find product id in prods and get name */}
-                            {prods.map((oneprod) =>
-                              oneitem.product_id == oneprod.product_id ? (
-                                <h5 class="mb-0">
-                                  {oneprod.product_name}: {oneprod.price}K Tshs
-                                </h5>
-                              ) : (
-                                <div></div>
-                              )
-                            )}
+                            <h5 class="mb-0">
+                              {oneitem.size} {oneitem.product_name} -{" "}
+                              {oneitem.model} : {oneitem.price}K Tshs
+                            </h5>
                           </h5>
                         </button>
                       </div>
@@ -224,7 +190,7 @@ function Packages() {
             </div>
           </div>
         </div>
-      )}
+      ))}
     </Fragment>
   );
 }

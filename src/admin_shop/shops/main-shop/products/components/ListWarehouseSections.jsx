@@ -252,14 +252,22 @@ const ListProducts = () => {
           <thead>
             <tr>
               {/* <th>Warehouse Section Item ID</th> */}
-              <th>Warehouse Product</th>
+              <th>Product</th>
+              <th>
+                <Link to="/warehouses">Warehouse</Link>
+              </th>
               <th>Warehouse Section </th>
               <th>Quantity</th>
-
-              <th>Edit</th>
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td>Panel 50W</td>
+              <td>Warehouse 1</td>
+              <td>Section 1</td>
+              <td>10</td>
+            </tr>
+
             {products.map((product) => (
               <tr key={product.warehouse_section_item_id}>
                 {/* <td>{product.warehouse_section_item_id}</td> */}

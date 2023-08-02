@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios, { all } from "axios";
 import Cookies from "js-cookie";
 
 // import EditProduct from "../inventory/EditProduct";
@@ -40,7 +40,7 @@ const SalesList = () => {
     try {
       // const response = await fetch("http://localhost:000/saleslist");
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/sale",
+        import.meta.env.VITE_API_URL + "/api/sale?include=user",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -86,12 +86,16 @@ const SalesList = () => {
 
   const getUsers = async () => {
     try {
-      const res = await axios.get(import.meta.env.VITE_API_URL + "/api/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_API_KEY,
-        },
-      });
+      const res = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/user?include=phone",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+      console.log("allusers", res.data);
       setAllUsers(res.data);
     } catch (error) {
       console.log(error.message);
@@ -122,11 +126,47 @@ const SalesList = () => {
     // setSearch(e.target.value);
     if (e.target.value.length !== 0) {
       setSearchedNames(true);
+      console.log("e.target.value", e.target.value);
+      console.log("sales", sales);
       setSearchedSalesNames(
         sales.filter((sale) =>
-          sale.name.toLowerCase().includes(e.target.value.toLowerCase())
+          // sale.name.toLowerCase().includes(e.target.value.toLowerCase())
+          // sale.user_id === parseInt(e.target.value)
+          sale.user.username
+            .toLowerCase()
+            .includes(e.target.value.toLowerCase())
         )
       );
+      console.log("searchedSalesNames", searchedSalesNames);
+      // if no results say empty
+    } else {
+      console.log("no search");
+      setSearchedNames(false);
+    }
+  };
+  const searchSalesPhone = (e) => {
+    e.preventDefault();
+    console.log(e.target.value);
+
+    // setSearch(e.target.value);
+    if (e.target.value.length !== 0) {
+      setSearchedNames(true);
+      console.log("e.target.value", e.target.value);
+      console.log("sales", sales);
+      // filter users who have this phone number. check entire user.phones array for number includes
+      const filteredUsers = allUsers.filter((user) =>
+        user.phones.some((phone) => phone.number.includes(e.target.value))
+      );
+
+      console.log("filteredUsers", filteredUsers);
+
+      // get sales of filtered users
+      const filteredSales = sales.filter((sale) =>
+        filteredUsers.some((user) => user.user_id === sale.user_id)
+      );
+
+      console.log("searchedSalesNames", filteredSales);
+      setSearchedSalesNames(filteredSales);
       // if no results say empty
     } else {
       console.log("no search");
@@ -138,9 +178,9 @@ const SalesList = () => {
 
   // filter sales by status
   const statussort = [
-    "paid",
+    "Paid",
     "shipped",
-    "initialized",
+    "Initialized",
     "delivered",
     "cancelled",
   ];
@@ -156,39 +196,51 @@ const SalesList = () => {
 
       const sortSales = (saleso) => {
         const sortedSalesres = saleso.sort((a, b) => {
-          return (
-            statussort.indexOf(a.sale_status) -
-            statussort.indexOf(b.sale_status)
-          );
+          return statussort.indexOf(a.status) - statussort.indexOf(b.status);
         });
         return sortedSalesres;
       };
       const sortedSales = sortSales(saleso);
-      console.log("newsales;", sales);
+      console.log("newsales;", sortedSales);
       setSortedSales(sortedSales);
       setSorted(true);
     } else {
       console.log("setting false");
       setSorted(false);
-      console.log(sorted);
-      setSortedSales(sales);
-    }
-  };
-
-  const clickdef = () => {
-    // sort by order id
-    if (sorted === false) {
+      // SORT BY SALEID
       const saleso = sales;
       const sortedSales = saleso.sort((a, b) => {
         return b.sale_id - a.sale_id;
       });
       setSortedSales(sortedSales);
+    }
+  };
+
+  const clickdef = () => {
+    console.log("before:", sales);
+
+    if (sorted === false) {
+      const saleso = sales;
+
+      const sortSales = (saleso) => {
+        const sortedSalesres = saleso.sort((a, b) => {
+          return a.sale_id - b.sale_id;
+        });
+        return sortedSalesres;
+      };
+      const sortedSales = sortSales(saleso);
+      console.log("newsales;", sortedSales);
+      setSortedSales(sortedSales);
       setSorted(true);
     } else {
       console.log("setting false");
       setSorted(false);
-      console.log(sorted);
-      setSortedSales(sales);
+      // SORT BY SALEID
+      const saleso = sales;
+      const sortedSales = saleso.sort((a, b) => {
+        return b.sale_id - a.sale_id;
+      });
+      setSortedSales(sortedSales);
     }
   };
 
@@ -236,6 +288,28 @@ const SalesList = () => {
               </button>
             </th>
             <th>
+              {" "}
+              {/* <div class="d-flex"> */}
+              <div class="row justify-content-center">
+                <input
+                  type="text"
+                  id="phonesearch"
+                  class="collapse"
+                  onChange={searchSalesPhone}
+                  placeholder="Search by phone"
+                />
+              </div>
+              {/* </div> */}
+              Customer Phone
+              <button
+                class="btn btn-primary ml-2"
+                data-toggle="collapse"
+                data-target="#phonesearch"
+              >
+                <i class="fa fa-search"></i>
+              </button>
+            </th>
+            <th>
               Sale Status
               {/* small button  */}
               <button type="button" class="btn btn-sm ml-2" onClick={click}>
@@ -257,28 +331,103 @@ const SalesList = () => {
           </tr>
         </thead>
         <tbody>
-          {sales.map((sale) => (
-            <tr key={sale.sale_id}>
-              <Link to={"/salelogs/" + sale.sale_id}>{sale.sale_id}</Link>
-              <td>
-                {/* get only date from createdAt */}
-                {sale.createdAt.slice(0, 10)}
-              </td>
-              <td>{sale.total_amount}</td>
-              <td>
-                {/* get user name form id from allusers */}
-                {allUsers.map((user) => {
-                  if (user.user_id === sale.user_id) {
-                    return user.username;
-                  }
-                })}
-              </td>
-              <td>
-                <Link to={"/salelogs/" + sale.sale_id}>{sale.status}</Link>
-              </td>
-              <td>{sale.source}</td>
-            </tr>
-          ))}
+          {searchedNames ? (
+            <>
+              {searchedSalesNames.map((sale) => (
+                <tr key={sale.sale_id}>
+                  <Link to={"/salelogs/" + sale.sale_id}>{sale.sale_id}</Link>
+                  <td>
+                    {/* get only date from createdAt */}
+                    {sale.createdAt.slice(0, 10)}
+                  </td>
+                  <td>{sale.total_amount}</td>
+                  <td>
+                    {/* get user name form id from allusers */}
+                    {allUsers.map((user) => {
+                      if (user.user_id === sale.user_id) {
+                        return user.username;
+                      }
+                    })}
+                  </td>{" "}
+                  <td>
+                    {allUsers.map((user) => {
+                      if (user.user_id === sale.user_id) {
+                        return user.phones[0]?.number;
+                      }
+                    })}
+                  </td>
+                  <td>
+                    <Link to={"/salelogs/" + sale.sale_id}>{sale.status}</Link>
+                  </td>
+                  <td>{sale.source}</td>
+                </tr>
+              ))}
+            </>
+          ) : sorted ? (
+            <>
+              {sortedSales.map((sale) => (
+                <tr key={sale.sale_id}>
+                  <Link to={"/salelogs/" + sale.sale_id}>{sale.sale_id}</Link>
+                  <td>
+                    {/* get only date from createdAt */}
+                    {sale.createdAt.slice(0, 10)}
+                  </td>
+                  <td>{sale.total_amount}</td>
+                  <td>
+                    {/* get user name form id from allusers */}
+                    {allUsers.map((user) => {
+                      if (user.user_id === sale.user_id) {
+                        return user.username;
+                      }
+                    })}
+                  </td>
+                  <td>
+                    {allUsers.map((user) => {
+                      if (user.user_id === sale.user_id) {
+                        return user.phones[0]?.number;
+                      }
+                    })}
+                  </td>
+                  <td>
+                    <Link to={"/salelogs/" + sale.sale_id}>{sale.status}</Link>
+                  </td>
+                  <td>{sale.source}</td>
+                </tr>
+              ))}
+            </>
+          ) : (
+            <>
+              {sales.map((sale) => (
+                <tr key={sale.sale_id}>
+                  <Link to={"/salelogs/" + sale.sale_id}>{sale.sale_id}</Link>
+                  <td>
+                    {/* get only date from createdAt */}
+                    {sale.createdAt.slice(0, 10)}
+                  </td>
+                  <td>{sale.total_amount}</td>
+                  <td>
+                    {/* get user name form id from allusers */}
+                    {allUsers.map((user) => {
+                      if (user.user_id === sale.user_id) {
+                        return user.username;
+                      }
+                    })}
+                  </td>
+                  <td>
+                    {allUsers.map((user) => {
+                      if (user.user_id === sale.user_id) {
+                        return user.phones[0]?.number;
+                      }
+                    })}
+                  </td>
+                  <td>
+                    <Link to={"/salelogs/" + sale.sale_id}>{sale.status}</Link>
+                  </td>
+                  <td>{sale.source}</td>
+                </tr>
+              ))}
+            </>
+          )}
         </tbody>
       </table>
       {/* </div> */}

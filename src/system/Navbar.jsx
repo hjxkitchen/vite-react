@@ -172,14 +172,14 @@ const Navbar = () => {
                                   (subcategory, index) => {
                                     return (
                                       <li>
-                                        <Link
-                                          to={
+                                        <a
+                                          href={
                                             "/category/" +
                                             subcategory.subcategory_id
                                           }
                                         >
                                           {subcategory.subcategory_name}
-                                        </Link>
+                                        </a>
                                       </li>
                                     );
                                   }

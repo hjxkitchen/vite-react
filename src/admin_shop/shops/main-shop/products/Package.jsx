@@ -190,7 +190,8 @@ function Contact() {
                                 key={product.product_id}
                                 value={product.product_id}
                               >
-                                {product.product_name}
+                                {product.size} -{product.product_name} -{" "}
+                                {product.model}
                               </option>
                             ))}
                           </select>
@@ -280,7 +281,10 @@ function Contact() {
                             (product) => product.product_id === prod.product_id
                           )
                           .map((product) => (
-                            <p>{product.product_name}</p>
+                            <p>
+                              {product.size} -{product.product_name} -{" "}
+                              {product.model}
+                            </p>
                           ))}
                       </td>
                       <td>{prod.packageitem.quantity}</td>

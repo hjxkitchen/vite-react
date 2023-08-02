@@ -138,7 +138,7 @@ const App = () => {
     // const productnames = await fetch("http://localhost:000/products")
     const productnames = await axios.get(
       import.meta.env.VITE_API_URL +
-        "/api/attr/product?attributes=product_name,product_id",
+        "/api/attr/product?attributes=product_name,product_id,model,size",
       {
         headers: {
           "x-api-key": import.meta.env.VITE_API_KEY,

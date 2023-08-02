@@ -61,7 +61,7 @@ const ListProducts = () => {
       console.log("getProducts called");
       // const response = await fetch("http://localhost:000/products");
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/product",
+        import.meta.env.VITE_API_URL + "/api/product?include=supplier",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -312,22 +312,10 @@ const ListProducts = () => {
         <table class="table text-center">
           <thead>
             <tr>
-              <th>
-                {" "}
-                {/* sort btn */}
-                <button
-                  type="button"
-                  class="btn btn-sm ml-2"
-                  onClick={sortbyid}
-                >
-                  <i class="fas fa-sort-down">ID Sort</i>
-                </button>
-                Product ID
-              </th>
+              <th>Product ID</th>
               <th>Product Name</th>
 
               <th>Subcat</th>
-              <th>Cost</th>
               <th>
                 {/* <div class="d-flex justify-content-center"> */}
                 {/* sort btn */}
@@ -341,9 +329,12 @@ const ListProducts = () => {
                 Price
                 {/* </div> */}
               </th>
+
+              <th>Cost</th>
               <th>Model</th>
               <th>Size</th>
               <th>Description</th>
+              <th>Supplier</th>
 
               <th>Images</th>
               {/* <th>Shop</th> */}
@@ -373,12 +364,14 @@ const ListProducts = () => {
                           </div>
                         ))}
                 </td>
-                <td>{product.cost}K</td>
                 <td>{product.price}K</td>
+                <td>{product.cost}K</td>
                 <td> {product.model}</td>
                 <td>{product.size} </td>
                 <td>{product.description} </td>
-                {/* <td>{product.supplier_id}</td> */}
+                <td>
+                  {product.supplier ? product.supplier.supplier_name : " - "}
+                </td>
 
                 <td>
                   <div class="d-flex justify-content-center">

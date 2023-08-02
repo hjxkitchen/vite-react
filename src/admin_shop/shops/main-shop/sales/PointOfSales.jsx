@@ -20,6 +20,26 @@ function Sales() {
   const [customer, setCustomer] = useState({});
   const [orderTotal, setOrderTotal] = useState(0);
   const [showlogs, setShowLogs] = useState(false);
+  const [isNewContact, setIsNewContact] = useState(false);
+
+  const handleNameChange = (e) => {
+    console.log("handleNameChange", e.target.value);
+    setName(e.target.value);
+  };
+
+  const handleCreatableSelectChange = (newValue, actionMeta) => {
+    if (actionMeta.action === "create-option") {
+      // If the selected value is newly created, enable the Customer Name input
+      setIsNewContact(true);
+      setCustomerPhone(newValue.value);
+    } else {
+      // If an existing option is selected, disable the Customer Name input
+      setIsNewContact(false);
+      console.log("handleCreatableSelectChange", newValue);
+      custPhoneChanged(newValue);
+    }
+    // Add your other logic here for handling CreatableSelect change
+  };
 
   const [customerslist, setCustomersList] = useState([]);
   const user = useContext(UserContext);
@@ -41,7 +61,7 @@ function Sales() {
   const getNames = async () => {
     try {
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/name",
+        import.meta.env.VITE_API_URL + "/api/user",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -65,9 +85,9 @@ function Sales() {
 
   const [customerid, setCustomerid] = useState(null);
 
-  const custPhoneChanged = async (e) => {
-    console.log("custPhoneChanged", e.value);
-    setCustomerid(e.value);
+  const custPhoneChanged = async (newValue) => {
+    console.log("custPhoneChanged", newValue.value);
+    setCustomerid(newValue.value);
 
     // set customer phone
     // const customer = {
@@ -75,12 +95,13 @@ function Sales() {
     // };
     console.log("names", names);
 
-    const newcustomer = names.find((name) => name.user_id === e.value);
+    const newcustomer = names.find((name) => name.user_id === newValue.value);
 
-    setName(newcustomer.name);
+    console.log("newcustomer", newcustomer);
+    setName(newcustomer.username);
 
     // set new customer phone
-    setNewCustomer({ ...newcustomer, phone: e.value });
+    setNewCustomer({ ...newcustomer, phone: newValue.value });
 
     // setCustomer(newcustomer);
     // console.log("custy:", newcustomer);
@@ -239,11 +260,14 @@ function Sales() {
                 sales={sales}
                 setOrderTotal={setOrderTotal}
                 customerid={customerid}
+                customerphone={customerphone}
+                name={name}
               />
             </div>
           </div>
         </div>
 
+        {/* customer contact */}
         <div class="row mt-5 justify-content-center">
           <div class="col-6">
             <div class="input-group mb-3 mt-4">
@@ -268,9 +292,7 @@ function Sales() {
               <CreatableSelect
                 class="collapse show"
                 options={customerphoneoptions}
-                onChange={(e) => {
-                  custPhoneChanged(e);
-                }}
+                onChange={handleCreatableSelectChange}
               />
             </div>
             <div>
@@ -283,13 +305,26 @@ function Sales() {
                   custNameChanged(e);
                 }}
               /> */}
-              <input
-                type="text"
-                class="form-control"
-                aria-label="Text input with checkbox"
-                value={name}
-                disabled
-              />
+              {isNewContact ? (
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Text input with checkbox"
+                  value={name}
+                  // onchange with value
+                  onChange={(e) => {
+                    handleNameChange(e);
+                  }}
+                />
+              ) : (
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Text input with checkbox"
+                  value={name}
+                  disabled
+                />
+              )}
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 
 const AddProductModal = ({ product }) => {
   const [inputs, setInputs] = useState({});
+
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const handleChange = (event) => {
@@ -16,6 +17,8 @@ const AddProductModal = ({ product }) => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     console.log(inputs);
+    // set input price as parseint cost * 1.4
+    inputs.price = parseInt(inputs.cost) * 1.4;
     try {
       // const response = await fetch("http://localhost:000/products", {
       //   method: "POST",
@@ -23,7 +26,7 @@ const AddProductModal = ({ product }) => {
       //   body: JSON.stringify(inputs),
       // });
       const response = await axios.post(
-        import.meta.env.VITE_API_URL + "product",
+        import.meta.env.VITE_API_URL + "/api/product",
         inputs,
         {
           headers: {
@@ -32,7 +35,7 @@ const AddProductModal = ({ product }) => {
           },
         }
       );
-      window.location = "/inventory";
+      window.location = "/shoplist";
     } catch (error) {
       console.error(error.message);
     }
@@ -84,12 +87,12 @@ const AddProductModal = ({ product }) => {
                     <div class="col">
                       {/* 4th */}
                       <label>
-                        Price
+                        Cost
                         <input
                           type="number"
-                          name="price"
+                          name="cost"
                           className="form-control"
-                          // value={inputs.price}
+                          // value={inputs.cost}
                           onChange={handleChange}
                         />
                       </label>
@@ -104,7 +107,7 @@ const AddProductModal = ({ product }) => {
                           type="text"
                           name="description"
                           className="form-control"
-                          // value={inputs.price}
+                          // value={inputs.cost}
                           onChange={handleChange}
                         />
                       </label>
@@ -117,7 +120,7 @@ const AddProductModal = ({ product }) => {
                           type="number"
                           name="inventory"
                           className="form-control"
-                          // value={inputs.price}
+                          // value={inputs.cost}
                           onChange={handleChange}
                         />
                       </label>
@@ -138,6 +141,7 @@ const AddProductModal = ({ product }) => {
                           className="form-control"
                           onChange={handleChange}
                         >
+                          <option value="0">Select</option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                         </select>

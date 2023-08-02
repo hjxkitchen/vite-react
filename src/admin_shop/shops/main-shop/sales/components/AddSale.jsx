@@ -6,7 +6,14 @@ import { UserContext, ProdContext } from "../../../../../App";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 
-const AddSale = ({ setSales, sales, setOrderTotal, customerid }) => {
+const AddSale = ({
+  setSales,
+  sales,
+  setOrderTotal,
+  customerid,
+  customerphone,
+  name,
+}) => {
   const usercontext = useContext(UserContext);
   const prodcontext = useContext(ProdContext);
 
@@ -40,10 +47,13 @@ const AddSale = ({ setSales, sales, setOrderTotal, customerid }) => {
   // submit sale
   const onSubmitForm = async (e) => {
     e.preventDefault();
+
+    console.log("name", name, "customerphone", customerphone);
+
     if (sales.length === 0) {
       alert("Please add items to sale");
       return;
-    } else {
+    } else if (customerid !== null) {
       try {
         const res = await axios.post(
           import.meta.env.VITE_API_URL + "/api/sale",
@@ -65,6 +75,67 @@ const AddSale = ({ setSales, sales, setOrderTotal, customerid }) => {
       } catch (error) {
         console.error(error.message);
       }
+    } else if (customerphone !== null) {
+      try {
+        // add new customer contact
+        const res2 = await axios.post(
+          import.meta.env.VITE_API_URL + "/api/user",
+          {
+            username: name,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+
+        // get new customer id from res2
+        const newcustomerid = res2.data.user_id;
+        console.log("newcustomerid", newcustomerid);
+
+        // add new customer contact
+        const res3 = await axios.post(
+          import.meta.env.VITE_API_URL + "/api/phone",
+          {
+            user_id: newcustomerid,
+            number: customerphone,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+
+        // add to verifications table because its a new number
+
+        // add sale
+        const res = await axios.post(
+          import.meta.env.VITE_API_URL + "/api/sale",
+          {
+            total_amount: getTotalCost(sales),
+            user_id: newcustomerid,
+            source: "Pos",
+            status: "Initialized",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+        // refresh page
+        window.location.reload();
+      } catch (error) {
+        console.error(error.message);
+      }
+    } else {
+      alert("Please select a customer");
+      return;
     }
   };
 

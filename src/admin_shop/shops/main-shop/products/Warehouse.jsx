@@ -33,6 +33,7 @@ function ProductsList() {
 
           <AddProductModal />
           {/* </div> */}
+          <button class="btn btn-warning ml-5 mt-5 ">Edit</button>
         </div>
 
         <div class="row justify-content- mt-5 ">

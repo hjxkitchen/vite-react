@@ -167,6 +167,20 @@ function Calculators() {
     e.preventDefault();
     console.log(status);
 
+    // UPDATE SALE STATUS IN SALE TABLE
+    const res = await axios.put(
+      import.meta.env.VITE_API_URL + "/api/sale/" + sale.sale_id,
+      {
+        status: status,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+
     // update status
     // const res = await axios.put(
     //   "http://localhost:000/sales/status/" + sale.sale_id,
