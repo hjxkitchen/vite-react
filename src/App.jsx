@@ -43,36 +43,36 @@ import Playbook from "./admin_shop/admin/Playbook";
 
 // COMMS
 // import Contact from "./admin_shop/comms/Contact";
-import Contacts from "./admin_shop/comms/Contacts";
+import Contacts from "./admin_shop/admin/Contacts";
 
 // PRODUCTS
-import ShopList from "./admin_shop/shops/main-shop/products/ShopList";
-import Inventory from "./admin_shop/shops/main-shop/products/Inventory";
-import SupplierProducts from "./admin_shop/shops/main-shop/products/SupplierProducts";
-import FeaturedAdmin from "./admin_shop/shops/main-shop/products/Featured";
-import PackagesAdmin from "./admin_shop/shops/main-shop/products/Packages";
-import Package from "./admin_shop/shops/main-shop/products/Package";
-import Categories from "./admin_shop/shops/main-shop/products/Categories";
-import Category from "./admin_shop/shops/main-shop/products/Category";
+import ShopList from "./admin_shop/products/ShopList";
+import Inventory from "./admin_shop/products/Inventory";
+import SupplierProducts from "./admin_shop/products/SupplierProducts";
+import FeaturedAdmin from "./admin_shop/products/Featured";
+import PackagesAdmin from "./admin_shop/products/Packages";
+import Package from "./admin_shop/products/Package";
+import Categories from "./admin_shop/products/Categories";
+import Category from "./admin_shop/products/Category";
 
 // SALES
-import SalesList from "./admin_shop/shops/main-shop/sales/AllSales";
-import SaleLogsAdmin from "./admin_shop/shops/main-shop/sales/SaleLogs";
-import POSales from "./admin_shop/shops/main-shop/sales/PointOfSales";
-import OnlineSales from "./admin_shop/shops/main-shop/sales/OnlineSales";
-import Tools from "./admin_shop/shops/main-shop/sales/Tools";
-import Jobs from "./admin_shop/shops/main-shop/sales/Jobs";
+import SalesList from "./admin_shop/sales/AllSales";
+import SaleLogsAdmin from "./admin_shop/sales/SaleLogs";
+import POSales from "./admin_shop/sales/PointOfSales";
+import OnlineSales from "./admin_shop/sales/OnlineSales";
+import Tools from "./admin_shop/sales/Tools";
+import Jobs from "./admin_shop/sales/Jobs";
 
-// import Users from "./admin_shop/shops/main-shop/sales/Users";
-import Orders from "./admin_shop/shops/main-shop/products/Orders";
-import OrderLogs from "./admin_shop/shops/main-shop/products/OrderLogs";
-import Suppliers from "./admin_shop/shops/main-shop/products/Suppliers";
-import Warehouses from "./admin_shop/shops/main-shop/products/Warehouses";
-import Warehouse from "./admin_shop/shops/main-shop/products/Warehouse";
+// import Users from "./admin_shop/sales/Users";
+import Orders from "./admin_shop/products/Orders";
+import OrderLogs from "./admin_shop/products/OrderLogs";
+import Suppliers from "./admin_shop/products/Suppliers";
+import Warehouses from "./admin_shop/products/Warehouses";
+import Warehouse from "./admin_shop/products/Warehouse";
 
 // HOME PAGE
-import Deliveries from "./admin_shop/shops/main-shop/products/DeliveryJobs";
-import Technicians from "./admin_shop/shops/main-shop/products/TechnicianJobs";
+import Deliveries from "./admin_shop/products/DeliveryJobs";
+import Technicians from "./admin_shop/products/TechnicianJobs";
 
 // MARKETING ADMINS
 // outbound
@@ -90,8 +90,8 @@ import InboundReply from "./admin_shop/marketing/inbound/InboundReply";
 // ANCHOR CLIENT PAGES
 
 // comms
-import Blog from "./client_shop/comms/Blog";
-import About from "./client_shop/comms/About";
+import Blog from "./client_shop/other/Blog";
+import About from "./client_shop/other/About";
 // import Contact from "./client_shop/comms/Contact";
 
 // products

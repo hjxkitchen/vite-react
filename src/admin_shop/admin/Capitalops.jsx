@@ -8,7 +8,7 @@ import Legal from "./Legal";
 import Infotech from "./IT";
 
 import Team from "../../system/auth/components/TeamList";
-import OrdersList from "./../shops/main-shop/products/components/OrdersList";
+import OrdersList from "./../products/components/OrdersList";
 
 import BusDev from "./BusDev";
 import Philanthropy from "./../marketing/outbound/Philantropy";
