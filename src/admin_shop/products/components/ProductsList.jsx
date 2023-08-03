@@ -312,18 +312,7 @@ const ListProducts = () => {
         <table class="table text-center">
           <thead>
             <tr>
-              <th>
-                {" "}
-                {/* sort btn */}
-                <button
-                  type="button"
-                  class="btn btn-sm ml-2"
-                  onClick={sortbyid}
-                >
-                  <i class="fas fa-sort-down">ID Sort</i>
-                </button>
-                Product ID
-              </th>
+              <th>Product ID</th>
               <th>Product Name</th>
 
               <th>Subcat</th>
@@ -340,11 +329,16 @@ const ListProducts = () => {
                 Price
                 {/* </div> */}
               </th>
+
+              <th>Cost</th>
               <th>Model</th>
               <th>Size</th>
               <th>Description</th>
+              <th>Supplier</th>
 
               <th>Images</th>
+              <th>Add to Sale</th>
+              <th>Add to Order</th>
               {/* <th>Shop</th> */}
               <th>Edit</th>
               <th>Delete</th>
@@ -373,10 +367,13 @@ const ListProducts = () => {
                         ))}
                 </td>
                 <td>{product.price}K</td>
+                <td>{product.cost}K</td>
                 <td> {product.model}</td>
                 <td>{product.size} </td>
                 <td>{product.description} </td>
-                {/* <td>{product.supplier_id}</td> */}
+                <td>
+                  {product.supplier ? product.supplier.supplier_name : " - "}
+                </td>
 
                 <td>
                   <div class="d-flex justify-content-center">

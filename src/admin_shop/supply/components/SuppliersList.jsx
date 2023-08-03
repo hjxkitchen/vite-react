@@ -74,6 +74,8 @@ const ListSuppliers = () => {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Address</th>
+                <th>Location</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -83,6 +85,8 @@ const ListSuppliers = () => {
                 <tr key={supplier.supplier_id}>
                   <td>{supplier.supplier_name}</td>
                   <td>{supplier.email}</td>
+                  <td>{supplier.phone}</td>
+                  <td>{supplier.phone}</td>
                   <td>{supplier.phone}</td>
                   <td>
                     <EditSupplier supplier={supplier} />

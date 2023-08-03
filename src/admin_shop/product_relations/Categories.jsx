@@ -2,9 +2,9 @@ import React, { Fragment } from "react";
 
 //components
 // import InputPackage from "../../components/InputPackage";
-import CategoriesList from "../products/components/CategoriesList";
+import CategoriesList from "./components/CategoriesList";
 import Navbar from "../../system/Navbar";
-import AddCategoryModal from "../products/components/AddCategoryModal";
+import AddCategoryModal from "./components/AddCategoryModal";
 // import EditCategory from "admin/categories/EditCategory";
 
 function PackagesListcomp() {

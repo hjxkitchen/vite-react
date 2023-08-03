@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import Navbar from "../../system/Navbar";
 
 // DASH
-import Finance from "./Finance";
-import Legal from "./Legal";
-import Infotech from "./IT";
+import Finance from "../logs/Finance";
+import Legal from "../logs/Legal";
+import Infotech from "../logs/IT";
 
-import Team from "../../system/auth/components/TeamList";
-import OrdersList from "./../products/components/OrdersList";
+import Team from "../team/components/TeamList";
+import OrdersList from "./../supply/components/OrdersList";
 
-import BusDev from "./BusDev";
+import BusDev from "../busdev/BusDev";
 import Philanthropy from "./../marketing/outbound/Philantropy";
 
 const Capitalops = () => {

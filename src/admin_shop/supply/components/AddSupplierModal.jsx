@@ -18,11 +18,6 @@ const AddSupplierModal = ({ supplier }) => {
     e.preventDefault();
     console.log("inputs to submit", inputs);
     try {
-      // const response = await fetch("http://localhost:000/suppliers", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(inputs),
-      // });
       const response = await axios.post(
         import.meta.env.VITE_API_URL + "/api/supplier",
         inputs,
@@ -33,6 +28,9 @@ const AddSupplierModal = ({ supplier }) => {
           },
         }
       );
+
+      // add contcats: phone, emial, address, location
+
       window.location = "/suppliers";
     } catch (error) {
       console.error(error.message);
@@ -68,6 +66,7 @@ const AddSupplierModal = ({ supplier }) => {
               <div className="d-flex mt-3 justify-content-center">
                 <div className="d-flex w-50 justify-content-center">
                   <form className="" onSubmit={onSubmitForm}>
+                    {/* name */}
                     <div class="row">
                       <div class="col">
                         {/* 1st input */}
@@ -83,6 +82,7 @@ const AddSupplierModal = ({ supplier }) => {
                         </label>
                       </div>
                     </div>
+                    {/* email */}
                     <div class="row">
                       <div class="col">
                         {/* 4th */}
@@ -98,6 +98,7 @@ const AddSupplierModal = ({ supplier }) => {
                         </label>
                       </div>
                     </div>
+                    {/* phone */}
                     <div class="row">
                       <div class="col">
                         {/* 4th */}
@@ -108,6 +109,38 @@ const AddSupplierModal = ({ supplier }) => {
                             name="phone"
                             className="form-control"
                             value={inputs.price}
+                            onChange={handleChange}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    {/* address */}
+                    <div class="row">
+                      <div class="col">
+                        {/* 4th */}
+                        <label>
+                          Address
+                          <input
+                            type="text"
+                            name="address"
+                            className="form-control"
+                            value={inputs.address}
+                            onChange={handleChange}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    {/* location */}
+                    <div class="row">
+                      <div class="col">
+                        {/* 4th */}
+                        <label>
+                          Location
+                          <input
+                            type="text"
+                            name="location"
+                            className="form-control"
+                            value={inputs.location}
                             onChange={handleChange}
                           />
                         </label>

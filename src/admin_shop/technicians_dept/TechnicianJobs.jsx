@@ -2,7 +2,7 @@ import React, { Fragment, useContext } from "react";
 import Navbar from "../../system/Navbar";
 // import PublicNavbar from "../PublicNavbar";
 import { UserContext } from "../../App";
-import TechnicianJobsList from "./components/DeliveryJobsList";
+import TechnicianJobsList from "../delivery_dept/components/DeliveryJobsList";
 
 function Component() {
   const user = useContext(UserContext);

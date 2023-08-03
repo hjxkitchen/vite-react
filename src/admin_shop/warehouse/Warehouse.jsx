@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 // import InputProduct from "InputProduct";
 import ListWarehouseSections from "./components/ListWarehouseSections";
 import Navbar from "../../system/Navbar";
-import AddProductModal from "./components/AddProductModal";
+import AddProductModal from "../products/components/AddProductModal";
 // import EditProduct from "../admin/products/EditProduct";
 
 function ProductsList() {

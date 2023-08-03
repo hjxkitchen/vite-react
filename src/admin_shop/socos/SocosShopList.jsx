@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import { UserContext, CartContext } from "../../../App";
+import { UserContext, CartContext } from "../../App";
 import Cookies from "js-cookie";
 
 const ShopList = () => {

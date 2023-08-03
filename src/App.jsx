@@ -9,51 +9,51 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 
 // auth
 import Account from "./system/auth/Account";
-import Team from "./system/auth/Team";
-import Login from "./system/auth/components/Login";
+import Team from "./admin_shop/team/Team";
+import Login from "./system/auth/Login";
 import ProtectedRoute from "./system/auth/components/ProtectedRoute";
 import Token from "./system/auth/components/Token";
 
 // static
-import Home from "./system/static/Home";
-import Settings from "./system/static/Settings";
-import Contact from "./system/static/Contact";
+// import Home from "./system/static/Home";
+import Settings from "./system/Settings";
+import Contact from "./client_shop/other/Contact";
 
 // ANCHOR ADMIN PAGES
 // socos pages
-import SocosSuperAdmin from "./admin_shop/admin/Socos/SocosSuperAdmin";
-import SocosClient from "./admin_shop/admin/Socos/SocosClient";
+import SocosSuperAdmin from "./admin_shop/socos/SocosSuperAdmin";
+import SocosClient from "./admin_shop/socos/SocosClient";
 // ADMIN PAGES
-import AdminDash from "./admin_shop/admin/oldAdminDash";
-import NewDash from "./admin_shop/admin/NewDash";
-import SocosAdmin from "./admin_shop/admin/Socos/SocosDash";
-import MultiNationalHQ from "./admin_shop/admin/MultiNationalHQ";
-import LocationBranchHQ from "./admin_shop/admin/LocationBranchHQ";
-import HusseinJXAdmin from "./admin_shop/admin/HusseinJXAdmin";
-import Employees from "./admin_shop/admin/Employees";
-import Employee from "./admin_shop/admin/Employee";
-import Finance from "./admin_shop/admin/Finance";
-import Legal from "./admin_shop/admin/Legal";
-import InfoTech from "./admin_shop/admin/IT";
-import BusDev from "./admin_shop/admin/BusDev";
-import Recruiting from "./admin_shop/admin/Recruiting";
+// import AdminDash from "./admin_shop/home/oldAdminDash";
+import NewDash from "./admin_shop/home/NewDash";
+import SocosAdmin from "./admin_shop/socos/SocosDash";
+import MultiNationalHQ from "./admin_shop/locations/MultiNationalHQ";
+// import LocationBranchHQ from "./admin_shop/locations/LocationBranchHQ";
+// import HusseinJXAdmin from "./admin_shop/admin/HusseinJXAdmin";
+import Employees from "./admin_shop/team/Employees";
+import Employee from "./admin_shop/team/Employee";
+import Finance from "./admin_shop/logs/Finance";
+import Legal from "./admin_shop/logs/Legal";
+import InfoTech from "./admin_shop/logs/IT";
+import BusDev from "./admin_shop/busdev/BusDev";
+import Recruiting from "./admin_shop/team/Recruiting";
 import CapitalOps from "./admin_shop/admin/Capitalops";
-import Playbooks from "./admin_shop/admin/Playbooks";
-import Playbook from "./admin_shop/admin/Playbook";
+import Playbooks from "./admin_shop/plays/Playbooks";
+import Playbook from "./admin_shop/plays/Playbook";
 
 // COMMS
 // import Contact from "./admin_shop/comms/Contact";
-import Contacts from "./admin_shop/admin/Contacts";
+import Contacts from "./admin_shop/other/Contacts";
 
 // PRODUCTS
-import ShopList from "./admin_shop/products/ShopList";
-import Inventory from "./admin_shop/products/Inventory";
-import SupplierProducts from "./admin_shop/products/SupplierProducts";
-import FeaturedAdmin from "./admin_shop/products/Featured";
-import PackagesAdmin from "./admin_shop/products/Packages";
-import Package from "./admin_shop/products/Package";
-import Categories from "./admin_shop/products/Categories";
-import Category from "./admin_shop/products/Category";
+import ShopList from "./admin_shop/products/Products";
+// import Inventory from "./admin_shop/products/Inventory";
+import SupplierProducts from "./admin_shop/products/Products";
+import FeaturedAdmin from "./admin_shop/product_relations/Featured";
+import PackagesAdmin from "./admin_shop/product_relations/Packages";
+import Package from "./admin_shop/product_relations/Package";
+import Categories from "./admin_shop/product_relations/Categories";
+import Category from "./admin_shop/product_relations/Category";
 
 // SALES
 import SalesList from "./admin_shop/sales/AllSales";
@@ -64,15 +64,15 @@ import Tools from "./admin_shop/sales/Tools";
 import Jobs from "./admin_shop/sales/Jobs";
 
 // import Users from "./admin_shop/sales/Users";
-import Orders from "./admin_shop/products/Orders";
-import OrderLogs from "./admin_shop/products/OrderLogs";
-import Suppliers from "./admin_shop/products/Suppliers";
-import Warehouses from "./admin_shop/products/Warehouses";
-import Warehouse from "./admin_shop/products/Warehouse";
+import Orders from "./admin_shop/supply/Orders";
+import OrderLogs from "./admin_shop/supply/OrderLogs";
+import Suppliers from "./admin_shop/supply/Suppliers";
+import Warehouses from "./admin_shop/warehouse/Warehouses";
+import Warehouse from "./admin_shop/warehouse/Warehouse";
 
 // HOME PAGE
-import Deliveries from "./admin_shop/products/DeliveryJobs";
-import Technicians from "./admin_shop/products/TechnicianJobs";
+import Deliveries from "./admin_shop/delivery_dept/DeliveryJobs";
+import Technicians from "./admin_shop/technicians_dept/TechnicianJobs";
 
 // MARKETING ADMINS
 // outbound
@@ -285,18 +285,13 @@ const App = () => {
                         />
 
                         {/* ADMIN PAGES */}
-                        <Route path="admindash" element={<AdminDash />} />
-                        <Route
-                          path="locationbranchhq"
-                          element={<LocationBranchHQ />}
-                        />
+                        {/* <Route path="admindash" element={<AdminDash />} /> */}
+
                         <Route
                           path="multinationalhq"
                           element={<MultiNationalHQ />}
                         />
-                        <Route path="hjxadmin" element={<HusseinJXAdmin />} />
 
-                        <Route path="inventory" element={<Inventory />} />
                         <Route path="shoplist" element={<ShopList />} />
                         <Route path="products" element={<SupplierProducts />} />
                         <Route

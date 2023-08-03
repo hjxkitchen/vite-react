@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
 import { SubcatsContext } from "../../../App";
-import EditProduct from "./EditProduct";
+import EditProduct from "../../products/components/EditProduct";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
@@ -44,8 +44,7 @@ const ListProducts = () => {
       console.log("getProducts called");
       // const response = await fetch("http://localhost:000/products");
       const response = await axios.get(
-        import.meta.env.VITE_API_URL +
-          "/api/warehousesectionitem?include=warehousesection,supplierproduct",
+        import.meta.env.VITE_API_URL + "/api/warehouse",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -251,36 +250,33 @@ const ListProducts = () => {
         <table class="table text-center">
           <thead>
             <tr>
-              {/* <th>Warehouse Section Item ID</th> */}
-              <th>Product</th>
-              <th>
-                <Link to="/warehouses">Warehouse</Link>
-              </th>
-              <th>Warehouse Section </th>
-              <th>Quantity</th>
+              <th>Warehouse ID</th>
+              <th>Warehouse Name</th>
+              <th>Warehouse Address</th>
+
+              <th>Open</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Panel 50W</td>
-              <td>Warehouse 1</td>
-              <td>Section 1</td>
-              <td>10</td>
-            </tr>
-
             {products.map((product) => (
-              <tr key={product.warehouse_section_item_id}>
-                {/* <td>{product.warehouse_section_item_id}</td> */}
-                {/* <td>{product.supplier_product_id}</td> */}
-                <td>{product.supplierproduct.supplier_product_name}</td>
-                {/* <td>{product.warehouse_section_id}</td> */}
-                <td>{product.warehousesection.warehouse_section_name}</td>
-                <td>{product.quantity}</td>
+              <tr key={product.warehouse_id}>
+                <td>{product.warehouse_id}</td>
+                <td>{product.warehouse_name}</td>
+                <td>{product.warehouse_address}</td>
 
                 <td>
                   <Link to={`/warehouse/${product.warehouse_id}`}>
-                    <button class="btn btn-warning">Edit</button>
+                    <button class="btn btn-warning">Open</button>
                   </Link>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    onClick={() => deleteProduct(product.product_id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

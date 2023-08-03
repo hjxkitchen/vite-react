@@ -1,8 +1,8 @@
 import React, { Fragment, useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../../../system/Navbar";
+import Navbar from "../../system/Navbar";
 // import PublicNavbar from "../../PublicNavbar";
-import { UserContext } from "../../../App";
+import { UserContext } from "../../App";
 
 function Component() {
   const user = useContext(UserContext);

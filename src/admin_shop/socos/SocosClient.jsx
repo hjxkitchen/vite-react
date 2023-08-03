@@ -1,9 +1,9 @@
 import React, { Fragment, useContext } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../../../system/Navbar";
+import Navbar from "../../system/Navbar";
 // import Navbar2 from "../../system/Navbar";
 // import PublicNavbar from "../PublicNavbar";
-import { UserContext } from "../../../App";
+import { UserContext } from "../../App";
 import ShopList from "./SocosShopList";
 import axios from "axios";
 import Cookies from "js-cookie";
