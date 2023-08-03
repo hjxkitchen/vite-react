@@ -61,7 +61,8 @@ const ListProducts = () => {
       console.log("getProducts called");
       // const response = await fetch("http://localhost:000/products");
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/product?include=supplier",
+        import.meta.env.VITE_API_URL +
+          "/api/product?include=supplier,productimage",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -313,6 +314,9 @@ const ListProducts = () => {
           <thead>
             <tr>
               <th>Product ID</th>
+
+              <th>Size</th>
+              <th>Model</th>
               <th>Product Name</th>
 
               <th>Subcat</th>
@@ -331,8 +335,6 @@ const ListProducts = () => {
               </th>
 
               <th>Cost</th>
-              <th>Model</th>
-              <th>Size</th>
               <th>Description</th>
               <th>Supplier</th>
 
@@ -348,6 +350,9 @@ const ListProducts = () => {
             {products.map((product) => (
               <tr key={product.product_id}>
                 <td>{product.product_id}</td>
+
+                <td>{product.size} </td>
+                <td> {product.model}</td>
                 <td>{product.product_name}</td>
 
                 <td>
@@ -368,8 +373,6 @@ const ListProducts = () => {
                 </td>
                 <td>{product.price}K</td>
                 <td>{product.cost}K</td>
-                <td> {product.model}</td>
-                <td>{product.size} </td>
                 <td>{product.description} </td>
                 <td>
                   {product.supplier ? product.supplier.supplier_name : " - "}
@@ -379,13 +382,22 @@ const ListProducts = () => {
                   <div class="d-flex justify-content-center">
                     {/* <h5>{product.images.length + "="}</h5> */}
                     {/* for each path in images array create link */}
-                    {product.images?.map((path, index) => (
+                    {product.productimages?.map((image, index) => (
                       // <a href={"http://localhost:000" + path} key={index}>
-                      <a href={import.meta.env.VITE_API_URL + path} key={index}>
+                      <a
+                        href={
+                          "https://zahab-space.sfo3.digitaloceanspaces.com/" +
+                          image.image
+                        }
+                        key={index}
+                      >
                         {/* thumbnail */}
                         <img
                           // src={"http://localhost:000" + path}
-                          src={import.meta.env.VITE_API_URL + path}
+                          src={
+                            "https://zahab-space.sfo3.digitaloceanspaces.com/" +
+                            image.image
+                          }
                           alt="[img]"
                           width="50"
                           height="50"
@@ -397,6 +409,8 @@ const ListProducts = () => {
                 {/* <td> 
                         <input type="checkbox" checked={product.shop==true&&"true"}></input>
                     </td> */}
+                <td>Add to Sale</td>
+                <td>Add to Order</td>
                 <td>
                   <EditProduct product={product} />
                 </td>

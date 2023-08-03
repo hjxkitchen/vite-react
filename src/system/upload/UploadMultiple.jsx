@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const UploadForm = () => {
+const UploadForm = ({ product_id }) => {
   const [file, setFile] = useState(null);
+
+  // get product id from props
+  // console.log("product_id for upload component", product_id);
 
   const handleMultipleFileChange = (event) => {
     const files = event.target.files;
@@ -20,7 +23,10 @@ const UploadForm = () => {
     // formData.append("file", file);
 
     axios
-      .post(import.meta.env.VITE_API_URL + "/uploadmultiple", file)
+      .post(
+        import.meta.env.VITE_API_URL + "/uploadmultiple/" + product_id,
+        file
+      )
       .then((response) => {
         // Handle the response from the server
         console.log("Files uploaded successfully:", response.data);
@@ -49,11 +55,11 @@ const UploadForm = () => {
 
   return (
     <div>
-      <img
+      {/* <img
         src="https://zahab-space.sfo3.digitaloceanspaces.com/images/1687293088306-small.jpg"
         alt="img"
       />
-      <button onClick={Delete}>Delete</button>
+      <button onClick={Delete}>Delete</button> */}
       <input
         type="file"
         formEncType="multipart/form-data"

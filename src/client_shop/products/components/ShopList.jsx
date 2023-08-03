@@ -283,13 +283,6 @@ const ShopList = () => {
                       {product.product_name}
                     </h1>
                   </a>
-                  {/* send product with link */}
-                  {/* <Link
-                    to={{
-                      pathname: "/shop/products/" + product.product_id,
-                      state: { product: product },
-                    }}
-                  ></Link> */}
 
                   {/* image */}
                   {product.productimages !== null && (
@@ -317,7 +310,10 @@ const ShopList = () => {
                             <img
                               class="d-block w-100"
                               // src={`http://localhost:000${image}`}
-                              src={import.meta.env.VITE_API_URL + image}
+                              src={
+                                "https://zahab-space.sfo3.digitaloceanspaces.com/" +
+                                image.image
+                              }
                               alt="First slide"
                             />
                           </div>

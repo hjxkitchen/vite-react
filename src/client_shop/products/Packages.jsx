@@ -21,7 +21,7 @@ function Packages() {
     try {
       // const response = await fetch("http://localhost:000/packages");
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/package",
+        import.meta.env.VITE_API_URL + "/packages",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -60,7 +60,8 @@ function Packages() {
   };
 
   useEffect(() => {
-    getPackageItems();
+    // getPackageItems();
+    getPackages();
   }, []);
 
   return (
@@ -118,21 +119,25 @@ function Packages() {
               <div class="card-body">
                 {onepackage.package_description}
                 {/* map packageitems */}
-
-                {/* get packageitems for this package */}
-
                 {onepackage.products?.map(
                   (oneitem) => (
                     // If packageitem.package_id == onepackage.package_id then show
 
                     // onepackage.package_id == oneitem.package_id ? (
                     // accordion using package_item_id
-                    <div class="card" id={oneitem.package_item_id}>
+                    <div
+                      class="card"
+                      id={"pkgitm" + oneitem.packageitem.package_item_id}
+                    >
+                      {/* header */}
                       <div class="card-header" id="headingtwo">
                         <button
                           class="btn btn-link"
                           data-toggle="collapse"
-                          data-target={"#collapse" + oneitem.package_item_id}
+                          data-target={
+                            "#collapse pkgitm" +
+                            oneitem.packageitem.package_item_id
+                          }
                           aria-expanded="true"
                           aria-controls="collapsetwo"
                         >
@@ -144,37 +149,90 @@ function Packages() {
                           </h5>
                         </button>
                       </div>
+                      {/* body */}
                       <div
-                        id={"collapse" + oneitem.package_item_id}
+                        id={
+                          "collapse pkgitm" +
+                          oneitem.packageitem.package_item_id
+                        }
                         class="collapse "
                         aria-labelledby="headingtwo"
-                        data-parent={"#" + oneitem.package_item_id}
+                        data-parent={
+                          "#pkgitm" + oneitem.packageitem.package_item_id
+                        }
                       >
                         <div class="card-body">
-                          {oneitem.package_item_description}
-                          {prods.map((oneprod) =>
-                            oneitem.product_id == oneprod.product_id ? (
-                              <h5 class="mb-0">
-                                {/* img here */}
-                                {oneprod.images && (
-                                  <img
-                                    // src={
-                                    //   "http://localhost:000" + oneprod.images[0]
-                                    // }
-                                    src={
-                                      import.meta.env.VITE_API_URL +
-                                      oneprod.images[0]
+                          <p className="mb-2">{oneitem.description}</p>
+
+                          {/* image */}
+                          {oneitem.productimages[0] && (
+                            <div
+                              id={
+                                "carouselExampleControls" + oneitem.product_id
+                              }
+                              class="carousel slide"
+                              data-ride="false"
+                              data-interval="false"
+                              style={{ width: "300px", height: "300px" }}
+                            >
+                              {/* carousel inner with 100px square width height */}
+                              <div
+                                class="carousel-inner"
+                                style={{ width: "100%", height: "100%" }}
+                              >
+                                {oneitem.productimages.map((image, index) => (
+                                  // if index is 0, add active class
+                                  <div
+                                    class={
+                                      index === 0
+                                        ? "carousel-item active"
+                                        : "carousel-item"
                                     }
-                                    alt="product image"
-                                    width="200"
-                                    height="200"
-                                  />
-                                )}
-                                {/* <button> <a href={"http://192.268.1.10:000/"+oneprod.images[0]}>tryyy</a></button> */}
-                              </h5>
-                            ) : (
-                              <div></div>
-                            )
+                                    style={{ width: "300px", height: "300px" }}
+                                  >
+                                    <img
+                                      class="d-block w-100 h-100"
+                                      src={
+                                        "https://zahab-space.sfo3.digitaloceanspaces.com/" +
+                                        image.image
+                                      }
+                                      alt="Slide"
+                                      style={{ objectFit: "cover" }}
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                              <a
+                                class="carousel-control-prev"
+                                href={
+                                  "#carouselExampleControls" +
+                                  oneitem.product_id
+                                }
+                                role="button"
+                                data-slide="prev"
+                              >
+                                <span
+                                  class="carousel-control-prev-icon"
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                              <a
+                                class="carousel-control-next"
+                                href={
+                                  "#carouselExampleControls" +
+                                  oneitem.product_id
+                                }
+                                role="button"
+                                data-slide="next"
+                              >
+                                <span
+                                  class="carousel-control-next-icon"
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="sr-only">Next</span>
+                              </a>
+                            </div>
                           )}
                         </div>
                       </div>

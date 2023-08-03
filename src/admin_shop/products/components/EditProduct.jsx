@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { SubcatsContext } from "../../../App";
 import axios from "axios";
 import Cookies from "js-cookie";
+import UploadMultiple from "../../../system/upload/UploadMultiple";
 
 const EditProduct = ({ product }) => {
   const [description, setDescription] = useState(product.description);
@@ -92,7 +93,7 @@ const EditProduct = ({ product }) => {
   // console.log(product.product_id);
 
   const handleChange = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
@@ -102,7 +103,7 @@ const EditProduct = ({ product }) => {
   const updateDescription = async (e) => {
     e.preventDefault();
     try {
-      console.log("inputs", inputs);
+      // console.log("inputs", inputs);
       // const body = description;
       // const response = await fetch(`http://localhost:000/products/${product.id}`, {
       //     method: "PUT",
@@ -121,7 +122,7 @@ const EditProduct = ({ product }) => {
         }
       );
 
-      window.location = "/inventory";
+      window.location = "/shoplist";
     } catch (error) {
       console.error(error.message);
     }
@@ -221,8 +222,8 @@ const EditProduct = ({ product }) => {
                       </select>
                     </div>
                   </div>
-
-                  <div class="row">
+                  {/* old upload  */}
+                  {/* <div class="row">
                     <div class="col mt-4 ">
                       <form
                         // action="http://localhost:000/upload"
@@ -247,7 +248,9 @@ const EditProduct = ({ product }) => {
                         />
                       </form>
                     </div>
-                  </div>
+                  </div> */}
+                  {/* new upload */}
+                  <UploadMultiple product_id={product.product_id} />
                 </form>
                 {/* </div> */}
               </div>

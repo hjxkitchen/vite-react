@@ -22,7 +22,7 @@ function Packages() {
     try {
       // const response = await fetch("http://localhost:000/featured");
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/featured",
+        import.meta.env.VITE_API_URL + "/featured?include=productimage",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -108,21 +108,20 @@ function Packages() {
                           }}
                         ></Link>
                         {/* image */}
-                        {oneprod.product_images && (
+                        {product.productimages !== null && (
                           // <img
-                          //   src={`http://localhost:000${oneprod.images[0]}`}
+                          //   src={`http://localhost:000${product.productimagess[0]}`}
                           //   class="img-fluid"
                           //   alt="Card image"
                           // ></img>
-
                           <div
-                            id={"carouselExampleControls" + oneprod.product_id}
+                            id={"carouselExampleControls" + product.product_id}
                             class="carousel slide"
                             data-ride="false"
                             data-interval="false"
                           >
                             <div class="carousel-inner">
-                              {oneprod.images?.map((image, index) => (
+                              {product.productimages.map((image, index) => (
                                 // if index is 0, add active class
                                 <div
                                   class={
@@ -134,7 +133,10 @@ function Packages() {
                                   <img
                                     class="d-block w-100"
                                     // src={`http://localhost:000${image}`}
-                                    src={import.meta.env.VITE_API_URL + image}
+                                    src={
+                                      "https://zahab-space.sfo3.digitaloceanspaces.com/" +
+                                      image.image
+                                    }
                                     alt="First slide"
                                   />
                                 </div>
@@ -143,7 +145,7 @@ function Packages() {
                             <a
                               class="carousel-control-prev"
                               href={
-                                "#carouselExampleControls" + oneprod.product_id
+                                "#carouselExampleControls" + product.product_id
                               }
                               role="button"
                               data-slide="prev"
@@ -157,7 +159,7 @@ function Packages() {
                             <a
                               class="carousel-control-next"
                               href={
-                                "#carouselExampleControls" + oneprod.product_id
+                                "#carouselExampleControls" + product.product_id
                               }
                               role="button"
                               data-slide="next"
@@ -170,7 +172,7 @@ function Packages() {
                             </a>
                           </div>
                         )}
-                        {!oneprod.images && (
+                        {product.productimages.length < 1 && (
                           <div>
                             <img
                               src="/productimg.jpg"

@@ -121,13 +121,13 @@ function Packages() {
                       }}
                     ></Link>
                     {/* image */}
-                    {product.product_images && (
+                    {/* image */}
+                    {product.productimages !== null && (
                       // <img
-                      //   src={`http://localhost:000${product.images[0]}`}
+                      //   src={`http://localhost:000${product.productimagess[0]}`}
                       //   class="img-fluid"
                       //   alt="Card image"
                       // ></img>
-
                       <div
                         id={"carouselExampleControls" + product.product_id}
                         class="carousel slide"
@@ -135,7 +135,7 @@ function Packages() {
                         data-interval="false"
                       >
                         <div class="carousel-inner">
-                          {product.images?.map((image, index) => (
+                          {product.productimages.map((image, index) => (
                             // if index is 0, add active class
                             <div
                               class={
@@ -147,7 +147,10 @@ function Packages() {
                               <img
                                 class="d-block w-100"
                                 // src={`http://localhost:000${image}`}
-                                src={import.meta.env.VITE_API_URL + image}
+                                src={
+                                  "https://zahab-space.sfo3.digitaloceanspaces.com/" +
+                                  image.image
+                                }
                                 alt="First slide"
                               />
                             </div>
@@ -179,7 +182,7 @@ function Packages() {
                         </a>
                       </div>
                     )}
-                    {!product.images && (
+                    {product.productimages.length < 1 && (
                       <div>
                         <img
                           src="/productimg.jpg"
