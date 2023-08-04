@@ -66,6 +66,7 @@ import Jobs from "./admin_shop/sales/Jobs";
 // import Users from "./admin_shop/sales/Users";
 import Orders from "./admin_shop/supply/Orders";
 import OrderLogs from "./admin_shop/supply/OrderLogs";
+import OrderCart from "./admin_shop/supply/OrderCart";
 import Suppliers from "./admin_shop/supply/Suppliers";
 import Warehouses from "./admin_shop/warehouse/Warehouses";
 import Warehouse from "./admin_shop/warehouse/Warehouse";
@@ -315,6 +316,7 @@ const App = () => {
 
                         <Route path="orders" element={<Orders />} />
                         <Route path="orderlogs" element={<OrderLogs />} />
+                        <Route path="ordercart" element={<OrderCart />} />
                         <Route path="suppliers" element={<Suppliers />} />
                         <Route path="warehouses" element={<Warehouses />} />
                         <Route path="warehouse/:id" element={<Warehouse />} />

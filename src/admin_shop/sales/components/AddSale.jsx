@@ -20,6 +20,8 @@ const AddSale = ({
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   const user_id = jwt_decode(token).user_id;
 
+  console.log("addsale sales array", sales);
+
   const navigate = useNavigate();
   const getTotalCost = (sales) => {
     let total = 0;
@@ -141,17 +143,50 @@ const AddSale = ({
 
   // plus
   const plus = (index) => {
-    let newSales = [...sales];
-    newSales[index].quantity = parseInt(newSales[index].quantity) + 1;
-    setSales(newSales);
+    if (showDiscount) {
+      // Handle case when showDiscount is true (use discountCart)
+      let newDiscountCart = [...discountCart];
+      newDiscountCart[index].quantity =
+        parseInt(newDiscountCart[index].quantity) + 1;
+      setDiscountCart(newDiscountCart);
+    } else if (cart.length === 0) {
+      // Handle case when showDiscount is false and cart is null (use sales)
+      let newSales = [...sales];
+      newSales[index].quantity = parseInt(newSales[index].quantity) + 1;
+      setSales(newSales);
+    } else {
+      // Handle case when showDiscount is false and cart is not null (use cart)
+      let newCart = [...cart];
+      newCart[index].quantity = parseInt(newCart[index].quantity) + 1;
+      setCart(newCart);
+    }
   };
 
   // minus
   const minus = (index) => {
-    let newSales = [...sales];
-    if (newSales[index].quantity > 1) {
-      newSales[index].quantity = parseInt(newSales[index].quantity) - 1;
-      setSales(newSales);
+    console.log("index", index, "cart", cart);
+    if (showDiscount) {
+      // Handle case when showDiscount is true (use discountCart)
+      let newDiscountCart = [...discountCart];
+      if (newDiscountCart[index].quantity > 1) {
+        newDiscountCart[index].quantity =
+          parseInt(newDiscountCart[index].quantity) - 1;
+        setDiscountCart(newDiscountCart);
+      }
+    } else if (cart.length === 0) {
+      // Handle case when showDiscount is false and cart is null (use sales)
+      let newSales = [...sales];
+      if (newSales[index].quantity > 1) {
+        newSales[index].quantity = parseInt(newSales[index].quantity) - 1;
+        setSales(newSales);
+      }
+    } else {
+      // Handle case when showDiscount is false and cart is not null (use cart)
+      let newCart = [...cart];
+      if (newCart[index].quantity > 1) {
+        newCart[index].quantity = parseInt(newCart[index].quantity) - 1;
+        setCart(newCart);
+      }
     }
   };
 
@@ -170,92 +205,376 @@ const AddSale = ({
     console.log("newSales", newSales, "index", index);
   };
 
+  // fill from cart
+  const [cart, setCart] = useState([]);
+
+  const fillfromcart = async () => {
+    try {
+      const res = await axios.get(
+        import.meta.env.VITE_API_URL +
+          "/api/cart/user/" +
+          user_id +
+          "?include=product",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+      console.log("cart", res.data);
+      const cart = res.data;
+      setCart(
+        cart.map((item) => ({
+          product_id: item.product_id,
+          quantity: item.quantity,
+          price: item.product.price,
+        }))
+      );
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const [showDiscount, setShowDiscount] = useState(false);
+
+  const showDiscounts = () => {
+    setShowDiscount(!showDiscount);
+    if (cart.length !== 0) {
+      setDiscountCart(cart);
+    } else {
+      setDiscountCart(sales);
+    }
+  };
+
+  const [discountCart, setDiscountCart] = useState([]);
+
+  const setDiscount = (product_id) => (e) => {
+    console.log("product_id", product_id, "discount", e.target.value);
+    console.log("cart", cart);
+    // change price for that product
+    if (cart.length !== 0) {
+      console.log("cart");
+      // make a deep copy of cart
+      let newCart = JSON.parse(JSON.stringify(cart));
+
+      let productIndex = newCart.findIndex(
+        (item) => item.product_id === product_id
+      );
+
+      if (productIndex !== -1) {
+        // Convert the price back to a number before applying the discount
+        let newPrice =
+          parseInt(newCart[productIndex].price) - parseInt(e.target.value);
+        newCart[productIndex] = {
+          ...newCart[productIndex],
+          price: newPrice.toString(), // Convert back to string if needed for display
+        };
+        // make a copy of discount cart
+        let newDiscountCart = [...discountCart];
+        // change the price of the product
+        newDiscountCart[productIndex] = {
+          ...newDiscountCart[productIndex],
+          price: newPrice.toString(),
+        };
+        // setDiscountCart(newCart);
+        setDiscountCart(newDiscountCart);
+      } else {
+        console.log("Product not found in cart.");
+      }
+    } else {
+      let newSales = [...sales];
+      let productIndex = newSales.findIndex(
+        (item) => item.product_id === product_id
+      );
+
+      if (productIndex !== -1) {
+        // Convert the price back to a number before applying the discount
+        let newPrice =
+          parseInt(newSales[productIndex].price) - parseInt(e.target.value);
+        newSales[productIndex] = {
+          ...newSales[productIndex],
+          price: newPrice.toString(), // Convert back to string if needed for display
+        };
+        // make a copy of discount cart
+        let newDiscountCart = [...discountCart];
+        // change the price of the product
+        newDiscountCart[productIndex] = {
+          ...newDiscountCart[productIndex],
+          price: newPrice.toString(),
+        };
+        setDiscountCart(newDiscountCart);
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log("sales updated", sales);
+  }, [sales]);
+
+  // cart to pos
+  const carttopos = () => {
+    console.log("cart", cart);
+
+    let newSales = [...cart];
+
+    console.log("sales", newSales);
+    setSales(newSales);
+    setCart([]);
+  };
+
   return (
-    <div class="container d-flex justify-content-center">
-      <div class="table-responsive">
-        <table class="table table-bsaleed mt-5 text-center">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Product</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">@Price</th>
-              <th scope="col">Subtotal</th>
-              <th scope="col">Remove</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sales.map((object) => (
+    <>
+      <button class="btn btn-primary ml-5" onClick={fillfromcart}>
+        Fill from cart
+      </button>
+      <button class="btn btn-primary ml-5" onClick={carttopos}>
+        Cart to POS
+      </button>
+      <button class="btn btn-primary ml-5" onClick={showDiscounts}>
+        Show Discounts
+      </button>
+      <div class="container d-flex justify-content-center">
+        <div class="table-responsive">
+          <table class="table table-bsaleed mt-5 text-center">
+            <thead>
               <tr>
-                {/* auto increment number */}
-                <th scope="row">{sales.indexOf(object) + 1}</th>
-                {/* <th scope="row">  </th> */}
+                {/* <th scope="col">#</th> */}
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">@Price</th>
+                {showDiscount && <th scope="col">Discount</th>}
+                <th scope="col">Subtotal</th>
+                <th scope="col">Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              {showDiscount ? (
+                discountCart.map((object) => (
+                  <tr>
+                    {/* auto increment number */}
+                    {/* <th scope="row">{sales.indexOf(object) + 1}</th> */}
+                    {/* <th scope="row">  </th> */}
+                    <td>
+                      {/* {object.product_id} */}
+                      {/* get product name from prodcontext by id */}
+                      {prodcontext.map((prod) =>
+                        prod.product_id === object.product_id
+                          ? prod.product_name
+                          : null
+                      )}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button
+                          type="button"
+                          class="btn btn-primary mr-1 btn-sm"
+                          onClick={() => {
+                            minus(discountCart.indexOf(object));
+                          }}
+                        >
+                          -
+                        </button>
+                        {object.quantity}
+                        <button
+                          type="button"
+                          class="btn btn-primary ml-1 btn-sm"
+                          onClick={() => {
+                            plus(discountCart.indexOf(object));
+                          }}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </td>
+                    <td>{object.price}K</td>
+                    {showDiscount && (
+                      <td>
+                        <input
+                          className="text-center"
+                          type="number"
+                          onChange={setDiscount(object.product_id)}
+                          style={{ width: "50%" }}
+                        />
+                      </td>
+                    )}
+                    <td>
+                      {parseInt(object.price) * parseInt(object.quantity)}K
+                    </td>
+
+                    {/* <td><button class="btn btn-danger" onClick={} >X</button></td> */}
+                    {/* delete onclick filter  */}
+                    <td>
+                      <button
+                        class="btn btn-danger"
+                        onClick={() => {
+                          setSales(sales.splice(sales.indexOf(object), 1));
+                        }}
+                      >
+                        X
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <>
+                  {cart.length === 0
+                    ? sales.map((object) => (
+                        <tr>
+                          {/* auto increment number */}
+                          {/* <th scope="row">{sales.indexOf(object) + 1}</th> */}
+                          {/* <th scope="row">  </th> */}
+                          <td>
+                            {/* {object.product_id} */}
+                            {/* get product name from prodcontext by id */}
+                            {prodcontext.map((prod) =>
+                              prod.product_id === object.product_id
+                                ? prod.product_name
+                                : null
+                            )}
+                          </td>
+                          <td>
+                            <div class="d-flex">
+                              <button
+                                type="button"
+                                class="btn btn-primary mr-1 btn-sm"
+                                onClick={() => {
+                                  minus(sales.indexOf(object));
+                                }}
+                              >
+                                -
+                              </button>
+                              {object.quantity}
+                              <button
+                                type="button"
+                                class="btn btn-primary ml-1 btn-sm"
+                                onClick={() => {
+                                  plus(sales.indexOf(object));
+                                }}
+                              >
+                                +
+                              </button>
+                            </div>
+                          </td>
+                          <td>{object.price}K</td>
+                          <td>
+                            {parseInt(object.price) * parseInt(object.quantity)}
+                            K
+                          </td>
+                          {/* <td><button class="btn btn-danger" onClick={} >X</button></td> */}
+                          {/* delete onclick filter  */}
+                          <td>
+                            <button
+                              class="btn btn-danger"
+                              onClick={() => {
+                                setSales(
+                                  sales.splice(sales.indexOf(object), 1)
+                                );
+                              }}
+                            >
+                              X
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    : cart.map((object) => (
+                        <tr>
+                          {/* auto increment number */}
+                          {/* <th scope="row">{sales.indexOf(object) + 1}</th> */}
+                          {/* <th scope="row">  </th> */}
+                          <td>
+                            {/* {object.product_id} */}
+                            {/* get product name from prodcontext by id */}
+                            {prodcontext.map((prod) =>
+                              prod.product_id === object.product_id
+                                ? prod.product_name
+                                : null
+                            )}
+                          </td>
+                          <td>
+                            <div class="d-flex">
+                              <button
+                                type="button"
+                                class="btn btn-primary mr-1 btn-sm"
+                                onClick={() => {
+                                  minus(cart.indexOf(object));
+                                }}
+                              >
+                                -
+                              </button>
+                              {object.quantity}
+                              <button
+                                type="button"
+                                class="btn btn-primary ml-1 btn-sm"
+                                onClick={() => {
+                                  plus(cart.indexOf(object));
+                                }}
+                              >
+                                +
+                              </button>
+                            </div>
+                          </td>
+                          <td>{object.price}K</td>
+                          <td>
+                            {parseInt(object.price) * parseInt(object.quantity)}
+                            K
+                          </td>
+                          {/* <td><button class="btn btn-danger" onClick={} >X</button></td> */}
+                          {/* delete onclick filter  */}
+                          <td>
+                            <button
+                              class="btn btn-danger"
+                              onClick={() => {
+                                setSales(
+                                  sales.splice(sales.indexOf(object), 1)
+                                );
+                              }}
+                            >
+                              X
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                </>
+              )}
+            </tbody>
+            <tfoot class="bg-secondary text-white">
+              <tr>
+                {/* <th scope="row">Totals</th> */}
                 <td>
-                  {/* {object.product_id} */}
-                  {/* get product name from prodcontext by id */}
-                  {prodcontext.map((prod) =>
-                    prod.product_id === object.product_id
-                      ? prod.product_name
-                      : null
+                  {cart === null
+                    ? `${getTotalProds(sales)} products`
+                    : `${getTotalProds(cart)} products`}
+                </td>
+                <td>
+                  {cart === null
+                    ? `${getTotalQuantity(sales)} items`
+                    : `${getTotalQuantity(cart)} items`}
+                </td>
+                <td></td>
+                {showDiscount && <td></td>}
+                <td>
+                  {showDiscount ? (
+                    <>{getTotalCost(discountCart)}K</>
+                  ) : (
+                    <>
+                      {cart === null
+                        ? `${getTotalCost(sales)}K`
+                        : `${getTotalCost(cart)}K`}
+                    </>
                   )}
                 </td>
                 <td>
-                  <div class="d-flex">
-                    <button
-                      type="button"
-                      class="btn btn-primary mr-1 btn-sm"
-                      onClick={() => {
-                        minus(sales.indexOf(object));
-                      }}
-                    >
-                      -
-                    </button>
-                    {object.quantity}
-                    <button
-                      type="button"
-                      class="btn btn-primary ml-1 btn-sm"
-                      onClick={() => {
-                        plus(sales.indexOf(object));
-                      }}
-                    >
-                      +
-                    </button>
-                  </div>
-                </td>
-                <td>{object.price}K</td>
-                <td>{parseInt(object.price) * parseInt(object.quantity)}K</td>
-                {/* <td><button class="btn btn-danger" onClick={} >X</button></td> */}
-                {/* delete onclick filter  */}
-                <td>
-                  <button
-                    class="btn btn-danger"
-                    onClick={() => {
-                      setSales(sales.splice(sales.indexOf(object), 1));
-                    }}
-                  >
-                    X
+                  <button class="btn btn-primary" onClick={onSubmitForm}>
+                    Submit = Paid
                   </button>
                 </td>
               </tr>
-            ))}
-          </tbody>
-          <tfoot class="bg-secondary text-white">
-            <tr>
-              <th scope="row">Totals</th>
-              <td>{getTotalProds(sales)} products</td>
-              <td>{getTotalQuantity(sales)} items</td>
-              <td></td>
-              <td>{getTotalCost(sales)}K</td>
-              <td>
-                <button class="btn btn-primary" onClick={onSubmitForm}>
-                  Submit = Paid
-                </button>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+            </tfoot>
+          </table>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -249,14 +249,23 @@ const Navbar = () => {
                     </Link>
                   </li>
                 )}
-                {userRole === 2 && (
+                {userRole === 1 && (
                   <li class="nav-item">
-                    <Link to="/cart" class="nav-link">
+                    <Link to="/ordercart" class="nav-link">
                       <i class="fas fa-shopping-cart fa-lg"></i>{" "}
-                      {t("CART").toUpperCase()}
+                      {t("ORDERCART").toUpperCase()}
                     </Link>
                   </li>
                 )}
+                {userRole === 2 ||
+                  (1 && (
+                    <li class="nav-item">
+                      <Link to="/cart" class="nav-link">
+                        <i class="fas fa-shopping-cart fa-lg"></i>{" "}
+                        {t("CART").toUpperCase()}
+                      </Link>
+                    </li>
+                  ))}
                 {/* account dropdown */}
                 {userRole === 2 && (
                   <li class="nav-item dropdown ">

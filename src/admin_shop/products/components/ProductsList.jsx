@@ -3,6 +3,7 @@ import { SubcatsContext } from "../../../App";
 import EditProduct from "./EditProduct";
 import axios from "axios";
 import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 
 const ListProducts = () => {
   const [products, setProducts] = useState([]);
@@ -285,6 +286,226 @@ const ListProducts = () => {
     }
   };
 
+  const user = Cookies.get(import.meta.env.VITE_COOKIE_NAME)
+    ? jwtDecode(token).user_id
+    : null;
+
+  // add to sale cart
+  const addToCart = (e) => {
+    console.log("addtocart ");
+    if (user === null) {
+      const func = async () => {
+        // const addtocart = await axios.post(
+        //   "http://localhost:000/carts/token",
+        //   {
+        //     token: cartToken,
+        //     product_id: e.product_id,
+        //     quantity: 1,
+        //     price: e.price,
+        //   }
+        // );
+        // add to local storage
+        const addtocart = localStorage.setItem(
+          "cart",
+          JSON.stringify({
+            token: cartToken,
+            product_id: e.product_id,
+            quantity: 1,
+            price: e.price,
+          })
+        );
+        console.log("addtocart is: ", addtocart);
+      };
+      func();
+      alert("added to cart with carttoken");
+    } else {
+      const func = async () => {
+        // get userid
+        console.log("userrered id is: ", user);
+
+        const user_id = jwtDecode(token).user_id;
+        console.log("user_id is: ", user_id);
+
+        // const addtocart = await axios.post("http://localhost:000/carts", {
+        //   user_id: user_id,
+        //   product_id: e.product_id,
+        //   quantity: 1,
+        //   price: e.price,
+        // });
+
+        // check if already in cart
+        const checkcart = await axios.get(
+          import.meta.env.VITE_API_URL +
+            "/api/user/" +
+            user_id +
+            "?include=cart",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+        console.log("checkcart is: ", checkcart.data.carts);
+
+        // Find the cart item with the matching product_id
+        const cartItem = checkcart.data.carts.find(
+          (cart) => cart.product_id === e.product_id
+        );
+
+        if (cartItem) {
+          console.log("cartItem is: ", cartItem);
+          // If the product already exists in the cart, update the quantity
+          const updatecart = await axios.put(
+            import.meta.env.VITE_API_URL + "/api/cart/" + cartItem.cart_id,
+            {
+              user_id: cartItem.user_id,
+              product_id: cartItem.product_id,
+              quantity: cartItem.quantity + 1,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          console.log("updatecart is: ", updatecart);
+          alert("added to cart qty with user");
+        } else {
+          // If the product is not in the cart, add it with quantity 1
+          const addtocart = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/cart",
+            {
+              user_id: user_id,
+              product_id: e.product_id,
+              quantity: 1,
+              price: e.price,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          console.log("addtocart is: ", addtocart);
+          alert("added to cart with user");
+        }
+      };
+      func();
+    }
+  };
+
+  // add to order cart
+  const addToOrderCart = (e) => {
+    console.log("addtocart ");
+    if (user === null) {
+      const func = async () => {
+        // const addtocart = await axios.post(
+        //   "http://localhost:000/carts/token",
+        //   {
+        //     token: cartToken,
+        //     product_id: e.product_id,
+        //     quantity: 1,
+        //     price: e.price,
+        //   }
+        // );
+        // add to local storage
+        const addtocart = localStorage.setItem(
+          "cart",
+          JSON.stringify({
+            token: cartToken,
+            product_id: e.product_id,
+            quantity: 1,
+            price: e.price,
+          })
+        );
+        console.log("addtocart is: ", addtocart);
+      };
+      func();
+      alert("added to cart with carttoken");
+    } else {
+      const func = async () => {
+        // get userid
+        console.log("userrered id is: ", user);
+
+        const user_id = jwtDecode(token).user_id;
+        console.log("user_id is: ", user_id);
+
+        // const addtocart = await axios.post("http://localhost:000/carts", {
+        //   user_id: user_id,
+        //   product_id: e.product_id,
+        //   quantity: 1,
+        //   price: e.price,
+        // });
+
+        // check if already in cart
+        const checkcart = await axios.get(
+          import.meta.env.VITE_API_URL +
+            "/api/user/" +
+            user_id +
+            "?include=ordercart",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+        console.log("checkcart is: ", checkcart.data.ordercarts);
+
+        // Find the cart item with the matching product_id
+        const cartItem = checkcart.data.ordercarts.find(
+          (cart) => cart.product_id === e.product_id
+        );
+
+        if (cartItem) {
+          console.log("cartItem is: ", cartItem);
+          // If the product already exists in the cart, update the quantity
+          const updatecart = await axios.put(
+            import.meta.env.VITE_API_URL +
+              "/api/ordercart/" +
+              cartItem.order_cart_id,
+            {
+              user_id: cartItem.user_id,
+              product_id: cartItem.product_id,
+              quantity: cartItem.quantity + 1,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          console.log("updatecart is: ", updatecart);
+          alert("added to cart qty with user");
+        } else {
+          // If the product is not in the cart, add it with quantity 1
+          const addtocart = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/ordercart",
+            {
+              user_id: user_id,
+              product_id: e.product_id,
+              quantity: 1,
+              price: e.price,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          console.log("addtocart is: ", addtocart);
+          alert("added to cart with user");
+        }
+      };
+      func();
+    }
+  };
+
   return (
     <Fragment>
       {/* search  */}
@@ -409,8 +630,22 @@ const ListProducts = () => {
                 {/* <td> 
                         <input type="checkbox" checked={product.shop==true&&"true"}></input>
                     </td> */}
-                <td>Add to Sale</td>
-                <td>Add to Order</td>
+                <td>
+                  <button
+                    class="btn btn-success"
+                    onClick={() => addToCart(product)}
+                  >
+                    Add to Cart
+                  </button>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-success"
+                    onClick={() => addToOrderCart(product)}
+                  >
+                    Add to OrderCart
+                  </button>
+                </td>
                 <td>
                   <EditProduct product={product} />
                 </td>

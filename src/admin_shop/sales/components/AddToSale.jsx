@@ -61,7 +61,7 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
     }
 
     setSales(array);
-    console.log(sales);
+    console.log("newsalesarrya:", sales);
   };
 
   const options = prodnames.map((prodname) => {
@@ -241,7 +241,7 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
 
             <div class="row">
               <div class="col mt-4">
-                <button className="btn btn-success" onClick={onSubmitForm()}>
+                <button className="btn btn-success" onClick={onSubmitForm}>
                   Add
                 </button>
               </div>
