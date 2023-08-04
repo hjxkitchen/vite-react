@@ -64,7 +64,10 @@ const SalesList = () => {
         //   "http://localhost:000/cartss/" + user_id
         // );
         const response = await axios.get(
-          import.meta.env.VITE_API_URL + "/api/cart/user/" + user_id,
+          import.meta.env.VITE_API_URL +
+            "/api/cart/user/" +
+            user_id +
+            "?include=product",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -315,8 +318,8 @@ const SalesList = () => {
                 <tr>
                   <th>Product ID</th>
                   <th>Quantity</th>
-                  <th>Price</th>
-                  {/* <th>Subtotal</th> */}
+                  <th>@Price</th>
+                  <th>Subtotal</th>
                   {/* <th>Sale total</th>
             <th>Customer Id</th>
             <th>View</th>
@@ -325,15 +328,14 @@ const SalesList = () => {
                 </tr>
               </thead>
               <tbody>
-                {sortedSales.map((sale) => (
+                {sales.map((sale) => (
                   <tr>
                     <td>
-                      {/* {sale.product_id} */}
-                      {prodcontext.map((prod) =>
-                        prod.product_id === sale.product_id
-                          ? prod.product_name
-                          : null
-                      )}
+                      {sale.product.size +
+                        " - " +
+                        sale.product.model +
+                        " - " +
+                        sale.product.product_name}
                     </td>
                     <td>
                       {!manuallyEditCart && (
@@ -398,13 +400,8 @@ const SalesList = () => {
                         </div>
                       )}
                     </td>
-                    <td>
-                      {prices.map((p) =>
-                        p.product_id === sale.product_id
-                          ? p.price * sale.quantity
-                          : null
-                      )}
-                    </td>
+                    <td>{sale.product.price}</td>
+                    <td>{sale.product.price * sale.quantity}</td>
                     {/* <td>200</td> */}
                     {/*<td>{sale.user_id}</td> */}
                     {/* <td>{product.images}</td> */}
@@ -467,7 +464,7 @@ const SalesList = () => {
                       </div>
                     )}
                   </td>
-                  {/* <td></td> */}
+                  <td></td>
                   <td>
                     <div class="row mt-2 ">
                       <div class="col-4"></div>

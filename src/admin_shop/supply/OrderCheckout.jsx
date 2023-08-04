@@ -58,7 +58,7 @@ function Checkout() {
     // });
 
     const res = await axios.post(
-      import.meta.env.VITE_API_URL + "/api/sale",
+      import.meta.env.VITE_API_URL + "/api/order",
       {
         total_amount: grandtotal(),
         user_id: user_id,
@@ -148,7 +148,7 @@ function Checkout() {
     <Fragment>
       <Navbar />
       <div>
-        <h1 class="text-center mt-5">Checkout</h1>
+        <h1 class="text-center mt-5">Order Checkout</h1>
       </div>
 
       <div class="row justify-content-center">
@@ -163,6 +163,7 @@ function Checkout() {
                 <th>Quantity</th>
                 <th>@Price</th>
                 <th>Subtotal</th>
+                <th>Supplier ID</th>
                 {/* <th>Sale total</th>
         <th>Customer Id</th>
         <th>View</th>
@@ -187,6 +188,7 @@ function Checkout() {
                   </td>
                   <td>{sale.product.price}</td>
                   <td>{sale.product.price * sale.quantity}</td>
+                  <td>{sale.product.supplier_id}</td>
                 </tr>
               ))}
             </tbody>

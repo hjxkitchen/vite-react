@@ -1,18 +1,10 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../system/Navbar";
-import {
-  UserContext,
-  CartContext,
-  LoggedContext,
-  ProdContext,
-} from "../../App";
+import { UserContext, CartContext, LoggedContext } from "../../App";
 import axios from "axios";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
-
-// import EditProduct from "../inventory/EditProduct";
-// import ViewSaleItems from "./ViewSaleItems";
 
 const SalesList = () => {
   const [sales, setSales] = useState([]);
@@ -21,22 +13,15 @@ const SalesList = () => {
   const user = useContext(UserContext);
   const cartToken = useContext(CartContext);
   const loggedin = useContext(LoggedContext);
-  const prodcontext = useContext(ProdContext);
 
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   // get user_id from decoded token
   const decoded = jwt_decode(token);
   const user_id = decoded.user_id;
 
-  //delete product function defined
+  // Delete product function defined
   const deleteProduct = async (sale_id) => {
     try {
-      // const deleteProduct = await fetch(
-      //   `http://localhost:000/sales/${sale_id}`,
-      //   {
-      //     method: "DELETE",
-      //   }
-      // );
       const deleteProduct = await axios.delete(
         import.meta.env.VITE_APP_API_URL + "/api/Sale/" + sale_id,
         {
@@ -53,18 +38,15 @@ const SalesList = () => {
     }
   };
 
-  //get products function defeined
+  // Get products function defined
   const getSales = async () => {
     if (loggedin) {
-      // if (user !== null) {
       try {
-        console.log("uid:", user_id);
-        // const user_id = user.user_id;
-        // const response = await fetch(
-        //   "http://localhost:000/cartss/" + user_id
-        // );
         const response = await axios.get(
-          import.meta.env.VITE_API_URL + "/api/ordercart/user/" + user_id,
+          import.meta.env.VITE_API_URL +
+            "/api/ordercart/user/" +
+            user_id +
+            "?include=product",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -73,54 +55,13 @@ const SalesList = () => {
           }
         );
 
-        console.log("data:", response.data);
         const jsonData = await response.data;
         setSales(jsonData);
-        // console.log(products);
-
-        const price = await axios.get(
-          import.meta.env.VITE_API_URL +
-            "/api/attr/product?attributes=product_id,price",
-          {
-            headers: {
-              "x-api-key": import.meta.env.VITE_API_KEY,
-            },
-          }
-        );
-        setPrices(price.data);
       } catch (error) {
         console.log(error.message);
       }
-      // } else {
-      //   try {
-      //     console.log("carttoken:", cartToken);
-      //     // const response = await fetch(
-      //     //   "http://localhost:000/cartsst/" + cartToken
-      //     // );
-      //     const response = await axios.get(
-      //       import.meta.env.VITE_API_URL + "cart/user/" + user_id,
-      //       {
-      //         headers: {
-      //           Authorization: `Bearer ${token}`,
-      //           "x-api-key": import.meta.env.VITE_API_KEY,
-      //         },
-      //       }
-      //     );
-
-      //     const jsonData = await response.json();
-      //     setSales(jsonData);
-      //     // console.log(products);
-      //   } catch (error) {
-      //     console.log(error.message);
-      //   }
-      // }
     }
   };
-
-  // viewsale function
-  // const viewSale = (sale) => {
-  //     return <ViewSaleItems sale={sale}/>
-  // }
 
   useEffect(() => {
     getSales();
@@ -128,11 +69,6 @@ const SalesList = () => {
 
   const checkout = async (event) => {
     event.preventDefault();
-
-    // const res = await axios.post("http://localhost:000/cart/checkout", {
-    //   loccart: sales,
-    //   total: 5136,
-    // });
 
     const res = await axios.post(
       import.meta.env.VITE_API_URL + "cart/checkout",
@@ -148,30 +84,19 @@ const SalesList = () => {
       }
     );
 
-    // localStorage.removeItem("cart");
-    // const res = window.confirm("Are you sure you want to checkout?");
-
     window.location.reload();
   };
 
-  // plus
   const plus = async (sale) => {
     try {
-      console.log("rspnse:", sale);
-
       const body = {
         user_id: sale.user_id,
         product_id: sale.product_id,
         quantity: sale.quantity + 1,
       };
 
-      // const response = await fetch(`http://localhost:000/cart/plus`, {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(body),
-      // });
       const response = await axios.put(
-        import.meta.env.VITE_API_URL + "/api/cart/" + sale.cart_id,
+        import.meta.env.VITE_API_URL + "/api/ordercart/" + sale.order_cart_id,
         body,
         {
           headers: {
@@ -181,15 +106,12 @@ const SalesList = () => {
         }
       );
 
-      // console.log(response);
-      // window.location.reload();
       getSales();
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  // minus
   const minus = async (sale) => {
     try {
       const body = {
@@ -199,13 +121,8 @@ const SalesList = () => {
       };
 
       if (sale.quantity > 1) {
-        // const response = await fetch(`http://localhost:000/cart/minus`, {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify(body),
-        // });
         const response = await axios.put(
-          import.meta.env.VITE_API_URL + "/api/cart/" + sale.cart_id,
+          import.meta.env.VITE_API_URL + "/api/ordercart/" + sale.order_cart_id,
           body,
           {
             headers: {
@@ -214,32 +131,8 @@ const SalesList = () => {
             },
           }
         );
-      } else {
-        // confirm delete
-        const res = window.confirm(
-          "Are you sure you want to delete this item?"
-        );
-        if (res) {
-          // const response = await fetch(`http://localhost:000/cart/remove`, {
-          //   method: "POST",
-          //   headers: { "Content-Type": "application/json" },
-          //   body: JSON.stringify(body),
-          // });
-          const response = await axios.delete(
-            import.meta.env.VITE_API_URL + "cart/remove" + sale.cart_id,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "x-api-key": import.meta.env.VITE_API_KEY,
-              },
-            }
-          );
-        }
+        getSales();
       }
-
-      // console.log(response);
-      // window.location.reload();
-      getSales();
     } catch (error) {
       console.log(error.message);
     }
@@ -249,14 +142,9 @@ const SalesList = () => {
     try {
       const res = window.confirm("Are you sure you want to delete this item?");
       if (res) {
-        const body = { cart_id: sale.cart_id };
-        // const response = await fetch(`http://localhost:000/cart/remove`, {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify(body),
-        // });
+        const body = { cart_id: sale.ordercart_id };
         const response = await axios.delete(
-          import.meta.env.VITE_API_URL + "/api/cart/" + sale.cart_id,
+          import.meta.env.VITE_API_URL + "/api/ordercart/" + sale.order_cart_id,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -265,8 +153,6 @@ const SalesList = () => {
           }
         );
 
-        // console.log(response);
-        // window.location.reload();
         getSales();
       }
     } catch (error) {
@@ -274,233 +160,172 @@ const SalesList = () => {
     }
   };
 
-  // sort sales by cart_id
-  const sortSales = (sales) => {
-    const sortedSales = sales.sort((a, b) => {
-      return a.cart_id - b.cart_id;
-    });
-    return sortedSales;
-  };
-
-  const sortedSales = sortSales(sales);
-
   const [manuallyEditCart, setManuallyEditCart] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleManuallyEditCart = () => {
-    if (manuallyEditCart) {
-      setManuallyEditCart(false);
-    } else {
-      setManuallyEditCart(true);
+    setManuallyEditCart(!manuallyEditCart);
+  };
+
+  // Group sales by supplier ID
+  const groupedSales = {};
+  sales.forEach((sale) => {
+    if (!groupedSales[sale.product.supplier_id]) {
+      groupedSales[sale.product.supplier_id] = [];
     }
+    groupedSales[sale.product.supplier_id].push(sale);
+  });
+
+  const handleSupplierCheckout = async (supplierId) => {
+    // Perform submit action for the sales belonging to the supplier with the given ID
+    const salesToSubmit = groupedSales[supplierId];
+
+    // Your submit logic goes here...
+    // For example, you can send a request to the backend API with the salesToSubmit data.
+    // You can use the 'axios' library or any other method you prefer.
+
+    console.log(`Submitting sales for supplier ID: ${supplierId}`);
+    console.log(salesToSubmit);
+
+    // Navigate to the "/checkout" page with salesToSubmit data
+    navigate("/checkout", { state: { sales: salesToSubmit } });
+
+    // Calculate the total cost for sales of this supplier
+    const totalCost = calculateTotal(salesToSubmit);
+    console.log(`Total cost for supplier ${supplierId}: ${totalCost}`);
+  };
+
+  // Calculate the total cost for sales of a specific supplier
+  const calculateTotal = (salesToSubmit) => {
+    return salesToSubmit.reduce((total, sale) => {
+      return total + sale.product.cost * sale.quantity;
+    }, 0);
   };
 
   return (
     <Fragment>
       <Navbar />
 
-      <h1 class="text-center mt-5">Cart</h1>
+      <h1 className="text-center mt-5">Cart</h1>
 
-      {/* <ViewSaleItems /> */}
-      {/* <div class="d-flex justify-content-center" > */}
-      {/* <h2>Products Table</h2> */}
-      {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
-
-      {sales.length > 0 ? (
-        <div class="container mb-5">
-          <div class="row justify-content-center">
-            {/* <div class="col-sm-3 col-md-6 "> */}
-            {/* <div class="table-responsive">  */}
-            <table class="table mt-5  col-md-8 text-center">
-              <thead>
-                <tr>
-                  <th>Product ID</th>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                  {/* <th>Subtotal</th> */}
-                  {/* <th>Sale total</th>
-            <th>Customer Id</th>
-            <th>View</th>
-            <th>Edit</th>
-            <th>Delete</th> */}
-                </tr>
-              </thead>
-              <tbody>
-                {sortedSales.map((sale) => (
+      {Object.keys(groupedSales).length > 0 ? (
+        <div className="container mb-5">
+          {Object.keys(groupedSales).map((supplierId) => (
+            <div key={supplierId} className="mb-5">
+              <h3>Supplier ID: {supplierId}</h3>
+              <table className="table mt-5 col-md-8 text-center">
+                <thead>
                   <tr>
-                    <td>
-                      {/* {sale.product_id} */}
-                      {prodcontext.map((prod) =>
-                        prod.product_id === sale.product_id
-                          ? prod.product_name
-                          : null
-                      )}
-                    </td>
-                    <td>
-                      {!manuallyEditCart && (
-                        <div class="row justify-content-center ">
-                          {/* // <div class="d-flex"> */}
-                          {/* align d-flex center */}
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Cost</th>
+                    <th>Supplier</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {groupedSales[supplierId].map((sale) => (
+                    <tr key={sale.product.product_id}>
+                      <td>{sale.product.product_id}</td>
+                      <td>
+                        {sale.product.size +
+                          " - " +
+                          sale.product.model +
+                          " - " +
+                          sale.product.product_name}
+                      </td>
+                      <td>
+                        {!manuallyEditCart && (
+                          <div className="row justify-content-center">
+                            <div className="d-flex justify-content-center">
+                              <button
+                                className="btn btn-secondary"
+                                onClick={() => minus(sale)}
+                              >
+                                <i className="fas fa-minus"></i>
+                              </button>
 
-                          <div class="d-flex justify-content-center">
-                            <button
-                              class="btn btn-secondary"
-                              onClick={() => {
-                                minus(sale);
-                              }}
-                            >
-                              <i class="fas fa-minus"></i>
-                            </button>
+                              <div className="col col-xs-2">
+                                <input
+                                  type="text"
+                                  className="form-control text-center"
+                                  value={sale.quantity}
+                                  style={{ width: "60px", lineWidth: "60px" }}
+                                />
+                              </div>
 
-                            <div class=" col col-xs-2">
-                              <input
-                                type="text"
-                                class="form-control text-center"
-                                value={sale.quantity}
-                                style={{ width: "60px", lineWidth: "60px" }}
-                              />
-                              {/* {sale.quantity} */}
+                              <button
+                                className="btn btn-secondary"
+                                onClick={() => plus(sale)}
+                              >
+                                <i className="fas fa-plus"></i>
+                              </button>
                             </div>
-
-                            <button
-                              class="btn btn-secondary"
-                              onClick={() => {
-                                plus(sale);
-                              }}
-                            >
-                              <i class="fas fa-plus"></i>
-                            </button>
                           </div>
+                        )}
+                        {manuallyEditCart && (
+                          <div className="row justify-content-center">
+                            <div className="d-flex justify-content-center">
+                              <button className="btn btn-secondary disabled">
+                                <i className="fas fa-minus"></i>
+                              </button>
 
-                          {/* </div> */}
-                        </div>
-                      )}
-                      {manuallyEditCart && (
-                        <div class="row justify-content-center ">
-                          <div class="d-flex justify-content-center">
-                            <button class="btn btn-secondary disabled">
-                              <i class="fas fa-minus"></i>
-                            </button>
+                              <div className="col col-xs-2 ">
+                                <input
+                                  type="integer"
+                                  className="form-control text-center"
+                                  defaultValue={sale.quantity}
+                                  style={{ width: "60px", lineWidth: "60px" }}
+                                />
+                              </div>
 
-                            <div class=" col col-xs-2 ">
-                              <input
-                                type="integer"
-                                class="form-control text-center"
-                                defeaultValue={sale.quantity}
-                                style={{ width: "60px", lineWidth: "60px" }}
-                              />
-                              {/* {sale.quantity} */}
+                              <button className="btn btn-secondary disabled">
+                                <i className="fas fa-plus"></i>
+                              </button>
                             </div>
-
-                            <button class="btn btn-secondary disabled">
-                              <i class="fas fa-plus"></i>
-                            </button>
                           </div>
-                        </div>
-                      )}
-                    </td>
-                    <td>
-                      {prices.map((p) =>
-                        p.product_id === sale.product_id
-                          ? p.price * sale.quantity
-                          : null
-                      )}
-                    </td>
-                    {/* <td>200</td> */}
-                    {/*<td>{sale.user_id}</td> */}
-                    {/* <td>{product.images}</td> */}
-                    {/* <td> 
-                        <input type="checkbox" checked={product.shop==true&&"true"}></input>
-                    </td> */}
-                    {/* <td>
-                        <EditProduct product={product}/>
-                    </td> */}
-                    {/* <td> */}
-                    {/* <button class="btn btn-primary" 
-                        type="button" onClick={viewSale(sale)}>Open</button> */}
-                    {/* <ViewSaleItems sale={sale}/> */}
-                    {/* </td> */}
-                    {/* <td>
-                        <button class="btn btn-warning" 
-                        onClick={() => deleteProduct(sale.sale_id)}>Edit</button>
-                    </td> */}
-                    <td>
-                      <button
-                        class="btn btn-danger"
-                        onClick={() => remove(sale)}
-                      >
-                        X
-                      </button>
+                        )}
+                      </td>
+                      <td>{sale.product.cost}</td>
+                      <td>{sale.product.supplier_id}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan="4">
+                      <div className="row justify-content-center">
+                        <button
+                          className="btn btn-success"
+                          onClick={() => handleSupplierCheckout(supplierId)}
+                        >
+                          Checkout for Supplier {supplierId}
+                        </button>
+                      </div>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-
-              {/* footer */}
-              <tfoot>
-                <tr>
-                  <td>
-                    <div class="row justify-content-center">
-                      <Link to="/checkout" state={{ sales: sales }}>
-                        <button class="btn btn-success">Checkout</button>
-                      </Link>
-                    </div>
-                  </td>
-                  <td>
-                    {!manuallyEditCart && (
-                      <div class="row justify-content-center">
-                        <button
-                          class="btn btn-warning"
-                          onClick={handleManuallyEditCart}
-                        >
-                          Edit Quantity
-                        </button>
-                      </div>
-                    )}
-                    {manuallyEditCart && (
-                      <div class="row justify-content-center">
-                        <button
-                          class="btn btn-info"
-                          onClick={handleManuallyEditCart}
-                        >
-                          Submit Quantity
-                        </button>
-                      </div>
-                    )}
-                  </td>
-                  {/* <td></td> */}
-                  <td>
-                    <div class="row mt-2 ">
-                      <div class="col-4"></div>
-                      <div class="col-4">
-                        <div class=" mr-2">
-                          Total:
-                          {sales.reduce((total, sale) => {
-                            return (
-                              total +
-                              prices.reduce((total, price) => {
-                                return (
-                                  total +
-                                  (price.product_id === sale.product_id
-                                    ? price.price * sale.quantity
-                                    : 0)
-                                );
-                              }, 0)
-                            );
-                          }, 0)}
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-
-            {/* </div> */}
-            {/* </div> */}
+                </tfoot>
+              </table>
+            </div>
+          ))}
+          <div className="col-md-8 text-center mt-3">
+            <h3>Grand Total</h3>
+            <div className="ml-1 mr-1">
+              Total:{" "}
+              {Object.keys(groupedSales).reduce((total, supplierId) => {
+                return (
+                  total +
+                  groupedSales[supplierId].reduce((subtotal, sale) => {
+                    return subtotal + sale.product.cost * sale.quantity;
+                  }, 0)
+                );
+              }, 0)}
+            </div>
           </div>
         </div>
       ) : (
-        <h2 class="text-center mt-5">cart empty</h2>
+        <h2 className="text-center mt-5">Cart empty</h2>
       )}
     </Fragment>
   );
