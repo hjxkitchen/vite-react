@@ -11,7 +11,7 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
   const [newcustomer, setNewCustomer] = useState({});
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
-  setSales(array);
+  // setSales(array);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -25,49 +25,44 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
   //     setCustomer(values => ({...values, [name]: value}))
   // }
 
-  // submit function
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    // array.push(inputs);
-    console.log(inputs);
+    // Assuming you have some form data with product_id, quantity, and price
+    // const formData = {
+    //   product_id: 1,
+    //   quantity: 3,
+    //   price: 100,
+    // };
 
-    if (inputs.product_id && inputs.quantity > 0 && inputs.price > 0) {
-      // if description already exists, update quantity and price
-      let found = false;
-      for (let i = 0; i < array.length; i++) {
-        if (array[i].product_id === inputs.product_id) {
-          // change quantity with set array
-          setArray(
-            array.map((item, index) => {
-              if (index === i) {
-                return {
-                  ...item,
-                  quantity: parseInt(item.quantity) + parseInt(inputs.quantity),
-                  // cost: parseInt(item.price) + parseInt(inputs.price)
-                };
-              }
-              return item;
-            })
-          );
-          found = true;
-          break;
-        }
-      }
+    const formData = inputs;
 
-      // if description does not exist, add to array
-      if (!found) {
-        setArray((array) => [...array, inputs]);
-      }
+    const existingProductIndex = sales.findIndex(
+      (product) => product.product_id === formData.product_id
+    );
+
+    if (existingProductIndex !== -1) {
+      // If the product exists, update its quantity
+      setSales((prevSales) => {
+        const updatedSales = [...prevSales];
+        updatedSales[existingProductIndex] = {
+          ...updatedSales[existingProductIndex],
+          quantity:
+            parseInt(updatedSales[existingProductIndex].quantity) +
+            parseInt(formData.quantity),
+        };
+        return updatedSales;
+      });
+    } else {
+      // If the product does not exist, add a new entry to the sales array
+      setSales((prevSales) => [...prevSales, formData]);
     }
-
-    setSales(array);
-    console.log("newsalesarrya:", sales);
   };
 
   const options = prodnames.map((prodname) => {
     return {
       value: prodname.product_id,
-      label: prodname.product_name,
+      label:
+        prodname.size + " - " + prodname.model + " - " + prodname.product_name,
     };
   });
 
@@ -80,6 +75,8 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
   };
 
   const [defaultprice, setDefaultPrice] = useState(0);
+
+  const [pid, setPID] = useState(0);
 
   const changedd = async (e) => {
     setInputs((values) => ({ ...values, product_id: e.value }));
@@ -106,6 +103,7 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
 
     // set inputs price
     setInputs((values) => ({ ...values, price: defaultprice.data.price }));
+    console.log("inputs", inputs);
   };
 
   // form
@@ -124,11 +122,9 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
                             value={inputs.description} 
                             onChange={handleChange} 
                             /> */}
-
             <Select options={options} onChange={changedd} />
-
+            {inputs.product_id}
             {/* </label>                                     */}
-
             {/* 2nd */}
             <div class="d-flex">
               <label class="mt-3">
@@ -177,7 +173,6 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
                 </div>
               </label>
             </div>
-
             {/* <div class="input-group mb-3 mt-4">
               <div class="input-group-append">
                 <div class="input-group-text">
@@ -238,7 +233,6 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
             )}
 
             <button onClick={byPhone}>By Phone</button> */}
-
             <div class="row">
               <div class="col mt-4">
                 <button className="btn btn-success" onClick={onSubmitForm}>

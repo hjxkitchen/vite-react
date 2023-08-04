@@ -139,6 +139,27 @@ const ListProducts = () => {
     }
   };
 
+  const searchPID = async (e) => {
+    e.preventDefault();
+
+    if (e.target.value === "") {
+      getProducts();
+    } else {
+      // set search term from e
+      const searchTerm = e.target.value;
+      console.log("searchTerm is: ", searchTerm);
+
+      // filter products by search term
+      const filteredProducts = products.filter((product) => {
+        // Convert product_id to a string before comparing
+        return product.product_id.toString().includes(searchTerm);
+      });
+
+      // set products to filtered products
+      setProducts(filteredProducts);
+    }
+  };
+
   const [invsorted, setInvsorted] = useState(false);
   const [idsorted, setIdsorted] = useState(false);
 
@@ -511,6 +532,18 @@ const ListProducts = () => {
       {/* search  */}
       {/* <div class="justify-content-center mt-3 mb-5  sticky-top"> */}
       <div class="input-group sticky-top mb-5">
+        <div class="input-group-prepend">
+          {/* pid search */}
+          <input
+            type="text"
+            class="form-control"
+            onChange={searchPID}
+            placeholder="Search Product ID"
+            aria-label="Search"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+
         <input
           type="text"
           class="form-control"

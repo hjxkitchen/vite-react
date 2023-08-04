@@ -56,7 +56,7 @@ function Sales() {
   };
 
   const [names, setNames] = useState([]);
-  const [name, setName] = useState("");
+  const [name, setName] = useState(null);
 
   const getNames = async () => {
     try {
@@ -90,6 +90,9 @@ function Sales() {
     setCustomerid(newValue.value);
 
     // set customer phone
+    // console.log("newvalue", newValue);
+    setCustomerPhone(newValue.label);
+
     // const customer = {
     //     phone: e.value,
     // };
@@ -262,6 +265,7 @@ function Sales() {
                 customerid={customerid}
                 customerphone={customerphone}
                 name={name}
+                isNewContact={isNewContact}
               />
             </div>
           </div>

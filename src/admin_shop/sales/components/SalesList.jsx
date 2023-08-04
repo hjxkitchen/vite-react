@@ -7,14 +7,14 @@ import Cookies from "js-cookie";
 // import ViewSaleItems from "../ViewSaleItems";
 
 const SalesList = () => {
-  const [sales, setSales] = useState([]);
+  const [saless, setSales] = useState([]);
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   //delete product function defined
   const deleteProduct = async (sale_id) => {
     try {
       // const deleteProduct = await fetch(
-      //   `http://localhost:000/sales/${sale_id}`,
+      //   `http://localhost:000/saless/${sale_id}`,
       //   {
       //     method: "DELETE",
       //   }
@@ -29,7 +29,7 @@ const SalesList = () => {
         }
       );
 
-      setSales(sales.filter((sale) => sale.sale_id !== sale_id));
+      setSales(saless.filter((sale) => sale.sale_id !== sale_id));
     } catch (error) {
       console.error(error.message);
     }
@@ -38,7 +38,7 @@ const SalesList = () => {
   //get products function defeined
   const getSales = async () => {
     try {
-      // const response = await fetch("http://localhost:000/saleslist");
+      // const response = await fetch("http://localhost:000/salesslist");
       const response = await axios.get(
         import.meta.env.VITE_API_URL + "/api/sale?include=user",
         {
@@ -50,14 +50,14 @@ const SalesList = () => {
       );
 
       const jsonData = await response.data;
-      // sort sales by date
+      // sort saless by date
 
       // jsonData.sort(function(a, b) {
       //     var dateA = new Date(a.sale_date), dateB = new Date(b.sale_date);
       //     return dateB - dateA;
       // });
 
-      // sort sales by sale id
+      // sort saless by sale id
       jsonData.sort(function (a, b) {
         return b.sale_id - a.sale_id;
       });
@@ -74,7 +74,7 @@ const SalesList = () => {
     getUsers();
   }, []);
 
-  //    when search filter sales by search
+  //    when search filter saless by search
   const [search, setSearch] = useState("");
   const [filteredSales, setFilteredSales] = useState([]);
   const [searched, setSearched] = useState(false);
@@ -110,7 +110,7 @@ const SalesList = () => {
     if (e.target.value.length !== 0) {
       setSearched(true);
       setSearchedSales(
-        sales.filter((sale) => sale.phone.includes(e.target.value))
+        saless.filter((sale) => sale.phone.includes(e.target.value))
       );
       // if no results say empty
     } else {
@@ -127,9 +127,9 @@ const SalesList = () => {
     if (e.target.value.length !== 0) {
       setSearchedNames(true);
       console.log("e.target.value", e.target.value);
-      console.log("sales", sales);
+      console.log("saless", saless);
       setSearchedSalesNames(
-        sales.filter((sale) =>
+        saless.filter((sale) =>
           // sale.name.toLowerCase().includes(e.target.value.toLowerCase())
           // sale.user_id === parseInt(e.target.value)
           sale.user.username
@@ -152,7 +152,7 @@ const SalesList = () => {
     if (e.target.value.length !== 0) {
       setSearchedNames(true);
       console.log("e.target.value", e.target.value);
-      console.log("sales", sales);
+      console.log("saless", saless);
       // filter users who have this phone number. check entire user.phones array for number includes
       const filteredUsers = allUsers.filter((user) =>
         user.phones.some((phone) => phone.number.includes(e.target.value))
@@ -160,8 +160,8 @@ const SalesList = () => {
 
       console.log("filteredUsers", filteredUsers);
 
-      // get sales of filtered users
-      const filteredSales = sales.filter((sale) =>
+      // get saless of filtered users
+      const filteredSales = saless.filter((sale) =>
         filteredUsers.some((user) => user.user_id === sale.user_id)
       );
 
@@ -176,7 +176,7 @@ const SalesList = () => {
 
   const [sorted, setSorted] = useState(false);
 
-  // filter sales by status
+  // filter saless by status
   const statussort = [
     "Paid",
     "shipped",
@@ -184,32 +184,32 @@ const SalesList = () => {
     "delivered",
     "cancelled",
   ];
-  const [sortedSales, setSortedSales] = useState(sales);
+  const [sortedSales, setSortedSales] = useState(saless);
 
-  console.log("sa;les", sales);
+  console.log("sa;les", saless);
 
   const click = () => {
-    console.log("before:", sales);
+    console.log("before:", saless);
 
     if (sorted === false) {
-      const saleso = sales;
+      const salesso = saless;
 
-      const sortSales = (saleso) => {
-        const sortedSalesres = saleso.sort((a, b) => {
+      const sortSales = (salesso) => {
+        const sortedSalesres = salesso.sort((a, b) => {
           return statussort.indexOf(a.status) - statussort.indexOf(b.status);
         });
         return sortedSalesres;
       };
-      const sortedSales = sortSales(saleso);
-      console.log("newsales;", sortedSales);
+      const sortedSales = sortSales(salesso);
+      console.log("newsaless;", sortedSales);
       setSortedSales(sortedSales);
       setSorted(true);
     } else {
       console.log("setting false");
       setSorted(false);
       // SORT BY SALEID
-      const saleso = sales;
-      const sortedSales = saleso.sort((a, b) => {
+      const salesso = saless;
+      const sortedSales = salesso.sort((a, b) => {
         return b.sale_id - a.sale_id;
       });
       setSortedSales(sortedSales);
@@ -217,27 +217,27 @@ const SalesList = () => {
   };
 
   const clickdef = () => {
-    console.log("before:", sales);
+    console.log("before:", saless);
 
     if (sorted === false) {
-      const saleso = sales;
+      const salesso = saless;
 
-      const sortSales = (saleso) => {
-        const sortedSalesres = saleso.sort((a, b) => {
+      const sortSales = (salesso) => {
+        const sortedSalesres = salesso.sort((a, b) => {
           return a.sale_id - b.sale_id;
         });
         return sortedSalesres;
       };
-      const sortedSales = sortSales(saleso);
-      console.log("newsales;", sortedSales);
+      const sortedSales = sortSales(salesso);
+      console.log("newsaless;", sortedSales);
       setSortedSales(sortedSales);
       setSorted(true);
     } else {
       console.log("setting false");
       setSorted(false);
       // SORT BY SALEID
-      const saleso = sales;
-      const sortedSales = saleso.sort((a, b) => {
+      const salesso = saless;
+      const sortedSales = salesso.sort((a, b) => {
         return b.sale_id - a.sale_id;
       });
       setSortedSales(sortedSales);
@@ -397,7 +397,7 @@ const SalesList = () => {
             </>
           ) : (
             <>
-              {sales.map((sale) => (
+              {saless.map((sale) => (
                 <tr key={sale.sale_id}>
                   <Link to={"/salelogs/" + sale.sale_id}>{sale.sale_id}</Link>
                   <td>

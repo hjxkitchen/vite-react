@@ -13,6 +13,7 @@ const AddSale = ({
   customerid,
   customerphone,
   name,
+  isNewContact,
 }) => {
   const usercontext = useContext(UserContext);
   const prodcontext = useContext(ProdContext);
@@ -52,92 +53,308 @@ const AddSale = ({
 
     console.log("name", name, "customerphone", customerphone);
 
-    if (sales.length === 0) {
-      alert("Please add items to sale");
+    if (!customerphone) {
+      alert("Please enter a phone number");
       return;
-    } else if (customerid !== null) {
-      try {
-        const res = await axios.post(
-          import.meta.env.VITE_API_URL + "/api/sale",
-          {
-            total_amount: getTotalCost(sales),
-            user_id: customerid !== null ? customerid : 3,
-            source: "Pos",
-            status: "Initialized",
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "x-api-key": import.meta.env.VITE_API_KEY,
-            },
-          }
-        );
-        // refresh page
-        window.location.reload();
-      } catch (error) {
-        console.error(error.message);
+    }
+
+    if (isNewContact) {
+      if (name === null || customerphone === null) {
+        alert("Please enter name and phone number");
+        return;
       }
-    } else if (customerphone !== null) {
-      try {
-        // add new customer contact
-        const res2 = await axios.post(
-          import.meta.env.VITE_API_URL + "/api/user",
-          {
-            username: name,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "x-api-key": import.meta.env.VITE_API_KEY,
+    }
+
+    if (showDiscount) {
+      if (sales.length === 0) {
+        alert("Please add items to sale");
+        return;
+      } else if (customerid !== null) {
+        try {
+          const res = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/sale",
+            {
+              total_amount: getTotalCost(sales),
+              user_id: customerid !== null ? customerid : 3,
+              source: "Pos",
+              status: "Initialized",
             },
-          }
-        );
-
-        // get new customer id from res2
-        const newcustomerid = res2.data.user_id;
-        console.log("newcustomerid", newcustomerid);
-
-        // add new customer contact
-        const res3 = await axios.post(
-          import.meta.env.VITE_API_URL + "/api/phone",
-          {
-            user_id: newcustomerid,
-            number: customerphone,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "x-api-key": import.meta.env.VITE_API_KEY,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          // refresh page
+          window.location.reload();
+        } catch (error) {
+          console.error(error.message);
+        }
+      } else if (customerphone !== null) {
+        try {
+          // add new customer contact
+          const res2 = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/user",
+            {
+              username: name,
             },
-          }
-        );
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
 
-        // add to verifications table because its a new number
+          // get new customer id from res2
+          const newcustomerid = res2.data.user_id;
+          console.log("newcustomerid", newcustomerid);
 
-        // add sale
-        const res = await axios.post(
-          import.meta.env.VITE_API_URL + "/api/sale",
-          {
-            total_amount: getTotalCost(sales),
-            user_id: newcustomerid,
-            source: "Pos",
-            status: "Initialized",
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "x-api-key": import.meta.env.VITE_API_KEY,
+          // add new customer contact
+          const res3 = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/phone",
+            {
+              user_id: newcustomerid,
+              number: customerphone,
             },
-          }
-        );
-        // refresh page
-        window.location.reload();
-      } catch (error) {
-        console.error(error.message);
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+
+          // add to verifications table because its a new number
+
+          // add sale
+          const res = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/sale",
+            {
+              total_amount: getTotalCost(sales),
+              user_id: newcustomerid,
+              source: "Pos",
+              status: "Initialized",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          // refresh page
+          window.location.reload();
+        } catch (error) {
+          console.error(error.message);
+        }
+      } else {
+        alert("Please select a customer");
+        return;
+      }
+    } else if (cart.length !== 0) {
+      if (cart.length === 0) {
+        alert("Please add items to sale");
+        return;
+      } else if (customerid !== null) {
+        try {
+          const res = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/sale",
+            {
+              total_amount: getTotalCost(cart),
+              user_id: customerid !== null ? customerid : 3,
+              source: "Pos",
+              status: "Initialized",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          // refresh page
+          window.location.reload();
+        } catch (error) {
+          console.error(error.message);
+        }
+      } else if (customerphone !== null) {
+        try {
+          // add new customer contact
+          const res2 = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/user",
+            {
+              username: name,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+
+          // get new customer id from res2
+          const newcustomerid = res2.data.user_id;
+          console.log("newcustomerid", newcustomerid);
+
+          // add new customer contact
+          const res3 = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/phone",
+            {
+              user_id: newcustomerid,
+              number: customerphone,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+
+          // add to verifications table because its a new number
+
+          // add sale
+          const res = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/sale",
+            {
+              total_amount: getTotalCost(sales),
+              user_id: newcustomerid,
+              source: "Pos",
+              status: "Initialized",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          // refresh page
+          window.location.reload();
+        } catch (error) {
+          console.error(error.message);
+        }
+      } else {
+        alert("Please select a customer");
+        return;
       }
     } else {
-      alert("Please select a customer");
-      return;
+      if (sales.length === 0) {
+        alert("Please add items to sale");
+        return;
+      } else if (customerid !== null) {
+        try {
+          // post sale
+          const res = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/sale",
+            {
+              total_amount: getTotalCost(sales),
+              user_id: customerid !== null ? customerid : 3,
+              source: "Pos",
+              status: "Initialized",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+
+          // get sale id from res
+          const saleid = res.data.sale_id;
+
+          console.log("sales to post to saleitems is :", sales);
+
+          // make a copy of sales with sale_id
+          let saleitems = sales.map((item) => ({
+            ...item,
+            sale_id: saleid,
+          }));
+
+          // post sales to saleitems
+          const res2 = await axios.post(
+            import.meta.env.VITE_API_URL + "/saleitems",
+            {
+              saleitems,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          // refresh page
+          window.location.reload();
+        } catch (error) {
+          console.error(error.message);
+        }
+      } else if (customerphone !== null) {
+        try {
+          // add new customer contact
+          const res2 = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/user",
+            {
+              username: name,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+
+          // get new customer id from res2
+          const newcustomerid = res2.data.user_id;
+          console.log("newcustomerid", newcustomerid);
+
+          // add new customer contact
+          const res3 = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/phone",
+            {
+              user_id: newcustomerid,
+              number: customerphone,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+
+          // add to verifications table because its a new number
+
+          // add sale
+          const res = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/sale",
+            {
+              total_amount: getTotalCost(sales),
+              user_id: newcustomerid,
+              source: "Pos",
+              status: "Initialized",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          // refresh page
+          window.location.reload();
+        } catch (error) {
+          console.error(error.message);
+        }
+      } else {
+        alert("Please select a customer");
+        return;
+      }
     }
   };
 
@@ -316,23 +533,46 @@ const AddSale = ({
   const carttopos = () => {
     console.log("cart", cart);
 
-    let newSales = [...cart];
+    let newSales = JSON.parse(JSON.stringify(cart)); // Make a deep copy of cart
 
     console.log("sales", newSales);
-    setSales(newSales);
     setCart([]);
+    setSales(newSales);
+
+    // demo array
+    // let demo = [
+    //   {
+    //     product_id: 1,
+    //     quantity: 1,
+    //     price: 100,
+    //   },
+    // ];
+
+    // setSales(demo);
   };
 
   return (
     <>
-      <button class="btn btn-primary ml-5" onClick={fillfromcart}>
-        Fill from cart
-      </button>
-      <button class="btn btn-primary ml-5" onClick={carttopos}>
-        Cart to POS
-      </button>
-      <button class="btn btn-primary ml-5" onClick={showDiscounts}>
-        Show Discounts
+      {cart.length === 0 && (
+        <button class="btn btn-primary ml-5" onClick={fillfromcart}>
+          Fill from cart
+        </button>
+      )}
+      {cart.length !== 0 && (
+        <button class="btn btn-primary ml-5" onClick={carttopos}>
+          Cart to POS
+        </button>
+      )}
+      <button
+        // conditional className
+        class={
+          showDiscount
+            ? "btn btn-outline-dark active ml-5"
+            : "btn btn-outline active ml-5"
+        }
+        onClick={showDiscounts}
+      >
+        Discounts
       </button>
       <div class="container d-flex justify-content-center">
         <div class="table-responsive">
@@ -340,6 +580,7 @@ const AddSale = ({
             <thead>
               <tr>
                 {/* <th scope="col">#</th> */}
+                <th scope="col">PID</th>
                 <th scope="col">Product</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">@Price</th>
@@ -355,12 +596,17 @@ const AddSale = ({
                     {/* auto increment number */}
                     {/* <th scope="row">{sales.indexOf(object) + 1}</th> */}
                     {/* <th scope="row">  </th> */}
+                    <td>{object.product_id}</td>
                     <td>
                       {/* {object.product_id} */}
                       {/* get product name from prodcontext by id */}
                       {prodcontext.map((prod) =>
                         prod.product_id === object.product_id
-                          ? prod.product_name
+                          ? prod.size +
+                            " - " +
+                            prod.model +
+                            " - " +
+                            prod.product_name
                           : null
                       )}
                     </td>
@@ -405,10 +651,14 @@ const AddSale = ({
                     {/* <td><button class="btn btn-danger" onClick={} >X</button></td> */}
                     {/* delete onclick filter  */}
                     <td>
+                      {" "}
                       <button
                         class="btn btn-danger"
                         onClick={() => {
-                          setSales(sales.splice(sales.indexOf(object), 1));
+                          const updatedDiscountCart = discountCart.filter(
+                            (item) => item !== object
+                          );
+                          setDiscountCart(updatedDiscountCart);
                         }}
                       >
                         X
@@ -424,12 +674,18 @@ const AddSale = ({
                           {/* auto increment number */}
                           {/* <th scope="row">{sales.indexOf(object) + 1}</th> */}
                           {/* <th scope="row">  </th> */}
+                          <td>{object.product_id}</td>
+
                           <td>
                             {/* {object.product_id} */}
                             {/* get product name from prodcontext by id */}
                             {prodcontext.map((prod) =>
                               prod.product_id === object.product_id
-                                ? prod.product_name
+                                ? prod.size +
+                                  " - " +
+                                  prod.model +
+                                  " - " +
+                                  prod.product_name
                                 : null
                             )}
                           </td>
@@ -467,9 +723,10 @@ const AddSale = ({
                             <button
                               class="btn btn-danger"
                               onClick={() => {
-                                setSales(
-                                  sales.splice(sales.indexOf(object), 1)
+                                const updatedSales = sales.filter(
+                                  (item) => item !== object
                                 );
+                                setSales(updatedSales);
                               }}
                             >
                               X
@@ -482,12 +739,18 @@ const AddSale = ({
                           {/* auto increment number */}
                           {/* <th scope="row">{sales.indexOf(object) + 1}</th> */}
                           {/* <th scope="row">  </th> */}
+                          <td>{object.product_id}</td>
+
                           <td>
                             {/* {object.product_id} */}
                             {/* get product name from prodcontext by id */}
                             {prodcontext.map((prod) =>
                               prod.product_id === object.product_id
-                                ? prod.product_name
+                                ? prod.size +
+                                  " - " +
+                                  prod.model +
+                                  " - " +
+                                  prod.product_name
                                 : null
                             )}
                           </td>
@@ -525,9 +788,10 @@ const AddSale = ({
                             <button
                               class="btn btn-danger"
                               onClick={() => {
-                                setSales(
-                                  sales.splice(sales.indexOf(object), 1)
+                                const updatedCart = cart.filter(
+                                  (item) => item !== object
                                 );
+                                setCart(updatedCart);
                               }}
                             >
                               X
@@ -541,13 +805,14 @@ const AddSale = ({
             <tfoot class="bg-secondary text-white">
               <tr>
                 {/* <th scope="row">Totals</th> */}
+                <td></td>
                 <td>
-                  {cart === null
+                  {cart.length === 0
                     ? `${getTotalProds(sales)} products`
                     : `${getTotalProds(cart)} products`}
                 </td>
                 <td>
-                  {cart === null
+                  {cart.length === 0
                     ? `${getTotalQuantity(sales)} items`
                     : `${getTotalQuantity(cart)} items`}
                 </td>
@@ -558,7 +823,7 @@ const AddSale = ({
                     <>{getTotalCost(discountCart)}K</>
                   ) : (
                     <>
-                      {cart === null
+                      {cart.length === 0
                         ? `${getTotalCost(sales)}K`
                         : `${getTotalCost(cart)}K`}
                     </>
