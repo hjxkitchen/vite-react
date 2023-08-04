@@ -316,7 +316,10 @@ const App = () => {
                         {/* <Route path="users" element={<Users />} /> */}
 
                         <Route path="orders" element={<Orders />} />
-                        <Route path="orderlogs" element={<OrderLogs />} />
+                        <Route
+                          path="orderlogs/:order_id"
+                          element={<OrderLogs />}
+                        />
                         <Route path="ordercart" element={<OrderCart />} />
                         <Route
                           path="ordercheckout"

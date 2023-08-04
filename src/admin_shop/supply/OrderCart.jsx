@@ -189,7 +189,7 @@ const SalesList = () => {
     console.log(salesToSubmit);
 
     // Navigate to the "/checkout" page with salesToSubmit data
-    navigate("/checkout", { state: { sales: salesToSubmit } });
+    navigate("/ordercheckout", { state: { sales: salesToSubmit } });
 
     // Calculate the total cost for sales of this supplier
     const totalCost = calculateTotal(salesToSubmit);

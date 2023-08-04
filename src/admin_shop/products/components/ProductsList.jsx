@@ -206,16 +206,16 @@ const ListProducts = () => {
         console.log("sales items");
         // const response = await fetch("http://localhost:000/allsaleitems");
         const response = await axios.get(
-          import.meta.env.VITE_APP_API_URL + "/api/SaleItem",
+          import.meta.env.VITE_API_URL + "/api/saleitem",
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              "x-api-key": import.meta.env.VITE_APP_API_KEY,
+              "x-api-key": import.meta.env.VITE_API_KEY,
             },
           }
         );
 
-        const jsonData = await response.json();
+        const jsonData = await response.data;
 
         // from saleitems rank products by total quantity sold across all sales
 
@@ -571,12 +571,8 @@ const ListProducts = () => {
 
               <th>Size</th>
               <th>Model</th>
-              <th>Product Name</th>
-
-              <th>Subcat</th>
               <th>
-                {/* <div class="d-flex justify-content-center"> */}
-                {/* sort btn */}
+                {" "}
                 <button
                   type="button"
                   class="btn btn-sm ml-2"
@@ -584,6 +580,13 @@ const ListProducts = () => {
                 >
                   <i class="fas fa-sort-down">Bestselling</i>
                 </button>
+                Product Name
+              </th>
+
+              <th>Subcat</th>
+              <th>
+                {/* <div class="d-flex justify-content-center"> */}
+                {/* sort btn */}
                 Price
                 {/* </div> */}
               </th>

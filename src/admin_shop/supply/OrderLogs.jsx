@@ -4,56 +4,65 @@ import Navbar from "../../system/Navbar";
 import { UserContext } from "../../App";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
-import ViewSaleItems from "../sales/components/ViewSaleItems";
+import ViewOrderItems from "./components/ViewOrderItems";
+import ReceiveOrder from "./components/ReceiveOrder";
+// import AddJobModal from "./components/AddJobModal";
 import Cookies from "js-cookie";
 
 function Calculators() {
   const user = useContext(UserContext);
-  const [saleLogs, setSaleLogs] = React.useState([]);
+  const [orderLogs, setOrderLogs] = React.useState([]);
   const [inputs, setInputs] = React.useState({});
-  const [sale, setSales] = React.useState([]);
+  const [order, setOrders] = React.useState([]);
   const [customer, setCustomer] = React.useState({});
+
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const location = useLocation();
-  const { saledata } = location.state;
-  console.log("saledata", location.state.sale.sale_id);
+  // const { orderdata } = location.state;
+  // console.log("orderdata", location.state.order.order_id);
 
-  // const url = "http://localhost:000/sale/" + location.state.sale.sale_id;
-  // const getsales = async () => {
+  // get order id from url eg. /orderlogs/1
+  const { order_id } = useParams();
+  console.log("order_id", order_id);
+
+  // const url = "http://localhost:000/order/" + location.state.order.order_id;
+
+  // const getorders = async () => {
   //   console.log("utl", url);
   //   const result = await axios.get(url);
   //   console.log("ressssss", result.data[0]);
-  //   setSales(result.data[0]);
+  //   setOrders(result.data[0]);
   // };
 
-  const getsales = async () => {
-    await axios
-      .get(
-        import.meta.env.VITE_API_URL + "/sale/" + location.state.sale.sale_id,
+  const getorders = async () => {
+    try {
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL +
+          "/api/order/" +
+          order_id +
+          "?include=product",
         {
           headers: {
             Authorization: `Bearer ${token}`,
             "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
-      )
-      .then((res) => {
-        console.log("ressssss", res.data[0]);
-        setSales(res.data[0]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      );
+      console.log("res", response.data);
+      setOrders(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
-  const getSaleLogs = async () => {
-    console.log("res is", sale.sale_id);
-    // const url = "http://localhost:000/salelogs/" + location.state.sale.sale_id;
-    // console.log(url);
-    // const res = await axios.get(url);
+  const getOrderLogs = async () => {
+    console.log("res is", order.order_id);
     const res = await axios.get(
-      import.meta.env.VITE_API_URL + "/salelogs/" + location.state.sale.sale_id,
+      import.meta.env.VITE_API_URL +
+        "/api/order/" +
+        order_id +
+        "?include=orderlog",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -61,38 +70,44 @@ function Calculators() {
         },
       }
     );
-
-    setSaleLogs(res.data);
+    // if not an array, make it an array
+    if (!Array.isArray(res.data.orderlogs)) {
+      res.data.orderlogs = [res.data.orderlogs];
+      console.log("res is not array", res.data.orderlogs);
+      setOrderLogs(res.data.orderlogs);
+    }
+    console.log("res is orderlogs", res.data.orderlogs);
+    setOrderLogs(res.data.orderlogs);
   };
 
   const getCustomer = async () => {
-    // const url = "http://localhost:000/user/" + location.state.sale.user_id;
+    // const url = "http://localhost:000/user/" + location.state.order.user_id;
     // const res = await axios.get(url);
+    // const res = await axios.get(
+    //   import.meta.env.VITE_APP_API_URL + "/api/user/" + orderdata.user_id,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       "x-api-key": import.meta.env.VITE_APP_API_KEY,
+    //     },
+    //   }
+    // );
     // console.log("res", res.data);
-    const res = await axios.get(
-      import.meta.env.VITE_API_URL + "/user/" + location.state.sale.user_id,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_API_KEY,
-        },
-      }
-    );
-    setCustomer(res.data[0]);
+    // setCustomer(res.data[0]);
   };
 
   useEffect(() => {
-    if (sale.length === 0) {
-      getsales();
+    if (order.length === 0) {
+      getorders();
     }
-    getSaleLogs();
+    getOrderLogs();
     getCustomer();
-  }, [sale]);
+  }, [order]);
 
   // useEffect(() => {
   //   try {
 
-  //     getSaleLogs();
+  //     getOrderLogs();
   //   } catch (error) {
 
   //   }
@@ -106,18 +121,14 @@ function Calculators() {
   };
 
   const submitLog = async (e) => {
-    // console.log("saleLogs", inputs.salelog);
-    const data = inputs.salelog;
+    // console.log("orderLogs", inputs.orderlog);
+    const data = inputs.orderlog;
     e.preventDefault();
-    // const res = await axios.post("http://localhost:000/salelogs", {
-    //   sale_id: sale.sale_id,
-    //   salelog: data,
-    // });
-    const res = await axios.post(
-      import.meta.env.VITE_API_URL + "/salelogs",
+    const res5 = await axios.post(
+      import.meta.env.VITE_API_URL + "/api/orderlog",
       {
-        sale_id: sale.sale_id,
-        salelog: data,
+        order_id: order.order_id,
+        log_data: data,
       },
       {
         headers: {
@@ -126,16 +137,17 @@ function Calculators() {
         },
       }
     );
-    // console.log("res is", res);
-    // getSaleLogs();
-    // get sale
-    // setSaleLogs(result.data);
 
-    // window.location.href = "/salelogs";
+    // console.log("res is", res);
+    // getOrderLogs();
+    // get order
+    // setOrderLogs(result.data);
+
+    // window.location.href = "/orderlogs";
     window.location.reload();
   };
 
-  const initstatus = sale.sale_status;
+  const initstatus = order.order_status;
   const [status, setStatus] = React.useState(initstatus);
   console.log("status", status);
 
@@ -143,114 +155,122 @@ function Calculators() {
     // console.log("res issad", e.target.value);
     setStatus(e.target.value);
     e.preventDefault();
-    // const res = await axios.put("http://localhost:000/sales/"+ sale.sale_id, {status: inputs.status});
-    // getSaleLogs();
-    // window.location.href = "/salelogs";
+    // const res = await axios.put("http://localhost:000/orders/"+ order.order_id, {status: inputs.status});
+    // getOrderLogs();
+    // window.location.href = "/orderlogs";
     // window.location.reload();
   };
 
   const submitStatus = async (e) => {
-    // console.log("saleLogs", inputs.salelog);
+    // console.log("orderLogs", inputs.orderlog);
     e.preventDefault();
     console.log(status);
 
     // update status
     // const res = await axios.put(
-    //   "http://localhost:000/sales/status/" + sale.sale_id,
+    //   "http://localhost:000/orders/status/" + order.order_id,
     //   {
     //     status: status,
     //   }
     // );
-    const res = await axios.put(
-      import.meta.env.VITE_API_URL + "/sales/status/" + sale.sale_id,
-      {
-        status: status,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_API_KEY,
-        },
-      }
-    );
 
-    console.log("res is", res);
+    // const res = await axios.put(
+    //   import.meta.env.VITE_APP_API_URL + "/api/order/" + orderdata.order_id,
+    //   {
+    //     status: status,
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       "x-api-key": import.meta.env.VITE_APP_API_KEY,
+    //     },
+    //   }
+    // );
 
-    // const url = "http://localhost:000/sale/" + sale.sale_id;
+    // console.log("res is", res);
+
+    // const url = "http://localhost:000/order/" + order.order_id;
     // console.log(url);
     // const result = await axios.get(url);
-    // console.log("ressssss", result.data[0].sale_status);
-    const result = await axios.get(
-      import.meta.env.VITE_API_URL + "/sale/" + sale.sale_id,
+    // console.log("ressssss", result.data[0].order_status);
+    // setStatus(result.data[0].order_status);
+
+    const res1 = await axios.get(
+      import.meta.env.VITE_APP_API_URL +
+        "/api/order/" +
+        order.order_id +
+        "?include=product",
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_API_KEY,
+          "x-api-key": import.meta.env.VITE_APP_API_KEY,
         },
       }
     );
 
-    setStatus(result.data[0].sale_status);
-
-    // getSaleLogs();
-    // window.location.href = "/salelogs";
-    // getSaleLogs();
+    // getOrderLogs();
+    // window.location.href = "/orderlogs";
+    // getOrderLogs();
     alert("Status Updated");
 
-    // insert into logs
-    // const res2 = await axios.post("http://localhost:000/salelogs", {
-    //   sale_id: sale.sale_id,
-    //   salelog: "Status Updated to " + status + " by " + user,
-    // });
+    // // insert into logs
     const res2 = await axios.post(
-      import.meta.env.VITE_API_URL + "/salelogs",
+      import.meta.env.VITE_APP_API_URL + "/api/orderlog",
       {
-        Authorization: `Bearer ${token}`,
-        "x-api-key": import.meta.env.VITE_API_KEY,
+        order_id: order.order_id,
+        orderlog: "Status Updated to " + status + " by " + user,
       },
       {
-        sale_id: sale.sale_id,
-        salelog: "Status Updated to " + status + " by " + user,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+        },
       }
     );
+
+    // const res2 = await axios.post("http://localhost:000/orderlogs", {
+    //   order_id: order.order_id,
+    //   orderlog: "Status Updated to " + status + " by " + user,
+    // });
     window.location.reload();
+  };
+
+  const [editContact, setEditContact] = React.useState(false);
+
+  const handleEditContact = () => {
+    if (editContact) {
+      setEditContact(false);
+    } else {
+      setEditContact(true);
+    }
+  };
+
+  const addJob = async (e) => {
+    e.preventDefault();
+  };
+
+  const [showVentureOverview, setShowVentureOverview] = React.useState(false);
+
+  const handleVentureOverview = () => {
+    setShowVentureOverview(!showVentureOverview);
   };
 
   return (
     <Fragment>
-      {user && <Navbar />}
-      {!user && <PublicNavbar />}
+      <Navbar />
       <div className="container">
         <div class="row justify-content-center">
-          <h1 class="text-center mt-5">OrderLogs: Order {sale.sale_id}</h1>
+          <h1 class="text-center mt-5">OrderLogs: Order {order.order_id}</h1>
         </div>
 
         <div class="row justify-content-center">
           <div class="d-flex col-md-3 justify-content-center mt-4">
-            {/* <div class=" my-auto"> */}
-            {/* select input */}
-            <select
-              class="form-control"
-              name="salelog"
-              onChange={handleStatusChange}
-              defaultValue={sale.sale_status}
-            >
-              <option value={sale.sale_status}>{sale.sale_status}</option>
-              <option value="initialized">Initialized</option>
-              <option value="paid">Paid</option>
-              <option value="shipped">Shipped</option>
-              <option value="delivered">Delivered</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
-            {/* submit button */}
-            <button
-              class="btn btn-primary"
-              type="submit"
-              onClick={submitStatus}
-            >
-              Submit
-            </button>
-            {/* </div> */}
+            <input
+              type="text"
+              class="form-control text-center"
+              value={order.status}
+              disabled
+            />
           </div>
         </div>
 
@@ -262,125 +282,45 @@ function Calculators() {
                 class="btn btn-warning btn-block"
                 type="button"
                 data-toggle="collapse"
-                data-target="#saleDetails"
+                data-target="#orderDetails"
                 aria-expanded="false"
                 aria-controls="collapseExample"
               >
-                View Sale Details
+                View Order Details
               </button>
             </div>
           </div>
         </div>
 
-        {/* sale details */}
-        <div class="collapse" id="saleDetails">
-          <div class="row justify-content-center mt-4">
-            <div class=" my-auto">
-              <ViewSaleItems sale={location.state.sale} />
-            </div>
-          </div>
+        {/* order details */}
+        <div class="collapse" id="orderDetails">
+          <div class="row justify-content-center" id="orderDetails">
+            <div class="col-3">
+              <div class="row ml-5 mr-5 justify-content-center mt-4">
+                <div class="my-auto">
+                  <p class="text-center ">
+                    Order Id: {order.order_id}
+                    <br></br>
+                    Order Date: {order.createdAt?.split("T")[0]}
+                    <br></br>
+                    Order Status: {order.status}
+                    <br></br>
+                    Order Total: {order.total_amount}
+                    <br></br>
+                    Customer Id: {order.user_id}
+                  </p>
+                </div>
+              </div>
 
-          <div class="row justify-content-center mt-4">
-            <div class="my-auto">
-              <p class="text-center ">
-                Sale Id: {sale.sale_id}
-                <br></br>
-                Sale Date: {sale.sale_date}
-                <br></br>
-                Sale Status: {sale.sale_status}
-                <br></br>
-                Sale Total: {sale.sale_total}
-                <br></br>
-                Customer Id: {sale.user_id}
-              </p>
-            </div>
-          </div>
-
-          <div class="row justify-content-center mt-4">
-            <div class=" my-auto">
-              {/* name, email, phone input form */}
-              <form onSubmit={submitLog}>
-                <div class="form-group input-group">
-                  {customer && (
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="name"
-                      value={customer.name}
-                      onChange={handleChange}
-                    />
-                  )}
-                  <div class="input-group-append">
-                    <button class="btn btn-warning" type="button">
-                      Edit
-                    </button>
-                  </div>
+              <div class="row ml-5 mr-5 justify-content-center mt-4">
+                <div class=" my-auto">
+                  <ViewOrderItems order={order} />
                 </div>
-                <div class="form-group input-group">
-                  {customer && (
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="phone"
-                      value={customer.phone}
-                      onChange={handleChange}
-                    />
-                  )}
-                  <div class="input-group-append">
-                    <button class="btn btn-warning" type="button">
-                      Edit
-                    </button>
-                    {/*  */}
-                  </div>
-                </div>
-                <div class="form-group input-group">
-                  {customer && (
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="email"
-                      value={customer.email}
-                      onChange={handleChange}
-                    />
-                  )}
-                  <div class="input-group-append">
-                    <button class="btn btn-warning" type="button">
-                      Edit
-                    </button>
-                  </div>
-                </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* add log input */}
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-md-6 ">
-              <form>
-                <div class="form-group text-center mt-5">
-                  <label for="log">Log</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="salelog"
-                    onChange={handleChange}
-                    id="log"
-                    placeholder="Enter log"
-                  />
-                  <button
-                    type="submit"
-                    onClick={submitLog}
-                    class="btn btn-primary mt-4"
-                  >
-                    Submit
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
         {/* end add log form */}
         {/* <div class="row justify-content-center">
             <div class="col-6">
@@ -394,26 +334,30 @@ function Calculators() {
                             <th>Edit</th>
                             <th>Delete</th> */}
 
-        {/* salelog table */}
+        {/* orderlog table */}
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-md-0 mt-5">
               <table class="table table-responsive">
                 <thead>
                   <tr>
-                    {/* <th>SaleLog ID</th> */}
-                    <th>SaleLog Date</th>
-                    <th>SaleLog Data</th>
+                    {/* <th>OrderLog ID</th> */}
+                    <th>OrderLog Date</th>
+                    <th>OrderLog Data</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {saleLogs.map((saleLog) => (
-                    <tr key={saleLog.salelog_id}>
-                      {/* <td>{saleLog.salelog_id}</td> */}
-                      <td>{saleLog.log_date}</td>
-                      <td>{saleLog.log_data}</td>
+                  {orderLogs.map((orderLog) => (
+                    <tr key={orderLog.orderlog_id}>
+                      {/* <td>{orderLog.orderlog_id}</td> */}
+                      <td>
+                        {/* get only date from createdAt */}
+                        {orderLog.createdAt.substring(0, 10)}
+                      </td>
+                      <td>{orderLog.log_data}</td>
                     </tr>
                   ))}
+                  <ReceiveOrder order={order} />
                 </tbody>
               </table>
             </div>

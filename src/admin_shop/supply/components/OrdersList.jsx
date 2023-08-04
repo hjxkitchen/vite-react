@@ -194,6 +194,7 @@ const SalesList = () => {
                 <th>Order date</th>
                 <th>Order total</th>
                 <th>Order Status</th>
+                <th>User ID</th>
                 <th>Supplier Name</th>
                 {/* <th>Customer Id <button><i class="fas fa-search"></i></button></th> */}
                 {/* <th>View</th>
@@ -209,11 +210,15 @@ const SalesList = () => {
                     <td>{sale.createdAt}</td>
                     <td>{sale.total_amount}</td>
                     <td>
-                      <Link to="/orderlogs" state={{ sale: sale }}>
+                      <Link
+                        to={"/orderlogs/" + sale.order_id}
+                        state={{ sale: sale }}
+                      >
                         {sale.status}
                       </Link>
                     </td>
                     {/* <td>{sale.supplier_id}</td> */}
+                    <td> {sale.user_id}</td>
                     <td>{sale.supplier.supplier_name}</td>
                   </tr>
                 ))}
@@ -224,7 +229,10 @@ const SalesList = () => {
                     <td>{sale.order_date}</td>
                     <td>{sale.order_total}</td>
                     <td>
-                      <Link to="/orderlogs" state={{ sale: sale }}>
+                      <Link
+                        to={"/orderlogs/" + sale.order_id}
+                        state={{ sale: sale }}
+                      >
                         {sale.order_status}
                       </Link>
                     </td>
@@ -239,7 +247,10 @@ const SalesList = () => {
                     <td>{sale.order_date}</td>
                     <td>{sale.order_total}</td>
                     <td>
-                      <Link to="/orderlogs" state={{ sale: sale }}>
+                      <Link
+                        to={"/orderlogs/" + sale.order_id}
+                        state={{ sale: sale }}
+                      >
                         {sale.order_status}
                       </Link>
                     </td>
@@ -257,11 +268,14 @@ const SalesList = () => {
                     </td>
                     <td>{sale.total_amount}K</td>
                     <td>
-                      <Link to="/orderlogs" state={{ sale: sale }}>
+                      <Link
+                        to={"/orderlogs/" + sale.order_id}
+                        state={{ sale: sale }}
+                      >
                         {sale.status}
                       </Link>
                     </td>
-                    {/* <td>{sale.supplier_id}</td> */}
+                    <td> {sale.user_id}</td>
                     <td>{sale.supplier.supplier_name}</td>
                   </tr>
                 ))}

@@ -64,6 +64,7 @@ function Checkout() {
         user_id: user_id,
         source: "Online",
         status: "Initialized",
+        supplier_id: sales[0].product.supplier_id,
       },
       {
         headers: {
@@ -73,18 +74,21 @@ function Checkout() {
       }
     );
 
-    const saleid = res.data.sale_id;
+    const orderid = res.data.order_id;
     // add sale items
     // make a copy of sales with sale_id
     let saleitems = sales.map((item) => ({
-      ...item,
+      order_id: orderid,
+      product_id: item.product.product_id,
       price: item.product.price,
-      sale_id: saleid,
+      quantity: item.quantity,
     }));
+
+    console.log("saleitems", saleitems);
 
     // post sales to saleitems
     const res5 = await axios.post(
-      import.meta.env.VITE_API_URL + "/saleitems",
+      import.meta.env.VITE_API_URL + "/orderitems",
       {
         saleitems,
       },
@@ -98,7 +102,7 @@ function Checkout() {
 
     // remove cart items
     const res2 = await axios.delete(
-      import.meta.env.VITE_API_URL + "/api/cart/user/" + user_id,
+      import.meta.env.VITE_API_URL + "/api/ordercart/user/" + user_id,
       {
         headers: {
           Authorization: `Bearer ${token}`,

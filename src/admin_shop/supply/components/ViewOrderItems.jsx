@@ -1,23 +1,26 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { ProdContext } from "../../../App";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-const ViewSaleItems = ({ sale }) => {
-  const [saleItems, setsaleItems] = useState([]);
+const ViewOrderItems = ({ order }) => {
+  const [orderItems, setorderItems] = useState([]);
+  // const [order, setOrder] = useState({});
   const prodcontext = useContext(ProdContext);
 
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+
+  console.log("vieworderitems order:", order);
+  console.log("getOrderItems id:", order.order_id);
+
   //get products function defeined
-  const getSaleItems = async () => {
-    console.log("sdfsd", sale);
-    let id = sale.sale_id;
-    // console.log("http://localhost:000/saleitems/" + id);
+  const getOrderItems = async () => {
+    let id = order.order_id;
     try {
       // axios get
-      // const response = await fetch("http://localhost:000/saleitems/" + id);
+      // const response = await fetch("http://localhost:000/orderitems/" + id);
       const response = await axios.get(
-        import.meta.env.VITE_API_URL +
-          "/api/order/" +
-          id +
-          "?include=orderitem",
+        import.meta.env.VITE_API_URL + "/api/order/" + id + "?include=product",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -26,19 +29,19 @@ const ViewSaleItems = ({ sale }) => {
         }
       );
 
-      console.log(response);
+      console.log("viweorderitems res:", response);
       const jsonData = await response.json();
-      setsaleItems(jsonData);
+      setorderItems(jsonData);
       return jsonData;
       // console.log(products);
     } catch (error) {
       console.log(error.message);
     }
   };
-  const subtotal = (saleitem) => {
-    let total = saleitem.quantity * saleitem.price;
-    // saleItems.forEach(sale => {
-    //   total = parseInt(sale.price) * parseInt(sale.quantity) + total;
+  const subtotal = (orderitem) => {
+    let total = orderitem.quantity * orderitem.price;
+    // orderItems.forEach(order => {
+    //   total = parseInt(order.price) * parseInt(order.quantity) + total;
     // });
     // setOrderTotal(total);
     return total;
@@ -46,7 +49,7 @@ const ViewSaleItems = ({ sale }) => {
 
   // on load doc
   useEffect(() => {
-    getSaleItems();
+    getOrderItems();
   }, []);
 
   return (
@@ -56,18 +59,18 @@ const ViewSaleItems = ({ sale }) => {
         type="button"
         class="btn btn-primary"
         data-toggle="modal"
-        data-target={`#viewsalemodal${sale.sale_id}`}
+        data-target={`#viewordermodal${order.order_id}`}
       >
-        View Sale Items
+        View Order Items
       </button>
 
       {/* <!-- The Modal --> */}
-      <div class="modal" id={`viewsalemodal${sale.sale_id}`}>
+      <div class="modal" id={`viewordermodal${order.order_id}`}>
         <div class="modal-dialog">
           <div class="modal-content">
             {/* <!-- Modal Header --> */}
             <div class="modal-header">
-              <h4 class="modal-title">View Sale Items</h4>
+              <h4 class="modal-title">View Order Items</h4>
               <button type="button" class="close" data-dismiss="modal">
                 &times;
               </button>
@@ -75,17 +78,17 @@ const ViewSaleItems = ({ sale }) => {
 
             {/* <!-- Modal body --> */}
             <div class="modal-body">
-              {/* sale details */}
+              {/* order details */}
               {/* <div class="mb-5">
-          sale id: {sale.sale_id}
+          order id: {order.order_id}
           <br/>
-          sale date: {sale.sale_date}
+          order date: {order.order_date}
           <br/>
-          sale status: {sale.sale_status}
+          order status: {order.order_status}
           <br/>
-          sale total: {sale.sale_total}
+          order total: {order.order_total}
           <br/>
-          customer id: {sale.user_id}
+          customer id: {order.user_id}
           <br/>
           </div> */}
 
@@ -102,20 +105,21 @@ const ViewSaleItems = ({ sale }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {/* foreach saleitems */}
-                    {saleItems.map((saleItem) => (
+                    {/* foreach orderitems */}
+                    {order.products?.map((orderItem) => (
                       <tr>
                         <td>
-                          {/* {saleItem.product_id} */}
-                          {prodcontext.map((prod) =>
-                            prod.product_id === saleItem.product_id
-                              ? prod.product_name
-                              : null
-                          )}
+                          {orderItem.size +
+                            " - " +
+                            orderItem.model +
+                            " - " +
+                            orderItem.product_name}
                         </td>
-                        <td>{saleItem.quantity}</td>
-                        <td>{saleItem.price}K</td>
-                        <td>{subtotal(saleItem)}K</td>
+                        <td>{orderItem.orderitem.quantity}</td>
+                        <td>{orderItem.price}K</td>
+                        <td>
+                          {orderItem.orderitem.quantity * orderItem.price}K
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -145,4 +149,4 @@ const ViewSaleItems = ({ sale }) => {
   );
 };
 
-export default ViewSaleItems;
+export default ViewOrderItems;
