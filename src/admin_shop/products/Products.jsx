@@ -9,6 +9,8 @@ import ListProducts from "./components/ProductsList";
 import Navbar from "../../system/Navbar";
 import AddProductModal from "./components/AddProductModal";
 import QuickAddProductModal from "./components/QuickAddProductModal";
+import SheetsAdd from "./components/SheetsAdd";
+import SheetsAddBySupplier from "./components/SheetsAddBySupplier";
 // import EditProduct from "../../../../components/admin/products/EditProduct";
 
 function ProductsList() {
@@ -298,6 +300,12 @@ function ProductsList() {
         {/* Add buttons */}
         <div class="d-flex justify-content-center ">
           {/* <div class="col-md-3 my-auto justify-content-center"> */}
+
+          {/* sheets add by supplier */}
+          <SheetsAddBySupplier />
+
+          {/* sheets add component */}
+          <SheetsAdd />
 
           {/* ADD FROM CSV BUTTON */}
           <button
