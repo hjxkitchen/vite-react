@@ -266,13 +266,6 @@ function ProductsList() {
     <Fragment>
       <Navbar />
       <div className="container">
-        {/* suppliers button */}
-        <div class="d-flex justify-content-center ">
-          <Link to="/suppliers">
-            <div className="btn btn-primary mt-5 mr-3">Suppliers</div>
-          </Link>
-        </div>
-
         {/* buttons */}
         <div class="d-flex justify-content-center ml-3">
           {/* <div class="col-md-3 my-auto justify-content-center"> */}
@@ -293,7 +286,7 @@ function ProductsList() {
         {/* title */}
         <div class="row justify-content-center ">
           <div class="col-md-12">
-            <h1 className="text-center mt-5">Products</h1>
+            <h1 className="text-center mt-5 mb-5 ">Products</h1>
           </div>
         </div>
 
@@ -306,206 +299,11 @@ function ProductsList() {
 
           {/* sheets add component */}
           <SheetsAdd />
-
-          {/* ADD FROM CSV BUTTON */}
-          <button
-            class="btn btn-primary mt-5 mr-3"
-            data-toggle="modal"
-            data-target={"#addCsv"}
-          >
-            {" "}
-            Add From csv by Category
-          </button>
-          {/* <!-- Add Csv Modal --> */}
-          <div class="modal" id="addCsv">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                {/* <!-- Modal Header --> */}
-                <div class="modal-header">
-                  <h4 class="modal-title">Add From Csv by Category</h4>
-                  <button type="button" class="close" data-dismiss="modal">
-                    &times;
-                  </button>
-                </div>
-
-                {/* <!-- Modal body --> */}
-                <div class="modal-body">
-                  <div className="d-flex justify-content-center">
-                    {/* <div className="d-flex w-50 justify-content-center"> */}
-
-                    {/* <div class ="row">
-                <div class = "col ">
-                   <form action="http://localhost:000/uploadcsv" method="post" enctype="multipart/form-data"> 
-                      <input className="form-control" type="file" name="csv" />
-                      <input className="form-control" type="submit" value="Upload" />
-                  </form>
-                </div>
-                </div> */}
-
-                    {/* Subcategory selector */}
-                    <div className="row">
-                      <div className="col">
-                        <label>Select Subcategory:</label>
-                        <select
-                          className="form-control"
-                          value={selectedSubcategory}
-                          onChange={handleSubcategoryChange}
-                        >
-                          <option value="">Select Subcategory</option>
-                          {subcategories.map((subcategory) => (
-                            <option
-                              key={subcategory.subcategory_id}
-                              value={subcategory.subcategory_id}
-                            >
-                              {subcategory.subcategory_name}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    {/* read csv input */}
-                    <form className="" onSubmit={onSubmitCsvForm}>
-                      <div class="row">
-                        <div class="col">
-                          {/* 1st input */}
-                          <label>
-                            Upload Csv
-                            <input
-                              type="file"
-                              name="csv"
-                              className="form-control"
-                              onChange={handleCsvChange}
-                            />
-                          </label>
-                        </div>
-                      </div>
-                      <button className="btn btn-success mt-3">Submit</button>
-                    </form>
-
-                    {/* </div> */}
-                  </div>
-                </div>
-
-                {/* <!-- Modal footer --> */}
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    data-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* ADD FROM CSV BUTTON */}
-          <button
-            class="btn btn-primary mt-5 mr-3"
-            data-toggle="modal"
-            data-target={"#addCsvsupp"}
-          >
-            {" "}
-            Add From csv by Supplier
-          </button>
-          {/* <!-- Add Csv Modal --> */}
-          <div class="modal" id="addCsvsupp">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                {/* <!-- Modal Header --> */}
-                <div class="modal-header">
-                  <h4 class="modal-title">Add From Csv by Supplier</h4>
-                  <button type="button" class="close" data-dismiss="modal">
-                    &times;
-                  </button>
-                </div>
-
-                {/* <!-- Modal body --> */}
-                <div class="modal-body">
-                  <div className="d-flex justify-content-center">
-                    {/* <div className="d-flex w-50 justify-content-center"> */}
-
-                    {/* <div class ="row">
-                <div class = "col ">
-                   <form action="http://localhost:000/uploadcsv" method="post" enctype="multipart/form-data"> 
-                      <input className="form-control" type="file" name="csv" />
-                      <input className="form-control" type="submit" value="Upload" />
-                  </form>
-                </div>
-                </div> */}
-
-                    {/* Subcategory selector */}
-                    <div className="row">
-                      <div className="col">
-                        <label>Select Supplier:</label>
-                        <select
-                          className="form-control"
-                          value={selectedSupplier}
-                          onChange={handleSupplierChange}
-                        >
-                          <option value="">Select Supplier</option>
-                          {suppliers.map((supplier) => (
-                            <option
-                              key={supplier.supplier_id}
-                              value={supplier.supplier_id}
-                            >
-                              {supplier.supplier_name}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    {/* read csv input */}
-                    <form className="" onSubmit={onSubmitCsvSuppForm}>
-                      <div class="row">
-                        <div class="col">
-                          {/* 1st input */}
-                          <label>
-                            Upload Csv
-                            <input
-                              type="file"
-                              name="csv"
-                              className="form-control"
-                              onChange={handleCsvSuppChange}
-                            />
-                          </label>
-                        </div>
-                      </div>
-                      <button className="btn btn-success mt-3">Submit</button>
-                    </form>
-
-                    {/* </div> */}
-                  </div>
-                </div>
-
-                {/* <!-- Modal footer --> */}
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    data-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <AddProductModal />
-          <QuickAddProductModal />
-          {/* </div> */}
         </div>
 
         {/* list table */}
         <div class="row justify-content-center p-5 mt-5 ">
-          {/* <InputProduct /> */}
-          {/* <div class="col-md-12 ml-5"> */}
           <ListProducts />
-          {/* </div> */}
         </div>
       </div>
     </Fragment>

@@ -148,7 +148,7 @@ const SheetsAdd = () => {
   };
   return (
     <div>
-      <button className="btn btn-primary" onClick={handleShow}>
+      <button className="btn btn-primary mr-3 " onClick={handleShow}>
         Add Sheet by Supplier
       </button>
 

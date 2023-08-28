@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 //components
 // import InputProduct from "InputProduct";
-import ListWarehouseSections from "./components/ListWarehouseSectionItems";
+import ListWarehouseSections from "./components/ListWarehouseSections";
 import Navbar from "../../system/Navbar";
 import AddProductModal from "../products/components/AddProductModal";
 // import EditProduct from "../admin/products/EditProduct";
@@ -24,7 +24,7 @@ function ProductsList() {
       <div className="container text-center p-3">
         <div class="row justify-content-center ">
           <div class="col-md-12">
-            <h1 className="text-center mt-5">Warehouse {id} Section Items</h1>
+            <h1 className="text-center mt-5">Warehouse {id} Sections</h1>
           </div>
         </div>
 
@@ -34,9 +34,6 @@ function ProductsList() {
           <AddProductModal />
           {/* </div> */}
           <button class="btn btn-warning ml-5 mt-5 ">Edit</button>
-          <Link to="/warehouse/sections/1">
-            <button class="btn btn-warning ml-5 mt-5 ">Sections</button>
-          </Link>
         </div>
 
         <div class="row justify-content- mt-5 ">

@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 // import AddToOrder from "admin/orders/AddToOrder";
 import Navbar from "../../system/Navbar";
 // import AddOrder from "admin/orders/AddOrder";
@@ -70,6 +71,13 @@ function Orders() {
     <Fragment>
       <Navbar />
       <div class="container">
+        {/* suppliers button */}
+        <div class="d-flex justify-content-center ">
+          <Link to="/suppliers">
+            <div className="btn btn-primary mt-5 mr-3">Suppliers</div>
+          </Link>
+        </div>
+
         <div class="row justify-content-center">
           <div class="col-md-10">
             <h1 class="text-center mt-5">Orders</h1>

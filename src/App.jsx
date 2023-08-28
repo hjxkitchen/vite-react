@@ -9,7 +9,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 
 // auth
 import Account from "./system/auth/Account";
-import Team from "./admin_shop/team/Team";
+import Team from "./system/other/Team";
 import Login from "./system/auth/Login";
 import ProtectedRoute from "./system/auth/components/ProtectedRoute";
 import Token from "./system/auth/components/Token";
@@ -20,30 +20,12 @@ import Settings from "./system/Settings";
 import Contact from "./client_shop/other/Contact";
 
 // ANCHOR ADMIN PAGES
-// socos pages
-import SocosSuperAdmin from "./admin_shop/socos/SocosSuperAdmin";
-import SocosClient from "./admin_shop/socos/SocosClient";
 // ADMIN PAGES
-// import AdminDash from "./admin_shop/home/oldAdminDash";
-import NewDash from "./admin_shop/home/NewDash";
-import SocosAdmin from "./admin_shop/socos/SocosDash";
-import MultiNationalHQ from "./admin_shop/locations/MultiNationalHQ";
-// import LocationBranchHQ from "./admin_shop/locations/LocationBranchHQ";
-// import HusseinJXAdmin from "./admin_shop/admin/HusseinJXAdmin";
-import Employees from "./admin_shop/team/Employees";
-import Employee from "./admin_shop/team/Employee";
-import Finance from "./admin_shop/logs/Finance";
-import Legal from "./admin_shop/logs/Legal";
-import InfoTech from "./admin_shop/logs/IT";
-import BusDev from "./admin_shop/busdev/BusDev";
-import Recruiting from "./admin_shop/team/Recruiting";
-import CapitalOps from "./admin_shop/admin/Capitalops";
-import Playbooks from "./admin_shop/plays/Playbooks";
-import Playbook from "./admin_shop/plays/Playbook";
+import NewDash from "./admin_shop/NewDash";
 
 // COMMS
 // import Contact from "./admin_shop/comms/Contact";
-import Contacts from "./admin_shop/other/Contacts";
+import Contacts from "./../src/system/other/Contacts";
 
 // PRODUCTS
 import ShopList from "./admin_shop/products/Products";
@@ -71,10 +53,9 @@ import OrderCheckout from "./admin_shop/supply/OrderCheckout";
 import Suppliers from "./admin_shop/supply/Suppliers";
 import Warehouses from "./admin_shop/warehouse/Warehouses";
 import Warehouse from "./admin_shop/warehouse/Warehouse";
+import WarehouseSections from "./admin_shop/warehouse/WarehouseSections";
 
 // HOME PAGE
-import Deliveries from "./admin_shop/delivery_dept/DeliveryJobs";
-import Technicians from "./admin_shop/technicians_dept/TechnicianJobs";
 
 // MARKETING ADMINS
 // outbound
@@ -289,11 +270,6 @@ const App = () => {
                         {/* ADMIN PAGES */}
                         {/* <Route path="admindash" element={<AdminDash />} /> */}
 
-                        <Route
-                          path="multinationalhq"
-                          element={<MultiNationalHQ />}
-                        />
-
                         <Route path="shoplist" element={<ShopList />} />
                         <Route path="products" element={<SupplierProducts />} />
                         <Route
@@ -328,15 +304,11 @@ const App = () => {
                         <Route path="suppliers" element={<Suppliers />} />
                         <Route path="warehouses" element={<Warehouses />} />
                         <Route path="warehouse/:id" element={<Warehouse />} />
+                        <Route
+                          path="warehouse/sections/:id"
+                          element={<WarehouseSections />}
+                        />
 
-                        <Route path="employee" element={<Employee />} />
-                        <Route path="employees" element={<Employees />} />
-                        <Route path="capitalops" element={<CapitalOps />} />
-                        <Route path="finance" element={<Finance />} />
-                        <Route path="legal" element={<Legal />} />
-                        <Route path="infotech" element={<InfoTech />} />
-                        <Route path="busdev" element={<BusDev />} />
-                        <Route path="recruiting" element={<Recruiting />} />
                         {/* <Route path="contact" element={<Contact />} /> */}
                         <Route path="contacts" element={<Contacts />} />
 
@@ -344,12 +316,8 @@ const App = () => {
                         <Route path="pointofsales" element={<POSales />} />
                         <Route path="tools" element={<Tools />} />
                         <Route path="jobs" element={<Jobs />} />
-                        <Route path="playbooks" element={<Playbooks />} />
-                        <Route path="playbook" element={<Playbook />} />
                         <Route path="onlinesales" element={<OnlineSales />} />
                         <Route path="procurement" element={<Orders />} />
-                        <Route path="deliveries" element={<Deliveries />} />
-                        <Route path="technicians" element={<Technicians />} />
                         {/* MARKETING ADMINS */}
                         <Route
                           path="outboundadmin"
@@ -368,14 +336,6 @@ const App = () => {
                           element={<InboundMessages />}
                         />
                         <Route path="inboundreply" element={<InboundReply />} />
-
-                        {/* ANCHOR SOCOS ROUTES */}
-                        <Route path="socos" element={<SocosAdmin />} />
-                        <Route path="socosclient" element={<SocosClient />} />
-                        <Route
-                          path="socossuperadmin"
-                          element={<SocosSuperAdmin />}
-                        />
                       </Routes>
                     </LoggedContext.Provider>
                   </CartContext.Provider>

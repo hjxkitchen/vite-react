@@ -257,15 +257,12 @@ const Navbar = () => {
                     </Link>
                   </li>
                 )}
-                {userRole === 2 ||
-                  (1 && (
-                    <li class="nav-item">
-                      <Link to="/cart" class="nav-link">
-                        <i class="fas fa-shopping-cart fa-lg"></i>{" "}
-                        {t("CART").toUpperCase()}
-                      </Link>
-                    </li>
-                  ))}
+                <li class="nav-item">
+                  <Link to="/cart" class="nav-link">
+                    <i class="fas fa-shopping-cart fa-lg"></i>{" "}
+                    {t("CART").toUpperCase()}
+                  </Link>
+                </li>
                 {/* account dropdown */}
                 {userRole === 2 && (
                   <li class="nav-item dropdown ">
@@ -345,13 +342,6 @@ const Navbar = () => {
             <ul className="sidebar-nav">
               {userRole === 1 && (
                 <li className="sidebar-item">
-                  <Link to="/playbooks">
-                    <i className="fas fa-book fa"></i> Playbooks
-                  </Link>
-                </li>
-              )}
-              {userRole === 1 && (
-                <li className="sidebar-item">
                   <Link to="/team">
                     <i className="fas fa-users fa"></i> Team
                   </Link>
@@ -365,11 +355,6 @@ const Navbar = () => {
               <li className="sidebar-item">
                 <Link to="/account">
                   <i className="fa fa-user"></i> Account
-                </Link>
-              </li>
-              <li className="sidebar-item">
-                <Link to="/contact">
-                  <i className="fa fa-phone"></i> Contact Us
                 </Link>
               </li>
             </ul>

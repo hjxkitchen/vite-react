@@ -248,16 +248,21 @@ const ListProducts = () => {
   return (
     <Fragment>
       <div class="table-responsive table-striped">
-        <div class="row justify-content-center">
-          <div class="col-6">
+        <div className="row justify-content-center">
+          <div className="col-6">
             <table class="table text-center">
               <thead>
                 <tr>
+                  {/* <th>Warehouse Section Item ID</th> */}
+                  <th>Product</th>
+                  <th>Quantity</th>
                   <th>Section </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
+                  <td>Panel 50W</td>
+                  <td>10</td>
                   <td>Section 1</td>
                 </tr>
 

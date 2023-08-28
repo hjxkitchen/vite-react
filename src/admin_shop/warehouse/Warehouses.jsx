@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 // import InputProduct from "InputProduct";
 import ListWarehouses from "./components/ListWarehouses";
 import Navbar from "../../system/Navbar";
-import AddProductModal from "../products/components/AddProductModal";
+import AddProductModal from "./components/AddWarehouseModal";
 // import EditProduct from "../admin/products/EditProduct";
 
 function ProductsList() {
