@@ -584,26 +584,59 @@ const ListProducts = () => {
               </th>
 
               <th>Subcat</th>
-              <th>
-                {/* <div class="d-flex justify-content-center"> */}
-                {/* sort btn */}
-                Price
-                {/* </div> */}
-              </th>
 
+              <th>Price</th>
               <th>Cost</th>
               <th>Description</th>
               <th>Supplier</th>
 
               <th>Images</th>
-              <th>Add to Sale</th>
-              <th>Add to Order</th>
               {/* <th>Shop</th> */}
               <th>Edit</th>
               <th>Delete</th>
+
+              <th>Add to Sale</th>
+              <th>Add to Order</th>
             </tr>
           </thead>
           <tbody>
+            {/* inputs for add */}
+            <tr>
+              <td></td>
+              <td>
+                <input type="text" class="form-control" />
+              </td>
+              <td>
+                <input type="text" class="form-control" />
+              </td>
+              <td>
+                <input type="text" class="form-control" />
+              </td>
+              <td>
+                <input type="text" class="form-control" />
+              </td>
+              <td>
+                <input type="text" class="form-control" />
+              </td>
+              <td>
+                <input type="text" class="form-control" />
+              </td>
+              <td>
+                <input type="text" class="form-control" />
+              </td>
+              <td>
+                <input type="text" class="form-control" />
+              </td>
+              <td>
+                <input type="file" class="form-control" />
+              </td>
+              <td>
+                <button class="btn btn-primary">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </td>
+            </tr>
+
             {products.map((product) => (
               <tr key={product.product_id}>
                 <td>{product.product_id}</td>
@@ -629,7 +662,7 @@ const ListProducts = () => {
                         ))}
                 </td>
                 <td>{product.price}K</td>
-                <td>{product.cost}K</td>
+                <td>({product.cost}K)</td>
                 <td>{product.description} </td>
                 <td>
                   {product.supplier ? product.supplier.supplier_name : " - "}
@@ -637,10 +670,7 @@ const ListProducts = () => {
 
                 <td>
                   <div class="d-flex justify-content-center">
-                    {/* <h5>{product.images.length + "="}</h5> */}
-                    {/* for each path in images array create link */}
-                    {product.productimages?.map((image, index) => (
-                      // <a href={"http://localhost:000" + path} key={index}>
+                    {/* {product.productimages?.map((image, index) => (
                       <a
                         href={
                           "https://zahab-space.sfo3.digitaloceanspaces.com/" +
@@ -648,9 +678,7 @@ const ListProducts = () => {
                         }
                         key={index}
                       >
-                        {/* thumbnail */}
                         <img
-                          // src={"http://localhost:000" + path}
                           src={
                             "https://zahab-space.sfo3.digitaloceanspaces.com/" +
                             image.image
@@ -660,12 +688,34 @@ const ListProducts = () => {
                           height="50"
                         />
                       </a>
+                    ))} */}
+                    {product.productimages?.map((image, index) => (
+                      <a
+                        href={
+                          "https://zahab-space.sfo3.digitaloceanspaces.com/" +
+                          image.image
+                        }
+                        key={index}
+                      >
+                        [img]
+                      </a>
                     ))}
                   </div>
                 </td>
                 {/* <td> 
                         <input type="checkbox" checked={product.shop==true&&"true"}></input>
                     </td> */}
+                <td>
+                  <EditProduct product={product} />
+                </td>
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    onClick={() => deleteProduct(product.product_id)}
+                  >
+                    Delete
+                  </button>
+                </td>
                 <td>
                   <button
                     class="btn btn-success"
@@ -680,17 +730,6 @@ const ListProducts = () => {
                     onClick={() => addToOrderCart(product)}
                   >
                     Add to OrderCart
-                  </button>
-                </td>
-                <td>
-                  <EditProduct product={product} />
-                </td>
-                <td>
-                  <button
-                    class="btn btn-danger"
-                    onClick={() => deleteProduct(product.product_id)}
-                  >
-                    Delete
                   </button>
                 </td>
               </tr>
