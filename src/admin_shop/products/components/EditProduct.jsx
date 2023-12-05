@@ -20,7 +20,7 @@ const EditProduct = ({ product }) => {
       //   `http://localhost:000/product_images/${product.product_id}`
       // );
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "productimage/" + product.product_id,
+        import.meta.env.VITE_API_URL + "/productimage/" + product.product_id,
         {
           headers: {
             Authorization: `Bearer ${token}`,
