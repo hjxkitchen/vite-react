@@ -9,6 +9,7 @@ import jwt_decode from "jwt-decode";
 const SalesList = () => {
   const [sales, setSales] = useState([]);
   const [prices, setPrices] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
 
   const user = useContext(UserContext);
   const cartToken = useContext(CartContext);
@@ -18,6 +19,29 @@ const SalesList = () => {
   // get user_id from decoded token
   const decoded = jwt_decode(token);
   const user_id = decoded.user_id;
+
+  // get suppliers function
+  const getSuppliers = async () => {
+    if (loggedin) {
+      try {
+        const response = await axios.get(
+          import.meta.env.VITE_API_URL + "/api/supplier/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+
+        const jsonData = await response.data;
+        console.log("suppliers: ", jsonData);
+        setSuppliers(jsonData);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  };
 
   // Delete product function defined
   const deleteProduct = async (sale_id) => {
@@ -65,6 +89,7 @@ const SalesList = () => {
 
   useEffect(() => {
     getSales();
+    getSuppliers();
   }, [loggedin]);
 
   const checkout = async (event) => {
@@ -177,6 +202,8 @@ const SalesList = () => {
     groupedSales[sale.product.supplier_id].push(sale);
   });
 
+  console.log(groupedSales);
+
   const handleSupplierCheckout = async (supplierId) => {
     // Perform submit action for the sales belonging to the supplier with the given ID
     const salesToSubmit = groupedSales[supplierId];
@@ -213,7 +240,14 @@ const SalesList = () => {
         <div className="container mb-5">
           {Object.keys(groupedSales).map((supplierId) => (
             <div key={supplierId} className="mb-5">
-              <h3>Supplier ID: {supplierId}</h3>
+              <h3>
+                Supplier : {supplierId} :{" "}
+                {suppliers &&
+                  suppliers.find(
+                    (supplier) =>
+                      supplier.supplier_id === parseInt(supplierId, 10)
+                  )?.supplier_name}
+              </h3>
               <table className="table mt-5 col-md-8 text-center">
                 <thead>
                   <tr>

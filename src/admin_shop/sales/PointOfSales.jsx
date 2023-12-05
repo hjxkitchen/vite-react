@@ -195,6 +195,50 @@ function Sales() {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
+  const addNewContact = async (e) => {
+    console.log(name, customerphone);
+
+    // if any of the inputs are empty, return alert
+    if (!name || !customerphone)
+      return alert("Please fill all customer inputs");
+
+    // create contact object
+    let contact = { customer_name: name, customer_phone: customerphone };
+
+    // post to server with axios
+    axios
+      .post(import.meta.env.VITE_API_URL + "/api/contact", contact, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      })
+      .then((res) => {
+        console.log(res.data, "res.data");
+        // SET CUSTOMER ID
+        // document.querySelector("input[name=customerID]").value = res.data.id;
+        //
+        // alert success
+        alert("Customer added successfully");
+
+        // get id from response
+        // const id = res.data.id;
+
+        // add to contacts state
+        // setContacts([
+        //   ...contacts,
+        //   { id, customer_name, customer_phone, score: 0 },
+        // ]);
+
+        // set newcontact flase
+        // setisNewContact(false);
+        // setCreatedNewContact(true);
+      })
+      .catch((err) => {
+        alert("Error adding customer");
+      });
+  };
+
   return (
     <Fragment>
       {/* <ViewSaleModal/> */}
@@ -329,6 +373,29 @@ function Sales() {
                   disabled
                 />
               )}
+            </div>
+
+            {/* newcontact and plus button */}
+            {isNewContact && (
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  addNewContact();
+                }}
+              >
+                Add New Contact
+              </button>
+            )}
+
+            {/* notes div */}
+            <div>
+              <div>Notes</div>
+              <textarea
+                type="text"
+                class="form-control"
+                aria-label="Text input with checkbox"
+                rows={4}
+              />
             </div>
           </div>
         </div>

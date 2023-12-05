@@ -340,6 +340,14 @@ const Navbar = () => {
         >
           <div className="sidebar-content">
             <ul className="sidebar-nav">
+              <li className="sidebar-item">
+                <Link to="/contacts">
+                  <i className="fas fa-users fa"></i> Contacts
+                </Link>
+              </li>
+
+              <hr style={{ backgroundColor: "white" }} />
+
               {userRole === 1 && (
                 <li className="sidebar-item">
                   <Link to="/team">
