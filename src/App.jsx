@@ -92,6 +92,15 @@ import Calculators from "./client_shop/sales/Calculators";
 import OrderHistory from "./client_shop/sales/OrderHistory";
 import SaleLogs from "./client_shop/sales/SaleLogs";
 
+// newpages
+import RecentChats from "./admin_shop/newpages/RecentChats.jsx";
+import Products from "./admin_shop/newpages/Products.jsx";
+import Pos from "./admin_shop/newpages/Pos.jsx";
+import Messages from "./admin_shop/newpages/Messages";
+import Chats from "./admin_shop/newpages/Chats.jsx";
+// import Contact from "./admin_shop/newpages/Contact.jsx";
+import AdminBlog from "./admin_shop/newpages/Blog.jsx";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 // import Cookies from "js-cookie";
@@ -336,6 +345,16 @@ const App = () => {
                           element={<InboundMessages />}
                         />
                         <Route path="inboundreply" element={<InboundReply />} />
+
+                        {/* newpages */}
+
+                        <Route path="/pos" element={<Pos />} />
+                        <Route path="/adminblogs" element={<AdminBlog />} />
+                        <Route path="/messages" element={<Messages />} />
+                        <Route path="/contact/:id" element={<Contact />} />
+                        <Route path="/chats" element={<Chats />} />
+                        <Route path="/products" element={<Products />} />
+                        <Route path="/recentchats" element={<RecentChats />} />
                       </Routes>
                     </LoggedContext.Provider>
                   </CartContext.Provider>

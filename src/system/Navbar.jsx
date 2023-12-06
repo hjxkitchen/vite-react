@@ -341,6 +341,26 @@ const Navbar = () => {
           <div className="sidebar-content">
             <ul className="sidebar-nav">
               <li className="sidebar-item">
+                <Link to="/pos">
+                  <i className="fas fa-users fa"></i> Pos2
+                </Link>
+              </li>
+              <li className="sidebar-item">
+                <Link to="/products2">
+                  <i className="fas fa-users fa"></i> Products2
+                </Link>
+              </li>
+              <li className="sidebar-item">
+                <Link to="/adminblogs">
+                  <i className="fas fa-users fa"></i> Blogs
+                </Link>
+              </li>
+              <li className="sidebar-item">
+                <Link to="/chats">
+                  <i className="fas fa-users fa"></i> Chats
+                </Link>
+              </li>
+              <li className="sidebar-item">
                 <Link to="/contacts">
                   <i className="fas fa-users fa"></i> Contacts
                 </Link>
@@ -369,13 +389,13 @@ const Navbar = () => {
           </div>
         </div>
       )}
-      <div>
+      {/* <div>
         {userRole === 1 && (
           <button className="back-button" onClick={handleBackClick}>
             Back
           </button>
         )}
-      </div>
+      </div> */}
       {/* <div className="forward-button">
         <button onClick={handleBackClick}>Forward</button>
       </div> */}

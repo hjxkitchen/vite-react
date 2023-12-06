@@ -4,6 +4,9 @@ import Table from "./components/TableContact";
 
 import Cookies from "js-cookie";
 
+import Navbar from "./../../system/Navbar";
+import Footer from "./../../system/Footer";
+
 const Contacts = () => {
   const [contacts, setContacts] = useState([]);
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
@@ -40,8 +43,10 @@ const Contacts = () => {
 
   return (
     <div>
+      <Navbar />
       <h1>Contacts</h1>
       <Table data={contacts} setContacts={setContacts} />
+      <Footer />
     </div>
   );
 };
