@@ -1,7 +1,11 @@
 import React, { Fragment, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const AddProductModal = ({ product }) => {
   const [inputs, setInputs] = useState({});
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -20,7 +24,7 @@ const AddProductModal = ({ product }) => {
       //   body: JSON.stringify(inputs),
       // });
       const response = await axios.post(
-        import.meta.env.VITE_API_URL + "/categories",
+        import.meta.env.VITE_API_URL + "/api/category",
         inputs,
         {
           headers: {

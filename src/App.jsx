@@ -28,6 +28,7 @@ import NewDash from "./admin_shop/NewDash";
 import Contacts from "./../src/system/other/Contacts";
 
 // PRODUCTS
+// import ShopList from "./admin_shop/products/Products";
 import ShopList from "./admin_shop/products/Products";
 // import Inventory from "./admin_shop/products/Inventory";
 import SupplierProducts from "./admin_shop/products/Products";
@@ -280,7 +281,7 @@ const App = () => {
                         {/* <Route path="admindash" element={<AdminDash />} /> */}
 
                         <Route path="shoplist" element={<ShopList />} />
-                        <Route path="products" element={<SupplierProducts />} />
+                        <Route path="products" element={<Products />} />
                         <Route
                           path="featuredadmin"
                           element={<FeaturedAdmin />}

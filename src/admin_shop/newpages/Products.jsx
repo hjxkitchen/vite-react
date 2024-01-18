@@ -8,17 +8,27 @@ import UploadForm from "./components/UploadMultiple";
 import Navbar from "./../../system/Navbar";
 import Footer from "./../../system/Footer";
 
+import Cookies from "js-cookie";
+
 const Products = () => {
   // products state
   const [products, setProducts] = useState([]);
 
   const [searched, setSearched] = useState(false);
 
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+
   // get products function
   const getProducts = async () => {
     // get with axios
     const response = await axios.get(
-      import.meta.env.VITE_API_URL + "/api/product"
+      import.meta.env.VITE_API_URL + "/api/product",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
     );
 
     // get data from response

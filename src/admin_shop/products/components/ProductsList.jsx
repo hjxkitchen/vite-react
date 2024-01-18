@@ -5,6 +5,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 
+import NewProductsList from "./NewProductsList";
+
 const ListProducts = () => {
   const [products, setProducts] = useState([]);
   const [subcats, setSubcats] = useState([]);
@@ -39,11 +41,11 @@ const ListProducts = () => {
       //   }
       // );
       const deleteProduct = await axios.delete(
-        import.meta.env.VITE_APP_API_URL + "/api/Product/" + product_id,
+        import.meta.env.VITE_API_URL + "/api/product/" + product_id,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
@@ -62,8 +64,7 @@ const ListProducts = () => {
       console.log("getProducts called");
       // const response = await fetch("http://localhost:000/products");
       const response = await axios.get(
-        import.meta.env.VITE_API_URL +
-          "/api/product?include=supplier,productimage",
+        import.meta.env.VITE_API_URL + "/api/product?include=productimage",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -77,12 +78,12 @@ const ListProducts = () => {
       // sort prods by prod id
       // jsonData.sort((a, b) => (a.product_id > b.product_id) ? -1 : 1);
       const sortedProducts = jsonData.sort((a, b) => {
-        if (a.inventory === null) {
+        if (a.size === null) {
           return 1;
-        } else if (b.inventory === null) {
+        } else if (b.size === null) {
           return -1;
         } else {
-          return a.inventory - b.inventory;
+          return a.size - b.size;
         }
       });
       setProducts(response.data);
@@ -527,8 +528,48 @@ const ListProducts = () => {
     }
   };
 
+  const addProduct = async (e) => {
+    const brandInput = document.getElementById("brandInput").value;
+    const modelInput = document.getElementById("modelInput").value;
+    const sizeInput = document.getElementById("sizeInput").value;
+    const product_nameInput =
+      document.getElementById("product_nameInput").value;
+    const subcategory_idInput = document.getElementById(
+      "subcategory_idInput"
+    ).value;
+    const priceInput = document.getElementById("priceInput").value;
+    const costInput = document.getElementById("costInput").value;
+    const descriptionInput = document.getElementById("descriptionInput").value;
+
+    console.log("brnadinput is", brandInput);
+
+    const addProduct = await axios.post(
+      import.meta.env.VITE_API_URL + "/api/product",
+      {
+        brand: brandInput,
+        model: modelInput,
+        size: sizeInput,
+        product_name: product_nameInput,
+        subcategory_id: subcategory_idInput,
+        price: priceInput,
+        cost: costInput,
+        description: descriptionInput,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+    console.log("addproduct is: ", addProduct);
+    alert("added Product");
+    getProducts();
+  };
+
   return (
     <Fragment>
+      {/* <NewProductsList products={products} /> */}
       {/* search  */}
       {/* <div class="justify-content-center mt-3 mb-5  sticky-top"> */}
       <div class="input-group sticky-top mb-5">
@@ -569,8 +610,9 @@ const ListProducts = () => {
             <tr>
               <th>Product ID</th>
 
-              <th>Size</th>
+              <th>Brand</th>
               <th>Model</th>
+              <th>Size</th>
               <th>
                 {" "}
                 <button
@@ -588,15 +630,15 @@ const ListProducts = () => {
               <th>Price</th>
               <th>Cost</th>
               <th>Description</th>
-              <th>Supplier</th>
+              {/* <th>Supplier</th> */}
 
               <th>Images</th>
               {/* <th>Shop</th> */}
               <th>Edit</th>
               <th>Delete</th>
 
-              <th>Add to Sale</th>
-              <th>Add to Order</th>
+              {/* <th>Add to Sale</th>
+              <th>Add to Order</th> */}
             </tr>
           </thead>
           <tbody>
@@ -604,34 +646,47 @@ const ListProducts = () => {
             <tr>
               <td></td>
               <td>
-                <input type="text" class="form-control" />
+                <input
+                  type="text"
+                  class="form-control"
+                  name="brand"
+                  id="brandInput"
+                />
               </td>
               <td>
-                <input type="text" class="form-control" />
+                <input type="text" class="form-control" id="modelInput" />
               </td>
               <td>
-                <input type="text" class="form-control" />
+                <input type="text" class="form-control" id="sizeInput" />
               </td>
               <td>
-                <input type="text" class="form-control" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="product_nameInput"
+                />
               </td>
               <td>
-                <input type="text" class="form-control" />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="subcategory_idInput"
+                />
               </td>
               <td>
-                <input type="text" class="form-control" />
+                <input type="text" class="form-control" id="priceInput" />
               </td>
               <td>
-                <input type="text" class="form-control" />
+                <input type="text" class="form-control" id="costInput" />
               </td>
               <td>
-                <input type="text" class="form-control" />
+                <input type="text" class="form-control" id="descriptionInput" />
               </td>
               <td>
                 <input type="file" class="form-control" />
               </td>
               <td>
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" onClick={addProduct}>
                   <i class="fas fa-plus"></i>
                 </button>
               </td>
@@ -641,8 +696,9 @@ const ListProducts = () => {
               <tr key={product.product_id}>
                 <td>{product.product_id}</td>
 
-                <td>{product.size} </td>
+                <td> {product.brand}</td>
                 <td> {product.model}</td>
+                <td>{product.size} </td>
                 <td>{product.product_name}</td>
 
                 <td>
@@ -664,9 +720,9 @@ const ListProducts = () => {
                 <td>{product.price}K</td>
                 <td>({product.cost}K)</td>
                 <td>{product.description} </td>
-                <td>
+                {/* <td>
                   {product.supplier ? product.supplier.supplier_name : " - "}
-                </td>
+                </td> */}
 
                 <td>
                   <div class="d-flex justify-content-center">
@@ -692,7 +748,7 @@ const ListProducts = () => {
                     {product.productimages?.map((image, index) => (
                       <a
                         href={
-                          "https://zahab-space.sfo3.digitaloceanspaces.com/" +
+                          "https://zahab-bucket.sfo3.digitaloceanspaces.com/" +
                           image.image
                         }
                         key={index}
@@ -716,7 +772,7 @@ const ListProducts = () => {
                     Delete
                   </button>
                 </td>
-                <td>
+                {/* <td>
                   <button
                     class="btn btn-success"
                     onClick={() => addToCart(product)}
@@ -731,7 +787,7 @@ const ListProducts = () => {
                   >
                     Add to OrderCart
                   </button>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

@@ -27,7 +27,7 @@ const UploadForm = () => {
   return (
     <div>
       <img
-        src="https://zahab-space.sfo3.digitaloceanspaces.com/images/1687293088306-small.jpg"
+        src="https://zahab-bucket.sfo3.digitaloceanspaces.com/images/1687293088306-small.jpg"
         alt="img"
       />
       <input

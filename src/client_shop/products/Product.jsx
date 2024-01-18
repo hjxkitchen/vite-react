@@ -1,56 +1,61 @@
 import React, { Fragment, useContext, useEffect } from "react";
 import Navbar from "../../system/Navbar";
+import Cookies from "js-cookie";
 
 // import PublicNavbar from "../PublicNavbar";
 import axios from "axios";
 import { UserContext, ProdContext, CartContext } from "../../App";
 
-function Checkout(product) {
+function Checkout() {
   const user = useContext(UserContext);
   const products = useContext(ProdContext);
   const cartToken = useContext(CartContext);
 
-  // console.log(products);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME)
+    ? Cookies.get(import.meta.env.VITE_COOKIE_NAME)
+    : "guest";
+
+  console.log(products);
 
   const [id, setId] = React.useState(0);
   const [name, setName] = React.useState("");
   const [image, setImage] = React.useState("");
+  const [product, setProduct] = React.useState({});
+
+  // get id from url
+  const url = window.location.href;
+  const ide = parseInt(url.substring(url.lastIndexOf("/") + 1));
+  // turn id into integer
+
+  console.log("id is:", ide);
+  // setId(ide);
+
+  const getProduct = async () => {
+    try {
+      // const response = await fetch("http://localhost:000/products");
+      console.log("prods", token);
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL +
+          "/api/product/" +
+          ide +
+          "?include=productimage",
+        {
+          headers: {
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+      console.log("prods2", response.data);
+      // const data = response;
+      setProduct(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   useEffect(() => {
-    // get id from url
-    const url = window.location.href;
-    const ide = parseInt(url.substring(url.lastIndexOf("/") + 1));
-    // turn id into integer
-
-    // console.log("id is:", ide);
-    setId(ide);
-
-    // console.log("products is: ", products);
-    // get product from products
-    // const product = products.find(product => product.product_id === ide);
-    const product = 0;
-    try {
-      const productres = products.filter(
-        (product) => product.product_id === id
-      )[0].product_name;
-      if (productres.length > 0) {
-        setName(productres);
-      }
-    } catch (error) {
-      // console.log("error");
-    }
-    // console.log("product is: ", product);
-
-    try {
-      if (products) {
-        const productimg = products.find(
-          (product) => product.product_id === id
-        ).images;
-        console.log("product is: ", productimg);
-        setImage(productimg);
-      }
-    } catch (error) {}
-  }, [products, name, image]);
+    getProduct();
+  }, []);
 
   const addToCart = (e) => {
     if (user === null) {
@@ -122,9 +127,9 @@ function Checkout(product) {
     <Fragment>
       <Navbar />
       <div className="container">
-        <div>
-          <h1 class="text-center mt-5">{name}</h1>
-        </div>
+        {/* <div> */}
+        <h1 class="text-center mt-5">{product.product_name}</h1>
+        {/* </div> */}
         <div class="container mt-5 mb-5 col-md-6">
           {/* <img
           src={`http://localhost:000${image[0]}`}
@@ -132,7 +137,7 @@ function Checkout(product) {
           alt={"Card image:" + image}
         ></img> */}
           {/* image not null and */}
-          {image.length > 0 && (
+          {product.productimages?.length > 0 && (
             <div
               id={"carouselExampleControls" + product.product_id}
               class="carousel slide"
@@ -140,7 +145,7 @@ function Checkout(product) {
               data-interval="false"
             >
               <div class="carousel-inner">
-                {image.map((img, index) => (
+                {product.productimages?.map((img, index) => (
                   // if index is 0, add active class
                   <div
                     class={
@@ -150,7 +155,11 @@ function Checkout(product) {
                     <img
                       class="d-block w-100"
                       // src={`http://localhost:000${img}`}
-                      src={import.meta.env.VITE_API_URL + img}
+                      a
+                      src={
+                        "https://zahab-bucket.sfo3.digitaloceanspaces.com/" +
+                        img.image
+                      }
                       alt="First slide"
                     />
                   </div>
@@ -182,20 +191,22 @@ function Checkout(product) {
               </a>
             </div>
           )}
-          {image.length === 0 && (
+          {product.productimages?.length === 0 && (
             <div
               id={"carouselExampleControls" + product.product_id}
               class="carousel slide"
               data-ride="false"
               data-interval="false"
             >
-              <div class="carousel-inner">
+              <div className="carousel-inner">
                 <img
-                  class="d-block w-100"
-                  src="http://localhost:3000//productimg.jpg"
+                  className="d-block mx-auto"
+                  style={{ width: "30%", height: "50%" }}
+                  src="/productimg.jpg"
                   alt="First slide"
                 />
               </div>
+
               <a
                 class="carousel-control-prev"
                 href={"#carouselExampleControls" + product.product_id}
@@ -224,12 +235,7 @@ function Checkout(product) {
           )}
         </div>
 
-        <h2 class="text-center mt-5">
-          Price:{" "}
-          {products[0] &&
-            products.filter((product) => product.product_id === id)[0].price}
-          K Tshs
-        </h2>
+        <h2 class="text-center mt-5">Price: {product.price}K Tshs</h2>
 
         <div class="row justify-content-center mt-5">
           {/* <div class="col-md-2"> */}

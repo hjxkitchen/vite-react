@@ -126,7 +126,7 @@ const App = (props) => {
                 >
                   Order
                 </button>
-                <UploadMultiple product_id={row.original.id} />
+                <UploadMultiple product_id={row.original.product_id} />
               </tr>
             );
           })}

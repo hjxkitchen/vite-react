@@ -5,7 +5,7 @@ const UploadForm = ({ product_id }) => {
   const [file, setFile] = useState(null);
 
   // get product id from props
-  // console.log("product_id for upload component", product_id);
+  console.log("product_id for upload component", product_id);
 
   const handleMultipleFileChange = (event) => {
     const files = event.target.files;
@@ -22,8 +22,13 @@ const UploadForm = ({ product_id }) => {
     // const formData = new FormData();
     // formData.append("file", file);
 
+    console.log("prodid is ", product_id);
+
     axios
-      .post(import.meta.env.VITE_API_URL + "/uploadmultiple/124", file)
+      .post(
+        import.meta.env.VITE_API_URL + "/uploadmultiple/" + product_id,
+        file
+      )
       .then((response) => {
         // Handle the response from the server
         console.log("Files uploaded successfully:", response.data);

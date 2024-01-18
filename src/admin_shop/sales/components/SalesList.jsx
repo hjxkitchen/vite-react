@@ -155,7 +155,7 @@ const SalesList = () => {
       console.log("saless", saless);
       // filter users who have this phone number. check entire user.phones array for number includes
       const filteredUsers = allUsers.filter((user) =>
-        user.phones.some((phone) => phone.number.includes(e.target.value))
+        user.phones?.some((phone) => phone.number.includes(e.target.value))
       );
 
       console.log("filteredUsers", filteredUsers);
@@ -350,11 +350,11 @@ const SalesList = () => {
                     })}
                   </td>{" "}
                   <td>
-                    {allUsers.map((user) => {
+                    {/* {allUsers.map((user) => {
                       if (user.user_id === sale.user_id) {
-                        return user.phones[0]?.number;
+                        return user.phones?.number;
                       }
-                    })}
+                    })} */}
                   </td>
                   <td>
                     <Link to={"/salelogs/" + sale.sale_id}>{sale.status}</Link>
@@ -382,11 +382,11 @@ const SalesList = () => {
                     })}
                   </td>
                   <td>
-                    {allUsers.map((user) => {
+                    {/* {allUsers.map((user) => {
                       if (user.user_id === sale.user_id) {
                         return user.phones[0]?.number;
                       }
-                    })}
+                    })} */}
                   </td>
                   <td>
                     <Link to={"/salelogs/" + sale.sale_id}>{sale.status}</Link>
@@ -414,11 +414,11 @@ const SalesList = () => {
                     })}
                   </td>
                   <td>
-                    {allUsers.map((user) => {
+                    {/* {allUsers.map((user) => {
                       if (user.user_id === sale.user_id) {
                         return user.phones[0]?.number;
                       }
-                    })}
+                    })} */}
                   </td>
                   <td>
                     <Link to={"/salelogs/" + sale.sale_id}>{sale.status}</Link>

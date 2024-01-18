@@ -32,7 +32,7 @@ const EditProduct = ({ product }) => {
       );
 
       const jsonData = await response.json();
-      // console.log(jsonData);
+      console.log(jsonData);
       setProductImages(jsonData);
     } catch (error) {
       console.error(error.message);
@@ -59,8 +59,8 @@ const EditProduct = ({ product }) => {
   };
 
   useEffect(() => {
-    getProductImages();
-    getSubcategories();
+    // getProductImages();
+    // getSubcategories();
   }, []);
 
   const [selectedSubcategory, setSelectedSubcategory] = useState(""); // State to store the selected subcategory ID

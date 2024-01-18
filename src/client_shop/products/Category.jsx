@@ -148,7 +148,7 @@ function Packages() {
                                 class="d-block w-100"
                                 // src={`http://localhost:000${image}`}
                                 src={
-                                  "https://zahab-space.sfo3.digitaloceanspaces.com/" +
+                                  "https://zahab-bucket.sfo3.digitaloceanspaces.com/" +
                                   image.image
                                 }
                                 alt="First slide"

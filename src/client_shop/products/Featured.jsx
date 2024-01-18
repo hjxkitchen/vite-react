@@ -11,7 +11,7 @@ import { UserContext, ProdContext } from "../../App";
 
 function Packages() {
   const user = useContext(UserContext);
-  const prods = useContext(ProdContext);
+  // const prods = useContext(ProdContext);
 
   const [featured, setFeatured] = useState([]);
   const [variations, setVariations] = useState([]);
@@ -22,7 +22,7 @@ function Packages() {
     try {
       // const response = await fetch("http://localhost:000/featured");
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/featured?include=productimage",
+        import.meta.env.VITE_API_URL + "/featured",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -30,7 +30,7 @@ function Packages() {
           },
         }
       );
-      console.log(response.data);
+      console.log("featured datea:", response.data);
       const jsonData = await response.data;
 
       setFeatured(jsonData);
@@ -86,141 +86,129 @@ function Packages() {
 
         <div class="container">
           <div class="row">
-            {featured.map((product) => (
+            {featured.map((oneprod) => (
               // <div >
 
               <div class=" col-md-4 col-sm-6">
-                {prods.map((oneprod) =>
-                  product.product_id == oneprod.product_id ? (
-                    <div class="card mt-3">
-                      <div class="card-body">
-                        {/* title */}
-                        <a href={"/shop/products/" + oneprod.product_id}>
-                          <h1 class="card-title text-center">
-                            {oneprod.product_name}
-                          </h1>
-                        </a>
-                        {/* send product with link */}
-                        <Link
-                          to={{
-                            pathname: "/shop/products/" + oneprod.product_id,
-                            state: { product: product },
-                          }}
-                        ></Link>
-                        {/* image */}
-                        {product.productimages !== null && (
-                          // <img
-                          //   src={`http://localhost:000${product.productimagess[0]}`}
-                          //   class="img-fluid"
-                          //   alt="Card image"
-                          // ></img>
-                          <div
-                            id={"carouselExampleControls" + product.product_id}
-                            class="carousel slide"
-                            data-ride="false"
-                            data-interval="false"
-                          >
-                            <div class="carousel-inner">
-                              {product.productimages.map((image, index) => (
-                                // if index is 0, add active class
-                                <div
-                                  class={
-                                    index === 0
-                                      ? "carousel-item active"
-                                      : "carousel-item"
+                <div class="card mt-3">
+                  <div class="card-body">
+                    {/* title */}
+                    <a href={"/shop/products/" + oneprod.product_id}>
+                      <h1 class="card-title text-center">
+                        {oneprod.product.product_name}
+                      </h1>
+                    </a>
+                    {/* send product with link */}
+                    <Link
+                      to={{
+                        pathname: "/shop/products/" + oneprod.product_id,
+                        state: { product: oneprod },
+                      }}
+                    ></Link>
+                    {/* image */}
+                    {oneprod.product.productimages?.length > 0 ? (
+                      // <img
+                      //   src={`http://localhost:000${product.productimagess[0]}`}
+                      //   class="img-fluid"
+                      //   alt="Card image"
+                      // ></img>
+                      <div
+                        id={"carouselExampleControls" + oneprod.product_id}
+                        class="carousel slide"
+                        data-ride="false"
+                        data-interval="false"
+                      >
+                        <div class="carousel-inner">
+                          {oneprod.product.productimages?.map(
+                            (image, index) => (
+                              // if index is 0, add active class
+                              <div
+                                class={
+                                  index === 0
+                                    ? "carousel-item active"
+                                    : "carousel-item"
+                                }
+                              >
+                                <img
+                                  class="d-block w-100"
+                                  // src={`http://localhost:000${image}`}
+                                  src={
+                                    "https://zahab-bucket.sfo3.digitaloceanspaces.com/" +
+                                    image.image
                                   }
-                                >
-                                  <img
-                                    class="d-block w-100"
-                                    // src={`http://localhost:000${image}`}
-                                    src={
-                                      "https://zahab-space.sfo3.digitaloceanspaces.com/" +
-                                      image.image
-                                    }
-                                    alt="First slide"
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                            <a
-                              class="carousel-control-prev"
-                              href={
-                                "#carouselExampleControls" + product.product_id
-                              }
-                              role="button"
-                              data-slide="prev"
-                            >
-                              <span
-                                class="carousel-control-prev-icon"
-                                aria-hidden="true"
-                              ></span>
-                              <span class="sr-only">Previous</span>
-                            </a>
-                            <a
-                              class="carousel-control-next"
-                              href={
-                                "#carouselExampleControls" + product.product_id
-                              }
-                              role="button"
-                              data-slide="next"
-                            >
-                              <span
-                                class="carousel-control-next-icon"
-                                aria-hidden="true"
-                              ></span>
-                              <span class="sr-only">Next</span>
-                            </a>
-                          </div>
-                        )}
-                        {product.productimages.length < 1 && (
-                          <div>
-                            <img
-                              src="/productimg.jpg"
-                              class="img-fluid"
-                              alt="Card image"
-                            ></img>
-                          </div>
-                        )}
-                        <p class="card-text">
-                          With supporting text below as a natural lead-in to
-                          additional content.
-                        </p>
-
-                        <div class="d-flex justify-content-center mb-2">
-                          {/* strikethrough red text */}
-                          <h4 class="text-danger">
-                            <s>{Math.round((oneprod.price * 120) / 100)}K</s>
-                          </h4>
-                          {/* spacing */}
-                          <h4 class="mx-2">-</h4>
-                          <h4>{oneprod.price}K Tshs</h4>{" "}
+                                  alt="First slide"
+                                />
+                              </div>
+                            )
+                          )}
                         </div>
-
-                        {/* <div class="justify-content-center"> */}
-                        <div class="row mb-3 justify-content-center">
-                          {/* <div class="col-lg-2 ml-5 mr-5 mb-2"> */}
-                          <button class="btn btn-danger">
-                            {" "}
-                            <i class="fas fa-heart fa-lg mr-1"> </i> Fav
-                          </button>
-                          {/* </div> */}
-                          {/* <div class="col-lg-2 ml-3"> */}
-                          <button class="btn btn-primary">
-                            {" "}
-                            <i class="fas fa-shopping-cart fa-lg mr-1">
-                              {" "}
-                            </i>{" "}
-                            Cart
-                          </button>
-                          {/* </div> */}
-                        </div>
-                        {/* </div> */}
+                        <a
+                          class="carousel-control-prev"
+                          href={"#carouselExampleControls" + oneprod.product_id}
+                          role="button"
+                          data-slide="prev"
+                        >
+                          <span
+                            class="carousel-control-prev-icon"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                        <a
+                          class="carousel-control-next"
+                          href={"#carouselExampleControls" + oneprod.product_id}
+                          role="button"
+                          data-slide="next"
+                        >
+                          <span
+                            class="carousel-control-next-icon"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="sr-only">Next</span>
+                        </a>
                       </div>
+                    ) : (
+                      <div>
+                        <img
+                          src="/productimg.jpg"
+                          class="img-fluid"
+                          alt="Card image"
+                        ></img>
+                      </div>
+                    )}
+                    <p class="card-text">
+                      With supporting text below as a natural lead-in to
+                      additional content.
+                    </p>
+                    <div class="d-flex justify-content-center mb-2">
+                      {/* strikethrough red text */}
+                      <h4 class="text-danger">
+                        <s>
+                          {Math.round((oneprod.product.price * 120) / 100)}K
+                        </s>
+                      </h4>
+                      {/* spacing */}
+                      <h4 class="mx-2">-</h4>
+                      <h4>{oneprod.product.price}K Tshs</h4>{" "}
                     </div>
-                  ) : (
-                    <div></div>
-                  )
-                )}
+                    {/* <div class="justify-content-center"> */}
+                    <div class="row mb-3 justify-content-center">
+                      {/* <div class="col-lg-2 ml-5 mr-5 mb-2"> */}
+                      <button class="btn btn-danger">
+                        {" "}
+                        <i class="fas fa-heart fa-lg mr-1"> </i> Fav
+                      </button>
+                      {/* </div> */}
+                      {/* <div class="col-lg-2 ml-3"> */}
+                      <button class="btn btn-primary">
+                        {" "}
+                        <i class="fas fa-shopping-cart fa-lg mr-1"> </i> Cart
+                      </button>
+                      {/* </div> */}
+                    </div>
+                    {/* </div> */}
+                  </div>
+                </div>
               </div>
               // </div>
             ))}

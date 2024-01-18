@@ -33,7 +33,7 @@ const AddProductModal = ({ product }) => {
           },
         }
       );
-      window.location = "/packages";
+      window.location = "/packagesadmin";
     } catch (error) {
       console.error(error.message);
     }

@@ -193,7 +193,7 @@ function Packages() {
                                     <img
                                       class="d-block w-100 h-100"
                                       src={
-                                        "https://zahab-space.sfo3.digitaloceanspaces.com/" +
+                                        "https://zahab-bucket.sfo3.digitaloceanspaces.com/" +
                                         image.image
                                       }
                                       alt="Slide"

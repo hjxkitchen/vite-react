@@ -9,7 +9,7 @@ import ListProducts from "./components/ProductsList";
 import Navbar from "../../system/Navbar";
 import AddProductModal from "./components/AddProductModal";
 import QuickAddProductModal from "./components/QuickAddProductModal";
-import SheetsAdd from "./components/SheetsAdd";
+import SheetsAdd from "../newpages/components/SheetsAdd";
 import SheetsAddBySupplier from "./components/SheetsAddBySupplier";
 // import EditProduct from "../../../../components/admin/products/EditProduct";
 
@@ -295,7 +295,7 @@ function ProductsList() {
           {/* <div class="col-md-3 my-auto justify-content-center"> */}
 
           {/* sheets add by supplier */}
-          <SheetsAddBySupplier />
+          {/* <SheetsAddBySupplier /> */}
 
           {/* sheets add component */}
           <SheetsAdd />

@@ -133,10 +133,10 @@ const ViewSaleItems = ({ sale_id }) => {
                           {/* {saleItem.product_id} */}
                           {prodcontext.map((prod) =>
                             prod.product_id === saleItem.product_id
-                              ? prod.size +
-                                " - " +
-                                prod.model +
-                                " - " +
+                              ? // prod.size +
+                                //   " - " +
+                                //   prod.model +
+                                //   " - " +
                                 prod.product_name
                               : null
                           )}

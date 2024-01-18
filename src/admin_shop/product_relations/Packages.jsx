@@ -7,6 +7,8 @@ import Navbar from "../../system/Navbar";
 import AddPackageModal from "./components/AddPackageModal";
 // import EditPackage from "../admin/packages/EditPackage";
 
+import AddPackageFromSheets from "./components/AddPackagesFromSheets";
+
 function PackagesListcomp() {
   return (
     <Fragment>
@@ -20,6 +22,8 @@ function PackagesListcomp() {
 
         <div class="row justify-content-center ">
           {/* <div class="col-md-3 my-auto justify-content-center"> */}
+
+          <AddPackageFromSheets />
 
           <AddPackageModal />
           {/* </div> */}

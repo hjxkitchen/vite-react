@@ -36,7 +36,19 @@ const ShopList = () => {
       );
       console.log("prods2", response.data);
       // const data = response;
-      setProducts(response.data);
+
+      const sortedProducts = response.data.sort((a, b) => {
+        if (a.size === null) {
+          return 1;
+        } else if (b.size === null) {
+          return -1;
+        } else {
+          return a.size - b.size;
+        }
+      });
+
+      // setProducts(response.data);
+      setProducts(sortedProducts);
     } catch (error) {
       console.log(error.message);
     }
@@ -311,7 +323,7 @@ const ShopList = () => {
                               class="d-block w-100"
                               // src={`http://localhost:000${image}`}
                               src={
-                                "https://zahab-space.sfo3.digitaloceanspaces.com/" +
+                                "https://zahab-bucket.sfo3.digitaloceanspaces.com/" +
                                 image.image
                               }
                               alt="First slide"

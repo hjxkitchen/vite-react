@@ -331,11 +331,13 @@ const SalesList = () => {
                 {sales.map((sale) => (
                   <tr>
                     <td>
-                      {sale.product.size +
-                        " - " +
-                        sale.product.model +
-                        " - " +
-                        sale.product.product_name}
+                      {
+                        // sale.product.size +
+                        //   " - " +
+                        //   sale.product.model +
+                        //   " - " +
+                        sale.product.product_name
+                      }
                     </td>
                     <td>
                       {!manuallyEditCart && (

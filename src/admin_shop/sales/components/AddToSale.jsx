@@ -62,7 +62,8 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
     return {
       value: prodname.product_id,
       label:
-        prodname.size + " - " + prodname.model + " - " + prodname.product_name,
+        // prodname.size + " - " + prodname.model + " - " +
+        prodname.product_name,
     };
   });
 
