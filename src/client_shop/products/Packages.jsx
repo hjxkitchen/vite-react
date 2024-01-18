@@ -143,8 +143,7 @@ function Packages() {
                         >
                           <h5 class="mb-0">
                             <h5 class="mb-0">
-                              {oneitem.size} {oneitem.product_name} -{" "}
-                              {oneitem.model} : {oneitem.price}K Tshs
+                              {oneitem.product_name} : {oneitem.price}K Tshs
                             </h5>
                           </h5>
                         </button>
