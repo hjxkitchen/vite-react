@@ -16,7 +16,10 @@ const UploadForm = ({ product_id }) => {
     }
 
     setFile(formData);
+    console.log("set file", formData);
   };
+
+  axios.defaults.timeout = 15000; // 5 second
 
   const handleMultipleUpload = async () => {
     // const formData = new FormData();
