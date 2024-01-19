@@ -25,8 +25,7 @@ const UploadForm = ({ product_id }) => {
     await axios
       .post(
         import.meta.env.VITE_API_URL + "/uploadmultiple/" + product_id,
-        file,
-        { timeout: 5000 }
+        file
       )
       .then((response) => {
         // Handle the response from the server
@@ -34,7 +33,7 @@ const UploadForm = ({ product_id }) => {
       })
       .catch((error) => {
         // Handle any errors that occur during file upload
-        console.error("Error uploading files:", error);
+        console.error("Error uploading files from server:", error);
       });
   };
 
