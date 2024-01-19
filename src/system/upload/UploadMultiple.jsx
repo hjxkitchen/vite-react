@@ -22,7 +22,7 @@ const UploadForm = ({ product_id }) => {
     // const formData = new FormData();
     // formData.append("file", file);
 
-    axios
+    await axios
       .post(
         import.meta.env.VITE_API_URL + "/uploadmultiple/" + product_id,
         file
