@@ -321,6 +321,10 @@ const ShopList = () => {
                           >
                             <img
                               class="d-block w-100"
+                              style={{
+                                objectFit: "cover",
+                                height: "350px",
+                              }}
                               // src={`http://localhost:000${image}`}
                               src={
                                 "https://zahab-bucket.sfo3.digitaloceanspaces.com/" +
@@ -358,12 +362,16 @@ const ShopList = () => {
                     </div>
                   )}
                   {product.productimages.length < 1 && (
-                    <div>
+                    <div className="d-flex justify-content-center">
                       <img
+                        style={{
+                          objectFit: "cover",
+                          height: "350px",
+                        }}
                         src="/productimg.jpg"
-                        class="img-fluid"
+                        className="img-fluid mx-auto"
                         alt="Card image"
-                      ></img>
+                      />
                     </div>
                   )}
 

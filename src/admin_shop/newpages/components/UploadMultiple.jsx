@@ -4,6 +4,8 @@ import axios from "axios";
 const UploadForm = ({ product_id }) => {
   const [file, setFile] = useState(null);
 
+  const [loading, setLoading] = useState(false);
+
   // get product id from props
   console.log("product_id for upload component", product_id);
 
@@ -21,6 +23,7 @@ const UploadForm = ({ product_id }) => {
   const handleMultipleUpload = async () => {
     // const formData = new FormData();
     // formData.append("file", file);
+    setLoading(true);
 
     console.log("prodid is ", product_id);
 
@@ -32,6 +35,9 @@ const UploadForm = ({ product_id }) => {
       .then((response) => {
         // Handle the response from the server
         console.log("Files uploaded successfully:", response.data);
+        alert("Files Uploaded Successfully!");
+        // Reload the page
+        window.location.reload();
       })
       .catch((error) => {
         // Handle any errors that occur during file upload
@@ -54,6 +60,11 @@ const UploadForm = ({ product_id }) => {
       console.error("Error deleting file:", error);
     }
   };
+
+  // Conditionally render content based on loading state
+  if (loading) {
+    return <p>Loading...</p>; // Display loading message
+  }
 
   return (
     <div>

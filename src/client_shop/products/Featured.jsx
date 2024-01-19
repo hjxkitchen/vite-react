@@ -131,7 +131,10 @@ function Packages() {
                               >
                                 <img
                                   class="d-block w-100"
-                                  // src={`http://localhost:000${image}`}
+                                  style={{
+                                    objectFit: "cover",
+                                    height: "350px",
+                                  }}
                                   src={
                                     "https://zahab-bucket.sfo3.digitaloceanspaces.com/" +
                                     image.image
@@ -142,6 +145,7 @@ function Packages() {
                             )
                           )}
                         </div>
+
                         <a
                           class="carousel-control-prev"
                           href={"#carouselExampleControls" + oneprod.product_id}
@@ -168,12 +172,16 @@ function Packages() {
                         </a>
                       </div>
                     ) : (
-                      <div>
+                      <div className="d-flex justify-content-center">
                         <img
+                          style={{
+                            objectFit: "cover",
+                            height: "350px",
+                          }}
                           src="/productimg.jpg"
-                          class="img-fluid"
+                          className="img-fluid mx-auto"
                           alt="Card image"
-                        ></img>
+                        />
                       </div>
                     )}
                     <p class="card-text">

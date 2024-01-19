@@ -5,7 +5,8 @@ import Cookies from "js-cookie";
 
 //components
 // import InputProduct from "../../../components/InputProduct";
-import ListProducts from "./components/ProductsList";
+// import ListProducts from "./components/ProductsList";
+import ListProducts from "./components/NewProductsList2";
 import Navbar from "../../system/Navbar";
 import AddProductModal from "./components/AddProductModal";
 import QuickAddProductModal from "./components/QuickAddProductModal";
