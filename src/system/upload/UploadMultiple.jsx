@@ -25,7 +25,8 @@ const UploadForm = ({ product_id }) => {
     await axios
       .post(
         import.meta.env.VITE_API_URL + "/uploadmultiple/" + product_id,
-        file
+        file,
+        { timeout: 5000 }
       )
       .then((response) => {
         // Handle the response from the server
