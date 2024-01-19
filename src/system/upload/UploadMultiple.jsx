@@ -19,25 +19,26 @@ const UploadForm = ({ product_id }) => {
     console.log("set file", formData);
   };
 
-  axios.defaults.timeout = 15000; // 5 second
-
   const handleMultipleUpload = async () => {
     // const formData = new FormData();
     // formData.append("file", file);
-
-    await axios
-      .post(
+    try {
+      // Assuming 'file' is a FormData object containing the files to be uploaded
+      const response = await axios.post(
         import.meta.env.VITE_API_URL + "/uploadmultiple/" + product_id,
-        file
-      )
-      .then((response) => {
-        // Handle the response from the server
-        console.log("Files uploaded successfully:", response.data);
-      })
-      .catch((error) => {
-        // Handle any errors that occur during file upload
-        console.error("Error uploading files from server:", error);
-      });
+        file,
+        { timeout: 20000 }
+      );
+
+      // Handle the response from the server
+      console.log("Files uploaded successfully:", response.data);
+
+      // Continue with any additional logic after the upload is completed
+      // ...
+    } catch (error) {
+      // Handle any errors that occur during file upload
+      console.error("Error uploading files from server:", error);
+    }
   };
 
   const Delete = async () => {
