@@ -303,7 +303,7 @@ function ProductsList() {
         </div>
 
         {/* list table */}
-        <div class="row justify-content-center p-5 mt-5 ">
+        <div class="row justify-content-center mt-5 ">
           <ListProducts />
         </div>
       </div>
