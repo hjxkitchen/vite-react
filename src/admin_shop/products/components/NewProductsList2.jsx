@@ -573,29 +573,59 @@ const ListProducts = () => {
     getProducts();
   };
 
+  const setBarcode = async (product_id) => {
+    console.log("setbarcode called", product_id);
+
+    // take in text input
+    const barcodeInput = prompt("Please enter barcode", "Barcode");
+
+    console.log("barcodeinput is: ", barcodeInput);
+
+    // update barcode property of product where product_id = product_id
+    const updateBarcode = await axios.put(
+      import.meta.env.VITE_API_URL + "/api/product/" + product_id,
+      {
+        barcode: barcodeInput,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+
+    // set barcode in products state
+    setProducts(
+      products.map((product) =>
+        product.product_id === product_id
+          ? { ...product, barcode: barcodeInput }
+          : product
+      )
+    );
+  };
+
   return (
     <Fragment>
-      <div className="input-group sticky-top mb-2">
-        <div className="input-group-prepend">
+      <div className="input-group sticky-top mb-2 col-6">
+        <div className="input-group-prepend mb-3 mr-3">
           <input
             type="text"
-            className="form-control"
+            className="form-control form-control-sm"
             placeholder="Search Product ID"
-            // Add onChange handler as needed
             onChange={searchPID}
           />
         </div>
 
         <input
           type="text"
-          className="form-control"
+          className="form-control form-control-sm mb-3 mx-auto"
           placeholder="Search Products"
-          // Add onChange handler as needed
           onChange={search}
         />
       </div>
 
-      <div className="container col-md-9">
+      <div className="container mb-5 col-md-9">
         <ul className="list-group">
           {products.map((product) => (
             <Fragment key={product.product_id}>
@@ -604,8 +634,23 @@ const ListProducts = () => {
                 style={{ cursor: "pointer" }}
                 onClick={() => toggleDetails(product)}
               >
-                <h5>{product.product_name}</h5>
+                <h5>
+                  {product.product_id}: {product.product_name}
+                </h5>
                 <p>Price: {product.price}K</p>
+                {product.barcode ? (
+                  <p>Barcode: {product.barcode}</p>
+                ) : (
+                  // {/* set barcode button */}
+                  <button
+                    className="btn  btn-sm"
+                    onClick={() => {
+                      setBarcode(product.product_id);
+                    }}
+                  >
+                    Set Barcode
+                  </button>
+                )}
               </li>
 
               {selectedProduct === product && (
@@ -617,6 +662,7 @@ const ListProducts = () => {
                   <p>Subcategory: {product.subcategory_id}</p>
                   <p>Product ID: {product.product_id}</p>
                   <p>Cost: {product.cost}</p>
+                  {/* <p>Barcode: {product.barcode}</p> */}
                   <div>
                     {product.productimages && (
                       <Fragment>

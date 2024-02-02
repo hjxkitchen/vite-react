@@ -10,34 +10,34 @@ const ViewOrderItems = ({ order }) => {
 
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
-  console.log("vieworderitems order:", order);
-  console.log("getOrderItems id:", order.order_id);
+  // console.log("vieworderitems order:", order);
+  // console.log("getOrderItems id:", order.order_id);
 
   //get products function defeined
-  const getOrderItems = async () => {
-    let id = order.order_id;
-    try {
-      // axios get
-      // const response = await fetch("http://localhost:000/orderitems/" + id);
-      const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/order/" + id + "?include=product",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_API_KEY,
-          },
-        }
-      );
+  // const getOrderItems = async () => {
+  //   let id = order.order_id;
+  //   try {
+  //     // axios get
+  //     // const response = await fetch("http://localhost:000/orderitems/" + id);
+  //     const response = await axios.get(
+  //       import.meta.env.VITE_API_URL + "/api/order/" + id + "?include=product",
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "x-api-key": import.meta.env.VITE_API_KEY,
+  //         },
+  //       }
+  //     );
 
-      console.log("viweorderitems res:", response);
-      const jsonData = await response.json();
-      setorderItems(jsonData);
-      return jsonData;
-      // console.log(products);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  //     console.log("viweorderitems res:", response);
+  //     const jsonData = await response.json();
+  //     setorderItems(jsonData);
+  //     return jsonData;
+  //     // console.log(products);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
   const subtotal = (orderitem) => {
     let total = orderitem.quantity * orderitem.price;
     // orderItems.forEach(order => {
@@ -48,9 +48,9 @@ const ViewOrderItems = ({ order }) => {
   };
 
   // on load doc
-  useEffect(() => {
-    getOrderItems();
-  }, []);
+  // useEffect(() => {
+  //   getOrderItems();
+  // }, []);
 
   return (
     <Fragment>
@@ -106,20 +106,20 @@ const ViewOrderItems = ({ order }) => {
                   </thead>
                   <tbody>
                     {/* foreach orderitems */}
-                    {order.products?.map((orderItem) => (
+                    {order.orderitems?.map((orderItem) => (
                       <tr>
+                        {/* <td>{orderItem.product_id}</td> */}
                         <td>
-                          {orderItem.size +
-                            " - " +
-                            orderItem.model +
-                            " - " +
-                            orderItem.product_name}
+                          {
+                            prodcontext.find(
+                              (product) =>
+                                product.product_id === orderItem.product_id
+                            ).product_name
+                          }
                         </td>
-                        <td>{orderItem.orderitem.quantity}</td>
-                        <td>{orderItem.price}K</td>
-                        <td>
-                          {orderItem.orderitem.quantity * orderItem.price}K
-                        </td>
+                        <td>{orderItem.og_quantity}</td>
+                        <td>{orderItem.cost}K</td>
+                        <td>{orderItem.quantity * orderItem.cost}K</td>
                       </tr>
                     ))}
                   </tbody>

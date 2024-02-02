@@ -5,7 +5,7 @@ import EditModal from "./EditModal";
 import Cookies from "js-cookie";
 import ThemeContext from "../../../contexts/ThemeContext";
 
-const List = () => {
+const List = ({ roles }) => {
   const { t } = useTranslation();
   const { theme } = useContext(ThemeContext);
 
@@ -47,11 +47,11 @@ const List = () => {
               return { ...user, role_id };
             });
 
-            console.log(usersWithRoles);
+            console.log("uwrole:", usersWithRoles);
 
             // only set the users whose role is 1
             const filteredUsers = usersWithRoles.filter(
-              (user) => user.role_id === 1
+              (user) => user.role_id !== 2
             );
 
             console.log(filteredUsers);
@@ -69,22 +69,22 @@ const List = () => {
   //   delete product
   const handleDelete = (id) => {
     // prompt are you sure
-    if (alert("are you sure?")) {
-      axios
-        .delete(import.meta.env.VITE_API_URL + "/api/user" + id, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_API_KEY,
-          },
-        })
-        .then((response) => {
-          console.log(response.data);
-          window.location.reload();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    // if (alert("are you sure?")) {
+    axios
+      .delete(import.meta.env.VITE_API_URL + "/api/user/" + id, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // }
   };
 
   return (
@@ -98,6 +98,12 @@ const List = () => {
             </h5>
             <h6 className="card-subtitle mb-2 text-muted">
               Role: {product.role_id}
+              {/* get role_name from roles where id is product.role_id */}
+              {roles.map((role) => (
+                <div key={role.role_id}>
+                  {role.role_id === product.role_id ? role.name : ""}
+                </div>
+              ))}
             </h6>
             {/* <p className="card-text">{product.password}</p> */}
           </div>

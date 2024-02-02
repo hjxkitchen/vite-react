@@ -22,17 +22,19 @@ const PackageList = () => {
       //     method: "DELETE",
       //   }
       // );
+
+      console.log("deletogn");
       const deletePackage = await axios.delete(
-        import.meta.env.VITE_APP_API_URL + "/api/Package/" + package_id,
+        import.meta.env.VITE_API_URL + "/api/category/" + package_id,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_APP_API_KEY,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
         }
       );
       setPackage(
-        packagename.filter((packag) => packag.package_id !== package_id)
+        packagename.filter((packag) => packag.category_id !== package_id)
       );
     } catch (error) {
       console.error(error.message);

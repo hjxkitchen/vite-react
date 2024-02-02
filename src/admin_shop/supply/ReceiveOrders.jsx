@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 // import AddToOrder from "admin/orders/AddToOrder";
 import Navbar from "../../system/Navbar";
 // import AddOrder from "admin/orders/AddOrder";
-import OrdersList from "./components/OrdersList";
+import OrdersList from "./components/ReceiveOrdersList";
 // import DataTable from "react-data-table-component";
 import jwt_decode from "jwt-decode";
 

@@ -147,80 +147,80 @@ function Checkout() {
   return (
     <Fragment>
       <Navbar />
-      <div>
+      <div className="container">
         <h1 class="text-center mt-5">Checkout</h1>
-      </div>
 
-      <div class="row justify-content-center">
-        {/* <button onClick={mpesacheckout}>New checkout payment mpesa api</button> */}
+        <div class="row justify-content-center">
+          {/* <button onClick={mpesacheckout}>New checkout payment mpesa api</button> */}
 
-        <div class="col-md-6">
-          {/* <div class="table-responsive">  */}
-          <table class="table mt-5 text-center">
-            <thead>
-              <tr>
-                <th>Product ID</th>
-                <th>Quantity</th>
-                <th>@Price</th>
-                <th>Subtotal</th>
-                {/* <th>Sale total</th>
+          <div class="col-md-6">
+            {/* <div class="table-responsive">  */}
+            <table class="table mt-5 text-center">
+              <thead>
+                <tr>
+                  <th>Product ID</th>
+                  <th>Quantity</th>
+                  <th>@Price</th>
+                  <th>Subtotal</th>
+                  {/* <th>Sale total</th>
         <th>Customer Id</th>
         <th>View</th>
         <th>Edit</th>
         <th>Delete</th> */}
-              </tr>
-            </thead>
-            <tbody>
-              {sales.map((sale) => (
+                </tr>
+              </thead>
+              <tbody>
+                {sales.map((sale) => (
+                  <tr>
+                    <td>
+                      {
+                        // sale.product.size +
+                        //   " - " +
+                        //   sale.product.model +
+                        //   " - " +
+                        sale.product.product_name
+                      }
+                    </td>
+                    <td>
+                      <div class="row justify-content-center">
+                        <div class="ml-1 mr-1">{sale.quantity}</div>
+                      </div>
+                    </td>
+                    <td>{sale.product.price}</td>
+                    <td>{sale.product.price * sale.quantity}</td>
+                  </tr>
+                ))}
+              </tbody>
+
+              {/* footer */}
+              <tfoot>
                 <tr>
                   <td>
-                    {
-                      // sale.product.size +
-                      //   " - " +
-                      //   sale.product.model +
-                      //   " - " +
-                      sale.product.product_name
-                    }
-                  </td>
-                  <td>
                     <div class="row justify-content-center">
-                      <div class="ml-1 mr-1">{sale.quantity}</div>
+                      <button class="btn btn-primary" onClick={checkout}>
+                        Checkout
+                      </button>
                     </div>
-                  </td>
-                  <td>{sale.product.price}</td>
-                  <td>{sale.product.price * sale.quantity}</td>
-                </tr>
-              ))}
-            </tbody>
-
-            {/* footer */}
-            <tfoot>
-              <tr>
-                <td>
-                  <div class="row justify-content-center">
-                    <button class="btn btn-primary" onClick={checkout}>
-                      Checkout
-                    </button>
-                  </div>
-                  {/* <div class="row justify-content-center">
+                    {/* <div class="row justify-content-center">
                     <button class="btn btn-primary" onClick={checkout}>Checkout</button>
                 </div> */}
-                </td>
-                <td></td>
-                <td></td>
-                <td>
-                  <div class="row justify-content-center">
-                    <div class="ml-1 mr-1">
-                      Total:
-                      {grandtotal()}
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <div class="row justify-content-center">
+                      <div class="ml-1 mr-1">
+                        Total:
+                        {grandtotal()}
+                      </div>
                     </div>
-                  </div>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
 
-          {/* </div> */}
+            {/* </div> */}
+          </div>
         </div>
       </div>
     </Fragment>

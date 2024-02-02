@@ -42,11 +42,14 @@ const Login = ({}) => {
 
       if (response.ok) {
         const data = await response.json();
+
+        // seperate admin login
         console.log("decoded:", jwt_decode(data.token));
-        if (jwt_decode(data.token).role_id !== 2) {
+        if (jwt_decode(data.token).role_id === 2) {
           alert("Login failed");
-          throw new Error("You are not a user. Please login as admin.");
+          throw new Error("You are not an admin. Please login as user.");
         }
+
         Cookies.set(import.meta.env.VITE_COOKIE_NAME, data.token);
         // Navigate("/");
         window.location.reload();
@@ -67,7 +70,7 @@ const Login = ({}) => {
     <>
       <Navbar />
       <div className="container">
-        <h1 className="mt-5 mb-4">{t("login")}</h1>
+        <h1 className="mt-5 mb-4">Admin Login</h1>
         <input
           type="text"
           placeholder="Username"
@@ -86,9 +89,9 @@ const Login = ({}) => {
         >
           {t("login")}
         </button>
-        <GoogleLogin />
+        {/* <GoogleLogin /> */}
         <br />
-        <a href="/signup">Signup</a>
+        {/* <a href="/signup">Signup</a> */}
       </div>
       <Footer />
     </>

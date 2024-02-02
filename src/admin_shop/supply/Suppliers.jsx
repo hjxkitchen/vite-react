@@ -87,10 +87,12 @@ function SuppliersList() {
           <div class="col-md-9 mb-3">
             <h1 className="text-center mt-5">Suppliers</h1>
           </div>
-          <div class="col-md-3 my-auto justify-content-center">
+        </div>
+        <div class="row justify-content-center mt-4">
+          <div class="col-md-3 justify-content-center">
             {/* ADD FROM CSV BUTTON */}
             <button
-              class="btn btn-primary mt-5 mr-3"
+              class="btn btn-primary mr-3"
               data-toggle="modal"
               data-target={"#addCsv"}
             >

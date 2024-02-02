@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 // import {array} from "./AddProduct";
 
-const AddOrder = ({ orders }) => {
+const AddOrder = ({ orders, setOrders, remove, supplier_id }) => {
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+  const user_id = jwt_decode(token).user_id;
+
   const getTotalCost = (orders) => {
     let total = 0;
     orders.forEach((order) => {
@@ -25,30 +31,94 @@ const AddOrder = ({ orders }) => {
   };
 
   // submit order
+  // submit order
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    console.log(orders);
-    try {
-      // const response = await fetch("http://localhost:000/orders", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(orders),
-      // });
-      const response = await axios.post(
-        import.meta.env.VITE_API_URL + "orders",
-        orders,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "x-api-key": import.meta.env.VITE_API_KEY,
-          },
-        }
-      );
 
-      window.location = "/orders";
-    } catch (error) {
-      console.error(error.message);
+    // let gettotal = getTotalCost(orders);
+
+    if (!supplier_id) {
+      alert("Please select a supplier");
+      return;
     }
+
+    let gettotal = 0;
+
+    gettotal = getTotalCost(orders);
+
+    console.log("gettotal", gettotal);
+
+    if (window.confirm("Receive payment: " + gettotal + "K Tshs?")) {
+      if (orders.length === 0) {
+        alert("Please add items to order");
+      } else {
+        // return;
+        try {
+          // post order
+          const res = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/order",
+            {
+              total_amount: getTotalCost(orders),
+              user_id: user_id,
+              source: "Pos",
+              status: "Initialized",
+              supplier_id: parseInt(supplier_id),
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+
+          // get order id from res
+          const orderid = res.data.order_id;
+
+          console.log("orders to post to orderitems is :", orders);
+
+          // make a copy of orders with order_id
+          let orderitems = orders.map((item) => ({
+            ...item,
+            order_id: orderid,
+          }));
+
+          // post orders to orderitems
+          const res2 = await axios.post(
+            import.meta.env.VITE_API_URL + "/invorderitems",
+            {
+              orderitems,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          // refresh page
+          window.location.reload();
+        } catch (error) {
+          console.error(error.message);
+        }
+      }
+    }
+  };
+
+  // plus
+  const plus = (index) => {
+    // Handle case when showDiscount is false and cart is null (use orders)
+    let newOrders = [...orders];
+    newOrders[index].quantity = parseInt(newOrders[index].quantity) + 1;
+    setOrders(newOrders);
+  };
+
+  // minus
+  const minus = (index) => {
+    // Handle case when showDiscount is false and cart is null (use orders)
+    let newOrders = [...orders];
+    newOrders[index].quantity = parseInt(newOrders[index].quantity) - 1;
+    setOrders(newOrders);
   };
 
   return (
@@ -62,6 +132,7 @@ const AddOrder = ({ orders }) => {
             <th scope="col">Quantity</th>
             <th scope="col">Cost</th>
             <th scope="col">Subtotal</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -70,10 +141,41 @@ const AddOrder = ({ orders }) => {
               {/* auto increment number */}
               <th scope="row">{orders.indexOf(object) + 1}</th>
               {/* <th scope="row">  </th> */}
-              <td>{object.product_name}</td>
-              <td>{object.quantity}</td>
+              <td>{object.product_id}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-danger mr-2 btn-sm"
+                  onClick={() => {
+                    minus(orders.indexOf(object));
+                  }}
+                >
+                  -
+                </button>
+                {object.quantity}
+                {/* plus button adds quantity */}
+                <button
+                  type="button"
+                  class="btn btn-primary ml-2 btn-sm"
+                  onClick={() => {
+                    plus(orders.indexOf(object));
+                  }}
+                >
+                  +
+                </button>
+              </td>
               <td>{object.cost}</td>
               <td>{parseInt(object.cost) * parseInt(object.quantity)}</td>
+              <td>
+                <button
+                  class="btn btn-danger"
+                  onClick={() => {
+                    remove(orders.indexOf(object));
+                  }}
+                >
+                  X
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

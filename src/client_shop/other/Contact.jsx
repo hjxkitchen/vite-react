@@ -1,12 +1,72 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import Navbar from "../../system/Navbar";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 // import PublicNavbar from "../PublicNavbar";
 import { UserContext, CartContext } from "../../App";
 
 function Contact() {
-  const user = useContext(UserContext);
-  const cartToken = useContext(CartContext);
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    reason: "General",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Access the values in formData here
+    console.log("Form data:", formData);
+    // Add your logic to handle form submission, e.g., send data to the server
+    try {
+      // const body = { products: products };
+      // const response = await fetch("http://localhost:000/productsarray", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(body),
+      // });
+      const response = await axios.post(
+        import.meta.env.VITE_API_URL + "/api/webmessage",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+      console.log(response.data);
+      alert("Message sent successfully");
+      window.location.reload();
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const phone = () => {
+    alert("+255 693 391 049");
+  };
+  const email = () => {
+    alert("info@zahabenergy.com");
+  };
+  const facebook = () => {
+    alert("Zahab Energy");
+  };
+  const instagram = () => {
+    alert("Zahab Energy");
+  };
+  const youtube = () => {
+    alert("Zahab Energy");
+  };
+
   return (
     // <UserContext.Consumer >
     <Fragment>
@@ -29,29 +89,35 @@ function Contact() {
             {/* with icons */}
             <div class="d-flex justify-content-center">
               {/* phone */}
-              <a href="https://www.phone.com/">
-                <i class="fas fa-phone-square fa-3x  "></i>
+              <a href="#">
+                <i class="fas fa-phone-square fa-3x  " onClick={phone}></i>
               </a>
               {/* phone or sms */}
-              <a href="https://www.sms.com/">
-                <i
-                  class="fas fa-sms
-                          fa-3x ml-3"
-                ></i>
+              <a href="#">
+                <i class="fas fa-sms fa-3x ml-3" onClick={phone}></i>
               </a>
               {/* whatsapp */}
-              <a href="https://www.whatsapp.com/">
-                <i class="fab fa-whatsapp-square fa-3x ml-3"></i>
+              <a href="#">
+                <i
+                  class="fab fa-whatsapp-square fa-3x ml-3"
+                  onClick={phone}
+                ></i>
               </a>
               {/* email */}
-              <a href="https://www.gmail.com/">
-                <i class="fas fa-envelope-square fa-3x ml-3"></i>
+              <a href="#">
+                <i
+                  class="fas fa-envelope-square fa-3x ml-3"
+                  onClick={email}
+                ></i>
               </a>
-              <a href="https://www.facebook.com/zahabsolar">
-                <i class="fab fa-facebook-square fa-3x ml-3"></i>
+              <a href="#">
+                <i
+                  class="fab fa-facebook-square fa-3x ml-3"
+                  onClick={facebook}
+                ></i>
               </a>
-              <a href="https://www.instagram.com/">
-                <i class="fab fa-instagram fa-3x ml-3"></i>
+              <a href="#">
+                <i class="fab fa-instagram fa-3x ml-3" onClick={instagram}></i>
               </a>
               {/* youtube */}
               {/* <a href="https://www.youtube.com/">
@@ -70,52 +136,44 @@ function Contact() {
         {/* </div> */}
 
         <div class="row justify-content-center">
-          <div class="col-lg-5">
-            {/* contact form */}
-            <div class="card mb-4">
-              <div class="card-body">
-                <h5
-                  class="card-title
-                      text-center"
-                >
-                  Contact Form
-                </h5>
-                <form>
-                  <div
-                    class="form-group
-                        text-center"
-                  >
-                    <label for="exampleFormControlInput1">Name</label>
-                    <input
-                      type="name"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder="
-                          Enter your name"
-                    />
-                  </div>
-                  <div
-                    class="form-group
-                        text-center"
-                  >
-                    <label for="exampleFormControlInput1">Phone Number</label>
+          <div className="col-lg-5">
+            <div className="card mb-4">
+              <div className="card-body">
+                <h5 className="card-title text-center">Contact Form</h5>
+                <form onSubmit={handleSubmit}>
+                  <div className="form-group text-center">
+                    <label htmlFor="name">Name</label>
                     <input
                       type="text"
-                      class="form-control"
-                      id="exampleFormControlInput1"
-                      placeholder="
-                          Enter your phone number"
+                      className="form-control"
+                      id="name"
+                      name="name"
+                      placeholder="Enter your name"
+                      value={formData.name}
+                      onChange={handleChange}
                     />
                   </div>
-                  {/* select reason for contact */}
-                  <div
-                    class="form-group
-                        text-center"
-                  >
-                    <label for="exampleFormControlSelect1">
-                      Reason for contact
-                    </label>
-                    <select class="form-control" id="exampleFormControlSelect1">
+                  <div className="form-group text-center">
+                    <label htmlFor="phone">Phone Number</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="phone"
+                      name="phone"
+                      placeholder="Enter your phone number"
+                      value={formData.phone}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="form-group text-center">
+                    <label htmlFor="reason">Reason for contact</label>
+                    <select
+                      className="form-control"
+                      id="reason"
+                      name="reason"
+                      value={formData.reason}
+                      onChange={handleChange}
+                    >
                       <option>General</option>
                       <option>Order</option>
                       <option>Payment</option>
@@ -123,26 +181,20 @@ function Contact() {
                       <option>Other</option>
                     </select>
                   </div>
-
-                  {/* <div class="form-group
-                        text-center">
-                          <label for="exampleFormControlInput1">Email address</label>
-                          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="
-                          Enter your email address"/>
-                        </div> */}
-                  <div
-                    class="form-group
-                        text-center"
-                  >
-                    <label for="exampleFormControlTextarea1">Message</label>
+                  <div className="form-group text-center">
+                    <label htmlFor="message">Message</label>
                     <textarea
-                      class="form-control"
-                      id="exampleFormControlTextarea1"
+                      className="form-control"
+                      id="message"
+                      name="message"
                       rows="3"
+                      placeholder="Enter your message"
+                      value={formData.message}
+                      onChange={handleChange}
                     ></textarea>
                   </div>
-                  <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">
+                  <div className="d-flex justify-content-center">
+                    <button type="submit" className="btn btn-primary">
                       Submit
                     </button>
                   </div>

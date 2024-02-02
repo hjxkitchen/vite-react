@@ -82,76 +82,80 @@ const Blog = () => {
   return (
     <>
       <Navbar />
-      <h1>Blog</h1>
+      <div className="container p-4">
+        <h1 className="mb-5">Blog</h1>
 
-      {/* form */}
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          addBlog(blog);
-        }}
-      >
+        {/* form */}
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            addBlog(blog);
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Title"
+            value={blog.title}
+            onChange={(event) => {
+              setBlog({ ...blog, title: event.target.value });
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Content"
+            value={blog.content}
+            onChange={(event) => {
+              setBlog({ ...blog, content: event.target.value });
+            }}
+          />
+          <button type="submit">Add</button>
+        </form>
+
+        <br />
+        <br />
+
+        {/* search */}
         <input
           type="text"
-          placeholder="Title"
-          value={blog.title}
+          placeholder="Search"
           onChange={(event) => {
-            setBlog({ ...blog, title: event.target.value });
+            setSearchTerm(event.target.value);
           }}
         />
-        <input
-          type="text"
-          placeholder="Content"
-          value={blog.content}
-          onChange={(event) => {
-            setBlog({ ...blog, content: event.target.value });
-          }}
-        />
-        <button type="submit">Add</button>
-      </form>
 
-      <br />
-      <br />
-
-      {/* search */}
-      <input
-        type="text"
-        placeholder="Search"
-        onChange={(event) => {
-          setSearchTerm(event.target.value);
-        }}
-      />
-
-      {searchTerm == "" ? (
-        <>
-          {/* map */}
-          {blogs.map((blog) => {
-            return (
-              <div key={blog.id}>
-                <h2>
-                  {blog.id} - {blog.title}
-                </h2>
-                <p>{blog.content}</p>
-              </div>
-            );
-          })}
-        </>
-      ) : (
-        <>
-          {/* map */}
-          {filteredBlogs.map((blog) => {
-            return (
-              <div key={blog.id}>
-                <h2>
-                  {blog.id} - {blog.title}
-                </h2>
-                <p>{blog.content}</p>
-              </div>
-            );
-          })}
-        </>
-      )}
-
+        {searchTerm == "" ? (
+          <>
+            {/* map blogs as cards */}
+            {blogs.map((blog) => {
+              return (
+                <div className="card mt-3" key={blog.id}>
+                  <div className="card-body">
+                    <h5 className="card-title">
+                      {" "}
+                      {blog.id} - {blog.title}
+                    </h5>
+                    <p className="card-text">{blog.content}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </>
+        ) : (
+          <>
+            {/* map */}
+            {filteredBlogs.map((blog) => {
+              return (
+                <div key={blog.id}>
+                  <h2>
+                    {blog.id} - {blog.title}
+                  </h2>
+                  <p>{blog.content}</p>
+                </div>
+              );
+            })}
+          </>
+        )}
+      </div>
       <Footer />
     </>
   );

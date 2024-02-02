@@ -61,7 +61,7 @@ function Sales() {
   const getNames = async () => {
     try {
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/user",
+        import.meta.env.VITE_API_URL + "/api/contact",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -77,8 +77,8 @@ function Sales() {
   };
 
   const customerphoneoptions = customerslist.map((onecustomer) => ({
-    value: onecustomer.user_id,
-    label: onecustomer.number,
+    value: onecustomer.customer_name,
+    label: onecustomer.customer_phone,
   }));
 
   console.log("customerphoneoptions", customerphoneoptions);
@@ -87,7 +87,7 @@ function Sales() {
 
   const custPhoneChanged = async (newValue) => {
     console.log("custPhoneChanged", newValue.value);
-    setCustomerid(newValue.value);
+    // setCustomerid(newValue.value);
 
     // set customer phone
     // console.log("newvalue", newValue);
@@ -96,15 +96,15 @@ function Sales() {
     // const customer = {
     //     phone: e.value,
     // };
-    console.log("names", names);
+    // console.log("names", names);
 
-    const newcustomer = names.find((name) => name.user_id === newValue.value);
+    // const newcustomer = names.find((name) => name.id === newValue.value);
 
-    console.log("newcustomer", newcustomer);
-    setName(newcustomer.username);
+    // console.log("newcustomer", newcustomer);
+    setName(newValue.value);
 
     // set new customer phone
-    setNewCustomer({ ...newcustomer, phone: newValue.value });
+    // setNewCustomer({ ...newcustomer, phone: newValue.value });
 
     // setCustomer(newcustomer);
     // console.log("custy:", newcustomer);
@@ -115,7 +115,7 @@ function Sales() {
       // const response = await fetch("http://localhost:000/users");
 
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/phone",
+        import.meta.env.VITE_API_URL + "/api/contact",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -139,8 +139,8 @@ function Sales() {
 
   const customeroptions = customerslist.map((onecustomer) => {
     return {
-      value: onecustomer.name,
-      label: onecustomer.name,
+      value: onecustomer.customer_name,
+      label: onecustomer.customer_name,
     };
   });
 
@@ -218,6 +218,7 @@ function Sales() {
         // SET CUSTOMER ID
         // document.querySelector("input[name=customerID]").value = res.data.id;
         //
+        setIsNewContact(false);
         // alert success
         alert("Customer added successfully");
 
@@ -245,13 +246,13 @@ function Sales() {
       <Navbar />
       <div class="container p-5">
         <div class="row justify-content-center">
-          <div class="col-6 ">
+          {/* <div class="col-6 ">
             <div class=" d-flex">
               <button class="btn btn-warning ml-5" onClick={showLogs}>
                 Show Logs
               </button>
             </div>
-          </div>
+          </div> */}
 
           {/* logs top right corner of screen */}
           {showlogs && (
@@ -281,9 +282,9 @@ function Sales() {
             <div class=" d-flex">
               <h1 class="text-center mt-5 ">
                 Point of Sales
-                <Link to="/tools">
+                {/* <Link to="/tools">
                   <button class="btn btn-primary ml-5">Tools</button>
-                </Link>
+                </Link> */}
               </h1>
             </div>
           </div>

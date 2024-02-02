@@ -17,6 +17,29 @@ const Home = () => {
   const { t } = useTranslation();
   const { theme } = useContext(ThemeContext);
 
+  const [roles, setRoles] = useState([]);
+
+  //   get token from cookie
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+
+  const getRoles = async () => {
+    const response = await axios.get(
+      import.meta.env.VITE_API_URL + "/api/role",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+    console.log("roles:", response.data);
+    setRoles(response.data);
+  };
+
+  useEffect(() => {
+    getRoles();
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -30,9 +53,9 @@ const Home = () => {
         >
           {t("greeting")} Salud Team
         </h1>
-        <AddModal />
+        <AddModal roles={roles} />
         <div className="container">
-          <List />
+          <List roles={roles} />
         </div>
         <br />
         <br />

@@ -70,15 +70,112 @@ function Calculators() {
     setFavorites(newFavorites);
   };
 
+  const addToCart = (e) => {
+    if (user_id === null) {
+      // const func = async () => {
+
+      //   // add to local storage
+      //   const addtocart = localStorage.setItem(
+      //     "cart",
+      //     JSON.stringify({
+      //       token: cartToken,
+      //       product_id: e.product_id,
+      //       quantity: 1,
+      //       price: e.price,
+      //     })
+      //   );
+      //   console.log("addtocart is: ", addtocart);
+      // };
+      // func();
+      alert("Please Log In First!");
+    } else {
+      const func = async () => {
+        // get userid
+        // console.log("userrered id is: ", user);
+
+        // const user_id = jwtDecode(token).user_id;
+        console.log("user_id is: ", user_id);
+
+        // const addtocart = await axios.post("http://localhost:000/carts", {
+        //   user_id: user_id,
+        //   product_id: e.product_id,
+        //   quantity: 1,
+        //   price: e.price,
+        // });
+
+        // check if already in cart
+        const checkcart = await axios.get(
+          import.meta.env.VITE_API_URL +
+            "/api/user/" +
+            user_id +
+            "?include=cart",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "x-api-key": import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+        console.log("checkcart is: ", checkcart.data.carts);
+
+        // Find the cart item with the matching product_id
+        const cartItem = checkcart.data.carts.find(
+          (cart) => cart.product_id === e.product_id
+        );
+
+        if (cartItem) {
+          console.log("cartItem is: ", cartItem);
+          // If the product already exists in the cart, update the quantity
+          const updatecart = await axios.put(
+            import.meta.env.VITE_API_URL + "/api/cart/" + cartItem.cart_id,
+            {
+              user_id: cartItem.user_id,
+              product_id: cartItem.product_id,
+              quantity: cartItem.quantity + 1,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          console.log("updatecart is: ", updatecart);
+          alert("Updated in Cart!");
+        } else {
+          // If the product is not in the cart, add it with quantity 1
+          const addtocart = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/cart",
+            {
+              user_id: user_id,
+              product_id: e.product_id,
+              quantity: 1,
+              price: e.price,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+          console.log("addtocart is: ", addtocart);
+          alert("Added to Cart!");
+        }
+      };
+      func();
+    }
+  };
+
   return (
     <Fragment>
       <Navbar />
       <div>
-        <h1 class="text-center mt-5">Favorites</h1>
+        <h1 class="text-center mt-5 mb-5">Favorites</h1>
       </div>
       <div class="container">
-        <div class="row">
-          <div class="col-12">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-6">
             <div class="card">
               <div class="card-body">
                 {/* map */}
@@ -89,6 +186,7 @@ function Calculators() {
                       {/* <th>Price</th> */}
                       {/* <th>Image</th> */}
                       <th></th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -97,11 +195,25 @@ function Calculators() {
                         <td>
                           {products.map((product) => (
                             <div>
-                              {product.product_id === favorite.product_id
-                                ? product.product_name
-                                : null}
+                              <a href={"/shop/products/" + product.product_id}>
+                                {product.product_id === favorite.product_id
+                                  ? product.product_name
+                                  : null}
+                              </a>
                             </div>
                           ))}
+                        </td>
+                        <td>
+                          <button
+                            class="btn btn-primary"
+                            onClick={() => addToCart(favorite)}
+                          >
+                            {" "}
+                            <i class="fas fa-shopping-cart fa-lg mr-1">
+                              {" "}
+                            </i>{" "}
+                            {/* Cart */}
+                          </button>
                         </td>
                         {/* <td>{favorite.price}</td> */}
                         {/* <td><img src={favorite.image} alt="product image" width="100px" height="100px"/></td> */}

@@ -62,7 +62,10 @@ const SalesList = () => {
         return b.sale_id - a.sale_id;
       });
 
-      setSales(jsonData);
+      // set sales where status is paid
+      const paidSales = jsonData.filter((sale) => sale.status === "paid");
+      setSales(paidSales);
+      // setSales(jsonData);
       // console.log(products);
     } catch (error) {
       console.log(error.message);

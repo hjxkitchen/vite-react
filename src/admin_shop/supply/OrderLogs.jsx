@@ -8,6 +8,7 @@ import ViewOrderItems from "./components/ViewOrderItems";
 import ReceiveOrder from "./components/ReceiveOrder";
 // import AddJobModal from "./components/AddJobModal";
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 
 function Calculators() {
   const user = useContext(UserContext);
@@ -17,6 +18,8 @@ function Calculators() {
   const [customer, setCustomer] = React.useState({});
 
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+  const username = jwt_decode(token).username;
+  const role_id = jwt_decode(token).role_id;
 
   const location = useLocation();
   // const { orderdata } = location.state;
@@ -38,10 +41,7 @@ function Calculators() {
   const getorders = async () => {
     try {
       const response = await axios.get(
-        import.meta.env.VITE_API_URL +
-          "/api/order/" +
-          order_id +
-          "?include=product",
+        import.meta.env.VITE_API_URL + "/order/" + order_id,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -50,7 +50,32 @@ function Calculators() {
         }
       );
       console.log("res", response.data);
-      setOrders(response.data);
+
+      const order = response.data;
+
+      if (order.orderitems) {
+        // if inventoried is null, ignore
+
+        // for all in order.orderitems, set quantity to quantity subtract inventoried
+        console.log("asda");
+
+        // add og quantity to orderitems
+        order.orderitems.forEach((item) => {
+          item.og_quantity = item.quantity;
+        });
+
+        order.orderitems.forEach((item) => {
+          // if inventory not null
+          if (item.inventoried)
+            item.quantity = item.quantity - item.inventoried;
+        });
+
+        // log
+        console.log("order.orderitems", order.orderitems);
+        setOrders(order);
+      }
+
+      // setOrders(response.data);
     } catch (error) {
       console.log(error.message);
     }
@@ -84,11 +109,11 @@ function Calculators() {
     // const url = "http://localhost:000/user/" + location.state.order.user_id;
     // const res = await axios.get(url);
     // const res = await axios.get(
-    //   import.meta.env.VITE_APP_API_URL + "/api/user/" + orderdata.user_id,
+    //   import.meta.env.VITE_API_URL + "/api/user/" + orderdata.user_id,
     //   {
     //     headers: {
     //       Authorization: `Bearer ${token}`,
-    //       "x-api-key": import.meta.env.VITE_APP_API_KEY,
+    //       "x-api-key": import.meta.env.VITE_API_KEY,
     //     },
     //   }
     // );
@@ -174,18 +199,18 @@ function Calculators() {
     //   }
     // );
 
-    // const res = await axios.put(
-    //   import.meta.env.VITE_APP_API_URL + "/api/order/" + orderdata.order_id,
-    //   {
-    //     status: status,
-    //   },
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //       "x-api-key": import.meta.env.VITE_APP_API_KEY,
-    //     },
-    //   }
-    // );
+    const res = await axios.put(
+      import.meta.env.VITE_API_URL + "/api/order/" + order.order_id,
+      {
+        status: status,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
 
     // console.log("res is", res);
 
@@ -195,39 +220,113 @@ function Calculators() {
     // console.log("ressssss", result.data[0].order_status);
     // setStatus(result.data[0].order_status);
 
-    const res1 = await axios.get(
-      import.meta.env.VITE_APP_API_URL +
-        "/api/order/" +
-        order.order_id +
-        "?include=product",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_APP_API_KEY,
-        },
-      }
-    );
+    // const res1 = await axios.get(
+    //   import.meta.env.VITE_API_URL +
+    //     "/api/order/" +
+    //     order.order_id +
+    //     "?include=product",
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       "x-api-key": import.meta.env.VITE_API_KEY,
+    //     },
+    //   }
+    // );
 
     // getOrderLogs();
     // window.location.href = "/orderlogs";
     // getOrderLogs();
-    alert("Status Updated");
 
     // // insert into logs
     const res2 = await axios.post(
-      import.meta.env.VITE_APP_API_URL + "/api/orderlog",
+      import.meta.env.VITE_API_URL + "/api/orderlog",
       {
         order_id: order.order_id,
-        orderlog: "Status Updated to " + status + " by " + user,
+        log_data: "Status Updated to " + status + " by " + username,
       },
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "x-api-key": import.meta.env.VITE_APP_API_KEY,
+          "x-api-key": import.meta.env.VITE_API_KEY,
         },
       }
     );
 
+    alert("Status Updated");
+    // const res2 = await axios.post("http://localhost:000/orderlogs", {
+    //   order_id: order.order_id,
+    //   orderlog: "Status Updated to " + status + " by " + user,
+    // });
+    window.location.reload();
+  };
+
+  const submitReceivedStatus = async (e) => {
+    // console.log("orderLogs", inputs.orderlog);
+    e.preventDefault();
+    // console.log(status);
+
+    // update status
+    // const res = await axios.put(
+    //   "http://localhost:000/orders/status/" + order.order_id,
+    //   {
+    //     status: status,
+    //   }
+    // );
+
+    const res = await axios.put(
+      import.meta.env.VITE_API_URL + "/api/order/" + order.order_id,
+      {
+        status: "received",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+
+    // console.log("res is", res);
+
+    // const url = "http://localhost:000/order/" + order.order_id;
+    // console.log(url);
+    // const result = await axios.get(url);
+    // console.log("ressssss", result.data[0].order_status);
+    // setStatus(result.data[0].order_status);
+
+    // const res1 = await axios.get(
+    //   import.meta.env.VITE_API_URL +
+    //     "/api/order/" +
+    //     order.order_id +
+    //     "?include=product",
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       "x-api-key": import.meta.env.VITE_API_KEY,
+    //     },
+    //   }
+    // );
+
+    // getOrderLogs();
+    // window.location.href = "/orderlogs";
+    // getOrderLogs();
+
+    // // insert into logs
+    const res2 = await axios.post(
+      import.meta.env.VITE_API_URL + "/api/orderlog",
+      {
+        order_id: order.order_id,
+        log_data: "Status Updated to received by " + username,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+
+    alert("Status Updated");
     // const res2 = await axios.post("http://localhost:000/orderlogs", {
     //   order_id: order.order_id,
     //   orderlog: "Status Updated to " + status + " by " + user,
@@ -263,16 +362,69 @@ function Calculators() {
           <h1 class="text-center mt-5">OrderLogs: Order {order.order_id}</h1>
         </div>
 
-        <div class="row justify-content-center">
-          <div class="d-flex col-md-3 justify-content-center mt-4">
-            <input
-              type="text"
-              class="form-control text-center"
-              value={order.status}
-              disabled
-            />
+        {role_id === 6 ? (
+          <>
+            <div class="row justify-content-center mt-4">
+              <div class="d-flex col-md-3 justify-content-center mt-4">
+                <select
+                  class="form-control"
+                  name="salelog"
+                  // onChange={handleStatusChange}
+                  // not changeable
+                  disabled
+                  // defaultValue={sale.status}
+                >
+                  <option value={order.status}>{order.status}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row justify-content-center mt-2">
+              <div class="d-flex col-md-3 justify-content-center mt-4">
+                <button
+                  class="btn btn-success "
+                  onClick={(e) => {
+                    submitReceivedStatus(e);
+                  }}
+                >
+                  Received Order
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div class="row justify-content-center">
+            <div class="d-flex col-md-3 justify-content-center mt-4">
+              {/* <div class=" my-auto"> */}
+              {/* select input */}
+              <select
+                class="form-control"
+                name="salelog"
+                onChange={handleStatusChange}
+                // defaultValue={sale.status}
+              >
+                <option value={order.status}>{order.status}</option>
+                <option value="initialized">Initialized</option>
+                <option value="paid">Paid</option>
+                <option value="shipped">Shipped</option>
+                <option value="receiving">Receiving</option>
+                <option value="received">Received</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+              {/* submit button */}
+              <button
+                class="btn btn-primary"
+                type="submit"
+                onClick={submitStatus}
+              >
+                Submit
+              </button>
+              {/* </div> */}
+              {/* button to add technician, delivery jobs */}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* collapse show button */}
         <div class="container">
@@ -321,6 +473,39 @@ function Calculators() {
           </div>
         </div>
 
+        {/* add log input */}
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-6 ">
+              <form>
+                <div class="form-group text-center mt-5">
+                  <label for="log">Log</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="salelog"
+                    onChange={handleChange}
+                    id="log"
+                    placeholder="Enter log"
+                  />
+
+                  {/* row of buttons */}
+                  <button
+                    type="submit"
+                    onClick={submitLog}
+                    class="btn btn-primary mt-4"
+                  >
+                    Submit
+                  </button>
+
+                  {/* <div class="d-flex mt-5 justify-content-center ">
+                    <AddJobModal />
+                  </div> */}
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
         {/* end add log form */}
         {/* <div class="row justify-content-center">
             <div class="col-6">
@@ -357,7 +542,12 @@ function Calculators() {
                       <td>{orderLog.log_data}</td>
                     </tr>
                   ))}
-                  <ReceiveOrder order={order} />
+                  {order.status === "shipped" ||
+                  order.status === "receiving" ? (
+                    <ReceiveOrder order={order} setOrder={setOrders} />
+                  ) : (
+                    ""
+                  )}
                 </tbody>
               </table>
             </div>

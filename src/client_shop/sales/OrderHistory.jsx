@@ -116,84 +116,83 @@ const SalesList = () => {
   return (
     <Fragment>
       <Navbar />
+      <div className="container">
+        <h1 class="text-center mt-5">Order History</h1>
 
-      <h1 class="text-center mt-5">Order History</h1>
+        {/* <ViewSaleItems /> */}
+        {/* <div class="d-flex justify-content-center" > */}
+        {/* <h2>Products Table</h2> */}
+        {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
+        {/* <div class="row justify-content-center"> */}
 
-      {/* <ViewSaleItems /> */}
-      {/* <div class="d-flex justify-content-center" > */}
-      {/* <h2>Products Table</h2> */}
-      {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
-      {/* <div class="row justify-content-center"> */}
+        {/* <div class="container justify-content-center"> */}
 
-      {/* <div class="container justify-content-center"> */}
-
-      {sales.length > 0 ? (
-        // <div class="col-md-0">
-        // <div class="container center">
-        // center the table
-        <div class="row justify-content-center">
-          <div class="container col-6">
-            <table class="table mt-5 text-center ">
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Order Date</th>
-                  <th>Order status</th>
-                  <th>Order total</th>
-                  {/* <th>Sale total</th>
+        {sales.length > 0 ? (
+          // <div class="col-md-0">
+          // <div class="container center">
+          // center the table
+          <div class="row justify-content-center">
+            <div class="container col-md-6">
+              <table class="table mt-5 text-center ">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Order Date</th>
+                    <th>Order status</th>
+                    <th>Order total</th>
+                    {/* <th>Sale total</th>
             <th>Customer Id</th>
             <th>View</th>
             <th>Edit</th>
             <th>Delete</th> */}
-                </tr>
-              </thead>
-              <tbody>
-                {sales.map((sale) => (
-                  <tr>
-                    <td>{sale.sale_id}</td>
-                    <td>{sale.createdAt.slice(0, 10)}</td>
-                    <td>
-                      <Link to={"/sale_logs/" + sale.sale_id}>
-                        {sale.status}
-                      </Link>
-                    </td>
-                    <td>{sale.total_amount}</td>
-                    {/*<td>{sale.user_id}</td> */}
-                    {/* <td>{product.images}</td> */}
-                    {/* <td> 
+                  </tr>
+                </thead>
+                <tbody>
+                  {sales.map((sale) => (
+                    <tr>
+                      <td>{sale.sale_id}</td>
+                      <td>{sale.createdAt.slice(0, 10)}</td>
+                      <td>
+                        <Link to={"/sale_logs/" + sale.sale_id}>
+                          {sale.status}
+                        </Link>
+                      </td>
+                      <td>{sale.total_amount}</td>
+                      {/*<td>{sale.user_id}</td> */}
+                      {/* <td>{product.images}</td> */}
+                      {/* <td> 
                         <input type="checkbox" checked={product.shop==true&&"true"}></input>
                     </td> */}
-                    {/* <td>
+                      {/* <td>
                         <EditProduct product={product}/>
                     </td> */}
-                    {/* <td> */}
-                    {/* <button class="btn btn-primary" 
+                      {/* <td> */}
+                      {/* <button class="btn btn-primary" 
                         type="button" onClick={viewSale(sale)}>Open</button> */}
-                    {/* <ViewSaleItems sale={sale}/> */}
-                    {/* </td> */}
-                    {/* <td>
+                      {/* <ViewSaleItems sale={sale}/> */}
+                      {/* </td> */}
+                      {/* <td>
                         <button class="btn btn-warning" 
                         onClick={() => deleteProduct(sale.sale_id)}>Edit</button>
                     </td> */}
-                    {/* <td>
+                      {/* <td>
                         <button class="btn btn-danger"
                         onClick={() => deleteProduct(sale.sale_id)}>X</button>
                     </td> */}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      ) : (
-        // </div>
-        // </div>
-        <h2 class="text-center mt-5">No Orders</h2>
-      )}
+        ) : (
+          // </div>
+          // </div>
+          <h2 class="text-center mt-5">No Orders</h2>
+        )}
 
-      {/* </div> */}
-
-      {/* </div> */}
+        {/* </div> */}
+      </div>
     </Fragment>
   );
 };

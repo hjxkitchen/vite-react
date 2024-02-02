@@ -12,6 +12,8 @@ import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import Login from "./auth/Login";
 
 const languages = [
   { value: "", text: "Language/Lugha" },
@@ -24,7 +26,14 @@ const Navbar = () => {
   const [categories, setCategories] = useState();
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
-  // console.log("categories", categories);
+  const decodedToken = token ? jwt_decode(token) : null;
+
+  const username = decodedToken ? decodedToken.username : null;
+  const role_id = decodedToken ? decodedToken.role_id : null;
+  const userId = decodedToken ? decodedToken.user_id : null;
+
+  console.log("role_id", role_id);
+
   const getCats = async () => {
     try {
       const response = await axios.get(
@@ -65,7 +74,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     Cookies.remove(import.meta.env.VITE_COOKIE_NAME);
-    window.location.href = "/login";
+    window.location.href = "/adminlogin";
   };
 
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -80,10 +89,14 @@ const Navbar = () => {
       ).role_id
     : null;
 
+  console.log("userRolee", userRole);
+
   const navigate = useNavigate();
   function handleBackClick() {
-    navigate(-1);
+    // navigate(-1);
+    // go to admin Login
   }
+  // navigate("/adminlogin");
 
   return (
     <Fragment>
@@ -144,64 +157,97 @@ const Navbar = () => {
 <Link to="/shop" class="dropdown-item" >Specialty</Link>
 </div>
 </li> */}
-              {/* shop dropdown */}
-              <li class="nav-item">
-                <li class="dropdown menu-large nav-item">
-                  {" "}
-                  <a
-                    href="#"
-                    class="dropdown-toggle nav-link"
-                    data-toggle="dropdown"
-                  >
-                    <i class="fas fa-shopping-bag fa-lg"></i>{" "}
-                    {t("SHOP").toUpperCase()}{" "}
-                  </a>
-                  <ul class="dropdown-menu megamenu">
-                    <div class="row megamenu-container">
-                      {/* map categories */}
-                      {categories &&
-                        categories.map((category, index) => {
-                          return (
-                            <li class="col-md-2 dropdown-item">
-                              <ul>
-                                <li class="dropdown-header">
-                                  {category.category_name}
-                                </li>
-                                {/* map subcategories */}
-                                {category.subcategories.map(
-                                  (subcategory, index) => {
-                                    return (
-                                      <li>
-                                        <a
-                                          href={
-                                            "/category/" +
-                                            subcategory.subcategory_id
-                                          }
-                                        >
-                                          {subcategory.subcategory_name}
-                                        </a>
-                                      </li>
-                                    );
-                                  }
-                                )}
-                              </ul>
-                            </li>
-                          );
-                        })}
-                    </div>
-                  </ul>
+
+              {userRole === 1 || userRole === 3 || userRole === 5 ? (
+                <li class="nav-item">
+                  <Link to="/shop" class="nav-link ">
+                    <i class="fas fa-fire fa-lg"></i> SHOP
+                  </Link>
                 </li>
-              </li>
-              <li class="nav-item">
-                <Link to="/featured" class="nav-link ">
-                  <i class="fas fa-fire fa-lg"></i> FEATURED
-                </Link>
-              </li>
-              <li class="nav-item ">
-                <Link to="/packages" class="nav-link">
-                  <i class="fas fa-store fa-lg"></i> PACKAGES
-                </Link>
-              </li>
+              ) : (
+                <></>
+              )}
+
+              {/* shop dropdown */}
+              {userRole === 1 ||
+              userRole === 3 ||
+              userRole === 2 ||
+              userRole === 5 ||
+              role_id === null ? (
+                <li class="nav-item">
+                  <li class="dropdown menu-large nav-item">
+                    {" "}
+                    <a
+                      href="#"
+                      class="dropdown-toggle nav-link"
+                      data-toggle="dropdown"
+                    >
+                      <i class="fas fa-shopping-bag fa-lg"></i>{" "}
+                      {t("PRODUCTS").toUpperCase()}{" "}
+                    </a>
+                    <ul class="dropdown-menu megamenu">
+                      <div class="row megamenu-container">
+                        {/* map categories */}
+                        {categories &&
+                          categories.map((category, index) => {
+                            return (
+                              <li class="col-md-2 dropdown-item">
+                                <ul>
+                                  <li class="dropdown-header">
+                                    {category.category_name}
+                                  </li>
+                                  {/* map subcategories */}
+                                  {category.subcategories.map(
+                                    (subcategory, index) => {
+                                      return (
+                                        <li>
+                                          <a
+                                            href={
+                                              "/category/" +
+                                              subcategory.subcategory_id
+                                            }
+                                          >
+                                            {subcategory.subcategory_name}
+                                          </a>
+                                        </li>
+                                      );
+                                    }
+                                  )}
+                                </ul>
+                              </li>
+                            );
+                          })}
+                      </div>
+                    </ul>
+                  </li>
+                </li>
+              ) : (
+                <></>
+              )}
+
+              {userRole === 1 ||
+              userRole === 2 ||
+              userRole === 3 ||
+              userRole === 5 ||
+              role_id === null ? (
+                <li class="nav-item">
+                  <Link to="/featured" class="nav-link ">
+                    <i class="fas fa-fire fa-lg"></i> FEATURED
+                  </Link>
+                </li>
+              ) : (
+                <></>
+              )}
+
+              {userRole === 1 || userRole === 3 || userRole === 5 ? (
+                <li class="nav-item ">
+                  <Link to="/packages" class="nav-link">
+                    <i class="fas fa-store fa-lg"></i> PACKAGES
+                  </Link>
+                </li>
+              ) : (
+                <></>
+              )}
 
               {/* <li class="nav-item">
 <Link to="/calculators" class="nav-link disabled" style={{textDecoration:"line-through"}}><i class="fas fa-calculator fa-lg" ></i> CALCULATORS</Link>
@@ -249,20 +295,27 @@ const Navbar = () => {
                     </Link>
                   </li>
                 )}
-                {userRole === 1 && (
+                {/* {userRole === 1 && (
                   <li class="nav-item">
                     <Link to="/ordercart" class="nav-link">
                       <i class="fas fa-shopping-cart fa-lg"></i>{" "}
                       {t("ORDERCART").toUpperCase()}
                     </Link>
                   </li>
+                )} */}
+                {userRole === 1 ||
+                userRole === 2 ||
+                userRole === 3 ||
+                userRole === 5 ? (
+                  <li class="nav-item">
+                    <Link to="/cart" class="nav-link">
+                      <i class="fas fa-shopping-cart fa-lg"></i>{" "}
+                      {t("CART").toUpperCase()}
+                    </Link>
+                  </li>
+                ) : (
+                  <></>
                 )}
-                <li class="nav-item">
-                  <Link to="/cart" class="nav-link">
-                    <i class="fas fa-shopping-cart fa-lg"></i>{" "}
-                    {t("CART").toUpperCase()}
-                  </Link>
-                </li>
                 {/* account dropdown */}
                 {userRole === 2 && (
                   <li class="nav-item dropdown ">
@@ -296,8 +349,8 @@ const Navbar = () => {
                         </a>
                       </Link>
 
-                      <Link to="/contact">
-                        <a class="dropdown-item" href="/contact">
+                      <Link to="/contactus">
+                        <a class="dropdown-item" href="/contactus">
                           <i class="fas fa-phone"></i> {t("Contact Us")}
                         </a>
                       </Link>
@@ -319,10 +372,11 @@ const Navbar = () => {
                     </Link>
                   </li>
                 )}
-                {userRole === 1 && (
+                {userRole !== null && userRole !== 2 && (
                   <li class="nav-item">
                     <Link onClick={handleLogout} class="nav-link">
-                      <i class="fas fa-sign-in-alt fa-lg "></i> {t("Log Out")}
+                      <i class="fas fa-sign-in-alt fa-lg "></i>{" "}
+                      {username.toUpperCase()}: {t("Log Out")}
                     </Link>
                   </li>
                 )}
@@ -340,7 +394,7 @@ const Navbar = () => {
         >
           <div className="sidebar-content">
             <ul className="sidebar-nav">
-              <li className="sidebar-item">
+              {/* <li className="sidebar-item">
                 <Link to="/pos">
                   <i className="fas fa-users fa"></i> Pos2
                 </Link>
@@ -349,7 +403,7 @@ const Navbar = () => {
                 <Link to="/products2">
                   <i className="fas fa-users fa"></i> Products2
                 </Link>
-              </li>
+              </li> */}
               <li className="sidebar-item">
                 <Link to="/adminblogs">
                   <i className="fas fa-users fa"></i> Blogs
@@ -361,10 +415,15 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="sidebar-item">
+                <Link to="/webmessages">
+                  <i className="fas fa-users fa"></i> Web Messages
+                </Link>
+              </li>
+              {/* <li className="sidebar-item">
                 <Link to="/contacts">
                   <i className="fas fa-users fa"></i> Contacts
                 </Link>
-              </li>
+              </li> */}
 
               <hr style={{ backgroundColor: "white" }} />
 
@@ -375,6 +434,9 @@ const Navbar = () => {
                   </Link>
                 </li>
               )}
+
+              <hr style={{ backgroundColor: "white" }} />
+
               <li className="sidebar-item">
                 <Link to="/settings">
                   <i className="fas fa fa-cog"></i> Preferences

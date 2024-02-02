@@ -16,13 +16,7 @@ function Admin() {
           LOCATION HQ <h1>{t("welcome")}</h1>
         </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-8">
-          <Link
-            to="/shoplist"
-            className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
-          >
-            Products
-          </Link>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-6 mt-8">
           <Link
             to="/pointofsales"
             className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
@@ -41,47 +35,22 @@ function Admin() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-8">
           <Link
+            to="/shoplist"
+            className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
+          >
+            Products
+          </Link>
+          <Link
             to="/orders"
             className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
           >
-            Supply Orders
+            Orders
           </Link>
           <Link
             to="/warehouses"
             className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
           >
-            Warehouse
-          </Link>
-          <Link
-            to="/orders"
-            className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
-          >
-            Fulfill Jobs
-          </Link>
-        </div>
-
-        <h1 className="text-5xl font-bold tracking-wider uppercase text-center py-4 mt-8 border-b-4 border-black"></h1>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-8">
-          <div className="flex flex-col items-center justify-center   text-center"></div>
-          <Link
-            to="/warehouses"
-            className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
-          >
-            Campaigns
-          </Link>
-        </div>
-
-        <h1 className="text-5xl font-bold tracking-wider uppercase text-center py-4 mt-8 border-b-4 border-black"></h1>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 mt-8">
-          <div className="flex flex-col items-center justify-center   text-center"></div>
-
-          <Link
-            to="/orders"
-            className="flex flex-col items-center justify-center bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg py-6 text-3xl font-bold text-center"
-          >
-            Cap Ops
+            Warehouses
           </Link>
         </div>
 

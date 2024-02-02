@@ -9,6 +9,9 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
   const [inputs, setInputs] = useState({});
   const [array, setArray] = useState([]);
   const [newcustomer, setNewCustomer] = useState({});
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [inventory, setInventory] = useState(0);
+
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   // setSales(array);
@@ -34,7 +37,16 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
     //   price: 100,
     // };
 
-    const formData = inputs;
+    // get values from selectedValue and defaultprice
+    const formData = {
+      product_id: selectedValue.value,
+      price: defaultprice,
+      quantity: document.getElementsByName("quantity")[0].value,
+    };
+
+    // console.log("formData2", formData2);
+
+    // const formData = inputs;
 
     const existingProductIndex = sales.findIndex(
       (product) => product.product_id === formData.product_id
@@ -80,6 +92,11 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
   const [pid, setPID] = useState(0);
 
   const changedd = async (e) => {
+    // set selected value
+    setSelectedValue(e);
+
+    console.log("e", e.value);
+
     setInputs((values) => ({ ...values, product_id: e.value }));
 
     // get price from product_id
@@ -105,14 +122,116 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
     // set inputs price
     setInputs((values) => ({ ...values, price: defaultprice.data.price }));
     console.log("inputs", inputs);
+
+    // get inventory
+    const inventory = await axios.get(
+      import.meta.env.VITE_API_URL + "/inventory/" + e.value,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+    // set inventory to sum of quantities
+    if (inventory.data.length > 0) {
+      const sum = inventory.data.reduce((a, b) => a + b.quantity, 0);
+      setInventory(sum);
+    } else {
+      setInventory(0);
+    }
+
+    // setInventory(inventory.data.length);
+    console.log("inventory", inventory);
   };
+
+  // Debounce function to delay execution
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  // Your handleBarcodeChange function with debounce
+  const handleBarcodeChange = async (e) => {
+    // Your existing code here if needed before the delay
+
+    // filter from prodnames where barcode = e.target.value
+    const filtered = prodnames.filter(
+      (prodname) => prodname.barcode === e.target.value
+    );
+
+    console.log("filtered", filtered);
+
+    // if filtered is empty, focus on barcode input and return
+    if (filtered.length === 0) {
+      // clear barcode input
+      document.getElementsByName("barcode")[0].value = "";
+      document.getElementsByName("barcode")[0].focus();
+      return;
+    }
+
+    // make an object with value as filtered[0].product_id and label as filtered[0].product_name
+    const obj = {
+      value: filtered[0].product_id,
+      label: filtered[0].product_name,
+    };
+
+    // set selected value
+    setSelectedValue(obj);
+
+    // setdefaultprice
+    setDefaultPrice(filtered[0].price);
+
+    // set inputs.product_id
+    setInputs((values) => ({ ...values, product_id: filtered[0].product_id }));
+
+    // set prodname select to filtered[0].product_name
+    document.getElementById("prodnameselect").value = filtered[0].product_name;
+
+    // clear barcode input
+    document.getElementsByName("barcode")[0].value = "";
+
+    // keep cursor on barcode input
+    document.getElementsByName("barcode")[0].focus();
+
+    // console.log("barcode changed", e.target.value);
+    // // get product_id from barcode
+    // console.log(prodnames);
+  };
+
+  // Apply debounce to handleBarcodeChange
+  const debouncedHandleBarcodeChange = debounce(handleBarcodeChange, 1000);
+
+  useEffect(() => {
+    document.getElementsByName("barcode")[0].focus();
+  }, []);
 
   // form
   return (
     <Fragment>
       <div className="d-flex mt-3 justify-content-center">
         <div className="d-flex w-75 justify-content-center">
-          <form className="" onSubmit={onSubmitForm}>
+          <form
+            className=""
+            // do nothing on submit
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
+            {/* barcode input */}
+            <div>Barcode</div>
+            <input
+              type="text"
+              name="barcode"
+              className="form-control"
+              value={inputs.barcode}
+              onChange={(e) => debouncedHandleBarcodeChange(e)}
+            />
             {/* 1st input */}
             <div>Product</div>
             {/* 
@@ -123,9 +242,18 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
                             value={inputs.description} 
                             onChange={handleChange} 
                             /> */}
-            <Select options={options} onChange={changedd} />
+            <Select
+              id="prodnameselect"
+              options={options}
+              onChange={changedd}
+              value={selectedValue}
+            />
             {inputs.product_id}
             {/* </label>                                     */}
+            {/* Inventory */}
+            <br />
+            <br />
+            Inventory: {inventory}
             {/* 2nd */}
             <div class="d-flex">
               <label class="mt-3">
@@ -143,7 +271,7 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
               </label>
 
               {/* discount */}
-              <label class="mt-3">
+              {/* <label class="mt-3">
                 Discount (Tshs)
                 <input
                   type="number"
@@ -154,7 +282,7 @@ const AddToSale = ({ prodnames, sales, setSales, setCustomer, customer }) => {
                   defaultValue={0}
                   onChange={discountchanged}
                 />
-              </label>
+              </label> */}
 
               {/* 3rd */}
               <label class="mt-3">

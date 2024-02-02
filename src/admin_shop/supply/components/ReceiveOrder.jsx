@@ -1,13 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
+// prodcontext
+import { ProdContext } from "../../../App";
 
-const AddModal = ({ order }) => {
+const AddModal = ({ order, setOrder }) => {
   const [inputs, setInputs] = useState({});
   const [warehouses, setWarehouses] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedWarehouse, setSelectedWarehouse] = useState(0);
   const [selectedProducts, setSelectedProducts] = useState([]);
+
+  const prods = useContext(ProdContext);
+
+  console.log("prods", prods);
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+  const username = jwt_decode(token).username;
+
+  // console.log("order", order);
 
   const getWarehouses = async () => {
     const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
@@ -47,7 +59,7 @@ const AddModal = ({ order }) => {
   const handleProductSelection = (event) => {
     const productId = parseInt(event.target.value);
     const isChecked = event.target.checked;
-    const product = order.products.find((p) => p.product_id === productId);
+    const product = order.orderitems.find((p) => p.product_id === productId);
 
     if (product) {
       if (isChecked) {
@@ -55,8 +67,8 @@ const AddModal = ({ order }) => {
           ...prevSelectedProducts,
           {
             product_id: product.product_id,
-            quantity: product.orderitem.quantity,
-            selectedQuantity: product.orderitem.quantity,
+            quantity: product.quantity,
+            selectedQuantity: product.quantity,
           },
         ]);
       } else {
@@ -75,30 +87,24 @@ const AddModal = ({ order }) => {
       //     products: selectedProducts,
       //   };
 
-      // add warehousesectionid to each product
-      const data = selectedProducts.reduce((acc, product) => {
-        const remainingQuantity = product.quantity - product.selectedQuantity;
-        acc.push({
-          product_id: product.product_id,
-          quantity: product.selectedQuantity,
-          warehouse_section_id: warehousesectionid,
-        });
-        if (remainingQuantity > 0) {
-          acc.push({
-            product_id: product.product_id,
-            quantity: remainingQuantity,
-            warehouse_section_id: null,
-          });
-        }
-        return acc;
-      }, []);
+      console.log("selectedProducts", selectedProducts);
 
-      console.log("warehousedata", data);
+      // warehouse_section_id: warehousesectionid,
+      // warehouse_id: selectedWarehouse,
+
+      // modify slecetedProducts to include warehouse_section_id and warehouse_id and make selectedQuantity becom quantity
+      let newSelectedProducts = selectedProducts.map((item) => ({
+        ...item,
+        warehouse_id: selectedWarehouse,
+        quantity: item.selectedQuantity,
+      }));
+
+      console.log("newSelectedProducts", newSelectedProducts);
 
       const response = await axios.post(
         import.meta.env.VITE_API_URL + "/warehouseitems",
         {
-          warehouseitems: data,
+          warehouseitems: newSelectedProducts,
         },
         {
           headers: {
@@ -108,27 +114,86 @@ const AddModal = ({ order }) => {
         }
       );
 
-      // console.log("Receive Order response:", response.data);
-      // window.location.reload();
+      // set quantity as inventoried in orderitems where product_id = product_id and order_id = order_id
+      const response2 = await axios.put(
+        import.meta.env.VITE_API_URL + "/invorderitems/" + order.order_id,
+        {
+          orderitems: newSelectedProducts,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
+      const response3 = await axios.put(
+        import.meta.env.VITE_API_URL + "/api/order/" + order.order_id,
+        {
+          status: "receiving",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+      // post to orderlog; status updated to receiving by user
+      const response4 = await axios.post(
+        import.meta.env.VITE_API_URL + "/api/orderlog",
+        {
+          order_id: order.order_id,
+          log_data: `Status Updated to receiving by ${username}`,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
+      console.log("Receive Order response:", response2.data);
+      window.location.reload();
     } catch (error) {
       console.error("Error receiving order:", error.message);
     }
   };
 
   const [warehousesectionid, setWarehousesectionid] = useState(0);
-  const handlewarehousesectionChange = (event) => {
-    const warehouseSectionId = parseInt(event.target.value);
-    setWarehousesectionid(warehouseSectionId);
-    console.log("warehouseSectionId", event.target.value);
+
+  const handlewarehousesectionChange = (e, product_id) => {
+    const warehouseSectionId = parseInt(e.target.value);
+
+    setSelectedProducts((prevSelectedProducts) =>
+      prevSelectedProducts.map((p) => {
+        if (p.product_id === product_id) {
+          return {
+            ...p,
+            warehouse_section_id: warehouseSectionId,
+          };
+        }
+        return p;
+      })
+    );
+
+    // setWarehousesectionid(warehouseSectionId);
+    // console.log("warehouseSectionId", event.target.value);
   };
 
   const handleQuantityChange = (productId, quantity) => {
+    console.log("handlingcxhange", productId, quantity);
     setSelectedProducts((prevSelectedProducts) =>
       prevSelectedProducts.map((p) => {
         if (p.product_id === productId) {
           return {
             ...p,
-            selectedQuantity: Math.max(1, Math.min(quantity, p.quantity)),
+            selectedQuantity: Math.max(
+              1,
+              Math.min(quantity, parseInt(p.quantity))
+            ),
           };
         }
         return p;
@@ -175,10 +240,31 @@ const AddModal = ({ order }) => {
             <div className="modal-body">
               <form>
                 <div className="form-group">
+                  <label htmlFor="warehouse" className="col-form-label">
+                    Warehouse:
+                  </label>
+                  <select
+                    className="form-control"
+                    id="warehouse"
+                    name="warehouse"
+                    onChange={selectWarehouse}
+                  >
+                    <option value="">Select a warehouse</option>
+                    {warehouses?.map((warehouse) => (
+                      <option
+                        key={warehouse.warehouse_id}
+                        value={warehouse.warehouse_id}
+                      >
+                        {warehouse.warehouse_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group">
                   <label htmlFor="products" className="col-form-label">
                     Products:
                   </label>
-                  {order.products?.map((product) => (
+                  {order.orderitems?.map((product) => (
                     <div key={product.product_id} className="form-check">
                       <input
                         type="checkbox"
@@ -187,19 +273,33 @@ const AddModal = ({ order }) => {
                         name={`product_${product.product_id}`}
                         value={product.product_id}
                         onChange={handleProductSelection}
+                        // if quantity is 0, disable checkbox
+                        disabled={product.quantity === 0}
+                        // checked={product.quantity === 0}
                       />
+
                       <label
                         className="form-check-label"
                         htmlFor={`product_${product.product_id}`}
                       >
-                        {product.orderitem.quantity +
-                          " x " +
-                          product.size +
-                          " - " +
-                          product.model +
-                          " - " +
-                          product.product_name}
+                        <p // strike through text if quantity is 0
+                          style={
+                            product.quantity === 0
+                              ? { textDecoration: "line-through", color: "red" }
+                              : {}
+                          }
+                        >
+                          {/* {product.quantity + " x " + product.product_id} */}
+                          {product.quantity + " x "}
+                          {/* prod id to name using prods */}
+                          {
+                            prods.find(
+                              (p) => p.product_id === product.product_id
+                            )?.product_name
+                          }{" "}
+                        </p>
                       </label>
+
                       {selectedProducts.find(
                         (p) => p.product_id === product.product_id
                       ) && (
@@ -226,7 +326,12 @@ const AddModal = ({ order }) => {
                           />
                           <select
                             className="form-control"
-                            onChange={handlewarehousesectionChange}
+                            onChange={(e) =>
+                              handlewarehousesectionChange(
+                                e,
+                                product.product_id
+                              )
+                            }
                           >
                             <option value="">Select a warehouse section</option>
                             {warehouses
@@ -247,27 +352,6 @@ const AddModal = ({ order }) => {
                       )}
                     </div>
                   ))}
-                </div>
-                <div className="form-group">
-                  <label htmlFor="warehouse" className="col-form-label">
-                    Warehouse:
-                  </label>
-                  <select
-                    className="form-control"
-                    id="warehouse"
-                    name="warehouse"
-                    onChange={selectWarehouse}
-                  >
-                    <option value="">Select a warehouse</option>
-                    {warehouses?.map((warehouse) => (
-                      <option
-                        key={warehouse.warehouse_id}
-                        value={warehouse.warehouse_id}
-                      >
-                        {warehouse.warehouse_name}
-                      </option>
-                    ))}
-                  </select>
                 </div>
               </form>
             </div>

@@ -1,11 +1,15 @@
 import React, { Fragment, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const AddSupplierModal = ({ supplier }) => {
+const AddProductModal = ({ product }) => {
   const [inputs, setInputs] = useState({});
 
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
+
+  // get warehouse id from url
+  const { id } = useParams();
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -16,10 +20,16 @@ const AddSupplierModal = ({ supplier }) => {
   // submit function
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    console.log("inputs to submit", inputs);
+    console.log(id);
+
+    // add warehouse id to inputs
+    inputs.warehouse_id = id;
+
+    console.log(inputs);
+
     try {
       const response = await axios.post(
-        import.meta.env.VITE_API_URL + "/api/supplier",
+        import.meta.env.VITE_API_URL + "/api/warehousesection",
         inputs,
         {
           headers: {
@@ -28,10 +38,8 @@ const AddSupplierModal = ({ supplier }) => {
           },
         }
       );
-
-      // add contcats: phone, emial, address, location
-
-      window.location = "/suppliers";
+      // reload page
+      window.location.reload();
     } catch (error) {
       console.error(error.message);
     }
@@ -42,7 +50,7 @@ const AddSupplierModal = ({ supplier }) => {
       {/* <!-- Button to Open the Modal --> */}
       <button
         type="button"
-        class="btn btn-success "
+        class="btn btn-success mt-5"
         data-toggle="modal"
         data-target={`#addOrder`}
       >
@@ -55,7 +63,7 @@ const AddSupplierModal = ({ supplier }) => {
           <div class="modal-content">
             {/* <!-- Modal Header --> */}
             <div class="modal-header">
-              <h4 class="modal-title">Add Supplier</h4>
+              <h4 class="modal-title">Add Warehouse Section</h4>
               <button type="button" class="close" data-dismiss="modal">
                 &times;
               </button>
@@ -63,49 +71,30 @@ const AddSupplierModal = ({ supplier }) => {
 
             {/* <!-- Modal body --> */}
             <div class="modal-body">
-              <div className="d-flex mt-3 justify-content-center">
-                <div className="d-flex w-50 justify-content-center">
-                  <form className="" onSubmit={onSubmitForm}>
-                    {/* name */}
-                    <div class="row">
-                      <div class="col">
-                        {/* 1st input */}
-                        <label>
-                          Name
-                          <input
-                            type="text"
-                            name="supplier_name"
-                            className="form-control"
-                            value={inputs.description}
-                            onChange={handleChange}
-                          />
-                        </label>
-                      </div>
+              <div className="d-flex justify-content-center">
+                {/* <div className="d-flex w-50 justify-content-center"> */}
+                <form className="" onSubmit={onSubmitForm}>
+                  <div className="row mb-3">
+                    <label className="col-sm-2 col-form-label">Name</label>
+                    <div className="col-sm-10">
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="warehouse_section_name"
+                        value={inputs.warehouse_section_name}
+                        onChange={handleChange}
+                      />
                     </div>
-
-                    <div class="row">
-                      <div class="col mt-4 mb-4">
-                        <button
-                          className="btn btn-success"
-                          onClick={onSubmitForm}
-                        >
-                          Add
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
+                  </div>
+                </form>
+                {/* </div> */}
               </div>
             </div>
 
             {/* <!-- Modal footer --> */}
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-warning"
-                data-dismiss="modal"
-              >
-                Edit
+              <button className="btn btn-success" onClick={onSubmitForm}>
+                Add
               </button>
 
               <button type="button" class="btn btn-danger" data-dismiss="modal">
@@ -119,4 +108,4 @@ const AddSupplierModal = ({ supplier }) => {
   );
 };
 
-export default AddSupplierModal;
+export default AddProductModal;

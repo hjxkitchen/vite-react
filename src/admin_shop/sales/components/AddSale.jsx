@@ -18,8 +18,11 @@ const AddSale = ({
   const usercontext = useContext(UserContext);
   const prodcontext = useContext(ProdContext);
 
+  const [loading, setLoading] = useState(false);
+
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   const user_id = jwt_decode(token).user_id;
+  const username = jwt_decode(token).username;
 
   console.log("addsale sales array", sales);
 
@@ -85,14 +88,15 @@ const AddSale = ({
       if (showDiscount) {
         if (discountCart.length === 0) {
           alert("Please add items to sale");
-          return;
-        } else if (customerid !== null) {
+          // return;
+        } else {
           try {
             const res = await axios.post(
               import.meta.env.VITE_API_URL + "/api/sale",
               {
                 total_amount: getTotalCost(discountCart),
-                user_id: customerid !== null ? customerid : 3,
+                // user_id: customerid !== null ? customerid : 3,
+                user_id: user_id,
                 source: "Pos",
                 status: "Initialized",
               },
@@ -130,82 +134,12 @@ const AddSale = ({
               }
             );
 
-            // refresh page
-            window.location.reload();
-          } catch (error) {
-            console.error(error.message);
-          }
-        } else if (customerphone !== null) {
-          try {
-            // add new customer contact
-            const res2 = await axios.post(
-              import.meta.env.VITE_API_URL + "/api/user",
+            // post to salelogs "sale initialized by {username}"
+            const res6 = await axios.post(
+              import.meta.env.VITE_API_URL + "/api/salelog",
               {
-                username: name,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_API_KEY,
-                },
-              }
-            );
-
-            // get new customer id from res2
-            const newcustomerid = res2.data.user_id;
-            console.log("newcustomerid", newcustomerid);
-
-            // add new customer contact
-            const res3 = await axios.post(
-              import.meta.env.VITE_API_URL + "/api/phone",
-              {
-                user_id: newcustomerid,
-                number: customerphone,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_API_KEY,
-                },
-              }
-            );
-
-            // add to verifications table because its a new number
-
-            // add sale
-            const res = await axios.post(
-              import.meta.env.VITE_API_URL + "/api/sale",
-              {
-                total_amount: getTotalCost(sales),
-                user_id: newcustomerid,
-                source: "Pos",
-                status: "Initialized",
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_API_KEY,
-                },
-              }
-            );
-
-            // add saleitems
-            // get sale id from res
-            const saleid = res.data.sale_id;
-
-            console.log("sales to post to saleitems is :", discountCart);
-
-            // make a copy of sales with sale_id
-            let saleitems = discountCart.map((item) => ({
-              ...item,
-              sale_id: saleid,
-            }));
-
-            // post sales to saleitems
-            const res5 = await axios.post(
-              import.meta.env.VITE_API_URL + "/saleitems",
-              {
-                saleitems,
+                sale_id: saleid,
+                log_data: `Sale initialized by ${username}`,
               },
               {
                 headers: {
@@ -220,154 +154,78 @@ const AddSale = ({
           } catch (error) {
             console.error(error.message);
           }
-        } else {
-          alert("Please select a customer");
-          return;
         }
       } else if (cart.length !== 0) {
-        if (customerid !== null) {
-          try {
-            const res = await axios.post(
-              import.meta.env.VITE_API_URL + "/api/sale",
-              {
-                total_amount: getTotalCost(cart),
-                user_id: customerid,
-                source: "Pos",
-                status: "Initialized",
+        try {
+          const res = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/sale",
+            {
+              total_amount: getTotalCost(cart),
+              user_id: user_id,
+              source: "Pos",
+              status: "Initialized",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
               },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_API_KEY,
-                },
-              }
-            );
+            }
+          );
 
-            // add saleitems
-            // get sale id from res
-            const saleid = res.data.sale_id;
+          // add saleitems
+          // get sale id from res
+          const saleid = res.data.sale_id;
 
-            console.log("sales to post to saleitems is :", cart);
+          console.log("sales to post to saleitems is :", cart);
 
-            // make a copy of sales with sale_id
-            let saleitems = cart.map((item) => ({
-              ...item,
+          // make a copy of sales with sale_id
+          let saleitems = cart.map((item) => ({
+            ...item,
+            sale_id: saleid,
+          }));
+
+          // post sales to saleitems
+          const res5 = await axios.post(
+            import.meta.env.VITE_API_URL + "/saleitems",
+            {
+              saleitems,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
+              },
+            }
+          );
+
+          // post to salelogs "sale initialized by {username}"
+          const res6 = await axios.post(
+            import.meta.env.VITE_API_URL + "/api/salelog",
+            {
               sale_id: saleid,
-            }));
-
-            // post sales to saleitems
-            const res5 = await axios.post(
-              import.meta.env.VITE_API_URL + "/saleitems",
-              {
-                saleitems,
+              log_data: `Sale initialized by ${username}`,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "x-api-key": import.meta.env.VITE_API_KEY,
               },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_API_KEY,
-                },
-              }
-            );
+            }
+          );
 
-            // refresh page
-            window.location.reload();
-          } catch (error) {
-            console.error(error.message);
-          }
-        } else if (customerphone !== null) {
-          try {
-            // add new customer contact
-            const res2 = await axios.post(
-              import.meta.env.VITE_API_URL + "/api/user",
-              {
-                username: name,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_API_KEY,
-                },
-              }
-            );
+          console.log("res6", res6.data);
 
-            // get new customer id from res2
-            const newcustomerid = res2.data.user_id;
-            console.log("newcustomerid", newcustomerid);
-
-            // add new customer contact
-            const res3 = await axios.post(
-              import.meta.env.VITE_API_URL + "/api/phone",
-              {
-                user_id: newcustomerid,
-                number: customerphone,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_API_KEY,
-                },
-              }
-            );
-
-            // add to verifications table because its a new number
-
-            // add sale
-            const res = await axios.post(
-              import.meta.env.VITE_API_URL + "/api/sale",
-              {
-                total_amount: getTotalCost(cart),
-                user_id: newcustomerid,
-                source: "Pos",
-                status: "Initialized",
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_API_KEY,
-                },
-              }
-            );
-
-            // add saleitems
-            // get sale id from res
-            const saleid = res.data.sale_id;
-
-            console.log("sales to post to saleitems is :", cart);
-
-            // make a copy of sales with sale_id
-            let saleitems = cart.map((item) => ({
-              ...item,
-              sale_id: saleid,
-            }));
-
-            // post sales to saleitems
-            const res5 = await axios.post(
-              import.meta.env.VITE_API_URL + "/saleitems",
-              {
-                saleitems,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_API_KEY,
-                },
-              }
-            );
-
-            // refresh page
-            // window.location.reload();
-          } catch (error) {
-            console.error(error.message);
-          }
-        } else {
-          alert("Please select a customer");
-          return;
+          // refresh page
+          // window.location.reload();
+        } catch (error) {
+          console.error(error.message);
         }
       } else {
         if (sales.length === 0) {
           alert("Please add items to sale");
-          return;
-        } else if (customerid !== null) {
+          // return;
+        } else {
           try {
             // post sale
             const res = await axios.post(
@@ -410,72 +268,27 @@ const AddSale = ({
                 },
               }
             );
+
+            // post to salelogs "sale initialized by {username}"
+            const res6 = await axios.post(
+              import.meta.env.VITE_API_URL + "/api/salelog",
+              {
+                sale_id: saleid,
+                log_data: `Sale initialized by ${username}`,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "x-api-key": import.meta.env.VITE_API_KEY,
+                },
+              }
+            );
+
             // refresh page
             window.location.reload();
           } catch (error) {
             console.error(error.message);
           }
-        } else if (customerphone !== null) {
-          try {
-            // add new customer contact
-            const res2 = await axios.post(
-              import.meta.env.VITE_API_URL + "/api/user",
-              {
-                username: name,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_API_KEY,
-                },
-              }
-            );
-
-            // get new customer id from res2
-            const newcustomerid = res2.data.user_id;
-            console.log("newcustomerid", newcustomerid);
-
-            // add new customer contact
-            const res3 = await axios.post(
-              import.meta.env.VITE_API_URL + "/api/phone",
-              {
-                user_id: newcustomerid,
-                number: customerphone,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_API_KEY,
-                },
-              }
-            );
-
-            // add to verifications table because its a new number
-
-            // add sale
-            const res = await axios.post(
-              import.meta.env.VITE_API_URL + "/api/sale",
-              {
-                total_amount: getTotalCost(sales),
-                user_id: newcustomerid,
-                source: "Pos",
-                status: "Initialized",
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "x-api-key": import.meta.env.VITE_API_KEY,
-                },
-              }
-            );
-            // refresh page
-            window.location.reload();
-          } catch (error) {
-            console.error(error.message);
-          }
-        } else {
-          alert("Please select a customer");
-          return;
         }
       }
     }
@@ -674,7 +487,199 @@ const AddSale = ({
     // setSales(demo);
   };
 
-  return (
+  const sendQuote = () => {
+    // // get all sale details and put in one variable
+    // let sale = {
+    //   total,
+    //   products,
+    // };
+
+    // // get total and products and put it all in one string
+    // let saleString = JSON.stringify(sale);
+
+    console.log(sales, "sales");
+    console.log(cart, "cart");
+    console.log(discountCart, "discountCart");
+
+    const salesArray = showDiscount
+      ? discountCart
+      : cart.length !== 0
+      ? cart
+      : sales;
+
+    const total = getTotalCost(salesArray);
+
+    console.log("custphone", customerphone);
+
+    // if any of the inputs are empty, return alert
+    if (!customerphone) return alert("Please fill all customer inputs");
+
+    // confirm modal
+    if (!window.confirm("Are you sure you want to send quote via whatsapp?"))
+      return;
+
+    setLoading(true);
+
+    // add name propert to sales
+    let salesWithName = salesArray.map((sale) => {
+      let product_name = prodcontext.find(
+        (prod) => prod.product_id === sale.product_id
+      ).product_name;
+      return { ...sale, product_name };
+    });
+
+    // all products to a nicely formatted string
+    let saleString = salesWithName
+      .map((product) => {
+        return `${product.product_name.split(" ").slice(0, 3).join(" ")} - ${
+          product.quantity
+        }pcs - ${(product.price * 1000).toLocaleString()}Tshs`;
+      })
+      .join("\n")
+      // add total to string
+      .concat(`\nTotal: ${(total * 1000).toLocaleString()}Tshs`);
+
+    console.log(saleString, "sale");
+
+    // if NewContact, alert save first
+    // if (NewContact) return alert("Please save customer first");
+
+    // // get customer phone
+    // const customer_phone = byName
+    //   ? document.querySelector("input[name=customerrPhone]").value.trim()
+    //   : createdNewContact
+    //   ? document.querySelector("input[name=phonecode]").value.trim() +
+    //     document
+    //       .querySelector("input[name=customerPhone]")
+    //       .value.replace(/\s+/g, "")
+    //   : document.querySelector("input[name=customerPhone]").value.trim();
+
+    console.log(customerphone, "customer_phone");
+
+    // console.log(products);
+
+    // if any of the inputs are empty, return alert
+    // if (sales.length === 0) return alert("Please add products");
+
+    // add to pendingsend
+    axios.post(
+      import.meta.env.VITE_API_URL + "/api/pendingsend",
+      {
+        customer_phone: customerphone,
+        content: saleString,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+
+    setLoading(false);
+
+    // alert success
+    alert("Quote will be sent shortly");
+  };
+
+  const sendQuoteSms = () => {
+    // // get all sale details and put in one variable
+    // let sale = {
+    //   total,
+    //   products,
+    // };
+    console.log(sales, "sales");
+    console.log(cart, "cart");
+    console.log(discountCart, "discountCart");
+
+    const salesArray = showDiscount
+      ? discountCart
+      : cart.length !== 0
+      ? cart
+      : sales;
+
+    // total is gettotalcost
+    const total = getTotalCost(sales);
+
+    console.log("custphone", customerphone);
+
+    // // get total and products and put it all in one string
+    // let saleString = JSON.stringify(sale);
+
+    // if any of the inputs are empty, return alert
+    if (!customerphone) return alert("Please fill all customer inputs");
+
+    // confirm modal
+    if (!window.confirm("Are you sure you want to send SMS?")) return;
+
+    setLoading(true);
+
+    // add name propert to sales
+    let salesWithName = sales.map((sale) => {
+      let product_name = prodcontext.find(
+        (prod) => prod.product_id === sale.product_id
+      ).product_name;
+      return { ...sale, product_name };
+    });
+
+    // all products to a nicely formatted string
+    let saleString = salesWithName
+      .map((product) => {
+        return `${product.product_name.split(" ").slice(0, 3).join(" ")} - ${
+          product.quantity
+        }pcs - ${(product.price * 1000).toLocaleString()}Tshs`;
+      })
+      .join("\n")
+      // add total to string
+      .concat(`\nTotal: ${(total * 1000).toLocaleString()}Tshs`);
+
+    console.log(saleString, "sale");
+
+    // if NewContact, alert save first
+    // if (NewContact) return alert("Please save customer first");
+
+    // get customer phone
+    // const customer_phone = byName
+    //   ? document.querySelector("input[name=customerrPhone]").value.trim()
+    //   : createdNewContact
+    //   ? document.querySelector("input[name=phonecode]").value.trim() +
+    //     document
+    //       .querySelector("input[name=customerPhone]")
+    //       .value.replace(/\s+/g, "")
+    //   : document.querySelector("input[name=customerPhone]").value.trim();
+
+    console.log(customerphone, "customer_phone");
+
+    // console.log(products);
+
+    // if any of the inputs are empty, return alert
+    // if (sales.length === 0) return alert("Please add products");
+
+    // add to pendingsend
+    axios.post(
+      import.meta.env.VITE_API_URL + "/api/pendingsend",
+      {
+        customer_phone: customerphone,
+        content: saleString,
+        sms: true,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+
+    setLoading(false);
+
+    // alert success
+    alert("Quote will be sent shortly");
+  };
+
+  return loading ? (
+    <h1>Loading...</h1>
+  ) : (
     <>
       {cart.length === 0 && (
         <button class="btn btn-primary ml-5" onClick={fillfromcart}>
@@ -723,15 +728,17 @@ const AddSale = ({
                     <td>
                       {/* {object.product_id} */}
                       {/* get product name from prodcontext by id */}
-                      {prodcontext.map((prod) =>
-                        prod.product_id === object.product_id
-                          ? prod.size +
-                            " - " +
-                            prod.model +
-                            " - " +
-                            prod.product_name
-                          : null
-                      )}
+                      {prodcontext.map((prod) => (
+                        <a href={"/shop/products/" + prod.product_id}>
+                          {prod.product_id === object.product_id
+                            ? //  prod.size +
+                              //   " - " +
+                              //   prod.model +
+                              //   " - " +
+                              prod.product_name
+                            : null}
+                        </a>
+                      ))}
                     </td>
                     <td>
                       <div class="d-flex">
@@ -802,15 +809,13 @@ const AddSale = ({
                           <td>
                             {/* {object.product_id} */}
                             {/* get product name from prodcontext by id */}
-                            {prodcontext.map((prod) =>
-                              prod.product_id === object.product_id
-                                ? prod.size +
-                                  " - " +
-                                  prod.model +
-                                  " - " +
-                                  prod.product_name
-                                : null
-                            )}
+                            {prodcontext.map((prod) => (
+                              <a href={"/shop/products/" + prod.product_id}>
+                                {prod.product_id === object.product_id //
+                                  ? prod.product_name
+                                  : null}
+                              </a>
+                            ))}
                           </td>
                           <td>
                             <div class="d-flex">
@@ -867,15 +872,17 @@ const AddSale = ({
                           <td>
                             {/* {object.product_id} */}
                             {/* get product name from prodcontext by id */}
-                            {prodcontext.map((prod) =>
-                              prod.product_id === object.product_id
-                                ? prod.size +
-                                  " - " +
-                                  prod.model +
-                                  " - " +
-                                  prod.product_name
-                                : null
-                            )}
+                            {prodcontext.map((prod) => (
+                              <a href={"/shop/products/" + prod.product_id}>
+                                {prod.product_id === object.product_id
+                                  ? // prod.size +
+                                    //   " - " +
+                                    //   prod.model +
+                                    //   " - " +
+                                    prod.product_name
+                                  : null}
+                              </a>
+                            ))}
                           </td>
                           <td>
                             <div class="d-flex">
@@ -962,6 +969,26 @@ const AddSale = ({
           </table>
         </div>
       </div>
+
+      {/* send button */}
+      <button
+        className="btn btn-outline-dark"
+        onClick={() => {
+          sendQuote();
+        }}
+      >
+        Send Quote Whatsapp
+      </button>
+
+      {/* send button */}
+      <button
+        className="btn btn-outline-dark"
+        onClick={() => {
+          sendQuoteSms();
+        }}
+      >
+        Send Quote SMS
+      </button>
     </>
   );
 };

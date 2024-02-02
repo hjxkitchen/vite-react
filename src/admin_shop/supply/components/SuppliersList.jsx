@@ -67,15 +67,15 @@ const ListSuppliers = () => {
       <div class="d-flex justify-content-center">
         {/* <h2>Suppliers Table</h2> */}
         {/* <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>             */}
-        <div class="table-responsive">
-          <table class="table mt-5 w-75 text-center">
+        <div class="table">
+          <table class="table mt-5 text-center">
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Email</th>
+                {/* <th>Email</th>
                 <th>Phone</th>
                 <th>Address</th>
-                <th>Location</th>
+                <th>Location</th> */}
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -84,10 +84,10 @@ const ListSuppliers = () => {
               {suppliers.map((supplier) => (
                 <tr key={supplier.supplier_id}>
                   <td>{supplier.supplier_name}</td>
-                  <td>{supplier.email}</td>
+                  {/* <td>{supplier.email}</td>
                   <td>{supplier.phone}</td>
                   <td>{supplier.phone}</td>
-                  <td>{supplier.phone}</td>
+                  <td>{supplier.phone}</td> */}
                   <td>
                     <EditSupplier supplier={supplier} />
                   </td>

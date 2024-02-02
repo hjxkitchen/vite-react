@@ -7,6 +7,20 @@ import jwtDecode from "jwt-decode";
 
 const ShopList = () => {
   const [products, setProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  const searchProds = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+
+    // Filter products based on the search query
+    const filtered = products.filter((product) =>
+      product.product_name.toLowerCase().includes(query.toLowerCase())
+    );
+
+    setFilteredProducts(filtered);
+  };
 
   // const user = useContext(UserContext);
   const cartToken = useContext(CartContext);
@@ -49,6 +63,8 @@ const ShopList = () => {
 
       // setProducts(response.data);
       setProducts(sortedProducts);
+
+      setFilteredProducts(sortedProducts);
     } catch (error) {
       console.log(error.message);
     }
@@ -56,34 +72,27 @@ const ShopList = () => {
 
   useEffect(() => {
     getProducts();
+    setFilteredProducts(products);
   }, []);
 
   const addToCart = (e) => {
     if (user === null) {
-      const func = async () => {
-        // const addtocart = await axios.post(
-        //   "http://localhost:000/carts/token",
-        //   {
-        //     token: cartToken,
-        //     product_id: e.product_id,
-        //     quantity: 1,
-        //     price: e.price,
-        //   }
-        // );
-        // add to local storage
-        const addtocart = localStorage.setItem(
-          "cart",
-          JSON.stringify({
-            token: cartToken,
-            product_id: e.product_id,
-            quantity: 1,
-            price: e.price,
-          })
-        );
-        console.log("addtocart is: ", addtocart);
-      };
-      func();
-      alert("added to cart with carttoken");
+      // const func = async () => {
+
+      //   // add to local storage
+      //   const addtocart = localStorage.setItem(
+      //     "cart",
+      //     JSON.stringify({
+      //       token: cartToken,
+      //       product_id: e.product_id,
+      //       quantity: 1,
+      //       price: e.price,
+      //     })
+      //   );
+      //   console.log("addtocart is: ", addtocart);
+      // };
+      // func();
+      alert("Please Log In First!");
     } else {
       const func = async () => {
         // get userid
@@ -137,7 +146,7 @@ const ShopList = () => {
             }
           );
           console.log("updatecart is: ", updatecart);
-          alert("added to cart qty with user");
+          alert("Updated in Cart!");
         } else {
           // If the product is not in the cart, add it with quantity 1
           const addtocart = await axios.post(
@@ -156,7 +165,7 @@ const ShopList = () => {
             }
           );
           console.log("addtocart is: ", addtocart);
-          alert("added to cart with user");
+          alert("Added to Cart!");
         }
       };
       func();
@@ -179,61 +188,63 @@ const ShopList = () => {
   //   };
 
   const favorite = async (e) => {
-    const addfav = async () => {
-      console.log("e is: ", e);
-      // get user_id from usersessions
-      const user_id = jwtDecode(token).user_id;
-      console.log("user is: ", user_id);
-      // console.log("user_id is: ", user_id);
+    console.log("e is: ", e);
+    // get user_id from usersessions
 
-      // const result = await axios.post("http://localhost:000/favorites", {
-      //   user: user_id,
-      //   product: e,
-      // });
+    if (token == "guest") {
+      alert("Please Log In First!");
+    }
 
-      // old
-      // const result = await axios.post(
-      //   import.meta.env.VITE_API_URL + "/api/favorite",
-      //   {
-      //     user: user_id,
-      //     product: e,
-      //   },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //       "x-api-key": import.meta.env.VITE_API_KEY,
-      //     },
-      //   }
-      // );
-      // alert
+    const user_id = jwtDecode(token).user_id;
+    console.log("user is: ", user_id);
+    // console.log("user_id is: ", user_id);
 
-      // new
-      try {
-        const result = await axios.post(
-          import.meta.env.VITE_API_URL + "/api/favorite",
-          {
-            user_id: user_id,
-            product_id: e,
+    // const result = await axios.post("http://localhost:000/favorites", {
+    //   user: user_id,
+    //   product: e,
+    // });
+
+    // old
+    // const result = await axios.post(
+    //   import.meta.env.VITE_API_URL + "/api/favorite",
+    //   {
+    //     user: user_id,
+    //     product: e,
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //       "x-api-key": import.meta.env.VITE_API_KEY,
+    //     },
+    //   }
+    // );
+    // alert
+
+    // new
+    try {
+      const result = await axios.post(
+        import.meta.env.VITE_API_URL + "/api/favorite",
+        {
+          user_id: user_id,
+          product_id: e,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "x-api-key": import.meta.env.VITE_API_KEY,
-            },
-          }
-        );
+        }
+      );
 
-        console.log("result is: ", result);
-        alert("Added to favorites");
-        return result;
-      } catch (error) {
-        // if error code is 23505 (duplicate key value violates unique constraint)
-        // if (error.code === "23505") {
-        alert("Already in favorites");
-        // }
-      }
-    };
-    const result = await addfav();
+      console.log("result is: ", result);
+      alert("Added to Favorites!");
+      return result;
+    } catch (error) {
+      // if error code is 23505 (duplicate key value violates unique constraint)
+      // if (error.code === "23505") {
+      alert("Already in Favorites!");
+      // }
+    }
   };
 
   const searchprods = async (e) => {
@@ -268,24 +279,27 @@ const ShopList = () => {
             top: "100px",
           }}
         >
-          <div class="input-group col-md-6 ">
+          {/* Search input and button */}
+          <div className="input-group col-md-6">
             <input
               type="text"
-              class="form-control"
-              onChange={searchprods}
+              className="form-control"
+              value={searchQuery}
+              onChange={searchProds}
               placeholder="Search Products"
               aria-label="Search"
               aria-describedby="basic-addon1"
             />
-            {/* <br/>
-        <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button">Button</button>
-  </div> */}
+            {/* <div className="input-group-append">
+              <button className="btn btn-outline-secondary" type="button">
+                Search
+              </button>
+            </div> */}
           </div>
         </div>
 
         <div class="row">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <div class=" col-md-4 col-sm-6">
               <div class="card mt-3">
                 <div class="card-body">

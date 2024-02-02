@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 // import InputProduct from "InputProduct";
 import ListWarehouseSections from "./components/ListWarehouseSections";
 import Navbar from "../../system/Navbar";
-import AddProductModal from "../products/components/AddProductModal";
+import AddWarehouseSectionModal from "./components/AddWarehouseSectionModal";
 // import EditProduct from "../admin/products/EditProduct";
 
 function ProductsList() {
@@ -31,9 +31,9 @@ function ProductsList() {
         <div class="d-flex justify-content-center ">
           {/* <div class="col-md-3 my-auto justify-content-center"> */}
 
-          <AddProductModal />
+          <AddWarehouseSectionModal />
           {/* </div> */}
-          <button class="btn btn-warning ml-5 mt-5 ">Edit</button>
+          {/* <button class="btn btn-warning ml-5 mt-5 ">Edit</button> */}
         </div>
 
         <div class="row justify-content- mt-5 ">

@@ -11,13 +11,15 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Account from "./system/auth/Account";
 import Team from "./system/other/Team";
 import Login from "./system/auth/Login";
+import LoginAdmin from "./system/auth/LoginAdmin";
+import Signup from "./system/auth/Signup";
 import ProtectedRoute from "./system/auth/components/ProtectedRoute";
 import Token from "./system/auth/components/Token";
 
 // static
 // import Home from "./system/static/Home";
 import Settings from "./system/Settings";
-import Contact from "./client_shop/other/Contact";
+import ContactUs from "./client_shop/other/Contact";
 
 // ANCHOR ADMIN PAGES
 // ADMIN PAGES
@@ -26,6 +28,7 @@ import NewDash from "./admin_shop/NewDash";
 // COMMS
 // import Contact from "./admin_shop/comms/Contact";
 import Contacts from "./../src/system/other/Contacts";
+import Contact from "./admin_shop/newpages/Contact";
 
 // PRODUCTS
 // import ShopList from "./admin_shop/products/Products";
@@ -40,6 +43,7 @@ import Category from "./admin_shop/product_relations/Category";
 
 // SALES
 import SalesList from "./admin_shop/sales/AllSales";
+import PrepSales from "./admin_shop/sales/PrepSales";
 import SaleLogsAdmin from "./admin_shop/sales/SaleLogs";
 import POSales from "./admin_shop/sales/PointOfSales";
 import OnlineSales from "./admin_shop/sales/OnlineSales";
@@ -48,6 +52,7 @@ import Jobs from "./admin_shop/sales/Jobs";
 
 // import Users from "./admin_shop/sales/Users";
 import Orders from "./admin_shop/supply/Orders";
+import ReceiveOrders from "./admin_shop/supply/ReceiveOrders";
 import OrderLogs from "./admin_shop/supply/OrderLogs";
 import OrderCart from "./admin_shop/supply/OrderCart";
 import OrderCheckout from "./admin_shop/supply/OrderCheckout";
@@ -99,8 +104,10 @@ import Products from "./admin_shop/newpages/Products.jsx";
 import Pos from "./admin_shop/newpages/Pos.jsx";
 import Messages from "./admin_shop/newpages/Messages";
 import Chats from "./admin_shop/newpages/Chats.jsx";
+import WebMessages from "./admin_shop/newpages/WebMessages.jsx";
 // import Contact from "./admin_shop/newpages/Contact.jsx";
 import AdminBlog from "./admin_shop/newpages/Blog.jsx";
+import OrderPos from "./admin_shop/supply/OrderPos.jsx";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import jwt_decode from "jwt-decode";
@@ -131,7 +138,7 @@ const App = () => {
     // const productnames = await fetch("http://localhost:000/products")
     const productnames = await axios.get(
       import.meta.env.VITE_API_URL +
-        "/api/attr/product?attributes=product_name,product_id,model,size",
+        "/api/attr/product?attributes=product_name,product_id,model,size,barcode,price",
       {
         headers: {
           "x-api-key": import.meta.env.VITE_API_KEY,
@@ -171,6 +178,14 @@ const App = () => {
                       <Routes>
                         <Route path="token" element={<Token />} />
                         <Route path="login" element={<Login token={token} />} />
+                        <Route
+                          path="adminlogin"
+                          element={<LoginAdmin token={token} />}
+                        />
+                        <Route
+                          path="signup"
+                          element={<Signup token={token} />}
+                        />
 
                         {userRole === 1 ? (
                           <Route
@@ -181,35 +196,33 @@ const App = () => {
                                 token={token}
                                 allowedRoles={[1]}
                               >
-                                {/* <Home /> */}
-                                {/* <AdminDash /> */}
                                 <NewDash />
                               </ProtectedRoute>
                             }
                           />
+                        ) : userRole === 2 ? (
+                          <Route path="/" element={<Shop />} />
+                        ) : userRole === 3 ? (
+                          <Route path="/" element={<POSales />} />
+                        ) : userRole === 4 ? (
+                          <Route path="/" element={<Shop />} />
+                        ) : userRole === 5 ? (
+                          <Route path="/" element={<Shop />} />
+                        ) : userRole === 6 ? (
+                          <Route path="/" element={<PrepSales />} />
                         ) : (
-                          <Route
-                            path="/"
-                            element={
-                              // <ProtectedRoute
-                              //   setUser={setUser}
-                              //   token={token}
-                              //   allowedRoles={[1, 2]}
-                              // >
-                              // {/* <Home /> */}
-                              <Shop />
-                              // </ProtectedRoute>
-                            }
-                          />
+                          <Route path="/" element={<Shop />} />
                         )}
-
                         <Route
                           path="settings"
                           element={
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1, 2]}
+                              allowedRoles={[
+                                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                                15,
+                              ]}
                             >
                               <Settings />
                             </ProtectedRoute>
@@ -221,7 +234,10 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1, 2]}
+                              allowedRoles={[
+                                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                                15,
+                              ]}
                             >
                               <Account />
                             </ProtectedRoute>
@@ -233,7 +249,10 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1, 2]}
+                              allowedRoles={[
+                                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                                15,
+                              ]}
                             >
                               <Contact />
                             </ProtectedRoute>
@@ -253,109 +272,717 @@ const App = () => {
                         />
 
                         {/* CLIENT shop */}
-                        <Route path="shop" element={<Shop />} />
-                        <Route path="shop/products/:id" element={<Product />} />
-                        <Route path="featured" element={<Featured />} />
-                        <Route path="packages" element={<Packages />} />
-                        <Route path="calculators" element={<Calculators />} />
-                        <Route path="blog" element={<Blog />} />
-                        <Route path="about" element={<About />} />
-                        {/* <Route path="contact" element={<Contact />} /> */}
-                        <Route path="cart" element={<Cart />} />
-                        <Route path="checkout" element={<Checkout />} />
+                        <Route
+                          path="shop"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Shop />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="shop/products/:id"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Product />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="featured"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Featured />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="packages"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Packages />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="calculators"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Calculators />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="blog"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Blog />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="about"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <About />
+                            </ProtectedRoute>
+                          }
+                        />
+                        {/* <Route path="contact" element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Contact />
+                            </ProtectedRoute>
+                          } /> */}
+                        <Route
+                          path="cart"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Cart />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="checkout"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Checkout />
+                            </ProtectedRoute>
+                          }
+                        />
                         <Route
                           path="order_history"
-                          element={<OrderHistory />}
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <OrderHistory />
+                            </ProtectedRoute>
+                          }
                         />
                         <Route
                           path="sale_logs/:sale_id"
-                          element={<SaleLogs />}
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1, 5, 6]}
+                            >
+                              <SaleLogs />
+                            </ProtectedRoute>
+                          }
                         />
-                        <Route path="favorites" element={<Favorites />} />
+                        <Route
+                          path="favorites"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Favorites />
+                            </ProtectedRoute>
+                          }
+                        />
                         <Route
                           path="category/:category"
-                          element={<ClientCategory />}
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <ClientCategory />
+                            </ProtectedRoute>
+                          }
                         />
 
                         {/* ADMIN PAGES */}
-                        {/* <Route path="admindash" element={<AdminDash />} /> */}
+                        {/* <Route path="admindash" element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <AdminDash />
+                            </ProtectedRoute>
+                          } /> */}
 
-                        <Route path="shoplist" element={<ShopList />} />
-                        <Route path="products" element={<Products />} />
+                        <Route
+                          path="shoplist"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <ShopList />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="products"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Products />
+                            </ProtectedRoute>
+                          }
+                        />
                         <Route
                           path="featuredadmin"
-                          element={<FeaturedAdmin />}
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <FeaturedAdmin />
+                            </ProtectedRoute>
+                          }
                         />
                         <Route
                           path="packagesadmin"
-                          element={<PackagesAdmin />}
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <PackagesAdmin />
+                            </ProtectedRoute>
+                          }
                         />
-                        <Route path="package" element={<Package />} />
-                        <Route path="categories" element={<Categories />} />
-                        <Route path="category" element={<Category />} />
+                        <Route
+                          path="package"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Package />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="categories"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Categories />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="category"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Category />
+                            </ProtectedRoute>
+                          }
+                        />
 
-                        <Route path="allsales" element={<SalesList />} />
+                        <Route
+                          path="allsales"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <SalesList />
+                            </ProtectedRoute>
+                          }
+                        />
                         <Route
                           path="salelogs/:sale_id"
-                          element={<SaleLogsAdmin />}
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1, 6]}
+                            >
+                              <SaleLogsAdmin />
+                            </ProtectedRoute>
+                          }
                         />
-                        {/* <Route path="users" element={<Users />} /> */}
 
-                        <Route path="orders" element={<Orders />} />
+                        {/* <Route path="users" element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Users />
+                            </ProtectedRoute>
+                          } /> */}
+
+                        <Route
+                          path="orders"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1, 6]}
+                            >
+                              <Orders />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="receiveorders"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1, 6]}
+                            >
+                              <ReceiveOrders />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="orderpos"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <OrderPos />
+                            </ProtectedRoute>
+                          }
+                        />
                         <Route
                           path="orderlogs/:order_id"
-                          element={<OrderLogs />}
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1, 6]}
+                            >
+                              <OrderLogs />
+                            </ProtectedRoute>
+                          }
                         />
-                        <Route path="ordercart" element={<OrderCart />} />
+                        <Route
+                          path="ordercart"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <OrderCart />
+                            </ProtectedRoute>
+                          }
+                        />
                         <Route
                           path="ordercheckout"
-                          element={<OrderCheckout />}
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <OrderCheckout />
+                            </ProtectedRoute>
+                          }
                         />
-                        <Route path="suppliers" element={<Suppliers />} />
-                        <Route path="warehouses" element={<Warehouses />} />
-                        <Route path="warehouse/:id" element={<Warehouse />} />
+                        <Route
+                          path="suppliers"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Suppliers />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="warehouses"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Warehouses />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="warehouse/:id"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Warehouse />
+                            </ProtectedRoute>
+                          }
+                        />
                         <Route
                           path="warehouse/sections/:id"
-                          element={<WarehouseSections />}
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <WarehouseSections />
+                            </ProtectedRoute>
+                          }
                         />
 
-                        {/* <Route path="contact" element={<Contact />} /> */}
-                        <Route path="contacts" element={<Contacts />} />
+                        {/* <Route path="contact" element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Contact />
+                            </ProtectedRoute>
+                          } /> */}
+                        <Route
+                          path="contacts"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Contacts />
+                            </ProtectedRoute>
+                          }
+                        />
 
                         {/* HOME PAGE */}
-                        <Route path="pointofsales" element={<POSales />} />
-                        <Route path="tools" element={<Tools />} />
-                        <Route path="jobs" element={<Jobs />} />
-                        <Route path="onlinesales" element={<OnlineSales />} />
-                        <Route path="procurement" element={<Orders />} />
+                        <Route
+                          path="pointofsales"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <POSales />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="tools"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Tools />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="jobs"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Jobs />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="onlinesales"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <OnlineSales />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="procurement"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Orders />
+                            </ProtectedRoute>
+                          }
+                        />
                         {/* MARKETING ADMINS */}
                         <Route
                           path="outboundadmin"
-                          element={<OutboundAdmin />}
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <OutboundAdmin />
+                            </ProtectedRoute>
+                          }
                         />
-                        <Route path="sokoos" element={<Sokoos />} />
-                        <Route path="billboards" element={<Billboards />} />
-                        <Route path="philantropy" element={<Philantropy />} />
+                        <Route
+                          path="sokoos"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Sokoos />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="billboards"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Billboards />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="philantropy"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Philantropy />
+                            </ProtectedRoute>
+                          }
+                        />
                         <Route
                           path="outboundbroadcast"
-                          element={<OutboundBroadcast />}
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <OutboundBroadcast />
+                            </ProtectedRoute>
+                          }
                         />
-                        <Route path="inboundadmin" element={<InboundAdmin />} />
+                        <Route
+                          path="inboundadmin"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <InboundAdmin />
+                            </ProtectedRoute>
+                          }
+                        />
                         <Route
                           path="inboundmessages"
-                          element={<InboundMessages />}
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <InboundMessages />
+                            </ProtectedRoute>
+                          }
                         />
-                        <Route path="inboundreply" element={<InboundReply />} />
+                        <Route
+                          path="inboundreply"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <InboundReply />
+                            </ProtectedRoute>
+                          }
+                        />
 
                         {/* newpages */}
 
-                        <Route path="/pos" element={<Pos />} />
-                        <Route path="/adminblogs" element={<AdminBlog />} />
-                        <Route path="/messages" element={<Messages />} />
-                        <Route path="/contact/:id" element={<Contact />} />
-                        <Route path="/chats" element={<Chats />} />
-                        <Route path="/products" element={<Products />} />
-                        <Route path="/recentchats" element={<RecentChats />} />
+                        <Route
+                          path="/pos"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Pos />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/adminblogs"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <AdminBlog />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/messages"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Messages />
+                            </ProtectedRoute>
+                          }
+                        />
+                        {/* <Route
+                          path="/contactus"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <ContactUs />
+                            </ProtectedRoute>
+                          }
+                        /> */}
+                        <Route path="/contactus" element={<ContactUs />} />
+
+                        <Route
+                          path="/contact/:id"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Contact />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/chats"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Chats />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/webmessages"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <WebMessages />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/products"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <Products />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="/recentchats"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1]}
+                            >
+                              <RecentChats />
+                            </ProtectedRoute>
+                          }
+                        />
                       </Routes>
                     </LoggedContext.Provider>
                   </CartContext.Provider>

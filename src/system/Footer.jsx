@@ -21,6 +21,11 @@ const Footer = () => {
                   Careers
                 </a>
               </li>
+              <li>
+                <a href="/adminlogin" style={{ color: "#fff" }}>
+                  Admin Login
+                </a>
+              </li>
             </ul>
           </div>
           <div className="col-12 col-md text-center text-md-left mt-3">
@@ -74,8 +79,8 @@ const Footer = () => {
             <ul className="list-unstyled">
               {/* social media icons */}
               <li>
-                <a href="tel:1234567890" style={{ color: "#fff" }}>
-                  <i className="fas fa-phone"></i> Call
+                <a href="tel:255693391049" style={{ color: "#fff" }}>
+                  <i className="fas fab fa-phone"></i> Call
                 </a>
               </li>
               <li>
@@ -84,24 +89,24 @@ const Footer = () => {
                 husseincollege@gmail.com    "
                   style={{ color: "#fff" }}
                 >
-                  <i className="fas fa-envelope"></i> Email
+                  <i className="fas fab fa-envelope"></i> Email
                 </a>
               </li>
               <li>
-                <a href="https://wa.me/1234567890" style={{ color: "#fff" }}>
+                <a href="https://wa.me/255693391049" style={{ color: "#fff" }}>
                   <i className="fab fa-whatsapp"></i> Whatsapp
                 </a>
               </li>
               {/* wechat  */}
-              <li>
+              {/* <li>
                 <a href="https://www.wechat.com/" style={{ color: "#fff" }}>
                   <i className="fab fa-weixin"></i> Wechat
                 </a>
-              </li>
+              </li> */}
               {/* cust support */}
               <li>
-                <a href="/help" style={{ color: "#fff" }}>
-                  <i className="fas fa-headset"></i> Customer Support
+                <a href="/contactus" style={{ color: "#fff" }}>
+                  <i className="fas fab fa-headset"></i> Customer Support
                 </a>
               </li>
             </ul>

@@ -17,16 +17,10 @@ const AddProductModal = ({ product }) => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     console.log(inputs);
-    // set input price as parseint cost * 1.4
-    inputs.price = parseInt(inputs.cost) * 1.4;
+
     try {
-      // const response = await fetch("http://localhost:000/products", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(inputs),
-      // });
       const response = await axios.post(
-        import.meta.env.VITE_API_URL + "/api/product",
+        import.meta.env.VITE_API_URL + "/api/warehouse",
         inputs,
         {
           headers: {
@@ -35,7 +29,8 @@ const AddProductModal = ({ product }) => {
           },
         }
       );
-      window.location = "/shoplist";
+      // reload page
+      window.location.reload();
     } catch (error) {
       console.error(error.message);
     }
@@ -76,8 +71,8 @@ const AddProductModal = ({ product }) => {
                       <input
                         type="text"
                         className="form-control"
-                        name="name"
-                        value={inputs.name}
+                        name="warehouse_name"
+                        value={inputs.warehouse_name}
                         onChange={handleChange}
                       />
                     </div>
@@ -88,8 +83,8 @@ const AddProductModal = ({ product }) => {
                       <input
                         type="text"
                         className="form-control"
-                        name="address"
-                        value={inputs.name}
+                        name="warehouse_address"
+                        value={inputs.warehouse_address}
                         onChange={handleChange}
                       />
                     </div>

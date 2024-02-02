@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const Contact = () => {
   let { id } = useParams();
   let url_id = id.replace("+", "%2B");
+  // let url_id = id;
   console.log("id: ", id);
+
+  const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const [incoming, setIncoming] = useState([]);
   const [pendingsend, setPendingsend] = useState([]);
@@ -14,7 +18,13 @@ const Contact = () => {
   const getCustomer = async () => {
     // get with axios
     const response = await axios.get(
-      import.meta.env.VITE_API_URL + "/api/contact?phone=" + url_id
+      import.meta.env.VITE_API_URL + "/api2/contact?phone=" + url_id,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
     );
 
     // get data from response
@@ -31,7 +41,13 @@ const Contact = () => {
 
     // get incoming where phone is id
     const response = await axios.get(
-      import.meta.env.VITE_API_URL + "/api/incoming?phone=" + url_id
+      import.meta.env.VITE_API_URL + "/api2/incoming?phone=" + url_id,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
     );
 
     // get data from response
@@ -47,7 +63,13 @@ const Contact = () => {
   const getPendingsend = async () => {
     // get with axios
     const response = await axios.get(
-      import.meta.env.VITE_API_URL + "/api/pendingsend?phone=" + url_id
+      import.meta.env.VITE_API_URL + "/api2/pendingsend?phone=" + url_id,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
     );
 
     // get data from response
@@ -92,7 +114,12 @@ const Contact = () => {
     };
 
     // post with axios
-    await axios.post(import.meta.env.VITE_API_URL + "/api/pendingsend", data);
+    await axios.post(import.meta.env.VITE_API_URL + "/api/pendingsend", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "x-api-key": import.meta.env.VITE_API_KEY,
+      },
+    });
 
     //  get id of all incomings where read is false
     const unreadIncomings = incoming.filter((message) => {
@@ -101,10 +128,57 @@ const Contact = () => {
 
     // put read to true for all unread incomings with id
     unreadIncomings.forEach(async (message) => {
+      console.log(message.id, ":message.id");
       await axios.put(
         import.meta.env.VITE_API_URL + "/api/incoming/" + message.id,
         {
           read: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+    });
+
+    console.log(
+      import.meta.env.VITE_API_URL +
+        "/api2/webmessage?phone=" +
+        parseInt(url_id)
+    );
+    // get id of all webmessages for this phone where read is false from db with axios
+    const WebMessages = await axios.get(
+      import.meta.env.VITE_API_URL +
+        "/api2/webmessage?phone=" +
+        parseInt(url_id),
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-api-key": import.meta.env.VITE_API_KEY,
+        },
+      }
+    );
+
+    console.log(WebMessages.data, ":WebMessages");
+    // put read to true for all unread webmessages with id
+
+    WebMessages.data.forEach(async (message) => {
+      console.log(message.id, ":message.id");
+
+      await axios.put(
+        import.meta.env.VITE_API_URL + "/api/webmessage/" + message.id,
+
+        {
+          read: true,
+        },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
         }
       );
     });

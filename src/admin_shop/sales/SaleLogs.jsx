@@ -292,7 +292,7 @@ function Calculators() {
     <Fragment>
       <Navbar />
       <div className="container">
-        <div className="row justify-content-center">
+        {/* <div className="row justify-content-center">
           <div className=" col-md-6 text-center">
             <button
               className="btn btn-outline-dark "
@@ -301,7 +301,7 @@ function Calculators() {
               Show Venture Overview
             </button>
           </div>
-        </div>
+        </div> */}
         <div
           className={`container mb-5 collapse ${
             showVentureOverview ? "show" : ""
@@ -358,8 +358,10 @@ function Calculators() {
               <option value={sale.status}>{sale.status}</option>
               <option value="initialized">Initialized</option>
               <option value="paid">Paid</option>
+              <option value="prepped">Prepped</option>
               <option value="shipped">Shipped</option>
               <option value="delivered">Delivered</option>
+              <option value="completed">Completed</option>
               <option value="cancelled">Cancelled</option>
             </select>
             {/* submit button */}

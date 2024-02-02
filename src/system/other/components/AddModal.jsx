@@ -1,11 +1,11 @@
 // create Add modal
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
 // fucntional component
-const AddModal = () => {
+const AddModal = ({ roles }) => {
   const [inputs, setInputs] = useState({});
 
   const [show, setShow] = useState(false);
@@ -25,6 +25,8 @@ const AddModal = () => {
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
 
   const handleSubmit = async () => {
+    console.log("submitinputs:", inputs);
+
     await axios.post(import.meta.env.VITE_API_URL + "/team/signup", inputs, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -88,13 +90,32 @@ const AddModal = () => {
                   <label htmlFor="role" className="col-form-label">
                     Role:
                   </label>
-                  <input
+                  {/* <input
                     type="number"
                     className="form-control"
                     id="role"
                     name="role"
                     onChange={handleInputChange}
-                  />
+                  /> */}
+                  {/* select  */}
+                  <select
+                    className="form-control"
+                    id="role"
+                    name="role_id"
+                    onChange={handleInputChange}
+                  >
+                    <option>Select Role</option>
+                    {/* map role as options without 1 and 2  */}
+                    {roles
+                      .filter(
+                        (role) => role.role_id !== 1 && role.role_id !== 2
+                      )
+                      .map((role) => (
+                        <option key={role.role_id} value={role.role_id}>
+                          {role.name}
+                        </option>
+                      ))}
+                  </select>
                 </div>
                 <div className="form-group">
                   <label htmlFor="password" className="col-form-label">

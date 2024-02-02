@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -6,9 +6,9 @@ import { useParams } from "react-router-dom";
 
 //components
 // import InputProduct from "InputProduct";
-import ListWarehouseSections from "./components/ListWarehouseSectionItems";
+import ListWarehouseSectionItems from "./components/ListWarehouseSectionItems";
 import Navbar from "../../system/Navbar";
-import AddProductModal from "../products/components/AddProductModal";
+import AddWarehouseSectionItemModal from "./components/AddWarehouseSectionItemModal";
 // import EditProduct from "../admin/products/EditProduct";
 
 function ProductsList() {
@@ -17,6 +17,28 @@ function ProductsList() {
 
   //   get warehouse id from url
   const { id } = useParams();
+
+  const getWarehouseDetails = async () => {
+    try {
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/warehouse/" + id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-api-key": import.meta.env.VITE_API_KEY,
+          },
+        }
+      );
+
+      console.log("warehouse details", response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getWarehouseDetails();
+  }, []);
 
   return (
     <Fragment>
@@ -31,10 +53,10 @@ function ProductsList() {
         <div class="d-flex justify-content-center ">
           {/* <div class="col-md-3 my-auto justify-content-center"> */}
 
-          <AddProductModal />
+          <AddWarehouseSectionItemModal />
           {/* </div> */}
-          <button class="btn btn-warning ml-5 mt-5 ">Edit</button>
-          <Link to="/warehouse/sections/1">
+          {/* <button class="btn btn-warning ml-5 mt-5 ">Edit</button> */}
+          <Link to={"/warehouse/sections/" + id}>
             <button class="btn btn-warning ml-5 mt-5 ">Sections</button>
           </Link>
         </div>
@@ -42,7 +64,7 @@ function ProductsList() {
         <div class="row justify-content- mt-5 ">
           {/* <InputProduct /> */}
           {/* <div class="col-md-12 ml-5"> */}
-          <ListWarehouseSections />
+          <ListWarehouseSectionItems />
           {/* </div> */}
         </div>
       </div>
