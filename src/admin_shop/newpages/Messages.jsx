@@ -106,27 +106,34 @@ const Messages = () => {
     <div>
       <Navbar />
 
-      <h1>Unread Messages</h1>
+      <h1 className="text-center mt-3">Unread Messages</h1>
 
       {
         // map messages
         messages.map((message) => {
           return (
-            <>
-              <input
-                type="text"
-                value={message.phone}
-                name={"phone" + message.id}
-                hidden
-              />
-              <Link to={"/contact/" + message.phone}>
-                <p>{message.phone}</p>
-              </Link>
-              <p key={message.id}>{message.content}</p>
-              {/* input and reply */}
-              <input type="text" name={"reply" + message.id} />
-              <button onClick={() => Reply(message.id)}>Reply</button>
-            </>
+            <div className="row justify-content-center">
+              <div className="card mt-4 mb-5 col-6">
+                <input
+                  type="text"
+                  value={message.phone}
+                  name={"phone" + message.id}
+                  hidden
+                />
+                <Link to={"/contact/" + message.phone}>
+                  <p className="text-center mt-3">{message.phone}</p>
+                </Link>
+                <p key={message.id}>{message.content}</p>
+                {/* input and reply */}
+                <input type="text" name={"reply" + message.id} />
+                <button
+                  className="btn btn-outline-dark"
+                  onClick={() => Reply(message.id)}
+                >
+                  Reply
+                </button>
+              </div>
+            </div>
           );
         })
       }

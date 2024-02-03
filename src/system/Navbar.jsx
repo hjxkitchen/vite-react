@@ -110,13 +110,15 @@ const Navbar = () => {
         }}
       >
         <div className="container-fluid cssnav">
-          {userRole === 1 && (
+          {userRole === 1 || userRole === 5 ? (
             <button
               className={`btn btn-dark bg-dark toggle-btn`}
               onClick={toggleSidebar}
             >
               {isCollapsed ? ">" : "<"}
             </button>
+          ) : (
+            ""
           )}
           <Link to="/" class="nav-link">
             <a class="navbar-brand " href="/">
@@ -385,7 +387,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      {userRole === 1 && (
+      {userRole === 1 || userRole === 5 ? (
         <div
           className={`sidebar ${isCollapsed ? "collapsed" : ""}`}
           style={{
@@ -404,6 +406,11 @@ const Navbar = () => {
                   <i className="fas fa-users fa"></i> Products2
                 </Link>
               </li> */}
+              <li className="sidebar-item">
+                <Link to="/scheduledads">
+                  <i className="fas fa-users fa"></i> Scheduled Ads
+                </Link>
+              </li>
               <li className="sidebar-item">
                 <Link to="/adminblogs">
                   <i className="fas fa-users fa"></i> Blogs
@@ -450,6 +457,8 @@ const Navbar = () => {
             </ul>
           </div>
         </div>
+      ) : (
+        ""
       )}
       {/* <div>
         {userRole === 1 && (

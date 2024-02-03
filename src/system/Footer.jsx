@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -22,9 +23,9 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="/adminlogin" style={{ color: "#fff" }}>
+                <Link to="/adminlogin" style={{ color: "#fff" }}>
                   Admin Login
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

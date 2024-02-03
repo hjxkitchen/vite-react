@@ -44,6 +44,7 @@ import Category from "./admin_shop/product_relations/Category";
 // SALES
 import SalesList from "./admin_shop/sales/AllSales";
 import PrepSales from "./admin_shop/sales/PrepSales";
+import FulfillSales from "./admin_shop/sales/FulfillSales";
 import SaleLogsAdmin from "./admin_shop/sales/SaleLogs";
 import POSales from "./admin_shop/sales/PointOfSales";
 import OnlineSales from "./admin_shop/sales/OnlineSales";
@@ -67,6 +68,7 @@ import WarehouseSections from "./admin_shop/warehouse/WarehouseSections";
 // outbound
 import OutboundAdmin from "./admin_shop/marketing/outbound/OutboundAdmin";
 import OutboundBroadcast from "./admin_shop/marketing/outbound/OutboundBroadcast";
+import ScheduledAds from "./admin_shop/marketing/outbound/ScheduledAds";
 import Billboards from "./admin_shop/marketing/outbound/Billboards";
 import Philantropy from "./admin_shop/marketing/outbound/Philantropy";
 import Sokoos from "./admin_shop/marketing/outbound/Sokoos";
@@ -205,9 +207,9 @@ const App = () => {
                         ) : userRole === 3 ? (
                           <Route path="/" element={<POSales />} />
                         ) : userRole === 4 ? (
-                          <Route path="/" element={<Shop />} />
+                          <Route path="/" element={<FulfillSales />} />
                         ) : userRole === 5 ? (
-                          <Route path="/" element={<Shop />} />
+                          <Route path="/" element={<Chats />} />
                         ) : userRole === 6 ? (
                           <Route path="/" element={<PrepSales />} />
                         ) : (
@@ -407,7 +409,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1, 5, 6]}
+                              allowedRoles={[1, 4, 5, 6]}
                             >
                               <SaleLogs />
                             </ProtectedRoute>
@@ -552,7 +554,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1, 6]}
+                              allowedRoles={[1, 4, 6]}
                             >
                               <SaleLogsAdmin />
                             </ProtectedRoute>
@@ -780,7 +782,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <OutboundAdmin />
                             </ProtectedRoute>
@@ -792,7 +794,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <Sokoos />
                             </ProtectedRoute>
@@ -804,7 +806,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <Billboards />
                             </ProtectedRoute>
@@ -816,7 +818,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <Philantropy />
                             </ProtectedRoute>
@@ -828,9 +830,21 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <OutboundBroadcast />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="scheduledads"
+                          element={
+                            <ProtectedRoute
+                              setUser={setUser}
+                              token={token}
+                              allowedRoles={[1, 5]}
+                            >
+                              <ScheduledAds />
                             </ProtectedRoute>
                           }
                         />
@@ -840,7 +854,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <InboundAdmin />
                             </ProtectedRoute>
@@ -852,7 +866,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <InboundMessages />
                             </ProtectedRoute>
@@ -864,7 +878,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <InboundReply />
                             </ProtectedRoute>
@@ -891,7 +905,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <AdminBlog />
                             </ProtectedRoute>
@@ -903,7 +917,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <Messages />
                             </ProtectedRoute>
@@ -929,7 +943,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <Contact />
                             </ProtectedRoute>
@@ -941,7 +955,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <Chats />
                             </ProtectedRoute>
@@ -953,7 +967,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <WebMessages />
                             </ProtectedRoute>
@@ -977,7 +991,7 @@ const App = () => {
                             <ProtectedRoute
                               setUser={setUser}
                               token={token}
-                              allowedRoles={[1]}
+                              allowedRoles={[1, 5]}
                             >
                               <RecentChats />
                             </ProtectedRoute>

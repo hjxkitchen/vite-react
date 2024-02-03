@@ -167,6 +167,12 @@ function Calculators() {
     e.preventDefault();
     console.log(status);
 
+    // if status is not changed, return
+    if (status === sale.status) {
+      alert("Status not changed");
+      return;
+    }
+
     // UPDATE SALE STATUS IN SALE TABLE
     const res = await axios.put(
       import.meta.env.VITE_API_URL + "/api/sale/" + sale.sale_id,
@@ -288,6 +294,22 @@ function Calculators() {
     customer.phones && customer.phones.map((phone) => phone.number);
   console.log("phones", phonesr);
 
+  const statusOptions = [
+    "initialized",
+    "paid",
+    "prepped",
+    "shipped",
+    "delivered",
+    "completed",
+    "cancelled",
+  ];
+
+  const currentStatusIndex =
+    sale.status &&
+    statusOptions.findIndex(
+      (option) => option.toLowerCase() === sale.status.toLowerCase()
+    );
+
   return (
     <Fragment>
       <Navbar />
@@ -349,7 +371,7 @@ function Calculators() {
           <div class="d-flex col-md-3 justify-content-center mt-4">
             {/* <div class=" my-auto"> */}
             {/* select input */}
-            <select
+            {/* <select
               class="form-control"
               name="salelog"
               onChange={handleStatusChange}
@@ -363,6 +385,21 @@ function Calculators() {
               <option value="delivered">Delivered</option>
               <option value="completed">Completed</option>
               <option value="cancelled">Cancelled</option>
+            </select> */}
+            <select
+              class="form-control"
+              name="salelog"
+              onChange={handleStatusChange}
+              defaultValue={sale.status}
+            >
+              {statusOptions
+                .slice(currentStatusIndex, currentStatusIndex + 2) // Get options ahead of the current status
+                .map((status, index) => (
+                  <option key={index} value={status}>
+                    {status.charAt(0).toUpperCase() + status.slice(1)}{" "}
+                    {/* Capitalize the first letter */}
+                  </option>
+                ))}
             </select>
             {/* submit button */}
             <button

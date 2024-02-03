@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 // import {array} from "./AddProduct";
 
-const AddOrder = ({ orders, setOrders, remove, supplier_id }) => {
+const AddOrder = ({ orders, setOrders, supplier_id }) => {
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   const user_id = jwt_decode(token).user_id;
 
@@ -118,6 +118,11 @@ const AddOrder = ({ orders, setOrders, remove, supplier_id }) => {
     // Handle case when showDiscount is false and cart is null (use orders)
     let newOrders = [...orders];
     newOrders[index].quantity = parseInt(newOrders[index].quantity) - 1;
+    setOrders(newOrders);
+  };
+
+  const remove = (index) => {
+    let newOrders = orders.splice(index, 1);
     setOrders(newOrders);
   };
 

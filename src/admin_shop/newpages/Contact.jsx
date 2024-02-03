@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 
+import Navbar from "../../system/Navbar";
+import Footer from "../../system/Footer";
+
 const Contact = () => {
   let { id } = useParams();
   let url_id = id.replace("+", "%2B");
@@ -193,28 +196,36 @@ const Contact = () => {
 
   return (
     <div>
-      <h1>
-        Contact {id}: {customer?.customer_name} ({customer?.score})
-      </h1>
-      <div className="chat-container">
-        {all.map((message, index) => (
-          <div
-            key={index}
-            className="chat-message"
-            // style={{ float: message.customer_phone ? "right" : "left" }}
-            style={{
-              backgroundColor: message.phone ? "lightblue" : "white",
-              marginLeft: message.phone ? "10%" : "0px",
-            }}
-          >
-            <p>{message.content}</p>
-          </div>
-        ))}
-      </div>
+      <Navbar />
+      <div className="container p-5 text-center">
+        <h1>
+          Contact {id}: {customer?.customer_name} ({customer?.score})
+        </h1>
+        <div className="chat-container">
+          {all.map((message, index) => (
+            <div
+              key={index}
+              className="chat-message mt-3"
+              // style={{ float: message.customer_phone ? "right" : "left" }}
+              style={{
+                backgroundColor: message.phone ? "lightblue" : "white",
+                marginLeft: message.phone ? "10%" : "0px",
+              }}
+            >
+              <p>{message.content}</p>
+            </div>
+          ))}
+        </div>
 
-      {/* reply */}
-      <input type="text" name="reply" />
-      <button onClick={() => Reply()}>Reply</button>
+        {/* reply */}
+        <div className="mt-4">
+          <input type="text" placeholder="Enter Reply Content" name="reply" />
+          <button className="btn btn-outline-dark" onClick={() => Reply()}>
+            Reply
+          </button>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 };

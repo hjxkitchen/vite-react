@@ -51,7 +51,7 @@ const List = ({ roles }) => {
 
             // only set the users whose role is 1
             const filteredUsers = usersWithRoles.filter(
-              (user) => user.role_id !== 2
+              (user) => user.role_id !== 2 && user.role_id !== 1
             );
 
             console.log(filteredUsers);

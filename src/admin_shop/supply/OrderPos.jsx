@@ -34,12 +34,6 @@ const OrderPos = () => {
     getSuppliers();
   }, []);
 
-  const remove = (index) => {
-    let newOrders = [...orders];
-    newOrders.splice(index, 1);
-    setOrders(newOrders);
-  };
-
   const handleChange = (event) => {
     setSupplierId(event.target.value);
   };
@@ -75,7 +69,6 @@ const OrderPos = () => {
             <AddOrder
               orders={orders}
               setOrders={setOrders}
-              remove={remove}
               supplier_id={supplier_id}
             />
           </div>

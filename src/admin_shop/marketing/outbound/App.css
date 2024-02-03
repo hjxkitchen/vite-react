@@ -1,0 +1,23 @@
+/* App.css */
+.App {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.Calendar-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.rbc-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rbc-btn-group {
+  display: flex;
+}
+
+.rbc-btn-group button {
+  margin: 0 5px;
+}

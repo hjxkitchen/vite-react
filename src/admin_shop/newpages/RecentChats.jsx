@@ -51,18 +51,25 @@ const RecentChats = () => {
     <div>
       <Navbar />
 
-      <h1>Recent Chats</h1>
+      <div className="container p-4">
+        <h1 className="text-center ">Recent Chats</h1>
+        <div className="row justify-content-center text-center">
+          <div className="col-6">
+            {/* map show only last message*/}
+            {Object.keys(incoming).map((key) => (
+              <Link to={"/contact/" + key}>
+                <div key={key} className="card mt-4 col">
+                  <h2 className="mt-4">{key}</h2>
 
-      {/* map show only last message*/}
-      {Object.keys(incoming).map((key) => (
-        <div key={key}>
-          <Link to={"/contact/" + key}>
-            <h2>{key}</h2>
-          </Link>
-          <p>{incoming[key][0].Message}</p>
+                  <div key={key} className="card-body">
+                    <p>{incoming[key][0].Message}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
-      ))}
-
+      </div>
       <Footer />
     </div>
   );
