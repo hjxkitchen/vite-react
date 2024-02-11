@@ -17,6 +17,7 @@ function Calculators() {
 
   const token = Cookies.get(import.meta.env.VITE_COOKIE_NAME);
   const user = jwt_decode(token).username;
+  const role_id = jwt_decode(token).role_id;
 
   const location = useLocation();
   // const { saledata } = location.state;
@@ -251,7 +252,13 @@ function Calculators() {
     //   sale_id: sale.sale_id,
     //   salelog: "Status Updated to " + status + " by " + user,
     // });
-    window.location.reload();
+
+    // if role_id is 6, redirect to /
+    if (role_id === 6) {
+      window.location.href = "/";
+    } else {
+      window.location.reload();
+    }
   };
 
   const [editContact, setEditContact] = React.useState(false);

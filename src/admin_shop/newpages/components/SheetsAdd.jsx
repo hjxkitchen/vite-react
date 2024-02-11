@@ -45,7 +45,8 @@ const SheetsAdd = () => {
       // Replace with your Google Sheets document ID
       const spreadsheetId = "174kQ6F5UJ1iSSd3_9sV0Vtlq2Zehq1qtGYC3kC873yc";
 
-      const selectedSheet = "sheet5";
+      // const selectedSheet = "sheet5";
+      const selectedSheet = "ProductsList";
 
       const response = await fetch(
         `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${selectedSheet}?key=${apiKey}`
@@ -73,8 +74,27 @@ const SheetsAdd = () => {
       console.log("prod data: ", formattedData);
       //   remove objects where product name is null
       formattedData.forEach((prod, index) => {
-        if (prod.product_name === undefined) {
+        if (
+          prod.subcategory_id === "" ||
+          prod.subcategory_id === null ||
+          prod.subcategory_id === undefined
+        ) {
           formattedData.splice(index, 1);
+        }
+      });
+
+      // turn price to integer after removing commas, divide by 1000 and round to nearest whole number
+      formattedData.forEach((prod, index) => {
+        if (
+          prod.price === "" ||
+          prod.price === null ||
+          prod.price === undefined
+        ) {
+          formattedData.splice(index, 1);
+        } else {
+          prod.price = Math.round(
+            parseInt(prod.price.replace(/,/g, "")) / 1000
+          );
         }
       });
 

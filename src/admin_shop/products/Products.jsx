@@ -289,6 +289,19 @@ function ProductsList() {
           <div class="col-md-12">
             <h1 className="text-center mt-5 mb-5 ">Products</h1>
           </div>
+          <a
+            target="blank"
+            href="https://docs.google.com/spreadsheets/d/1npXxRPEndufCT0ralPFnKGy9FBe6vDFCHHr1Ro2GQcE/edit#gid=1413978732"
+          >
+            Suppliers Sheet
+          </a>
+          <p> , </p>
+          <a
+            target="blank"
+            href="https://docs.google.com/spreadsheets/d/174kQ6F5UJ1iSSd3_9sV0Vtlq2Zehq1qtGYC3kC873yc/edit#gid=851176978"
+          >
+            Add Products Sheet
+          </a>
         </div>
 
         {/* Add buttons */}

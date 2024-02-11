@@ -418,7 +418,7 @@ const Navbar = () => {
               </li>
               <li className="sidebar-item">
                 <Link to="/chats">
-                  <i className="fas fa-users fa"></i> Chats
+                  <i className="fas fa-users fa"></i> SMS Chats
                 </Link>
               </li>
               <li className="sidebar-item">
