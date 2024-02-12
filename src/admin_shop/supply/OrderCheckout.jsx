@@ -9,12 +9,12 @@ import { UserContext, ProdContext } from "../../App";
 // import { Buffer } from "buffer";
 
 // import { JSEncrypt } from "nodejs-jsencrypt";
-import { Buffer } from "buffer";
+// import { Buffer } from "buffer";
 import jwt_decode from "jwt-decode";
 import Cookies from "js-cookie";
 
 // @ts-ignore
-window.Buffer = Buffer;
+// window.Buffer = Buffer;
 
 function Checkout() {
   const user = useContext(UserContext);

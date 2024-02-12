@@ -46,7 +46,7 @@ const SheetsAdd = () => {
       const spreadsheetId = "174kQ6F5UJ1iSSd3_9sV0Vtlq2Zehq1qtGYC3kC873yc";
 
       // const selectedSheet = "sheet5";
-      const selectedSheet = "ProductsList";
+      const selectedSheet = "prodlist2";
 
       const response = await fetch(
         `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${selectedSheet}?key=${apiKey}`
@@ -57,50 +57,31 @@ const SheetsAdd = () => {
       // Assuming your Google Sheets data is organized in rows with headers as the first row
       const headers = data.values[0];
 
-      const formattedData = data.values.slice(1).map((row) => {
-        const rowData = {};
-        for (let i = 0; i < headers.length; i++) {
-          //   set row data to header
-          rowData[headers[i]] = row[i];
-
-          //   set supplierId to integer
-          if (headers[i] === "supplier_id") {
-            rowData[headers[i]] = parseInt(row[i]);
+      // remove all where [prpduct_name] is undefined or starts with -
+      const formattedData = data.values
+        .slice(1)
+        .filter((row) => row[0] && !row[0].startsWith("-"))
+        .map((row) => {
+          return headers.reduce((obj, header, i) => {
+            obj[header] = row[i];
+            return obj;
           }
+          , {});
         }
-        return rowData;
-      });
+        );
 
-      console.log("prod data: ", formattedData);
-      //   remove objects where product name is null
-      formattedData.forEach((prod, index) => {
-        if (
-          prod.subcategory_id === "" ||
-          prod.subcategory_id === null ||
-          prod.subcategory_id === undefined
-        ) {
-          formattedData.splice(index, 1);
-        }
-      });
+        const newpricedata = formattedData.map((item) => {
+          return {
+            ...item,
+            // price/1000 rounded to 0 decimal places
+            price: Math.round(item.price / 1000),
+          };
+        });
 
-      // turn price to integer after removing commas, divide by 1000 and round to nearest whole number
-      formattedData.forEach((prod, index) => {
-        if (
-          prod.price === "" ||
-          prod.price === null ||
-          prod.price === undefined
-        ) {
-          formattedData.splice(index, 1);
-        } else {
-          prod.price = Math.round(
-            parseInt(prod.price.replace(/,/g, "")) / 1000
-          );
-        }
-      });
 
-      console.log("prod data2: ", formattedData);
-      setProducts(formattedData);
-      return formattedData;
+      console.log("prod data2: ", newpricedata);
+      setProducts(newpricedata);
+      return newpricedata;
     } catch (error) {
       console.error("Error fetching sheet data:", error);
     }
